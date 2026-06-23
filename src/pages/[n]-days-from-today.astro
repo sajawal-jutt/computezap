@@ -171,11 +171,19 @@ const schema = JSON.stringify([
 .faq-item p { color:#555; font-size:.9rem; margin:0; line-height:1.65; }
 .faq-item a { color:var(--blue); }
 
+.next-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:.75rem; }
+.next-card { background:#fff; border:1px solid #e5e7eb; border-radius:10px; padding:1rem; border-top:3px solid var(--blue); text-decoration:none; display:block; transition:box-shadow .15s; }
+.next-card:hover { box-shadow:0 4px 12px rgba(0,0,0,.08); }
+.next-tag { font-size:.68rem; font-weight:700; text-transform:uppercase; letter-spacing:.07em; color:var(--blue); margin-bottom:.3rem; display:block; }
+.next-card h3 { font-size:.88rem; font-weight:700; color:#111; margin:0 0 .25rem; }
+.next-card p { font-size:.78rem; color:#64748b; margin:0; line-height:1.5; }
+
 @media (max-width:768px) {
   .dft-wrap { grid-template-columns:1fr; }
   .dft-hero h1 { font-size:1.65rem; }
   .result-date { font-size:1.45rem; }
   .equiv-box { grid-template-columns:1fr 1fr; }
+  .next-grid { grid-template-columns:1fr; }
 }
 </style>
 
@@ -270,6 +278,26 @@ const schema = JSON.stringify([
     </div>
 
     <div class="card">
+  <h2>Common Mistakes When Counting Days From a Date</h2>
+  <ul>
+    <li><strong>Off-by-one errors</strong> — when counting manually, people often start from tomorrow (Day 1) instead of today. This calculator counts today as Day 0 and the result as the exact future date.</li>
+    <li><strong>Ignoring leap years</strong> — if your date range crosses February 29 in a leap year, manual counting will be off by one day.</li>
+    <li><strong>Calendar vs. business days</strong> — the {n}-day count shown includes all calendar days. The business day count (shown in the result) excludes weekends only.</li>
+    <li><strong>Not accounting for time zones</strong> — for legal deadlines, "30 days" typically means by end of business in the recipient's time zone, not midnight UTC.</li>
+  </ul>
+</div>
+
+    <div class="card">
+  <h2>Why Knowing the Date {n} Days From Today Matters</h2>
+  <ul>
+    <li><strong>Legal and contract deadlines</strong> — many contracts specify notice periods in calendar days. Missing by even one day can void your rights.</li>
+    <li><strong>Payment terms</strong> — invoices with Net {n} terms are due exactly {n} calendar days from the invoice date.</li>
+    <li><strong>Medical and health timelines</strong> — prescription durations, follow-up appointments, and quarantine periods are counted in exact days.</li>
+    <li><strong>Travel and planning</strong> — visa validity, hotel check-out, and event countdowns all depend on knowing the exact future date.</li>
+  </ul>
+</div>
+
+    <div class="card">
       <h2>Frequently Asked Questions</h2>
 
       <div class="faq-item">
@@ -300,6 +328,32 @@ const schema = JSON.stringify([
       <div class="faq-item">
         <h3>How do I calculate {n} days from a specific date (not today)?</h3>
         <p>Use our <a href="/days-from-today">Days From Today Calculator</a> and adjust from there, or count {n} days forward on a calendar from your chosen start date.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Related Calculators</h2>
+      <div class="next-grid">
+        <a href="/days-from-today" class="next-card">
+          <span class="next-tag">Date</span>
+          <h3>Days From Today</h3>
+          <p>Enter any number of days to find the future date.</p>
+        </a>
+        <a href="/30-days-from-today" class="next-card">
+          <span class="next-tag">Date</span>
+          <h3>30 Days From Today</h3>
+          <p>Net 30 payment deadline — exact date today.</p>
+        </a>
+        <a href="/90-days-from-today" class="next-card">
+          <span class="next-tag">Date</span>
+          <h3>90 Days From Today</h3>
+          <p>One quarter from today — find the exact date.</p>
+        </a>
+        <a href="/time-to-decimal-calculator" class="next-card">
+          <span class="next-tag">Time</span>
+          <h3>Time to Decimal</h3>
+          <p>Convert hours and minutes to payroll decimal.</p>
+        </a>
       </div>
     </div>
   </div>

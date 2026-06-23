@@ -172,10 +172,24 @@ const schema = JSON.stringify([
 .next-card h3 { font-size:.88rem; font-weight:700; color:#111; margin:0 0 .25rem; }
 .next-card p { font-size:.78rem; color:#64748b; margin:0; line-height:1.5; }
 
+.content-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+}
+.content-card h2 { font-size:1.1rem; font-weight:700; color:#111; margin:0 0 .8rem; }
+.content-card ul { color:#444; line-height:1.85; font-size:.95rem; padding-left:1.25rem; margin:0; }
+.more-grid { display:grid; grid-template-columns:1fr 1fr; gap:.6rem; }
+.more-link { display:block; padding:.65rem 1rem; background:#f8fafc; border:1px solid #e5e7eb; border-radius:8px; font-size:.85rem; font-weight:600; color:#374151; text-decoration:none; transition:all .15s; }
+.more-link:hover { border-color:var(--blue); color:var(--blue); background:#eff6ff; }
+
 @media (max-width:768px) {
   .calc-wrap { grid-template-columns:1fr; }
   .calc-left { position:static; }
   .next-grid { grid-template-columns:1fr; }
+  .more-grid { grid-template-columns:1fr; }
   .hero h1 { font-size:1.65rem; }
   .res-val { font-size:1.6rem; }
 }
@@ -358,6 +372,26 @@ const schema = JSON.stringify([
       </table>
     </div>
 
+    <div class="content-card">
+  <h2>Common Measurement Mistakes in Cooking</h2>
+  <ul>
+    <li><strong>Confusing tablespoons and teaspoons</strong> — 1 tablespoon = 3 teaspoons. This is the most common kitchen error.</li>
+    <li><strong>Using metric vs US cups</strong> — a US cup is 236.6 ml; an Australian/UK cup is 250 ml. For international recipes, always check.</li>
+    <li><strong>Scooping instead of spooning dry ingredients</strong> — scooping compacts flour, adding up to 20% extra. Use the spoon-and-level method for accuracy.</li>
+    <li><strong>Not leveling measurements</strong> — a heaping tablespoon can be 20–30% more than a level one. Level off dry ingredients with a straight edge.</li>
+  </ul>
+</div>
+
+    <div class="content-card">
+  <h2>Why Accurate Cup to Tablespoon Conversions Matter</h2>
+  <ul>
+    <li><strong>Baking precision</strong> — baking is chemistry. A wrong measurement of baking soda or salt can ruin an entire batch.</li>
+    <li><strong>Recipe scaling</strong> — doubling or halving a recipe requires exact conversions to maintain the right ratios.</li>
+    <li><strong>Limited measuring tools</strong> — when you only have one measuring cup size, tablespoon conversions let you measure any amount.</li>
+    <li><strong>International recipes</strong> — many recipes list amounts in cups or tablespoons; knowing both makes any recipe accessible.</li>
+  </ul>
+</div>
+
     <div class="card">
       <h2>Frequently Asked Questions</h2>
       <div class="faq-item">
@@ -402,24 +436,15 @@ const schema = JSON.stringify([
       </div>
     </div>
 
-    <div class="card">
-      <h2>More Converters</h2>
-      <div class="next-grid">
-        <a href="/percent-off-calculator" class="next-card">
-          <span class="next-tag">Math</span>
-          <h3>Percent Off</h3>
-          <p>Calculate sale price after any percentage discount.</p>
-        </a>
-        <a href="/reverse-sales-tax-calculator" class="next-card">
-          <span class="next-tag">Finance</span>
-          <h3>Reverse Sales Tax</h3>
-          <p>Find the original pre-tax price from any total.</p>
-        </a>
-        <a href="/square-footage-calculator" class="next-card">
-          <span class="next-tag">Area</span>
-          <h3>Square Footage</h3>
-          <p>Calculate area for rectangle, circle, or L-shape rooms.</p>
-        </a>
+    <div class="content-card">
+      <h2>Related Converters & Calculators</h2>
+      <div class="more-grid">
+        <a href="/liters-to-gallons" class="more-link">Liters to Gallons</a>
+        <a href="/cups-to-gallons" class="more-link">Cups to Gallons</a>
+        <a href="/kg-to-lbs" class="more-link">kg to lbs</a>
+        <a href="/celsius-to-fahrenheit" class="more-link">Celsius to °F</a>
+        <a href="/percent-off-calculator" class="more-link">Percent Off</a>
+        <a href="/square-footage-calculator" class="more-link">Square Footage</a>
       </div>
     </div>
   </div>

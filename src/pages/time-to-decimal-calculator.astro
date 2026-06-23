@@ -306,6 +306,26 @@ const schema = JSON.stringify([
     </div>
 
     <div class="card">
+  <h2>Common Time to Decimal Conversion Mistakes</h2>
+  <ul>
+    <li><strong>Treating minutes as decimal hours directly</strong> — 30 minutes is NOT 0.30 hours. It is 0.50 hours (30 ÷ 60). This is the single most common payroll error.</li>
+    <li><strong>Using wrong reference: 7:15 ≠ 7.15</strong> — 15 minutes = 0.25 decimal hours. So 7:15 = 7.25, NOT 7.15.</li>
+    <li><strong>Not separating break time</strong> — if you track 8:00–17:00 but take a 30-minute unpaid lunch, your billable time is 8.5 hours, not 9 hours.</li>
+    <li><strong>Rounding errors on timesheets</strong> — rounding each entry separately accumulates errors. Always calculate each time block precisely and sum them.</li>
+  </ul>
+</div>
+
+    <div class="card">
+  <h2>Why Time to Decimal Conversion Matters</h2>
+  <ul>
+    <li><strong>Payroll accuracy</strong> — HR and payroll systems calculate wages on decimal hours. One minute difference per day compounds to hours per year.</li>
+    <li><strong>Freelancer invoicing</strong> — billing clients requires precise time tracking. 2:45 billed at $100/hr = $275 — not $245.</li>
+    <li><strong>Timesheet submissions</strong> — many companies require time in decimal format (e.g., 7.5 hours, not 7:30) for their attendance systems.</li>
+    <li><strong>Overtime calculations</strong> — overtime kicks in at exactly 40 hours per week. Precise decimal tracking ensures compliance.</li>
+  </ul>
+</div>
+
+    <div class="card">
       <h2>Frequently Asked Questions</h2>
       <div class="faq-item">
         <h3>What is 7 hours 45 minutes in decimal?</h3>
@@ -346,22 +366,27 @@ const schema = JSON.stringify([
     </div>
 
     <div class="card">
-      <h2>More Calculators</h2>
+      <h2>Related Calculators</h2>
       <div class="next-grid">
+        <a href="/days-from-today" class="next-card">
+          <span class="next-tag">Date</span>
+          <h3>Days From Today</h3>
+          <p>Calculate project deadlines and delivery dates.</p>
+        </a>
+        <a href="/percent-off-calculator" class="next-card">
+          <span class="next-tag">Math</span>
+          <h3>Percent Off</h3>
+          <p>Calculate discounts for client pricing or deals.</p>
+        </a>
         <a href="/reverse-sales-tax-calculator" class="next-card">
           <span class="next-tag">Tax</span>
           <h3>Reverse Sales Tax</h3>
-          <p>Find pre-tax price from any total paid.</p>
+          <p>Find pre-tax amounts for expense reports.</p>
         </a>
         <a href="/cd-calculator" class="next-card">
           <span class="next-tag">Finance</span>
           <h3>CD Calculator</h3>
-          <p>Calculate Certificate of Deposit earnings.</p>
-        </a>
-        <a href="/days-from-today" class="next-card">
-          <span class="next-tag">Date</span>
-          <h3>Days From Today</h3>
-          <p>Find the exact future date from today.</p>
+          <p>Grow your freelance savings with high-yield CDs.</p>
         </a>
       </div>
     </div>

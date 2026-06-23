@@ -118,10 +118,18 @@ const schema = JSON.stringify([
 .faq-item h3 { font-size:.95rem; color:#111; margin:0 0 .4rem; font-weight:600; }
 .faq-item p { color:#555; font-size:.9rem; margin:0; line-height:1.65; }
 
+.next-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:.75rem; }
+.next-card { background:#fff; border:1px solid #e5e7eb; border-radius:10px; padding:1rem; border-top:3px solid var(--blue); text-decoration:none; display:block; transition:box-shadow .15s; }
+.next-card:hover { box-shadow:0 4px 12px rgba(0,0,0,.08); }
+.next-tag { font-size:.68rem; font-weight:700; text-transform:uppercase; letter-spacing:.07em; color:var(--blue); margin-bottom:.3rem; display:block; }
+.next-card h3 { font-size:.88rem; font-weight:700; color:#111; margin:0 0 .25rem; }
+.next-card p { font-size:.78rem; color:#64748b; margin:0; line-height:1.5; }
+
 @media (max-width:768px) {
   .dft-wrap { grid-template-columns:1fr; }
   .dft-hero h1 { font-size:1.5rem; }
   .result-date { font-size:1.4rem; }
+  .next-grid { grid-template-columns:1fr; }
 }
 </style>
 
@@ -219,6 +227,26 @@ const schema = JSON.stringify([
     </div>
 
     <div class="card">
+  <h2>Common Mistakes When Counting Days</h2>
+  <ul>
+    <li><strong>Confusing calendar days vs. business days</strong> — Net 30 payment terms usually mean 30 calendar days, but some contracts specify business days only.</li>
+    <li><strong>Starting the count from tomorrow</strong> — most date calculators (including this one) start counting from today as Day 1. Always confirm your contract's starting day.</li>
+    <li><strong>Ignoring leap years</strong> — counting manually across February of a leap year adds an extra day. Always use a calculator for precision.</li>
+    <li><strong>Not accounting for holidays</strong> — business day counts exclude weekends but may or may not exclude public holidays depending on the jurisdiction.</li>
+  </ul>
+</div>
+
+    <div class="card">
+  <h2>Why Date Calculations Matter</h2>
+  <ul>
+    <li><strong>Payment terms</strong> — Net 30, Net 60, Net 90 are standard invoice payment deadlines that require exact date counting.</li>
+    <li><strong>Legal deadlines</strong> — court filing deadlines, statute of limitations, and contract notice periods are legally binding.</li>
+    <li><strong>Project milestones</strong> — sprint planning, delivery timelines, and project deadlines all depend on accurate day counting.</li>
+    <li><strong>Subscriptions & renewals</strong> — knowing your exact renewal date prevents unexpected charges or service lapses.</li>
+  </ul>
+</div>
+
+    <div class="card">
       <h2>Frequently Asked Questions</h2>
 
       <div class="faq-item">
@@ -249,6 +277,32 @@ const schema = JSON.stringify([
       <div class="faq-item">
         <h3>What is 365 days from today?</h3>
         <p>365 days from today is exactly 1 year from today's date — useful for annual renewal reminders, yearly subscriptions, and anniversary planning. See <a href="/365-days-from-today">365 days from today</a>.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Related Calculators</h2>
+      <div class="next-grid">
+        <a href="/30-days-from-today" class="next-card">
+          <span class="next-tag">Date</span>
+          <h3>30 Days From Today</h3>
+          <p>Net 30 payment deadline — exact date instantly.</p>
+        </a>
+        <a href="/90-days-from-today" class="next-card">
+          <span class="next-tag">Date</span>
+          <h3>90 Days From Today</h3>
+          <p>One quarter from today — find the exact date.</p>
+        </a>
+        <a href="/time-to-decimal-calculator" class="next-card">
+          <span class="next-tag">Time</span>
+          <h3>Time to Decimal</h3>
+          <p>Convert hours and minutes to decimal format.</p>
+        </a>
+        <a href="/cd-calculator" class="next-card">
+          <span class="next-tag">Finance</span>
+          <h3>CD Calculator</h3>
+          <p>Find when your CD matures and what it earns.</p>
+        </a>
       </div>
     </div>
   </div>
