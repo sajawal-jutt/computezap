@@ -1,0 +1,807 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const schema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Liters to Gallons Converter",
+    "url": "https://computezap.com/liters-to-gallons",
+    "description": "Convert liters to gallons instantly. 1 US gallon = 3.785 liters. Free converter supporting US and Imperial gallons.",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
+      { "@type": "ListItem", "position": 2, "name": "Liters to Gallons", "item": "https://computezap.com/liters-to-gallons" }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How many liters are in a gallon?",
+        "acceptedAnswer": { "@type": "Answer", "text": "1 US gallon = 3.785 liters. 1 Imperial (UK) gallon = 4.546 liters. The Imperial gallon is about 20% larger than the US gallon." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many liters in a half gallon?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A half US gallon = 1.893 liters. A half Imperial gallon = 2.273 liters." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many gallons is 5 liters?",
+        "acceptedAnswer": { "@type": "Answer", "text": "5 liters = 1.321 US gallons, or 1.100 Imperial gallons." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many gallons is 10 liters?",
+        "acceptedAnswer": { "@type": "Answer", "text": "10 liters = 2.642 US gallons, or 2.200 Imperial gallons." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many gallons is 2 liters?",
+        "acceptedAnswer": { "@type": "Answer", "text": "2 liters = 0.528 US gallons. A standard 2-liter soda bottle is about half a US gallon." }
+      },
+      {
+        "@type": "Question",
+        "name": "How do you convert liters to gallons?",
+        "acceptedAnswer": { "@type": "Answer", "text": "To convert liters to US gallons, divide by 3.78541. Formula: gallons = liters ÷ 3.78541. Example: 10 liters ÷ 3.785 = 2.642 US gallons." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between US and Imperial gallons?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A US gallon = 3.785 liters (128 fl oz). A UK Imperial gallon = 4.546 liters (160 fl oz). The Imperial gallon is 20% larger and is used in the UK, Canada, and some other countries." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many liters in a gallon of gas?",
+        "acceptedAnswer": { "@type": "Answer", "text": "In the US, 1 gallon of gas = 3.785 liters. This is why US gas prices per gallon look lower than European per-liter prices." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many gallons is a liter?",
+        "acceptedAnswer": { "@type": "Answer", "text": "1 liter = 0.2642 US gallons, or 0.2200 Imperial gallons." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many gallons is 20 liters?",
+        "acceptedAnswer": { "@type": "Answer", "text": "20 liters = 5.283 US gallons, or 4.399 Imperial gallons." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many gallons is 50 liters?",
+        "acceptedAnswer": { "@type": "Answer", "text": "50 liters = 13.209 US gallons, or 10.998 Imperial gallons. A typical car gas tank in the US holds about 50–70 liters (13–18 gallons)." }
+      }
+    ]
+  }
+]);
+---
+<Layout
+  title="Liters to Gallons Converter — L to Gal | ComputeZap"
+  description="Convert liters to gallons instantly. 1 US gallon = 3.785 liters. Free converter for US and Imperial gallons with full conversion chart."
+  canonical="/liters-to-gallons"
+  schema={schema}
+>
+
+<style>
+.calc-wrap {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+}
+.calc-left {
+  width: 340px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 72px;
+}
+.calc-right {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.left-card {
+  background: #fff;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+}
+.left-card h1 {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--gray-900);
+  letter-spacing: -.4px;
+  margin-bottom: 1rem;
+  line-height: 1.25;
+}
+
+/* Mode Toggle */
+.toggle-row {
+  display: flex;
+  gap: .5rem;
+  margin-bottom: .75rem;
+}
+.tog {
+  flex: 1;
+  padding: .5rem .25rem;
+  border: 1.5px solid var(--gray-200);
+  border-radius: 8px;
+  background: var(--gray-50);
+  color: var(--gray-700);
+  font-size: .8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .15s;
+}
+.tog.active {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: #fff;
+}
+
+/* Gallon type toggle */
+.type-row {
+  display: flex;
+  gap: .4rem;
+  margin-bottom: 1rem;
+}
+.type-btn {
+  flex: 1;
+  padding: .4rem .25rem;
+  border: 1.5px solid var(--gray-200);
+  border-radius: 6px;
+  background: var(--gray-50);
+  color: var(--gray-600);
+  font-size: .75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .15s;
+}
+.type-btn.active {
+  background: #f0fdf4;
+  border-color: #16a34a;
+  color: #166534;
+}
+
+/* Input */
+.input-wrap {
+  margin-bottom: .75rem;
+}
+.input-wrap label {
+  font-size: .82rem;
+  font-weight: 600;
+  color: var(--gray-700);
+  margin-bottom: .35rem;
+  display: block;
+}
+.input-with-unit {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.input-with-unit input {
+  width: 100%;
+  padding: .65rem .9rem;
+  padding-right: 3.5rem;
+  border: 1.5px solid var(--gray-200);
+  border-radius: 8px;
+  font-size: 1.15rem;
+  font-weight: 600;
+  font-family: inherit;
+  color: var(--gray-900);
+  background: #fff;
+  transition: border-color .15s;
+}
+.input-with-unit input:focus {
+  outline: none;
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(37,99,235,.1);
+}
+.input-unit {
+  position: absolute;
+  right: .9rem;
+  font-size: .85rem;
+  font-weight: 700;
+  color: var(--gray-600);
+  pointer-events: none;
+}
+
+/* Pills */
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem;
+  margin-bottom: 1rem;
+}
+.pill {
+  padding: .3rem .65rem;
+  border: 1.5px solid var(--gray-200);
+  border-radius: 99px;
+  background: var(--gray-50);
+  color: var(--gray-700);
+  font-size: .8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .15s;
+}
+.pill:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+  background: var(--blue-light);
+}
+
+/* Result Box */
+.res-box {
+  background: var(--blue-light);
+  border: 1.5px solid #bfdbfe;
+  border-radius: 10px;
+  padding: 1.1rem 1.25rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+.res-label {
+  font-size: .75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--blue);
+  margin-bottom: .25rem;
+}
+.res-main {
+  font-size: 2.1rem;
+  font-weight: 800;
+  color: var(--gray-900);
+  line-height: 1.1;
+}
+.res-sub {
+  font-size: .85rem;
+  color: var(--gray-600);
+  margin-top: .25rem;
+}
+
+/* Primary stat */
+.stat-primary {
+  background: var(--blue-light);
+  border-radius: 8px;
+  padding: .75rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: .6rem;
+}
+.stat-primary .sp-label {
+  font-size: .8rem;
+  font-weight: 700;
+  color: var(--blue);
+}
+.stat-primary .sp-val {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--blue);
+}
+
+/* Stats grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .5rem;
+}
+.stat-box {
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  border-radius: 8px;
+  padding: .6rem .75rem;
+  display: flex;
+  flex-direction: column;
+  gap: .15rem;
+}
+.stat-box .s-lbl {
+  font-size: .72rem;
+  font-weight: 600;
+  color: var(--gray-600);
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+.stat-box .s-val {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--gray-900);
+}
+
+/* Right panel cards */
+.content-card {
+  background: #fff;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+}
+.content-card h2 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--gray-900);
+  margin-bottom: .9rem;
+}
+.content-card p {
+  color: var(--gray-600);
+  font-size: .9rem;
+  line-height: 1.7;
+  margin-bottom: .6rem;
+}
+.content-card ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: .45rem;
+}
+.content-card ul li {
+  font-size: .9rem;
+  color: var(--gray-600);
+  padding-left: 1.25rem;
+  position: relative;
+  line-height: 1.5;
+}
+.content-card ul li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: var(--blue);
+  font-weight: 700;
+}
+
+/* Answer box (featured snippet) */
+.answer-box {
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.answer-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: .6rem 1rem;
+  border-bottom: 1px solid var(--gray-200);
+}
+.answer-row:last-child { border-bottom: none; }
+.answer-lbl { font-size: .9rem; color: var(--gray-700); font-weight: 500; }
+.answer-val { font-size: .95rem; font-weight: 700; color: var(--blue); }
+
+/* Conversion table */
+.conv-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .88rem;
+}
+.conv-table th {
+  background: var(--gray-50);
+  padding: .5rem .75rem;
+  text-align: left;
+  font-size: .78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: var(--gray-600);
+  border-bottom: 1px solid var(--gray-200);
+}
+.conv-table td {
+  padding: .5rem .75rem;
+  border-bottom: 1px solid var(--gray-100);
+  color: var(--gray-700);
+}
+.conv-table tr:last-child td { border-bottom: none; }
+.conv-table tr:hover td { background: var(--gray-50); }
+.conv-table td:first-child { font-weight: 600; color: var(--gray-900); }
+.conv-table td.highlight { font-weight: 700; color: var(--blue); }
+
+/* Formula box */
+.formula-box {
+  background: var(--gray-50);
+  border-left: 3px solid var(--blue);
+  border-radius: 0 8px 8px 0;
+  padding: 1rem 1.25rem;
+  margin-bottom: .75rem;
+}
+.formula-box code {
+  display: block;
+  font-family: monospace;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--blue);
+  background: transparent;
+  margin: .35rem 0 .75rem;
+}
+.formula-box p { margin: 0; font-size: .88rem; color: var(--gray-700); }
+
+/* FAQ */
+.faq-item { border-bottom: 1px solid var(--gray-100); padding: .85rem 0; }
+.faq-item:last-child { border-bottom: none; padding-bottom: 0; }
+.faq-q { font-weight: 600; font-size: .92rem; color: var(--gray-900); margin-bottom: .35rem; }
+.faq-a { font-size: .88rem; color: var(--gray-600); line-height: 1.6; }
+
+/* More tools */
+.more-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .6rem;
+}
+.more-link {
+  display: block;
+  padding: .65rem 1rem;
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  border-radius: 8px;
+  font-size: .85rem;
+  font-weight: 600;
+  color: var(--gray-700);
+  transition: all .15s;
+}
+.more-link:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+  background: var(--blue-light);
+  text-decoration: none;
+}
+
+@media (max-width: 700px) {
+  .calc-wrap { flex-direction: column; }
+  .calc-left { width: 100%; position: static; }
+  .res-main { font-size: 1.7rem; }
+  .more-grid { grid-template-columns: 1fr; }
+}
+</style>
+
+<div class="breadcrumb"><a href="/">Home</a> › Liters to Gallons Converter</div>
+
+<div class="calc-wrap">
+
+  <!-- ===== LEFT PANEL ===== -->
+  <div class="calc-left">
+    <div class="left-card">
+      <h1>Liters to Gallons<br/>Converter</h1>
+
+      <!-- Direction Toggle -->
+      <div class="toggle-row">
+        <button class="tog active" id="btn-ltg" onclick="setMode('ltg')">Liters → Gal</button>
+        <button class="tog" id="btn-gtl" onclick="setMode('gtl')">Gal → Liters</button>
+      </div>
+
+      <!-- Gallon Type -->
+      <div class="type-row">
+        <button class="type-btn active" id="btn-us" onclick="setGalType('us')">US Gallon</button>
+        <button class="type-btn" id="btn-imp" onclick="setGalType('imperial')">Imperial (UK)</button>
+      </div>
+
+      <!-- Input -->
+      <div class="input-wrap">
+        <label id="input-label">Liters (L)</label>
+        <div class="input-with-unit">
+          <input type="number" id="amount" value="1" min="0" step="any" oninput="doConvert()" />
+          <span class="input-unit" id="input-unit">L</span>
+        </div>
+      </div>
+
+      <!-- Preset Pills -->
+      <div class="pills">
+        <button class="pill" onclick="setVal(1)">1</button>
+        <button class="pill" onclick="setVal(2)">2</button>
+        <button class="pill" onclick="setVal(5)">5</button>
+        <button class="pill" onclick="setVal(10)">10</button>
+        <button class="pill" onclick="setVal(20)">20</button>
+        <button class="pill" onclick="setVal(50)">50</button>
+        <button class="pill" onclick="setVal(100)">100</button>
+      </div>
+
+      <!-- Result Box -->
+      <div class="res-box">
+        <div class="res-label" id="res-label">= US Gallons</div>
+        <div class="res-main" id="res-main">0.2642</div>
+        <div class="res-sub" id="res-sub">1 liter</div>
+      </div>
+
+      <!-- Primary stat: gallons -->
+      <div class="stat-primary">
+        <span class="sp-label" id="sp-label">Gallons (US)</span>
+        <span class="sp-val" id="sp-val">0.2642</span>
+      </div>
+
+      <!-- Secondary stats -->
+      <div class="stats-grid">
+        <div class="stat-box">
+          <span class="s-lbl">Quarts</span>
+          <span class="s-val" id="stat-qt">1.057</span>
+        </div>
+        <div class="stat-box">
+          <span class="s-lbl">Pints</span>
+          <span class="s-val" id="stat-pt">2.113</span>
+        </div>
+        <div class="stat-box">
+          <span class="s-lbl">Fluid Ounces</span>
+          <span class="s-val" id="stat-floz">33.81</span>
+        </div>
+        <div class="stat-box">
+          <span class="s-lbl">Milliliters</span>
+          <span class="s-val" id="stat-ml">1000</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===== RIGHT PANEL ===== -->
+  <div class="calc-right">
+
+    <!-- Featured Snippet -->
+    <div class="content-card">
+      <h2>How Many Liters Are in a Gallon?</h2>
+      <div class="answer-box">
+        <div class="answer-row">
+          <span class="answer-lbl">1 US gallon</span>
+          <span class="answer-val">= 3.785 liters</span>
+        </div>
+        <div class="answer-row">
+          <span class="answer-lbl">1 Imperial gallon</span>
+          <span class="answer-val">= 4.546 liters</span>
+        </div>
+        <div class="answer-row">
+          <span class="answer-lbl">1 liter</span>
+          <span class="answer-val">= 0.2642 US gallons</span>
+        </div>
+        <div class="answer-row">
+          <span class="answer-lbl">½ gallon (US)</span>
+          <span class="answer-val">= 1.893 liters</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- L to Gal Chart -->
+    <div class="content-card">
+      <h2>Liters to Gallons Conversion Chart</h2>
+      <table class="conv-table">
+        <thead>
+          <tr><th>Liters</th><th>US Gallons</th><th>Imperial Gallons</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1 L</td><td>0.264 gal</td><td>0.220 gal</td></tr>
+          <tr><td>2 L</td><td>0.528 gal</td><td>0.440 gal</td></tr>
+          <tr><td>3 L</td><td>0.793 gal</td><td>0.660 gal</td></tr>
+          <tr><td>4 L</td><td>1.057 gal</td><td>0.880 gal</td></tr>
+          <tr><td>5 L</td><td class="highlight">1.321 gal</td><td>1.100 gal</td></tr>
+          <tr><td>10 L</td><td class="highlight">2.642 gal</td><td>2.200 gal</td></tr>
+          <tr><td>15 L</td><td>3.963 gal</td><td>3.300 gal</td></tr>
+          <tr><td>20 L</td><td>5.283 gal</td><td>4.399 gal</td></tr>
+          <tr><td>25 L</td><td>6.604 gal</td><td>5.499 gal</td></tr>
+          <tr><td>30 L</td><td>7.925 gal</td><td>6.599 gal</td></tr>
+          <tr><td>50 L</td><td class="highlight">13.209 gal</td><td>10.998 gal</td></tr>
+          <tr><td>100 L</td><td>26.417 gal</td><td>21.997 gal</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Gal to L Chart -->
+    <div class="content-card">
+      <h2>Gallons to Liters Conversion Chart</h2>
+      <table class="conv-table">
+        <thead>
+          <tr><th>US Gallons</th><th>Liters</th><th>Imperial Gallons</th><th>Liters</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>¼ gal</td><td>0.946 L</td><td>¼ gal (imp)</td><td>1.137 L</td></tr>
+          <tr><td>½ gal</td><td class="highlight">1.893 L</td><td>½ gal (imp)</td><td>2.273 L</td></tr>
+          <tr><td>1 gal</td><td class="highlight">3.785 L</td><td>1 gal (imp)</td><td>4.546 L</td></tr>
+          <tr><td>2 gal</td><td>7.571 L</td><td>2 gal (imp)</td><td>9.092 L</td></tr>
+          <tr><td>5 gal</td><td>18.927 L</td><td>5 gal (imp)</td><td>22.730 L</td></tr>
+          <tr><td>10 gal</td><td>37.854 L</td><td>10 gal (imp)</td><td>45.461 L</td></tr>
+          <tr><td>15 gal</td><td>56.781 L</td><td>15 gal (imp)</td><td>68.191 L</td></tr>
+          <tr><td>20 gal</td><td>75.708 L</td><td>20 gal (imp)</td><td>90.922 L</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Formula -->
+    <div class="content-card">
+      <h2>How to Convert Liters to Gallons — Formula</h2>
+      <div class="formula-box">
+        <p><strong>Liters → US Gallons:</strong></p>
+        <code>gallons = liters ÷ 3.78541</code>
+        <p><strong>Liters → Imperial Gallons:</strong></p>
+        <code>gallons = liters ÷ 4.54609</code>
+      </div>
+      <p><strong>Example:</strong> 10 liters ÷ 3.785 = <strong>2.642 US gallons</strong></p>
+      <p><strong>Quick trick:</strong> Divide by 4 for a rough estimate — 10 L ÷ 4 ≈ 2.5 gallons (within 5%).</p>
+    </div>
+
+    <!-- US vs Imperial -->
+    <div class="content-card">
+      <h2>US Gallon vs Imperial Gallon — Key Differences</h2>
+      <table class="conv-table">
+        <thead>
+          <tr><th></th><th>US Gallon</th><th>Imperial Gallon</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>In Liters</td><td>3.785 L</td><td>4.546 L</td></tr>
+          <tr><td>In Fluid Oz</td><td>128 fl oz</td><td>160 fl oz</td></tr>
+          <tr><td>In Quarts</td><td>4 quarts</td><td>4 quarts</td></tr>
+          <tr><td>Used in</td><td>USA, Latin America</td><td>UK, Canada, India</td></tr>
+          <tr><td>Relative size</td><td>Base</td><td>~20% larger</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:.75rem">The Imperial gallon is used in the United Kingdom, Canada, and several Commonwealth countries. Always check which gallon is meant when reading fuel economy (mpg) or recipe conversions.</p>
+    </div>
+
+    <!-- Real-world examples -->
+    <div class="content-card">
+      <h2>Real-World Liters to Gallons Examples</h2>
+      <ul>
+        <li><strong>2-liter soda bottle</strong> = 0.528 US gallons (just over ½ gallon)</li>
+        <li><strong>Car gas tank (50 L)</strong> = 13.2 US gallons — typical sedan</li>
+        <li><strong>Water bottle (500 mL)</strong> = 0.132 US gallons</li>
+        <li><strong>Bathtub (150 L)</strong> = 39.6 US gallons</li>
+        <li><strong>1-gallon milk jug</strong> = 3.785 liters</li>
+        <li><strong>Swimming pool (2,500,000 L)</strong> = 660,430 US gallons</li>
+        <li><strong>Fuel economy: 10 L/100km</strong> = 23.5 mpg (US)</li>
+      </ul>
+    </div>
+
+    <!-- FAQs -->
+    <div class="content-card">
+      <h2>Frequently Asked Questions</h2>
+
+      <div class="faq-item">
+        <div class="faq-q">How many liters are in a gallon?</div>
+        <div class="faq-a">1 US gallon = 3.785 liters. 1 Imperial (UK) gallon = 4.546 liters. The Imperial gallon is about 20% larger than the US gallon.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">How many gallons is 5 liters?</div>
+        <div class="faq-a">5 liters = 1.321 US gallons (or 1.100 Imperial gallons).</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">How many gallons is 10 liters?</div>
+        <div class="faq-a">10 liters = 2.642 US gallons (or 2.200 Imperial gallons).</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">How many gallons is 2 liters?</div>
+        <div class="faq-a">2 liters = 0.528 US gallons. A standard 2-liter soda bottle is just over half a US gallon.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">How many liters in a half gallon?</div>
+        <div class="faq-a">Half a US gallon = 1.893 liters. Half an Imperial gallon = 2.273 liters.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">How many gallons is 20 liters?</div>
+        <div class="faq-a">20 liters = 5.283 US gallons (or 4.399 Imperial gallons).</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">How many gallons is 50 liters?</div>
+        <div class="faq-a">50 liters = 13.209 US gallons. A typical sedan gas tank holds 13–18 US gallons (50–68 liters).</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What's an easy way to convert liters to gallons?</div>
+        <div class="faq-a">Divide liters by 4 for a quick approximation (within 5% accuracy). For exact: divide by 3.785 for US gallons, or 4.546 for Imperial gallons.</div>
+      </div>
+
+    </div>
+
+    <!-- More Tools -->
+    <div class="content-card">
+      <h2>More Unit Converters</h2>
+      <div class="more-grid">
+        <a href="/cups-to-tablespoons" class="more-link">Cups to Tablespoons</a>
+        <a href="/kg-to-lbs" class="more-link">kg to lbs</a>
+        <a href="/cm-to-inches" class="more-link">cm to inches</a>
+        <a href="/celsius-to-fahrenheit" class="more-link">Celsius to °F</a>
+        <a href="/cups-to-gallons" class="more-link">Cups to Gallons</a>
+        <a href="/square-footage-calculator" class="more-link">Square Footage</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script is:inline>
+(function () {
+  var mode = 'ltg';
+  var galType = 'us';
+  var US_FACTOR = 3.78541;
+  var IMP_FACTOR = 4.54609;
+
+  function getFactor() {
+    return galType === 'us' ? US_FACTOR : IMP_FACTOR;
+  }
+
+  function doConvert() {
+    var raw = parseFloat(document.getElementById('amount').value);
+    var val = isNaN(raw) || raw < 0 ? 0 : raw;
+    var factor = getFactor();
+    var liters, gallons;
+
+    if (mode === 'ltg') {
+      liters = val;
+      gallons = val / factor;
+    } else {
+      gallons = val;
+      liters = val * factor;
+    }
+
+    var galLabel = galType === 'us' ? 'US Gallons' : 'Imperial Gallons';
+    var galAbbr  = galType === 'us' ? 'gal (US)' : 'gal (imp)';
+
+    // Result box
+    if (mode === 'ltg') {
+      document.getElementById('res-label').textContent = '= ' + galLabel;
+      document.getElementById('res-main').textContent = fmt(gallons, 4) + ' gal';
+      document.getElementById('res-sub').textContent = fmt(liters, 4) + ' L';
+    } else {
+      document.getElementById('res-label').textContent = '= Liters';
+      document.getElementById('res-main').textContent = fmt(liters, 4) + ' L';
+      document.getElementById('res-sub').textContent = fmt(gallons, 4) + ' ' + galAbbr;
+    }
+
+    // Primary stat
+    document.getElementById('sp-label').textContent = 'Gallons (' + (galType === 'us' ? 'US' : 'Imperial') + ')';
+    document.getElementById('sp-val').textContent = fmt(gallons, 4);
+
+    // Secondary stats (US liquid units from liters)
+    document.getElementById('stat-qt').textContent   = fmt(liters * 1.05669, 3);
+    document.getElementById('stat-pt').textContent   = fmt(liters * 2.11338, 3);
+    document.getElementById('stat-floz').textContent = fmt(liters * 33.8140, 2);
+    document.getElementById('stat-ml').textContent   = fmt(liters * 1000, 0);
+  }
+
+  function fmt(n, dec) {
+    if (n === 0) return '0';
+    return n.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: dec });
+  }
+
+  function setMode(m) {
+    mode = m;
+    document.getElementById('btn-ltg').classList.toggle('active', m === 'ltg');
+    document.getElementById('btn-gtl').classList.toggle('active', m === 'gtl');
+
+    if (m === 'ltg') {
+      document.getElementById('input-label').textContent = 'Liters (L)';
+      document.getElementById('input-unit').textContent = 'L';
+    } else {
+      var g = galType === 'us' ? 'Gallons (US)' : 'Gallons (Imperial)';
+      document.getElementById('input-label').textContent = g;
+      document.getElementById('input-unit').textContent = 'gal';
+    }
+    doConvert();
+  }
+
+  function setGalType(t) {
+    galType = t;
+    document.getElementById('btn-us').classList.toggle('active', t === 'us');
+    document.getElementById('btn-imp').classList.toggle('active', t === 'imperial');
+    if (mode === 'gtl') {
+      var g = t === 'us' ? 'Gallons (US)' : 'Gallons (Imperial)';
+      document.getElementById('input-label').textContent = g;
+    }
+    doConvert();
+  }
+
+  function setVal(v) {
+    document.getElementById('amount').value = v;
+    doConvert();
+  }
+
+  // Expose to onclick
+  window.doConvert = doConvert;
+  window.setMode   = setMode;
+  window.setGalType = setGalType;
+  window.setVal    = setVal;
+
+  window.addEventListener('load', doConvert);
+})();
+</script>
+
+</Layout>
