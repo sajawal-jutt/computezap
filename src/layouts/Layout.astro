@@ -78,17 +78,13 @@ const image = ogImage || 'https://computezap.com/og-default.png';
   <!-- Page-specific Schema -->
   {schema && <script type="application/ld+json" set:html={schema} />}
 
+  <!-- Preconnect for faster resource loading -->
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+  <link rel="preconnect" href="https://www.google-analytics.com" crossorigin />
+
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="/styles/global.css" />
-
-  <!-- Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-HKNEP4FGVH"></script>
-  <script is:inline>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-HKNEP4FGVH');
-  </script>
 </head>
 <body>
   <nav>
@@ -117,5 +113,14 @@ const image = ogImage || 'https://computezap.com/og-default.png';
       <p>© 2026 ComputeZap — Free Online Calculators & Unit Converters</p>
     </div>
   </footer>
+
+  <!-- Google Analytics (deferred for better mobile performance) -->
+  <script defer src="https://www.googletagmanager.com/gtag/js?id=G-HKNEP4FGVH"></script>
+  <script is:inline>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-HKNEP4FGVH');
+  </script>
 </body>
 </html>
