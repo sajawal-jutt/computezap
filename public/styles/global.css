@@ -83,6 +83,18 @@ main {
   margin-top: .75rem;
 }
 
+/* SITE INTRO */
+.site-intro {
+  max-width: 700px;
+  margin: 0 auto 1.5rem;
+  text-align: center;
+}
+.site-intro p {
+  color: var(--gray-600);
+  font-size: .95rem;
+  line-height: 1.75;
+}
+
 /* TOOL GRID */
 .section-title {
   font-size: 1rem;
