@@ -1,0 +1,36 @@
+# ComputeZap
+
+> Free online calculators and unit converters for finance, math, cooking, and everyday use. All tools work instantly in your browser — no downloads, no account required.
+
+## Finance Calculators
+
+- CD Calculator (/cd-calculator): Calculate Certificate of Deposit earnings using compound interest formula. Enter principal, APY, and term length to get exact interest earned and final balance.
+- Mortgage Payoff Calculator (/mortgage-payoff-calculator): See how extra payments reduce your mortgage term and total interest paid.
+- Reverse Sales Tax Calculator (/reverse-sales-tax-calculator): Find the original pre-tax price from a total amount paid. Useful for expense reports and receipts.
+
+## Date & Time Tools
+
+- Days From Today Calculator (/days-from-today): Find the exact calendar date any number of days from today. Handles net payment terms, deadlines, and project planning.
+- 30 Days From Today (/30-days-from-today): What is the exact date 30 days from today? Used for net-30 payment deadlines.
+- 90 Days From Today (/90-days-from-today): Find the date 90 days (one quarter) from today. Used for quarterly planning and filing deadlines.
+
+## Math Calculators
+
+- Percent Off Calculator (/percent-off-calculator): Calculate the sale price after a percentage discount. Shows savings amount and final price.
+- Pythagorean Theorem Calculator (/pythagorean-theorem-calculator): Find any side of a right triangle using a² + b² = c².
+- Time to Decimal Calculator (/time-to-decimal-calculator): Convert hours and minutes to decimal format for payroll and timesheets.
+
+## Unit Converters
+
+- Square Footage Calculator (/square-footage-calculator): Calculate area in square feet for rooms, land, or any rectangular space.
+- kg to lbs Converter (/kg-to-lbs): Convert kilograms to pounds instantly.
+- cm to inches Converter (/cm-to-inches): Convert centimeters to inches — the most searched length converter.
+- Celsius to Fahrenheit (/celsius-to-fahrenheit): Temperature conversion using the °C to °F formula.
+- Knots to MPH Converter (/knots-to-mph): Convert nautical speed (knots) to miles per hour.
+- Cups to Gallons Converter (/cups-to-gallons): Kitchen and cooking volume conversion.
+- Cups to Tablespoons Converter (/cups-to-tablespoons): How many tablespoons in a cup? 1 cup = 16 tablespoons. All fractions covered.
+- Liters to Gallons Converter (/liters-to-gallons): Convert liters to US gallons (1 gal = 3.785 L) or Imperial gallons (1 gal = 4.546 L).
+
+## About
+
+ComputeZap was founded in 2026. Contact: levelupsolution911@gmail.com
