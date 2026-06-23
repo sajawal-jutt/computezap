@@ -1,0 +1,332 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const schema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Mortgage Payoff Calculator",
+    "url": "https://computezap.com/mortgage-payoff-calculator",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Web",
+    "description": "Calculate how extra mortgage payments reduce your loan term and total interest. See exactly how many months and dollars you save by paying extra each month.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
+      { "@type": "ListItem", "position": 2, "name": "Mortgage Payoff Calculator", "item": "https://computezap.com/mortgage-payoff-calculator" }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "How do extra mortgage payments reduce my loan?", "acceptedAnswer": { "@type": "Answer", "text": "Extra payments go directly toward the principal balance, which reduces the amount of interest that accrues each month. Over time, this shortens the loan term and reduces total interest paid — often by tens of thousands of dollars on a typical 30-year mortgage." } },
+      { "@type": "Question", "name": "How much interest do I save by paying extra on my mortgage?", "acceptedAnswer": { "@type": "Answer", "text": "The savings depend on your loan balance, interest rate, and extra payment amount. On a $300,000 mortgage at 6.5%, paying an extra $200/month saves approximately $68,000 in interest and pays off the loan about 6 years early." } },
+      { "@type": "Question", "name": "Is it better to make extra principal payments or invest the money?", "acceptedAnswer": { "@type": "Answer", "text": "It depends on your mortgage interest rate vs. expected investment returns. If your mortgage rate is 7% and stock market returns average 7-10%, investing may yield more over time. But paying off the mortgage is guaranteed return and risk-free — a personal finance decision based on your risk tolerance and goals." } },
+      { "@type": "Question", "name": "What is mortgage amortization?", "acceptedAnswer": { "@type": "Answer", "text": "Amortization is the process of paying off a loan through regular payments. Each payment covers interest first, then reduces the principal. Early in a mortgage, most of the payment is interest. Over time, more goes toward principal. A 30-year amortization schedule has 360 monthly payments." } }
+    ]
+  }
+]);
+---
+<Layout
+  title="Mortgage Payoff Calculator — Extra Payment Savings | ComputeZap"
+  description="Calculate how extra mortgage payments reduce your loan term and total interest. See months saved, interest saved, and your new payoff date. Free mortgage payoff calculator."
+  canonical="/mortgage-payoff-calculator"
+  schema={schema}
+>
+<style>
+.hero{text-align:center;padding:2rem 1rem 1.25rem}
+.hero h1{font-size:2rem;color:#111;margin:.5rem 0 .35rem;font-weight:800}
+.hero-sub{color:#555;margin:0;font-size:1rem}
+.breadcrumb{font-size:.85rem;color:#888;margin-bottom:.75rem}
+.breadcrumb a{color:var(--blue);text-decoration:none}
+.calc-wrap{display:grid;grid-template-columns:360px 1fr;gap:1.5rem;max-width:1100px;margin:0 auto;padding:0 1rem 3rem;align-items:start}
+.calc-left{position:sticky;top:1rem}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:1.5rem;margin-bottom:1rem}
+.card:last-child{margin-bottom:0}
+.result-box{background:var(--blue);border-radius:14px;padding:1.5rem;text-align:center;margin-bottom:1.25rem;box-shadow:0 4px 20px rgba(37,99,235,.18)}
+.res-lbl{font-size:.72rem;color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:.09em;margin-bottom:.4rem}
+.res-val{font-size:1.8rem;font-weight:800;color:#fff;line-height:1.2}
+.res-sub{font-size:.9rem;color:rgba(255,255,255,.8);margin-top:.3rem}
+.savings-box{background:#f0fdf4;border:1.5px solid #bbf7d0;border-radius:12px;padding:1.25rem;margin-bottom:1rem;text-align:center}
+.sav-lbl{font-size:.7rem;font-weight:700;color:#166534;text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:.35rem}
+.sav-val{font-size:1.6rem;font-weight:900;color:#15803d;display:block;line-height:1.1}
+.sav-sub{font-size:.82rem;color:#166534;margin-top:.25rem;display:block}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:0}
+.stat-item{background:#f8fafc;border:1px solid #f1f5f9;border-radius:10px;padding:.9rem .75rem;text-align:center}
+.stat-lbl{display:block;font-size:.68rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.3rem;font-weight:600}
+.stat-val{display:block;font-size:1rem;font-weight:800;color:#1e293b}
+.fld-lbl{display:block;font-size:.8rem;font-weight:700;color:#374151;margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.04em}
+.fld-wrap{position:relative;margin-bottom:1rem}
+.fld-pfx{position:absolute;left:.9rem;top:50%;transform:translateY(-50%);color:#94a3b8;font-weight:600;pointer-events:none}
+.fld-sfx{position:absolute;right:.9rem;top:50%;transform:translateY(-50%);color:#94a3b8;font-weight:600;pointer-events:none;font-size:.9rem}
+.txt-input{width:100%;font-size:1.05rem;padding:.65rem .9rem;border:1.5px solid #e2e8f0;border-radius:8px;color:#111;box-sizing:border-box;font-family:inherit;background:#fff}
+.txt-input.has-pfx{padding-left:1.75rem}
+.txt-input.has-sfx{padding-right:2.2rem}
+.txt-input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+.extra-highlight{background:#fffbeb;border-color:#fcd34d}
+.extra-highlight:focus{border-color:#f59e0b;box-shadow:0 0 0 3px rgba(245,158,11,.1)}
+.card h2{font-size:1.1rem;font-weight:700;color:#111;margin:0 0 .8rem}
+.card h3{font-size:.95rem;font-weight:700;color:#111;margin:.75rem 0 .4rem}
+.card p{color:#444;line-height:1.75;font-size:.95rem;margin:0 0 .7rem}
+.card p:last-child{margin-bottom:0}
+.card ul{color:#444;line-height:1.85;font-size:.95rem;padding-left:1.25rem;margin:.5rem 0 0}
+.formula-box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:.75rem 1rem;font-family:monospace;font-size:.85rem;color:#1e293b;margin:.6rem 0}
+.tip-box{display:flex;gap:.75rem;background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:.9rem 1rem;margin:.75rem 0}
+.tip-icon{font-size:1.1rem;flex-shrink:0;margin-top:.1rem}
+.tip-box p{margin:0;font-size:.875rem;color:#1e40af}
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:.75rem 0}
+.compare-col{background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:1rem}
+.compare-col.highlight{background:#f0fdf4;border-color:#bbf7d0}
+.compare-col h3{font-size:.82rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#64748b;margin:0 0 .6rem}
+.compare-col.highlight h3{color:#166534}
+.compare-row{display:flex;justify-content:space-between;font-size:.88rem;padding:.2rem 0;color:#555;border-bottom:1px solid #f1f5f9}
+.compare-row:last-child{border-bottom:none}
+.compare-row .val{font-weight:700;color:#111}
+.compare-col.highlight .val{color:#15803d}
+.faq-item{border-bottom:1px solid #f3f4f6;padding:.85rem 0}
+.faq-item:last-child{border-bottom:none;padding-bottom:0}
+.faq-item h3{font-size:.92rem;color:#111;margin:0 0 .35rem;font-weight:600}
+.faq-item p{color:#555;font-size:.875rem;margin:0;line-height:1.65}
+.content-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:1.5rem;margin-bottom:1rem}
+.content-card h2{font-size:1.1rem;font-weight:700;color:#111;margin:0 0 .8rem}
+.content-card ul{color:#444;line-height:1.85;font-size:.95rem;padding-left:1.25rem;margin:0}
+.more-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.more-link{display:block;padding:.65rem 1rem;background:#f8fafc;border:1px solid #e5e7eb;border-radius:8px;font-size:.85rem;font-weight:600;color:#374151;text-decoration:none;transition:all .15s}
+.more-link:hover{border-color:var(--blue);color:var(--blue);background:#eff6ff}
+@media(max-width:768px){.calc-wrap{grid-template-columns:1fr}.calc-left{position:static}.hero h1{font-size:1.65rem}.compare-grid{grid-template-columns:1fr}.res-val{font-size:1.5rem}}
+</style>
+
+<div class="hero">
+  <nav class="breadcrumb"><a href="/">Home</a> › Mortgage Payoff Calculator</nav>
+  <h1>Mortgage Payoff Calculator</h1>
+  <p class="hero-sub">See how extra payments save you years and thousands in interest</p>
+</div>
+
+<div class="calc-wrap">
+  <div class="calc-left">
+    <div class="card">
+      <label class="fld-lbl">Remaining Loan Balance</label>
+      <div class="fld-wrap">
+        <span class="fld-pfx">$</span>
+        <input type="number" id="balance" class="txt-input has-pfx" value="300000" min="0" step="1000" oninput="calculate()" />
+      </div>
+
+      <label class="fld-lbl">Annual Interest Rate</label>
+      <div class="fld-wrap">
+        <input type="number" id="rate" class="txt-input has-sfx" value="6.5" min="0" max="30" step="0.1" oninput="calculate()" />
+        <span class="fld-sfx">%</span>
+      </div>
+
+      <label class="fld-lbl">Monthly Payment</label>
+      <div class="fld-wrap">
+        <span class="fld-pfx">$</span>
+        <input type="number" id="payment" class="txt-input has-pfx" value="1896" min="1" step="1" oninput="calculate()" />
+      </div>
+
+      <label class="fld-lbl">Extra Monthly Payment</label>
+      <div class="fld-wrap">
+        <span class="fld-pfx">$</span>
+        <input type="number" id="extra" class="txt-input has-pfx extra-highlight" value="200" min="0" step="50" oninput="calculate()" />
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="result-box">
+        <div class="res-lbl">Time Saved</div>
+        <div class="res-val" id="r-months-saved">—</div>
+        <div class="res-sub" id="r-payoff-extra">Calculating…</div>
+      </div>
+
+      <div class="savings-box">
+        <span class="sav-lbl">Interest Saved</span>
+        <span class="sav-val" id="r-interest-saved">—</span>
+        <span class="sav-sub" id="r-interest-sub">vs. paying minimum only</span>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-item">
+          <span class="stat-lbl">Standard Payoff</span>
+          <span class="stat-val" id="r-std-date">—</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-lbl">With Extra Payments</span>
+          <span class="stat-val" id="r-ext-date">—</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="calc-right">
+    <div class="card">
+      <h2>Standard vs. Extra Payment Comparison</h2>
+      <div class="compare-grid">
+        <div class="compare-col">
+          <h3>Standard Payment</h3>
+          <div class="compare-row"><span>Monthly</span><span class="val" id="c-std-pay">—</span></div>
+          <div class="compare-row"><span>Payoff months</span><span class="val" id="c-std-mo">—</span></div>
+          <div class="compare-row"><span>Payoff date</span><span class="val" id="c-std-date">—</span></div>
+          <div class="compare-row"><span>Total paid</span><span class="val" id="c-std-total">—</span></div>
+          <div class="compare-row"><span>Total interest</span><span class="val" id="c-std-int">—</span></div>
+        </div>
+        <div class="compare-col highlight">
+          <h3>With Extra Payment</h3>
+          <div class="compare-row"><span>Monthly</span><span class="val" id="c-ext-pay">—</span></div>
+          <div class="compare-row"><span>Payoff months</span><span class="val" id="c-ext-mo">—</span></div>
+          <div class="compare-row"><span>Payoff date</span><span class="val" id="c-ext-date">—</span></div>
+          <div class="compare-row"><span>Total paid</span><span class="val" id="c-ext-total">—</span></div>
+          <div class="compare-row"><span>Total interest</span><span class="val" id="c-ext-int">—</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>How Extra Mortgage Payments Work</h2>
+      <p>When you make an extra payment on your mortgage, it goes <strong>directly to the principal</strong> — reducing your loan balance immediately. A lower balance means less interest accrues next month, so more of every future payment goes to principal too. This compounding effect accelerates payoff significantly.</p>
+      <div class="tip-box">
+        <span class="tip-icon">💡</span>
+        <p><strong>Key insight:</strong> An extra $200/month on a $300K mortgage at 6.5% saves approximately $68,000 in interest and pays off the loan about 6 years early. The earlier in the loan you make extra payments, the more you save.</p>
+      </div>
+      <div class="formula-box">
+        Monthly interest = balance × (annual rate ÷ 12 ÷ 100)<br />
+        Principal paid = monthly payment − interest<br />
+        New balance = balance − principal paid − extra payment
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>Strategies to Pay Off Your Mortgage Faster</h2>
+      <ul>
+        <li><strong>Round up your payment</strong> — if your payment is $1,847, round up to $1,900 or $2,000. The extra $53–$153/month adds up to thousands in savings.</li>
+        <li><strong>Make bi-weekly payments</strong> — paying half your monthly payment every two weeks means 26 half-payments (= 13 full payments) per year instead of 12, effectively making one extra payment annually.</li>
+        <li><strong>Apply windfalls to principal</strong> — tax refunds, bonuses, and inheritances applied directly to mortgage principal can shave years off your loan.</li>
+        <li><strong>Refinance to a shorter term</strong> — switching from a 30-year to a 15-year mortgage at a lower rate dramatically cuts total interest, though monthly payments will be higher.</li>
+        <li><strong>Never skip an extra payment</strong> — consistency matters. One extra payment per year for 30 years adds up to 30 extra months of principal reduction.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>How do extra mortgage payments reduce my loan?</h3>
+        <p>Extra payments go directly to the principal balance. A lower principal means less interest accrues each month — so more of future regular payments also go to principal. This acceleration shortens your loan term and reduces total interest paid.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Do I need to notify my lender about extra payments?</h3>
+        <p>Yes — specify that the extra amount is for <strong>"principal only."</strong> Without this instruction, some lenders may apply extra money toward next month's payment (which still includes interest) rather than reducing principal directly.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Is there a prepayment penalty?</h3>
+        <p>Some mortgages include prepayment penalty clauses, especially adjustable-rate or older fixed-rate loans. Check your loan documents or ask your lender before making large extra payments.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What is mortgage amortization?</h3>
+        <p>Amortization is how loan payments are split between interest and principal over time. Early payments are mostly interest; later payments are mostly principal. The amortization schedule shows every payment over the full loan term.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Should I pay extra on my mortgage or invest?</h3>
+        <p>Paying extra gives a guaranteed return equal to your mortgage rate. Investing may yield higher long-term returns but involves market risk. If your mortgage rate is above 6–7%, paying down debt is often the better risk-adjusted choice. Below 5%, investing typically wins over the long term.</p>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>Related Finance Tools</h2>
+      <div class="more-grid">
+        <a href="/cd-calculator" class="more-link">CD Calculator</a>
+        <a href="/reverse-sales-tax-calculator" class="more-link">Reverse Sales Tax</a>
+        <a href="/percent-off-calculator" class="more-link">Percent Off Calculator</a>
+        <a href="/days-from-today" class="more-link">Days From Today</a>
+        <a href="/time-to-decimal-calculator" class="more-link">Time to Decimal</a>
+        <a href="/pythagorean-theorem-calculator" class="more-link">Pythagorean Theorem</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+function fmtMoney(v) {
+  return '$' + Math.round(v).toLocaleString();
+}
+
+function fmtDate(monthsFromNow) {
+  var d = new Date();
+  d.setMonth(d.getMonth() + Math.round(monthsFromNow));
+  return d.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+}
+
+function fmtMonths(m) {
+  var y = Math.floor(m / 12);
+  var mo = Math.round(m % 12);
+  if (y === 0) return mo + ' mo';
+  if (mo === 0) return y + ' yr';
+  return y + ' yr ' + mo + ' mo';
+}
+
+function amortize(balance, monthlyRate, payment) {
+  if (monthlyRate === 0) return { months: Math.ceil(balance / payment), interest: 0 };
+  var b = balance, totalInt = 0, months = 0;
+  var minPay = b * monthlyRate / (1 - Math.pow(1 + monthlyRate, -360));
+  if (payment < minPay * 0.9999) return null;
+  while (b > 0.01 && months < 600) {
+    var interest = b * monthlyRate;
+    totalInt += interest;
+    var principal = Math.min(payment - interest, b);
+    b -= principal;
+    months++;
+    if (principal <= 0) break;
+  }
+  return { months: months, interest: totalInt };
+}
+
+function calculate() {
+  var balance = parseFloat(document.getElementById('balance').value) || 0;
+  var rate = parseFloat(document.getElementById('rate').value) || 0;
+  var payment = parseFloat(document.getElementById('payment').value) || 0;
+  var extra = parseFloat(document.getElementById('extra').value) || 0;
+
+  var mr = rate / 100 / 12;
+
+  var std = amortize(balance, mr, payment);
+  var ext = extra > 0 ? amortize(balance, mr, payment + extra) : null;
+
+  if (!std) {
+    document.getElementById('r-months-saved').textContent = 'Payment too low';
+    return;
+  }
+
+  var stdInt = std.interest;
+  var extMo = ext ? ext.months : std.months;
+  var extInt = ext ? ext.interest : std.interest;
+  var savedMo = std.months - extMo;
+  var savedInt = stdInt - extInt;
+
+  document.getElementById('r-months-saved').textContent = savedMo > 0 ? fmtMonths(savedMo) + ' saved' : 'No extra payment';
+  document.getElementById('r-payoff-extra').textContent = ext ? 'New payoff: ' + fmtDate(extMo) : 'Add extra payment to see savings';
+  document.getElementById('r-interest-saved').textContent = fmtMoney(savedInt);
+  document.getElementById('r-interest-sub').textContent = 'vs. paying $' + Math.round(payment) + '/mo only';
+
+  document.getElementById('r-std-date').textContent = fmtDate(std.months);
+  document.getElementById('r-ext-date').textContent = ext ? fmtDate(ext.months) : '—';
+
+  document.getElementById('c-std-pay').textContent = fmtMoney(payment) + '/mo';
+  document.getElementById('c-std-mo').textContent = fmtMonths(std.months);
+  document.getElementById('c-std-date').textContent = fmtDate(std.months);
+  document.getElementById('c-std-total').textContent = fmtMoney(payment * std.months);
+  document.getElementById('c-std-int').textContent = fmtMoney(stdInt);
+
+  if (ext) {
+    document.getElementById('c-ext-pay').textContent = fmtMoney(payment + extra) + '/mo';
+    document.getElementById('c-ext-mo').textContent = fmtMonths(ext.months);
+    document.getElementById('c-ext-date').textContent = fmtDate(ext.months);
+    document.getElementById('c-ext-total').textContent = fmtMoney((payment + extra) * ext.months);
+    document.getElementById('c-ext-int').textContent = fmtMoney(extInt);
+  }
+}
+
+window.addEventListener('load', calculate);
+</script>
+</Layout>

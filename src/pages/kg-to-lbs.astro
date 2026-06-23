@@ -1,0 +1,351 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const schema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "kg to lbs Converter",
+    "url": "https://computezap.com/kg-to-lbs",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Web",
+    "description": "Convert kilograms to pounds instantly. 1 kg = 2.20462 lbs. Free kg to lbs converter with reference chart for 1–200 kg.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
+      { "@type": "ListItem", "position": 2, "name": "kg to lbs", "item": "https://computezap.com/kg-to-lbs" }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "How many pounds in 1 kg?", "acceptedAnswer": { "@type": "Answer", "text": "1 kilogram equals 2.20462 pounds. To convert kg to lbs, multiply by 2.20462." } },
+      { "@type": "Question", "name": "How do I convert kg to lbs?", "acceptedAnswer": { "@type": "Answer", "text": "Multiply kilograms by 2.20462. Formula: lbs = kg × 2.20462. Example: 70 kg × 2.20462 = 154.32 lbs." } },
+      { "@type": "Question", "name": "What is 100 kg in pounds?", "acceptedAnswer": { "@type": "Answer", "text": "100 kg = 220.46 lbs. Multiply 100 × 2.20462 = 220.462 pounds." } },
+      { "@type": "Question", "name": "What is 70 kg in pounds?", "acceptedAnswer": { "@type": "Answer", "text": "70 kg = 154.32 lbs. Multiply 70 × 2.20462 = 154.324 pounds." } },
+      { "@type": "Question", "name": "What is 50 kg in pounds?", "acceptedAnswer": { "@type": "Answer", "text": "50 kg = 110.23 lbs. Multiply 50 × 2.20462 = 110.231 pounds." } },
+      { "@type": "Question", "name": "How do I convert lbs to kg?", "acceptedAnswer": { "@type": "Answer", "text": "Divide lbs by 2.20462, or multiply by 0.453592. Formula: kg = lbs ÷ 2.20462. Example: 150 lbs ÷ 2.20462 = 68.04 kg." } },
+      { "@type": "Question", "name": "What is 80 kg in pounds?", "acceptedAnswer": { "@type": "Answer", "text": "80 kg = 176.37 lbs. Multiply 80 × 2.20462 = 176.370 pounds." } },
+      { "@type": "Question", "name": "What is a stone in kg and lbs?", "acceptedAnswer": { "@type": "Answer", "text": "1 stone = 14 pounds = 6.35029 kg. Stones are used in the UK for body weight." } }
+    ]
+  }
+]);
+---
+<Layout
+  title="kg to lbs — Kilograms to Pounds Converter | ComputeZap"
+  description="Convert kg to lbs instantly. 1 kg = 2.20462 lbs. Free kilogram to pound converter with chart for 1–200 kg. Also shows stones and ounces."
+  canonical="/kg-to-lbs"
+  schema={schema}
+>
+<style>
+.hero{text-align:center;padding:2rem 1rem 1.25rem}
+.hero h1{font-size:2rem;color:#111;margin:.5rem 0 .35rem;font-weight:800}
+.hero-sub{color:#555;margin:0;font-size:1rem}
+.breadcrumb{font-size:.85rem;color:#888;margin-bottom:.75rem}
+.breadcrumb a{color:var(--blue);text-decoration:none}
+.calc-wrap{display:grid;grid-template-columns:360px 1fr;gap:1.5rem;max-width:1100px;margin:0 auto;padding:0 1rem 3rem;align-items:start}
+.calc-left{position:sticky;top:1rem}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:1.5rem;margin-bottom:1rem}
+.card:last-child{margin-bottom:0}
+.mode-wrap{display:grid;grid-template-columns:1fr 1fr;gap:.4rem;margin-bottom:1.25rem}
+.mode-btn{background:#f8fafc;color:#64748b;border:1.5px solid #e2e8f0;border-radius:8px;padding:.5rem;font-size:.82rem;font-weight:700;cursor:pointer;text-align:center;transition:all .15s}
+.mode-btn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.result-box{background:var(--blue);border-radius:14px;padding:1.75rem 1.5rem;text-align:center;margin-bottom:1.25rem;box-shadow:0 4px 20px rgba(37,99,235,.18)}
+.res-lbl{font-size:.72rem;color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:.09em;margin-bottom:.5rem}
+.res-val{font-size:2.1rem;font-weight:800;color:#fff;line-height:1.2}
+.res-sub{font-size:.95rem;color:rgba(255,255,255,.8);margin-top:.3rem}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:0}
+.stat-item{background:#f8fafc;border:1px solid #f1f5f9;border-radius:10px;padding:.9rem .75rem;text-align:center}
+.stat-lbl{display:block;font-size:.68rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.3rem;font-weight:600}
+.stat-val{display:block;font-size:1.1rem;font-weight:800;color:#1e293b}
+.stat-primary{background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:12px;padding:1rem 1.25rem;text-align:center;margin-bottom:.6rem}
+.stat-big{display:block;font-size:2rem;font-weight:900;color:#2563eb;line-height:1.1}
+.stat-secondary{background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:.75rem 1.25rem;text-align:center;margin-bottom:.6rem}
+.stat-med{display:block;font-size:1.4rem;font-weight:800;color:#1e293b;line-height:1.1}
+.fld-lbl{display:block;font-size:.8rem;font-weight:700;color:#374151;margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.04em}
+.fld-wrap{position:relative;margin-bottom:1rem}
+.fld-sfx{position:absolute;right:.9rem;top:50%;transform:translateY(-50%);color:#94a3b8;font-weight:600;pointer-events:none;font-size:.9rem}
+.txt-input{width:100%;font-size:1.1rem;padding:.7rem 3rem .7rem 1rem;border:1.5px solid #e2e8f0;border-radius:8px;color:#111;box-sizing:border-box;font-family:inherit;background:#fff}
+.txt-input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+.preset-lbl{font-size:.7rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.5rem;display:block}
+.preset-wrap{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.5rem}
+.preset-btn{background:#fff;color:var(--blue);border:1.5px solid #dbeafe;border-radius:20px;padding:.28rem .75rem;font-size:.82rem;font-weight:700;cursor:pointer;transition:all .15s}
+.preset-btn:hover{background:var(--blue);color:#fff;border-color:var(--blue)}
+.card h2{font-size:1.1rem;font-weight:700;color:#111;margin:0 0 .8rem}
+.card h3{font-size:.95rem;font-weight:700;color:#111;margin:.75rem 0 .4rem}
+.card p{color:#444;line-height:1.75;font-size:.95rem;margin:0 0 .7rem}
+.card p:last-child{margin-bottom:0}
+.card ul{color:#444;line-height:1.85;font-size:.95rem;padding-left:1.25rem;margin:.5rem 0 0}
+.formula-box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:.75rem 1rem;font-family:monospace;font-size:.88rem;color:#1e293b;margin:.6rem 0}
+.tip-box{display:flex;gap:.75rem;background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:.9rem 1rem;margin:.75rem 0}
+.tip-icon{font-size:1.1rem;flex-shrink:0;margin-top:.1rem}
+.tip-box p{margin:0;font-size:.875rem;color:#1e40af}
+.answer-box{background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:10px;padding:.75rem 1rem;margin:.75rem 0}
+.answer-row{display:flex;justify-content:space-between;align-items:center;padding:.35rem 0;border-bottom:1px solid #f1f5f9;font-size:.95rem}
+.answer-row:last-child{border-bottom:none}
+.answer-lbl{color:#64748b;font-weight:600}
+.answer-val{color:#2563eb;font-weight:800}
+.ref-tbl{width:100%;border-collapse:collapse;font-size:.875rem}
+.ref-tbl th{background:#f8fafc;padding:.45rem .75rem;text-align:left;font-size:.72rem;color:#64748b;font-weight:700;text-transform:uppercase;letter-spacing:.04em;border-bottom:1px solid #e5e7eb}
+.ref-tbl td{padding:.5rem .75rem;border-bottom:1px solid #f3f4f6;color:#444;cursor:pointer}
+.ref-tbl tr:last-child td{border-bottom:none}
+.ref-tbl .acc{color:var(--blue);font-weight:700}
+.ref-tbl .hi td{background:#eff6ff;color:#1e40af;font-weight:600}
+.faq-item{border-bottom:1px solid #f3f4f6;padding:.85rem 0}
+.faq-item:last-child{border-bottom:none;padding-bottom:0}
+.faq-item h3{font-size:.92rem;color:#111;margin:0 0 .35rem;font-weight:600}
+.faq-item p{color:#555;font-size:.875rem;margin:0;line-height:1.65}
+.content-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:1.5rem;margin-bottom:1rem}
+.content-card h2{font-size:1.1rem;font-weight:700;color:#111;margin:0 0 .8rem}
+.content-card ul{color:#444;line-height:1.85;font-size:.95rem;padding-left:1.25rem;margin:0}
+.more-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.more-link{display:block;padding:.65rem 1rem;background:#f8fafc;border:1px solid #e5e7eb;border-radius:8px;font-size:.85rem;font-weight:600;color:#374151;text-decoration:none;transition:all .15s}
+.more-link:hover{border-color:var(--blue);color:var(--blue);background:#eff6ff}
+@media(max-width:768px){.calc-wrap{grid-template-columns:1fr}.calc-left{position:static}.hero h1{font-size:1.65rem}.res-val{font-size:1.6rem}}
+</style>
+
+<div class="hero">
+  <nav class="breadcrumb"><a href="/">Home</a> › kg to lbs Converter</nav>
+  <h1>kg to lbs — Kilograms to Pounds</h1>
+  <p class="hero-sub">1 kilogram = 2.20462 pounds — convert any weight instantly</p>
+</div>
+
+<div class="calc-wrap">
+  <div class="calc-left">
+    <div class="card">
+      <div class="mode-wrap">
+        <button class="mode-btn active" id="btn-kg" onclick="setMode('kg')">kg → lbs</button>
+        <button class="mode-btn" id="btn-lb" onclick="setMode('lb')">lbs → kg</button>
+      </div>
+      <label class="fld-lbl" id="inp-lbl">Kilograms (kg)</label>
+      <div class="fld-wrap">
+        <input type="number" id="amount" class="txt-input" value="70" min="0" step="0.1" oninput="convert()" />
+        <span class="fld-sfx" id="inp-sfx">kg</span>
+      </div>
+      <span class="preset-lbl">Quick values</span>
+      <div class="preset-wrap" id="preset-wrap">
+        <button class="preset-btn" onclick="setVal(1)">1</button>
+        <button class="preset-btn" onclick="setVal(5)">5</button>
+        <button class="preset-btn" onclick="setVal(10)">10</button>
+        <button class="preset-btn" onclick="setVal(50)">50</button>
+        <button class="preset-btn" onclick="setVal(60)">60</button>
+        <button class="preset-btn" onclick="setVal(70)">70</button>
+        <button class="preset-btn" onclick="setVal(80)">80</button>
+        <button class="preset-btn" onclick="setVal(90)">90</button>
+        <button class="preset-btn" onclick="setVal(100)">100</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="result-box">
+        <div class="res-lbl" id="res-lbl">Pounds</div>
+        <div class="res-val"><span id="r-main">154.32</span> <span style="font-size:1.1rem;opacity:.85" id="r-unit">lbs</span></div>
+        <div class="res-sub" id="r-sub">70 kg = 154.32 lbs</div>
+      </div>
+      <div class="stat-primary">
+        <span class="stat-lbl" id="s1-lbl">Pounds</span>
+        <span class="stat-big" id="s1-val">154.32 lbs</span>
+      </div>
+      <div class="stat-secondary">
+        <span class="stat-lbl" id="s2-lbl">Stones & Pounds</span>
+        <span class="stat-med" id="s2-val">11 st 0.32 lb</span>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-item">
+          <span class="stat-lbl" id="s3-lbl">Ounces</span>
+          <span class="stat-val" id="s3-val">2469.1 oz</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-lbl" id="s4-lbl">Grams</span>
+          <span class="stat-val" id="s4-val">70,000 g</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="calc-right">
+    <div class="card">
+      <h2>How Many Pounds in a Kilogram?</h2>
+      <p>There are <strong>2.20462 pounds in 1 kilogram</strong>. The kilogram (kg) is the SI base unit of mass, while the pound (lb) is the imperial unit used in the US and UK for body weight, gym equipment, and shipping.</p>
+      <div class="answer-box">
+        <div class="answer-row"><span class="answer-lbl">1 kg</span><span class="answer-val">= 2.20462 lbs</span></div>
+        <div class="answer-row"><span class="answer-lbl">1 lb</span><span class="answer-val">= 0.453592 kg</span></div>
+        <div class="answer-row"><span class="answer-lbl">1 kg</span><span class="answer-val">= 1,000 grams</span></div>
+        <div class="answer-row"><span class="answer-lbl">1 kg</span><span class="answer-val">= 35.274 ounces</span></div>
+      </div>
+      <div class="formula-box">lbs = kg × 2.20462 &nbsp;|&nbsp; kg = lbs ÷ 2.20462</div>
+    </div>
+
+    <div class="card">
+      <h2>kg to lbs Conversion Chart</h2>
+      <p>Click any row to load it into the converter above.</p>
+      <table class="ref-tbl">
+        <thead><tr><th>Kilograms</th><th>Pounds</th><th>Stones</th></tr></thead>
+        <tbody>
+          {[
+            [1,'2.205','0 st 2.2 lb'],[5,'11.023','0 st 11 lb'],[10,'22.046','1 st 8 lb'],
+            [20,'44.092','3 st 2 lb'],[30,'66.139','4 st 10 lb'],[40,'88.185','6 st 4 lb'],
+            [50,'110.231','7 st 12 lb'],[60,'132.277','9 st 6 lb'],[70,'154.324','11 st 0 lb'],
+            [75,'165.347','11 st 11 lb'],[80,'176.370','12 st 8 lb'],[90,'198.416','14 st 2 lb'],
+            [100,'220.462','15 st 10 lb'],[120,'264.555','18 st 12 lb'],[150,'330.693','23 st 8 lb'],
+          ].map(([kg, lbs, st]) => (
+            <tr onclick={`setVal(${kg})`} class={kg === 70 ? 'hi' : ''}>
+              <td>{kg} kg</td><td class="acc">{lbs} lbs</td><td>{st}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h2>How to Convert kg to lbs</h2>
+      <p>To convert kilograms to pounds, multiply the kg value by <strong>2.20462</strong>. This exact factor comes from the international pound definition: 1 pound = 0.45359237 kg exactly.</p>
+      <div class="tip-box">
+        <span class="tip-icon">💡</span>
+        <p><strong>Quick estimate:</strong> Multiply kg by 2.2 for a fast approximation. For 70 kg: 70 × 2.2 = 154 lbs (exact: 154.32 lbs). Accurate to within 0.2%.</p>
+      </div>
+      <h3>Common body weight conversions</h3>
+      <ul>
+        <li><strong>60 kg</strong> = 132.28 lbs = 9 st 6 lb</li>
+        <li><strong>70 kg</strong> = 154.32 lbs = 11 st 0 lb</li>
+        <li><strong>75 kg</strong> = 165.35 lbs = 11 st 11 lb</li>
+        <li><strong>80 kg</strong> = 176.37 lbs = 12 st 8 lb</li>
+        <li><strong>90 kg</strong> = 198.42 lbs = 14 st 2 lb</li>
+        <li><strong>100 kg</strong> = 220.46 lbs = 15 st 10 lb</li>
+      </ul>
+    </div>
+
+    <div class="content-card">
+      <h2>When You Need kg to lbs Conversion</h2>
+      <ul>
+        <li><strong>Health & fitness</strong> — US gym equipment uses pounds; most of the world uses kg. Knowing both lets you track progress without confusion.</li>
+        <li><strong>Shipping & logistics</strong> — international shipping invoices use kg; US carriers charge by lb. Convert to get accurate rate quotes.</li>
+        <li><strong>Medical dosing</strong> — drug dosages are calculated in mg/kg body weight. Hospitals routinely convert patient weight from lbs to kg.</li>
+        <li><strong>Sports & competitions</strong> — weightlifting, boxing, and wrestling weight classes are defined in kg internationally but in lbs in American events.</li>
+        <li><strong>Cooking recipes</strong> — European recipes list ingredients in kg/g; US recipes use lb/oz. Convert for accurate portions when cooking internationally.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>How many pounds in 1 kg?</h3>
+        <p>1 kilogram = <strong>2.20462 pounds</strong>. The quick approximation is 2.2 lbs per kg, accurate to within 0.2%.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How do I convert kg to lbs?</h3>
+        <p>Multiply kg by 2.20462. Formula: <strong>lbs = kg × 2.20462</strong>. Example: 65 kg × 2.20462 = 143.3 lbs.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What is 100 kg in pounds?</h3>
+        <p>100 kg = <strong>220.46 lbs</strong> (100 × 2.20462 = 220.462).</p>
+      </div>
+      <div class="faq-item">
+        <h3>What is 70 kg in pounds?</h3>
+        <p>70 kg = <strong>154.32 lbs</strong> = 11 stone 0.3 lb.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What is 50 kg in pounds?</h3>
+        <p>50 kg = <strong>110.23 lbs</strong> = 7 stone 12.2 lb.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What is 80 kg in pounds?</h3>
+        <p>80 kg = <strong>176.37 lbs</strong> = 12 stone 8.4 lb.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How do I convert lbs to kg?</h3>
+        <p>Divide lbs by 2.20462. Formula: <strong>kg = lbs ÷ 2.20462</strong>. Example: 150 lbs ÷ 2.20462 = 68.04 kg. Use the lbs → kg mode above.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What is 1 stone in kg?</h3>
+        <p>1 stone = 14 pounds = <strong>6.35029 kg</strong>. Stones are the unit used in the UK and Ireland for body weight.</p>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>Related Converters</h2>
+      <div class="more-grid">
+        <a href="/cm-to-inches" class="more-link">cm to Inches</a>
+        <a href="/celsius-to-fahrenheit" class="more-link">Celsius to °F</a>
+        <a href="/cups-to-tablespoons" class="more-link">Cups to Tablespoons</a>
+        <a href="/liters-to-gallons" class="more-link">Liters to Gallons</a>
+        <a href="/percent-off-calculator" class="more-link">Percent Off Calculator</a>
+        <a href="/square-footage-calculator" class="more-link">Square Footage</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+var mode = 'kg';
+
+function fmt(v, d) {
+  return parseFloat(v.toFixed(d !== undefined ? d : 4)).toString();
+}
+
+function fmtSt(lbs) {
+  var st = Math.floor(lbs / 14);
+  var lb = parseFloat((lbs % 14).toFixed(2));
+  return st + ' st ' + lb + ' lb';
+}
+
+function convert() {
+  var val = parseFloat(document.getElementById('amount').value) || 0;
+  var lbs, kg, oz, g;
+  if (mode === 'kg') {
+    kg = val; lbs = val * 2.20462; oz = lbs * 16; g = val * 1000;
+    document.getElementById('r-main').textContent = fmt(lbs, 2);
+    document.getElementById('r-unit').textContent = 'lbs';
+    document.getElementById('r-sub').textContent = fmt(val, 2) + ' kg = ' + fmt(lbs, 2) + ' lbs';
+    document.getElementById('res-lbl').textContent = 'Pounds';
+    document.getElementById('s1-lbl').textContent = 'Pounds';
+    document.getElementById('s1-val').textContent = fmt(lbs, 2) + ' lbs';
+    document.getElementById('s2-lbl').textContent = 'Stones & Pounds';
+    document.getElementById('s2-val').textContent = fmtSt(lbs);
+    document.getElementById('s3-lbl').textContent = 'Ounces';
+    document.getElementById('s3-val').textContent = fmt(oz, 1) + ' oz';
+    document.getElementById('s4-lbl').textContent = 'Grams';
+    document.getElementById('s4-val').textContent = g.toLocaleString() + ' g';
+  } else {
+    lbs = val; kg = val * 0.453592; g = kg * 1000;
+    document.getElementById('r-main').textContent = fmt(kg, 3);
+    document.getElementById('r-unit').textContent = 'kg';
+    document.getElementById('r-sub').textContent = fmt(val, 2) + ' lbs = ' + fmt(kg, 3) + ' kg';
+    document.getElementById('res-lbl').textContent = 'Kilograms';
+    document.getElementById('s1-lbl').textContent = 'Kilograms';
+    document.getElementById('s1-val').textContent = fmt(kg, 3) + ' kg';
+    document.getElementById('s2-lbl').textContent = 'Grams';
+    document.getElementById('s2-val').textContent = fmt(g, 0) + ' g';
+    document.getElementById('s3-lbl').textContent = 'Stones & Pounds';
+    document.getElementById('s3-val').textContent = fmtSt(val);
+    document.getElementById('s4-lbl').textContent = 'Ounces';
+    document.getElementById('s4-val').textContent = fmt(val * 16, 1) + ' oz';
+  }
+}
+
+function setMode(m) {
+  mode = m;
+  var isKg = m === 'kg';
+  document.getElementById('btn-kg').classList.toggle('active', isKg);
+  document.getElementById('btn-lb').classList.toggle('active', !isKg);
+  document.getElementById('inp-lbl').textContent = isKg ? 'Kilograms (kg)' : 'Pounds (lbs)';
+  document.getElementById('inp-sfx').textContent = isKg ? 'kg' : 'lbs';
+  var presets = document.getElementById('preset-wrap');
+  presets.innerHTML = (isKg ? [1,5,10,50,60,70,80,90,100] : [1,10,50,100,110,150,200])
+    .map(function(v){ return '<button class="preset-btn" onclick="setVal('+v+')">'+v+'</button>'; }).join('');
+  document.getElementById('amount').value = isKg ? 70 : 154;
+  convert();
+}
+
+function setVal(v) {
+  document.getElementById('amount').value = v;
+  convert();
+}
+
+window.addEventListener('load', convert);
+</script>
+</Layout>

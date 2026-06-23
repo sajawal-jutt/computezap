@@ -1,0 +1,383 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const schema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Pythagorean Theorem Calculator",
+    "url": "https://computezap.com/pythagorean-theorem-calculator",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Web",
+    "description": "Calculate any side of a right triangle using a² + b² = c². Find hypotenuse, legs, area, perimeter, and angles instantly.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
+      { "@type": "ListItem", "position": 2, "name": "Pythagorean Theorem Calculator", "item": "https://computezap.com/pythagorean-theorem-calculator" }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "What is the Pythagorean theorem?", "acceptedAnswer": { "@type": "Answer", "text": "The Pythagorean theorem states that in a right triangle, the square of the hypotenuse (c) equals the sum of squares of the two legs (a and b). Formula: a² + b² = c²." } },
+      { "@type": "Question", "name": "How do I find the hypotenuse?", "acceptedAnswer": { "@type": "Answer", "text": "To find the hypotenuse c, use: c = √(a² + b²). For example, if a = 3 and b = 4, then c = √(9 + 16) = √25 = 5." } },
+      { "@type": "Question", "name": "How do I find a missing leg?", "acceptedAnswer": { "@type": "Answer", "text": "To find leg a when you know b and c: a = √(c² − b²). Example: if b = 4 and c = 5, then a = √(25 − 16) = √9 = 3." } },
+      { "@type": "Question", "name": "What are the most common Pythagorean triples?", "acceptedAnswer": { "@type": "Answer", "text": "Common Pythagorean triples (a, b, c) where all three are whole numbers: 3-4-5, 5-12-13, 8-15-17, 7-24-25, 20-21-29. Multiples of these also work: 6-8-10, 9-12-15." } }
+    ]
+  }
+]);
+---
+<Layout
+  title="Pythagorean Theorem Calculator — Find Any Triangle Side | ComputeZap"
+  description="Calculate any side of a right triangle using a² + b² = c². Find hypotenuse or missing leg. Shows area, perimeter, and angles. Free Pythagorean theorem calculator."
+  canonical="/pythagorean-theorem-calculator"
+  schema={schema}
+>
+<style>
+.hero{text-align:center;padding:2rem 1rem 1.25rem}
+.hero h1{font-size:2rem;color:#111;margin:.5rem 0 .35rem;font-weight:800}
+.hero-sub{color:#555;margin:0;font-size:1rem}
+.breadcrumb{font-size:.85rem;color:#888;margin-bottom:.75rem}
+.breadcrumb a{color:var(--blue);text-decoration:none}
+.calc-wrap{display:grid;grid-template-columns:360px 1fr;gap:1.5rem;max-width:1100px;margin:0 auto;padding:0 1rem 3rem;align-items:start}
+.calc-left{position:sticky;top:1rem}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:1.5rem;margin-bottom:1rem}
+.card:last-child{margin-bottom:0}
+.mode-wrap{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.4rem;margin-bottom:1.25rem}
+.mode-btn{background:#f8fafc;color:#64748b;border:1.5px solid #e2e8f0;border-radius:8px;padding:.5rem;font-size:.78rem;font-weight:700;cursor:pointer;text-align:center;transition:all .15s}
+.mode-btn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.result-box{background:var(--blue);border-radius:14px;padding:1.75rem 1.5rem;text-align:center;margin-bottom:1.25rem;box-shadow:0 4px 20px rgba(37,99,235,.18)}
+.res-lbl{font-size:.72rem;color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:.09em;margin-bottom:.5rem}
+.res-val{font-size:2.1rem;font-weight:800;color:#fff;line-height:1.2}
+.res-sub{font-size:.95rem;color:rgba(255,255,255,.8);margin-top:.3rem}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:0}
+.stat-item{background:#f8fafc;border:1px solid #f1f5f9;border-radius:10px;padding:.9rem .75rem;text-align:center}
+.stat-lbl{display:block;font-size:.68rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.3rem;font-weight:600}
+.stat-val{display:block;font-size:1.1rem;font-weight:800;color:#1e293b}
+.stat-primary{background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:12px;padding:1rem 1.25rem;text-align:center;margin-bottom:.6rem}
+.stat-big{display:block;font-size:2rem;font-weight:900;color:#2563eb;line-height:1.1}
+.stat-secondary{background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:.75rem 1.25rem;text-align:center;margin-bottom:.6rem}
+.stat-med{display:block;font-size:1.4rem;font-weight:800;color:#1e293b;line-height:1.1}
+.fld-lbl{display:block;font-size:.8rem;font-weight:700;color:#374151;margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.04em}
+.fld-wrap{position:relative;margin-bottom:1rem}
+.fld-sfx{position:absolute;right:.9rem;top:50%;transform:translateY(-50%);color:#94a3b8;font-weight:600;pointer-events:none;font-size:.9rem}
+.txt-input{width:100%;font-size:1.1rem;padding:.7rem 1rem;border:1.5px solid #e2e8f0;border-radius:8px;color:#111;box-sizing:border-box;font-family:inherit;background:#fff}
+.txt-input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+.txt-input.readonly-field{background:#f8fafc;color:var(--blue);font-weight:700;border-color:#bfdbfe}
+.preset-lbl{font-size:.7rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.5rem;display:block}
+.preset-wrap{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.5rem}
+.preset-btn{background:#fff;color:var(--blue);border:1.5px solid #dbeafe;border-radius:20px;padding:.28rem .75rem;font-size:.82rem;font-weight:700;cursor:pointer;transition:all .15s}
+.preset-btn:hover{background:var(--blue);color:#fff;border-color:var(--blue)}
+.card h2{font-size:1.1rem;font-weight:700;color:#111;margin:0 0 .8rem}
+.card h3{font-size:.95rem;font-weight:700;color:#111;margin:.75rem 0 .4rem}
+.card p{color:#444;line-height:1.75;font-size:.95rem;margin:0 0 .7rem}
+.card p:last-child{margin-bottom:0}
+.card ul{color:#444;line-height:1.85;font-size:.95rem;padding-left:1.25rem;margin:.5rem 0 0}
+.formula-box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:.75rem 1rem;font-family:monospace;font-size:.88rem;color:#1e293b;margin:.6rem 0}
+.tip-box{display:flex;gap:.75rem;background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:.9rem 1rem;margin:.75rem 0}
+.tip-icon{font-size:1.1rem;flex-shrink:0;margin-top:.1rem}
+.tip-box p{margin:0;font-size:.875rem;color:#1e40af}
+.answer-box{background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:10px;padding:.75rem 1rem;margin:.75rem 0}
+.answer-row{display:flex;justify-content:space-between;align-items:center;padding:.35rem 0;border-bottom:1px solid #f1f5f9;font-size:.95rem}
+.answer-row:last-child{border-bottom:none}
+.answer-lbl{color:#64748b;font-weight:600}
+.answer-val{color:#2563eb;font-weight:800}
+.ref-tbl{width:100%;border-collapse:collapse;font-size:.875rem}
+.ref-tbl th{background:#f8fafc;padding:.45rem .75rem;text-align:left;font-size:.72rem;color:#64748b;font-weight:700;text-transform:uppercase;letter-spacing:.04em;border-bottom:1px solid #e5e7eb}
+.ref-tbl td{padding:.5rem .75rem;border-bottom:1px solid #f3f4f6;color:#444;cursor:pointer}
+.ref-tbl tr:last-child td{border-bottom:none}
+.ref-tbl .acc{color:var(--blue);font-weight:700}
+.ref-tbl .hi td{background:#eff6ff;color:#1e40af;font-weight:600}
+.faq-item{border-bottom:1px solid #f3f4f6;padding:.85rem 0}
+.faq-item:last-child{border-bottom:none;padding-bottom:0}
+.faq-item h3{font-size:.92rem;color:#111;margin:0 0 .35rem;font-weight:600}
+.faq-item p{color:#555;font-size:.875rem;margin:0;line-height:1.65}
+.content-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:1.5rem;margin-bottom:1rem}
+.content-card h2{font-size:1.1rem;font-weight:700;color:#111;margin:0 0 .8rem}
+.content-card ul{color:#444;line-height:1.85;font-size:.95rem;padding-left:1.25rem;margin:0}
+.more-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.more-link{display:block;padding:.65rem 1rem;background:#f8fafc;border:1px solid #e5e7eb;border-radius:8px;font-size:.85rem;font-weight:600;color:#374151;text-decoration:none;transition:all .15s}
+.more-link:hover{border-color:var(--blue);color:var(--blue);background:#eff6ff}
+.err-msg{display:none;background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:.6rem 1rem;color:#dc2626;font-size:.85rem;margin-bottom:.75rem}
+.err-msg.show{display:block}
+@media(max-width:768px){.calc-wrap{grid-template-columns:1fr}.calc-left{position:static}.hero h1{font-size:1.65rem}.res-val{font-size:1.6rem}.mode-wrap{grid-template-columns:1fr}}
+</style>
+
+<div class="hero">
+  <nav class="breadcrumb"><a href="/">Home</a> › Pythagorean Theorem Calculator</nav>
+  <h1>Pythagorean Theorem Calculator</h1>
+  <p class="hero-sub">a² + b² = c² — find any side of a right triangle instantly</p>
+</div>
+
+<div class="calc-wrap">
+  <div class="calc-left">
+    <div class="card">
+      <span class="preset-lbl">Solve for:</span>
+      <div class="mode-wrap">
+        <button class="mode-btn active" id="btn-c" onclick="setMode('c')">Find c</button>
+        <button class="mode-btn" id="btn-a" onclick="setMode('a')">Find a</button>
+        <button class="mode-btn" id="btn-b" onclick="setMode('b')">Find b</button>
+      </div>
+
+      <label class="fld-lbl" id="lbl-a">Leg a</label>
+      <div class="fld-wrap">
+        <input type="number" id="inp-a" class="txt-input" value="3" min="0" step="any" oninput="convert()" />
+      </div>
+
+      <label class="fld-lbl" id="lbl-b">Leg b</label>
+      <div class="fld-wrap">
+        <input type="number" id="inp-b" class="txt-input" value="4" min="0" step="any" oninput="convert()" />
+      </div>
+
+      <label class="fld-lbl" id="lbl-c" style="display:none">Hypotenuse c</label>
+      <div class="fld-wrap" id="wrap-c" style="display:none">
+        <input type="number" id="inp-c" class="txt-input" value="" min="0" step="any" oninput="convert()" />
+      </div>
+
+      <div class="err-msg" id="err-msg">Please enter valid positive numbers.</div>
+
+      <span class="preset-lbl">Common triples</span>
+      <div class="preset-wrap">
+        <button class="preset-btn" onclick="setTriple(3,4)">3-4-5</button>
+        <button class="preset-btn" onclick="setTriple(5,12)">5-12-13</button>
+        <button class="preset-btn" onclick="setTriple(8,15)">8-15-17</button>
+        <button class="preset-btn" onclick="setTriple(7,24)">7-24-25</button>
+        <button class="preset-btn" onclick="setTriple(6,8)">6-8-10</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="result-box">
+        <div class="res-lbl" id="res-lbl">Hypotenuse c</div>
+        <div class="res-val"><span id="r-main">5</span></div>
+        <div class="res-sub" id="r-sub">3² + 4² = 5²</div>
+      </div>
+      <div class="stat-primary">
+        <span class="stat-lbl" id="s1-lbl">Result</span>
+        <span class="stat-big" id="s1-val">c = 5</span>
+      </div>
+      <div class="stat-secondary">
+        <span class="stat-lbl">Triangle Area</span>
+        <span class="stat-med" id="s-area">6 sq units</span>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-item">
+          <span class="stat-lbl">Perimeter</span>
+          <span class="stat-val" id="s-perim">12</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-lbl">Angle α</span>
+          <span class="stat-val" id="s-angle">36.87°</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="calc-right">
+    <div class="card">
+      <h2>The Pythagorean Theorem: a² + b² = c²</h2>
+      <p>In any right triangle, the square of the <strong>hypotenuse</strong> (the longest side, opposite the 90° angle) equals the sum of the squares of the two <strong>legs</strong>. This formula was known to ancient Babylonians, but is named after the Greek mathematician Pythagoras (c. 570–495 BC).</p>
+      <div class="formula-box">
+        c = √(a² + b²) &nbsp;— find hypotenuse<br />
+        a = √(c² − b²) &nbsp;— find leg a<br />
+        b = √(c² − a²) &nbsp;— find leg b
+      </div>
+      <div class="answer-box">
+        <div class="answer-row"><span class="answer-lbl">Hypotenuse (c)</span><span class="answer-val">longest side — opposite 90°</span></div>
+        <div class="answer-row"><span class="answer-lbl">Legs (a, b)</span><span class="answer-val">two shorter sides</span></div>
+        <div class="answer-row"><span class="answer-lbl">Right angle</span><span class="answer-val">always 90° in this formula</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Common Pythagorean Triples</h2>
+      <p>Pythagorean triples are sets of three positive integers (a, b, c) where a² + b² = c². Click any row to load it.</p>
+      <table class="ref-tbl">
+        <thead><tr><th>a</th><th>b</th><th>c (hyp.)</th><th>Notes</th></tr></thead>
+        <tbody>
+          {[
+            [3,4,5,'Most common triple'],
+            [6,8,10,'× 2 of 3-4-5'],
+            [5,12,13,'Second most common'],
+            [8,15,17,'—'],
+            [7,24,25,'—'],
+            [9,12,15,'× 3 of 3-4-5'],
+            [20,21,29,'—'],
+            [9,40,41,'—'],
+            [12,35,37,'—'],
+            [11,60,61,'—'],
+          ].map(([a, b, c, note]) => (
+            <tr onclick={`setTriple(${a},${b})`} class={a === 3 ? 'hi' : ''}>
+              <td>{a}</td><td>{b}</td><td class="acc">{c}</td><td>{note}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h2>How to Use This Calculator</h2>
+      <p>Select which side you want to find using the buttons at the top of the calculator:</p>
+      <ul>
+        <li><strong>Find c</strong> — enter legs a and b, calculator finds hypotenuse c</li>
+        <li><strong>Find a</strong> — enter leg b and hypotenuse c, calculator finds leg a</li>
+        <li><strong>Find b</strong> — enter leg a and hypotenuse c, calculator finds leg b</li>
+      </ul>
+      <div class="tip-box">
+        <span class="tip-icon">📐</span>
+        <p><strong>Real-world use:</strong> The 3-4-5 triangle is used in construction to ensure corners are exactly 90°. Measure 3 feet along one wall, 4 feet along the other — if the diagonal is 5 feet, the corner is perfectly square.</p>
+      </div>
+      <h3>Triangle measurements</h3>
+      <p>The calculator also shows:</p>
+      <ul>
+        <li><strong>Area</strong> = (a × b) / 2</li>
+        <li><strong>Perimeter</strong> = a + b + c</li>
+        <li><strong>Angle α</strong> = arctan(a / b) — the angle opposite leg a</li>
+        <li><strong>Angle β</strong> = 90° − α (since angles in a triangle sum to 180°)</li>
+      </ul>
+    </div>
+
+    <div class="content-card">
+      <h2>Real-World Applications of the Pythagorean Theorem</h2>
+      <ul>
+        <li><strong>Construction & carpentry</strong> — checking square corners, calculating rafter lengths, staircase design, and diagonal bracing.</li>
+        <li><strong>Navigation</strong> — finding the straight-line distance between two points on a map using the distance formula (derived from the Pythagorean theorem).</li>
+        <li><strong>Screen & display dimensions</strong> — a TV's diagonal size is calculated from width and height using a² + b² = c².</li>
+        <li><strong>Physics & engineering</strong> — calculating resultant forces, velocity components, and vector magnitudes in 2D space.</li>
+        <li><strong>Computer graphics</strong> — calculating the distance between two points in a 2D or 3D coordinate system.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>What is the Pythagorean theorem?</h3>
+        <p>In a right triangle with legs a and b and hypotenuse c: <strong>a² + b² = c²</strong>. The hypotenuse is always the side opposite the 90° angle.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How do I find the hypotenuse?</h3>
+        <p>Use: <strong>c = √(a² + b²)</strong>. Example: a = 3, b = 4 → c = √(9 + 16) = √25 = <strong>5</strong>.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How do I find a missing leg?</h3>
+        <p>Use: <strong>a = √(c² − b²)</strong> or <strong>b = √(c² − a²)</strong>. Example: c = 5, b = 4 → a = √(25 − 16) = √9 = <strong>3</strong>.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What are Pythagorean triples?</h3>
+        <p>Sets of three integers where a² + b² = c². The most common: <strong>3-4-5</strong>, 5-12-13, 8-15-17, 7-24-25. Multiples work too: 6-8-10, 9-12-15.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Does the theorem work for all triangles?</h3>
+        <p>No — only for <strong>right triangles</strong> (triangles with exactly one 90° angle). For other triangles, use the Law of Cosines: c² = a² + b² − 2ab·cos(C).</p>
+      </div>
+      <div class="faq-item">
+        <h3>What is the hypotenuse of a 45-45-90 triangle with legs of 1?</h3>
+        <p>c = √(1² + 1²) = √2 ≈ <strong>1.414</strong>. In a 45-45-90 triangle, the hypotenuse is always leg × √2.</p>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>Related Calculators</h2>
+      <div class="more-grid">
+        <a href="/percent-off-calculator" class="more-link">Percent Off Calculator</a>
+        <a href="/square-footage-calculator" class="more-link">Square Footage</a>
+        <a href="/time-to-decimal-calculator" class="more-link">Time to Decimal</a>
+        <a href="/cm-to-inches" class="more-link">cm to Inches</a>
+        <a href="/kg-to-lbs" class="more-link">kg to lbs</a>
+        <a href="/cd-calculator" class="more-link">CD Calculator</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+var mode = 'c';
+
+function fmt(v, d) {
+  if (d === undefined) d = 4;
+  return parseFloat(v.toFixed(d)).toString();
+}
+
+function convert() {
+  var a = parseFloat(document.getElementById('inp-a').value);
+  var b = parseFloat(document.getElementById('inp-b').value);
+  var c = parseFloat(document.getElementById('inp-c').value);
+  var err = document.getElementById('err-msg');
+  var result, aFin, bFin, cFin;
+
+  try {
+    if (mode === 'c') {
+      if (isNaN(a) || isNaN(b) || a <= 0 || b <= 0) { err.classList.add('show'); return; }
+      err.classList.remove('show');
+      result = Math.sqrt(a * a + b * b);
+      aFin = a; bFin = b; cFin = result;
+    } else if (mode === 'a') {
+      if (isNaN(b) || isNaN(c) || b <= 0 || c <= 0 || c <= b) { err.classList.add('show'); return; }
+      err.classList.remove('show');
+      result = Math.sqrt(c * c - b * b);
+      aFin = result; bFin = b; cFin = c;
+    } else {
+      if (isNaN(a) || isNaN(c) || a <= 0 || c <= 0 || c <= a) { err.classList.add('show'); return; }
+      err.classList.remove('show');
+      result = Math.sqrt(c * c - a * a);
+      aFin = a; bFin = result; cFin = c;
+    }
+
+    var area = (aFin * bFin) / 2;
+    var perim = aFin + bFin + cFin;
+    var alpha = Math.atan(aFin / bFin) * (180 / Math.PI);
+    var beta = 90 - alpha;
+
+    var label = mode === 'c' ? 'Hypotenuse c' : (mode === 'a' ? 'Leg a' : 'Leg b');
+    var varName = mode === 'c' ? 'c' : (mode === 'a' ? 'a' : 'b');
+
+    document.getElementById('r-main').textContent = fmt(result);
+    document.getElementById('res-lbl').textContent = label;
+    document.getElementById('r-sub').textContent = fmt(aFin) + '² + ' + fmt(bFin) + '² = ' + fmt(cFin) + '²';
+    document.getElementById('s1-lbl').textContent = label;
+    document.getElementById('s1-val').textContent = varName + ' = ' + fmt(result);
+    document.getElementById('s-area').textContent = fmt(area, 2) + ' sq units';
+    document.getElementById('s-perim').textContent = fmt(perim, 2);
+    document.getElementById('s-angle').textContent = fmt(alpha, 2) + '° / ' + fmt(beta, 2) + '°';
+  } catch(e) {
+    err.classList.add('show');
+  }
+}
+
+function setMode(m) {
+  mode = m;
+  ['c','a','b'].forEach(function(x){
+    document.getElementById('btn-'+x).classList.toggle('active', x === m);
+  });
+  var showC = m !== 'c';
+  var showA = m !== 'a';
+  var showB = m !== 'b';
+
+  document.getElementById('lbl-a').style.display = showA ? '' : 'none';
+  document.getElementById('inp-a').parentElement.style.display = showA ? '' : 'none';
+  document.getElementById('lbl-b').style.display = showB ? '' : 'none';
+  document.getElementById('inp-b').parentElement.style.display = showB ? '' : 'none';
+  document.getElementById('lbl-c').style.display = showC ? '' : 'none';
+  document.getElementById('wrap-c').style.display = showC ? '' : 'none';
+
+  if (m === 'c') { document.getElementById('inp-a').value = 3; document.getElementById('inp-b').value = 4; }
+  else if (m === 'a') { document.getElementById('inp-b').value = 4; document.getElementById('inp-c').value = 5; }
+  else { document.getElementById('inp-a').value = 3; document.getElementById('inp-c').value = 5; }
+  convert();
+}
+
+function setTriple(a, b) {
+  setMode('c');
+  document.getElementById('inp-a').value = a;
+  document.getElementById('inp-b').value = b;
+  convert();
+}
+
+window.addEventListener('load', convert);
+</script>
+</Layout>
