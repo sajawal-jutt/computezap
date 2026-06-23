@@ -1,0 +1,85 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+  schema?: string;
+  ogImage?: string;
+}
+const { title, description, canonical, schema, ogImage } = Astro.props;
+const url = canonical || Astro.url.pathname;
+const fullUrl = `https://computezap.com${url}`;
+const image = ogImage || 'https://computezap.com/og-default.png';
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Primary Meta -->
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href={fullUrl} />
+
+  <!-- Open Graph -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:url"         content={fullUrl} />
+  <meta property="og:title"       content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image"       content={image} />
+  <meta property="og:site_name"   content="ComputeZap" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image"       content={image} />
+
+  <!-- Site Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "ComputeZap",
+    "url": "https://computezap.com",
+    "description": "Free online calculators and unit converters — fast, accurate, no signup required."
+  }
+  </script>
+
+  <!-- Page-specific Schema -->
+  {schema && <script type="application/ld+json" set:html={schema} />}
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/styles/global.css" />
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a href="/" class="logo">compute<span>zap</span></a>
+      <ul>
+        <li><a href="/#converters">Converters</a></li>
+        <li><a href="/#calculators">Calculators</a></li>
+        <li><a href="/#finance">Finance</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <slot />
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-links">
+        <a href="/">Home</a>
+        <a href="/#converters">Unit Converters</a>
+        <a href="/#calculators">Calculators</a>
+        <a href="/#finance">Finance Tools</a>
+      </div>
+      <p>© 2026 ComputeZap — Free Online Calculators & Unit Converters</p>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,345 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+export function getStaticPaths() {
+  const numbers = [1,2,3,4,5,6,7,8,9,10,12,14,15,20,21,25,28,30,45,56,60,75,84,90,100,120,150,180,200,270,365];
+
+  const contextMap = {
+    7:   "7 days from today is exactly <strong>1 week</strong>. This is the most common short-term deadline — used for weekly tasks, 7-day free trial periods, and standard return policies.",
+    14:  "14 days from today is exactly <strong>2 weeks</strong>. This is commonly used for biweekly pay periods, the standard two-week resignation notice, and 14-day return windows.",
+    21:  "21 days from today is exactly <strong>3 weeks</strong>. Medical recovery timelines, the widely-cited '21-day habit formation period,' and warranty claim windows often use this deadline.",
+    28:  "28 days from today is exactly <strong>4 weeks</strong>. It is used as a 'one month' approximation in subscription billing and recurring payment cycles, since calendar months have varying day counts.",
+    30:  "30 days from today corresponds to <strong>Net 30 payment terms</strong> — one of the most common business invoice payment windows in North America. It is also used for monthly subscription billing, medical prescription refills, and 30-day free trials.",
+    45:  "45 days from today is 6 weeks and 3 days. This period is used in certain contractor payment agreements, visa processing timelines, and some insurance claim submission windows.",
+    56:  "56 days from today is exactly <strong>8 weeks</strong> — approximately 2 months. This is often used in project sprint planning and bimonthly reporting cycles.",
+    60:  "60 days from today corresponds to <strong>Net 60 payment terms</strong>, commonly required by larger suppliers and international vendors who need extended payment periods.",
+    75:  "75 days from today is approximately 10 weeks and 5 days, or about 2.5 months. Some regulatory compliance windows and multi-phase project timelines use this duration.",
+    84:  "84 days from today is exactly <strong>12 weeks</strong>, which is approximately 3 months. This is a standard quarter-length period used in quarterly project planning and financial reporting.",
+    90:  "90 days from today equals one full quarter — approximately <strong>3 months</strong>. This is one of the most important business and legal deadlines, used for quarterly financial reports, IRS tax deadlines, legal filing windows, prescription refills, and probationary employment periods.",
+    100: "100 days from today is approximately 14 weeks and 2 days, or about 3.3 months. The <strong>100-day milestone</strong> is widely referenced in government policy, business leadership transitions, and major project management frameworks.",
+    120: "120 days from today is exactly 4 months (approximately). This period is used in commercial lease agreements, extended Net payment terms with strategic suppliers, and multi-phase contract timelines.",
+    150: "150 days from today is approximately 5 months, or 21 weeks and 3 days. It is used in longer-term project roadmaps and certain regulatory review periods that extend beyond a single quarter.",
+    180: "180 days from today is approximately <strong>6 months</strong> or exactly half a year. This is commonly used for tourist visa validity periods, insurance policy terms, semi-annual business performance reviews, and FMLA leave calculations.",
+    200: "200 days from today is approximately 6 months and 20 days, or about 28 weeks. This duration is used in extended project timelines, multi-semester academic planning, and certain government review windows.",
+    270: "270 days from today is exactly <strong>9 months</strong> (approximately 38 weeks and 4 days). This is the standard human gestational period and is also used for 9-month project planning at the three-quarter mark of a year.",
+    365: "365 days from today is exactly <strong>1 full year</strong> from today's date. Use this to find annual renewal dates for domain names, software subscriptions, insurance policies, business licenses, and annual contracts.",
+  };
+
+  return numbers.map(n => {
+    const weeks = Math.floor(n / 7);
+    const remDays = n % 7;
+    let weeksStr;
+    if (weeks === 0) {
+      weeksStr = n + ' day' + (n !== 1 ? 's' : '');
+    } else if (remDays === 0) {
+      weeksStr = weeks + ' week' + (weeks !== 1 ? 's' : '');
+    } else {
+      weeksStr = weeks + ' week' + (weeks !== 1 ? 's' : '') + ' and ' + remDays + ' day' + (remDays !== 1 ? 's' : '');
+    }
+    const months = (n / 30.44).toFixed(1);
+    const context = contextMap[n] || `${n} days from today is <strong>${weeksStr}</strong>, or approximately <strong>${months} months</strong>. Use this calculator to find the exact future date for deadlines, contracts, project milestones, and planning.`;
+    const related = [7,14,21,28,30,45,60,90,100,120,180,365].filter(d => d !== n);
+
+    return {
+      params: { n: String(n) },
+      props: { n, weeksStr, months, context, related }
+    };
+  });
+}
+
+const { n, weeksStr, months, context, related } = Astro.props;
+
+const schema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": `${n} Days From Today Calculator`,
+    "url": `https://computezap.com/${n}-days-from-today`,
+    "description": `Calculate the exact date that is ${n} days from today. ${n} days equals ${weeksStr}, approximately ${months} months.`,
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "All",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
+      { "@type": "ListItem", "position": 2, "name": "Days From Today Calculator", "item": "https://computezap.com/days-from-today" },
+      { "@type": "ListItem", "position": 3, "name": `${n} Days From Today`, "item": `https://computezap.com/${n}-days-from-today` }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": `What date is ${n} days from today?`,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": `${n} days from today's date changes daily — our calculator above shows the exact date. ${n} days equals ${weeksStr}, or approximately ${months} months.`
+        }
+      },
+      {
+        "@type": "Question",
+        "name": `How many weeks is ${n} days?`,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": `${n} days equals ${weeksStr}. In months, that is approximately ${months} months.`
+        }
+      },
+      {
+        "@type": "Question",
+        "name": `What day of the week will it be ${n} days from today?`,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": `The day of the week ${n} days from today changes depending on the current date. The calculator at the top of this page shows both the exact date and the day of the week.`
+        }
+      },
+      {
+        "@type": "Question",
+        "name": `Does ${n} days include weekends?`,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": `Yes — the ${n}-day count includes all calendar days including Saturdays and Sundays. The "Business Days" figure in the calculator excludes weekends and counts only Monday through Friday.`
+        }
+      }
+    ]
+  }
+]);
+---
+<Layout
+  title={`${n} Days From Today — What Is the Date? | ComputeZap`}
+  description={`What date is ${n} days from today? ${n} days equals ${weeksStr} (about ${months} months). See the exact future date, day of week, and business days — updated daily.`}
+  canonical={`/${n}-days-from-today`}
+  schema={schema}
+>
+
+<style>
+.dft-hero { text-align:center; padding:2rem 1rem 1.25rem; }
+.dft-hero h1 { font-size:2.1rem; color:#111; margin:.5rem 0 .35rem; font-weight:800; }
+.dft-hero .sub { color:#555; margin:0; font-size:1rem; }
+.breadcrumb { font-size:.85rem; color:#888; margin-bottom:.75rem; }
+.breadcrumb a { color:var(--blue); text-decoration:none; }
+
+.dft-wrap { display:grid; grid-template-columns:360px 1fr; gap:1.5rem; max-width:1100px; margin:0 auto; padding:0 1rem 3rem; align-items:start; }
+.card { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:1.5rem; margin-bottom:1rem; }
+.card:last-child { margin-bottom:0; }
+
+.result-box { background:var(--blue); border-radius:14px; padding:2rem 1.5rem 1.75rem; text-align:center; margin-bottom:1.25rem; box-shadow:0 4px 20px rgba(37,99,235,.18); }
+.result-label { font-size:.72rem; color:rgba(255,255,255,.7); text-transform:uppercase; letter-spacing:.09em; margin-bottom:.5rem; }
+.result-date { font-size:2rem; font-weight:800; color:#fff; line-height:1.2; }
+.result-day { font-size:1rem; color:rgba(255,255,255,.8); margin-top:.35rem; font-weight:500; }
+
+.stats-grid { display:grid; grid-template-columns:1fr 1fr; gap:.6rem; margin-bottom:1rem; }
+.stat-item { background:#f8fafc; border:1px solid #f1f5f9; border-radius:10px; padding:1rem .75rem; text-align:center; }
+.stat-label { display:block; font-size:.68rem; color:#94a3b8; text-transform:uppercase; letter-spacing:.06em; margin-bottom:.35rem; font-weight:600; }
+.stat-val { display:block; font-size:1.15rem; font-weight:800; color:#1e293b; }
+.stat-val.accent { color:var(--blue); }
+
+.today-row { display:flex; align-items:center; gap:.5rem; font-size:.85rem; color:#64748b; padding:.65rem .9rem; background:#f8fafc; border-radius:8px; border:1px solid #f1f5f9; }
+.today-row span { color:#111; font-weight:600; }
+
+.try-card { padding:1.25rem 1.5rem; }
+.try-label { font-size:.8rem; font-weight:600; color:#94a3b8; text-transform:uppercase; letter-spacing:.05em; margin-bottom:.6rem; display:block; }
+.custom-row { display:flex; gap:.5rem; }
+.custom-input { flex:1; font-size:1rem; padding:.6rem .9rem; border:1.5px solid #e2e8f0; border-radius:8px; color:#111; background:#fff; }
+.custom-input:focus { outline:none; border-color:var(--blue); box-shadow:0 0 0 3px rgba(37,99,235,.1); }
+.go-btn { background:var(--blue); color:#fff; border:none; border-radius:8px; padding:.6rem 1.25rem; font-size:.95rem; font-weight:700; cursor:pointer; white-space:nowrap; transition:background .15s; }
+.go-btn:hover { background:#1d4ed8; }
+
+.related-card { padding:1.25rem 1.5rem; }
+.related-card h3 { font-size:.8rem; font-weight:700; color:#94a3b8; text-transform:uppercase; letter-spacing:.06em; margin:0 0 .8rem; }
+.day-grid { display:flex; flex-wrap:wrap; gap:.4rem; }
+.day-btn { background:#fff; color:var(--blue); border:1.5px solid #dbeafe; border-radius:20px; padding:.3rem .85rem; font-size:.82rem; text-decoration:none; font-weight:600; transition:all .15s; }
+.day-btn:hover { background:var(--blue); color:#fff; border-color:var(--blue); }
+
+.dft-right .card h2 { font-size:1.1rem; margin:0 0 .8rem; color:#111; font-weight:700; }
+.dft-right .card p { color:#444; line-height:1.75; margin:0 0 .75rem; font-size:.95rem; }
+.dft-right .card p:last-child { margin-bottom:0; }
+
+.equiv-box { display:grid; grid-template-columns:1fr 1fr; gap:.75rem; margin-top:.75rem; }
+.equiv-item { background:#f8fafc; border-radius:8px; padding:.9rem 1rem; }
+.equiv-item .e-label { font-size:.75rem; color:#888; text-transform:uppercase; letter-spacing:.04em; display:block; margin-bottom:.2rem; }
+.equiv-item .e-val { font-size:1.25rem; font-weight:800; color:#111; }
+.equiv-item .e-unit { font-size:.85rem; color:#555; font-weight:400; }
+
+.faq-item { border-bottom:1px solid #f3f4f6; padding:.85rem 0; }
+.faq-item:last-child { border-bottom:none; padding-bottom:0; }
+.faq-item h3 { font-size:.95rem; color:#111; margin:0 0 .4rem; font-weight:600; }
+.faq-item p { color:#555; font-size:.9rem; margin:0; line-height:1.65; }
+.faq-item a { color:var(--blue); }
+
+@media (max-width:768px) {
+  .dft-wrap { grid-template-columns:1fr; }
+  .dft-hero h1 { font-size:1.65rem; }
+  .result-date { font-size:1.45rem; }
+  .equiv-box { grid-template-columns:1fr 1fr; }
+}
+</style>
+
+<!-- Hidden data element for JS to read n -->
+<div id="__dft__" data-n={n} style="display:none" aria-hidden="true"></div>
+
+<div class="dft-hero">
+  <nav class="breadcrumb">
+    <a href="/">Home</a> › <a href="/days-from-today">Days From Today</a> › {n} Days From Today
+  </nav>
+  <h1>{n} Days From Today</h1>
+  <p class="sub">{weeksStr} · approximately {months} months</p>
+</div>
+
+<div class="dft-wrap">
+  <!-- LEFT PANEL -->
+  <div class="dft-left">
+    <div class="card">
+      <div class="result-box">
+        <div class="result-label">{n} Days From Today Is</div>
+        <div class="result-date" id="resultDate">Calculating…</div>
+        <div class="result-day" id="resultDay"></div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-item">
+          <span class="stat-label">Calendar Days</span>
+          <span class="stat-val accent">{n}</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Weeks</span>
+          <span class="stat-val">{weeksStr}</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Business Days</span>
+          <span class="stat-val" id="bizVal">—</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Months</span>
+          <span class="stat-val">{months}</span>
+        </div>
+      </div>
+
+      <div class="today-row">
+        📅 Today: <span id="todayLabel">—</span>
+      </div>
+    </div>
+
+    <div class="card try-card">
+      <span class="try-label">Try another number</span>
+      <div class="custom-row">
+        <input type="number" id="customDays" class="custom-input" placeholder="e.g. 45" min="1" max="9999" />
+        <button class="go-btn" onclick="goDays()">Calculate</button>
+      </div>
+    </div>
+
+    <div class="card related-card">
+      <h3>Related Lookups</h3>
+      <div class="day-grid">
+        {related.map(d => (
+          <a href={`/${d}-days-from-today`} class="day-btn">{d} days</a>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="dft-right">
+    <div class="card">
+      <h2>What Date Is {n} Days From Today?</h2>
+      <p>The date <strong>{n} days from today</strong> is shown in the calculator on the left. It updates automatically with today's date — no input required.</p>
+      <p set:html={context}></p>
+
+      <div class="equiv-box">
+        <div class="equiv-item">
+          <span class="e-label">Calendar Days</span>
+          <span class="e-val">{n} <span class="e-unit">days</span></span>
+        </div>
+        <div class="equiv-item">
+          <span class="e-label">Weeks</span>
+          <span class="e-val">{weeksStr}</span>
+        </div>
+        <div class="equiv-item">
+          <span class="e-label">Months (approx.)</span>
+          <span class="e-val">{months} <span class="e-unit">months</span></span>
+        </div>
+        <div class="equiv-item">
+          <span class="e-label">Business Days</span>
+          <span class="e-val" id="equivBiz">…</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Frequently Asked Questions</h2>
+
+      <div class="faq-item">
+        <h3>What date is {n} days from today?</h3>
+        <p>The exact date is shown in the calculator above — it is recalculated automatically every time you visit, so it always reflects the current date. {n} days equals {weeksStr}.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>How many weeks is {n} days?</h3>
+        <p>{n} days is equal to <strong>{weeksStr}</strong>. In months, that is approximately <strong>{months} months</strong>.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>What day of the week will it be {n} days from today?</h3>
+        <p>The day of the week {n} days from now is shown in the result box above. Because today's date changes daily, so does the day of the week for {n} days ahead.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Does {n} days include weekends?</h3>
+        <p>Yes — the {n}-day calendar count includes all days (weekends and holidays). If you need only Monday–Friday, the <em>Business Days</em> count shown above excludes weekends.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>What is {n} business days from today?</h3>
+        <p>The number of business days in {n} calendar days is shown in the calculator above (under "Biz Days"). It excludes Saturdays and Sundays from the count.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>How do I calculate {n} days from a specific date (not today)?</h3>
+        <p>Use our <a href="/days-from-today">Days From Today Calculator</a> and adjust from there, or count {n} days forward on a calendar from your chosen start date.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+(function () {
+  var n = parseInt(document.getElementById('__dft__').getAttribute('data-n'), 10);
+
+  var today = new Date();
+  var future = new Date(today);
+  future.setDate(today.getDate() + n);
+
+  var DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  var MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+  document.getElementById('resultDate').textContent =
+    MONTHS[future.getMonth()] + ' ' + future.getDate() + ', ' + future.getFullYear();
+  document.getElementById('resultDay').textContent = DAYS[future.getDay()];
+
+  var biz = 0;
+  var tmp = new Date(today);
+  for (var i = 0; i < n; i++) {
+    tmp.setDate(tmp.getDate() + 1);
+    var dow = tmp.getDay();
+    if (dow !== 0 && dow !== 6) biz++;
+  }
+  document.getElementById('bizVal').textContent = biz;
+  var equivEl = document.getElementById('equivBiz');
+  if (equivEl) equivEl.textContent = biz;
+
+  var MON_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var todayEl = document.getElementById('todayLabel');
+  if (todayEl) todayEl.textContent = MON_SHORT[today.getMonth()] + ' ' + today.getDate() + ', ' + today.getFullYear();
+})();
+
+function goDays() {
+  var val = parseInt(document.getElementById('customDays').value, 10);
+  if (val > 0 && val <= 9999) window.location.href = '/' + val + '-days-from-today';
+}
+</script>
+
+</Layout>

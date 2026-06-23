@@ -1,0 +1,296 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const popularDays = [7, 10, 14, 21, 28, 30, 45, 60, 90, 100, 120, 180, 365];
+
+const schema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Days From Today Calculator",
+    "url": "https://computezap.com/days-from-today",
+    "description": "Calculate the exact future date by adding any number of days to today. Instantly find what date is 30, 60, 90, or 180 days from today.",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "All",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
+      { "@type": "ListItem", "position": 2, "name": "Days From Today Calculator", "item": "https://computezap.com/days-from-today" }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is 30 days from today?",
+        "acceptedAnswer": { "@type": "Answer", "text": "30 days from today is 4 weeks and 2 days into the future. Enter 30 in the calculator above to see the exact calendar date. 30 days is commonly used for Net 30 payment terms in business invoicing." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is 60 days from today?",
+        "acceptedAnswer": { "@type": "Answer", "text": "60 days from today is 8 weeks and 4 days into the future, or approximately 2 months. This is commonly used for Net 60 payment terms with suppliers and extended billing periods." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is 90 days from today?",
+        "acceptedAnswer": { "@type": "Answer", "text": "90 days from today is approximately 3 months or one quarter. This is one of the most common deadlines used in legal, medical, and financial contexts." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is 180 days from today?",
+        "acceptedAnswer": { "@type": "Answer", "text": "180 days from today is approximately 6 months or half a year. This is commonly used for visa validity periods, insurance policy terms, and semi-annual reviews." }
+      },
+      {
+        "@type": "Question",
+        "name": "Does the calculator include weekends?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes — the day count includes all calendar days including weekends and public holidays. The calculator also shows the equivalent business days (Monday through Friday only)." }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I find a date that is a specific number of days from today?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Enter any number of days in the input field at the top of this page and the calculator instantly shows you the exact future date, the day of the week, and the equivalent in weeks and months." }
+      }
+    ]
+  }
+]);
+---
+<Layout
+  title="Days From Today Calculator — Find Any Future Date | ComputeZap"
+  description="What date is 30, 60, or 90 days from today? Enter any number of days and instantly find the exact future date, day of the week, and business days. Free calculator."
+  canonical="/days-from-today"
+  schema={schema}
+>
+
+<style>
+.dft-hero { text-align:center; padding:2rem 1rem 1.25rem; }
+.dft-hero h1 { font-size:2rem; color:#111; margin:.5rem 0 .5rem; font-weight:800; }
+.dft-hero p { color:#555; margin:0; font-size:1.05rem; }
+.breadcrumb { font-size:.85rem; color:#888; margin-bottom:.75rem; }
+.breadcrumb a { color:var(--blue); text-decoration:none; }
+
+.dft-wrap { display:grid; grid-template-columns:360px 1fr; gap:1.5rem; max-width:1100px; margin:0 auto; padding:0 1rem 3rem; align-items:start; }
+.card { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:1.5rem; margin-bottom:1rem; }
+.card:last-child { margin-bottom:0; }
+
+.field-label { display:block; font-size:.85rem; font-weight:600; color:#374151; margin-bottom:.5rem; text-transform:uppercase; letter-spacing:.04em; }
+.big-input { width:100%; font-size:1.6rem; font-weight:700; padding:.75rem 1rem; border:2px solid #e5e7eb; border-radius:8px; box-sizing:border-box; color:#111; transition:border-color .15s; }
+.big-input:focus { outline:none; border-color:var(--blue); }
+
+.result-box { background:var(--blue); border-radius:10px; padding:1.5rem; text-align:center; margin:1rem 0; }
+.result-label { font-size:.75rem; color:rgba(255,255,255,.75); text-transform:uppercase; letter-spacing:.06em; margin-bottom:.35rem; }
+.result-date { font-size:1.75rem; font-weight:800; color:#fff; line-height:1.2; }
+.result-day { font-size:1rem; color:rgba(255,255,255,.85); margin-top:.25rem; }
+
+.meta-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:.5rem; }
+.meta-item { background:#f8fafc; border-radius:8px; padding:.75rem .5rem; text-align:center; }
+.meta-label { display:block; font-size:.65rem; color:#888; text-transform:uppercase; letter-spacing:.05em; }
+.meta-val { display:block; font-size:.95rem; font-weight:700; color:#111; margin-top:.2rem; }
+
+.biz-box { background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:.7rem 1rem; font-size:.9rem; color:#166534; margin-top:.75rem; }
+.biz-box strong { color:#14532d; }
+
+.card h3 { font-size:1rem; margin:0 0 .75rem; color:#111; font-weight:700; }
+.day-grid { display:flex; flex-wrap:wrap; gap:.4rem; }
+.day-btn { background:#f0f4ff; color:var(--blue); border:1px solid #c7d2fe; border-radius:6px; padding:.35rem .75rem; font-size:.85rem; text-decoration:none; font-weight:600; transition:all .15s; }
+.day-btn:hover { background:var(--blue); color:#fff; border-color:var(--blue); }
+
+.dft-right .card h2 { font-size:1.1rem; margin:0 0 .8rem; color:#111; font-weight:700; }
+.dft-right .card p { color:#444; line-height:1.75; margin:0 0 .75rem; font-size:.95rem; }
+.dft-right .card p:last-child { margin-bottom:0; }
+.dft-right .card ul { padding-left:1.25rem; color:#444; line-height:1.9; font-size:.95rem; margin:0; }
+
+.ref-table { width:100%; border-collapse:collapse; font-size:.875rem; }
+.ref-table th { background:#f8fafc; padding:.5rem .75rem; text-align:left; font-size:.75rem; color:#666; font-weight:600; text-transform:uppercase; letter-spacing:.04em; border-bottom:1px solid #e5e7eb; }
+.ref-table td { padding:.55rem .75rem; border-bottom:1px solid #f3f4f6; color:#444; }
+.ref-table tr:last-child td { border-bottom:none; }
+.ref-table td:first-child { font-weight:700; color:var(--blue); }
+.ref-table a { color:var(--blue); text-decoration:none; font-weight:600; }
+.ref-table a:hover { text-decoration:underline; }
+
+.faq-item { border-bottom:1px solid #f3f4f6; padding:.85rem 0; }
+.faq-item:last-child { border-bottom:none; padding-bottom:0; }
+.faq-item h3 { font-size:.95rem; color:#111; margin:0 0 .4rem; font-weight:600; }
+.faq-item p { color:#555; font-size:.9rem; margin:0; line-height:1.65; }
+
+@media (max-width:768px) {
+  .dft-wrap { grid-template-columns:1fr; }
+  .dft-hero h1 { font-size:1.5rem; }
+  .result-date { font-size:1.4rem; }
+}
+</style>
+
+<div class="dft-hero">
+  <nav class="breadcrumb"><a href="/">Home</a> › Days From Today Calculator</nav>
+  <h1>Days From Today Calculator</h1>
+  <p>Enter any number of days to find the exact future date</p>
+</div>
+
+<div class="dft-wrap">
+  <div class="dft-left">
+    <div class="card">
+      <label class="field-label" for="daysInput">Number of Days</label>
+      <input type="number" id="daysInput" value="30" min="1" max="9999" oninput="calcDFT()" class="big-input" />
+
+      <div class="result-box">
+        <div class="result-label">Future Date</div>
+        <div class="result-date" id="resultDate">—</div>
+        <div class="result-day" id="resultDay">—</div>
+      </div>
+
+      <div class="meta-row">
+        <div class="meta-item">
+          <span class="meta-label">Weeks</span>
+          <span class="meta-val" id="weeksVal">—</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Months</span>
+          <span class="meta-val" id="monthsVal">—</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Biz Days</span>
+          <span class="meta-val" id="bizVal">—</span>
+        </div>
+      </div>
+
+      <div class="biz-box">
+        Today is <strong id="todayStr">—</strong>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Popular Lookups</h3>
+      <div class="day-grid">
+        {popularDays.map(d => (
+          <a href={`/${d}-days-from-today`} class="day-btn">{d} days</a>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <div class="dft-right">
+    <div class="card">
+      <h2>How to Use This Calculator</h2>
+      <p>Enter any number of days in the field on the left — the exact future date appears instantly. No button to press, no page reload.</p>
+      <p>This tool is used for:</p>
+      <ul>
+        <li><strong>Payment terms</strong> — Net 30, Net 60, Net 90 invoice deadlines</li>
+        <li><strong>Legal deadlines</strong> — statute of limitations, filing windows</li>
+        <li><strong>Medical</strong> — follow-up appointments, prescription refill dates</li>
+        <li><strong>Contracts</strong> — expiry dates, notice periods, renewal dates</li>
+        <li><strong>Project planning</strong> — milestones and delivery dates</li>
+        <li><strong>Visa and travel</strong> — entry permit validity calculations</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Common Day Reference</h2>
+      <table class="ref-table">
+        <thead>
+          <tr><th>Days</th><th>Equal To</th><th>Common Use</th></tr>
+        </thead>
+        <tbody>
+          {[
+            [7, '1 week', 'Weekly deadlines, 7-day trials'],
+            [14, '2 weeks', 'Biweekly pay, two-week notice'],
+            [21, '3 weeks', 'Medical recovery windows'],
+            [28, '4 weeks', 'Subscription billing cycles'],
+            [30, '~1 month', 'Net 30 payment terms'],
+            [45, '6 wks 3 days', 'Contractor payment terms'],
+            [60, '~2 months', 'Net 60 payment terms'],
+            [90, '~3 months / 1 quarter', 'Quarterly deadlines'],
+            [100, '14 wks 2 days', '100-day milestones'],
+            [180, '~6 months', 'Visa validity, semi-annual'],
+            [365, '1 year', 'Annual renewals'],
+          ].map(([d, eq, use]) => (
+            <tr>
+              <td><a href={`/${d}-days-from-today`}>{d} days</a></td>
+              <td>{eq}</td>
+              <td>{use}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h2>Frequently Asked Questions</h2>
+
+      <div class="faq-item">
+        <h3>What is 30 days from today?</h3>
+        <p>30 days from today is 4 weeks and 2 days into the future. This is the standard "Net 30" business payment deadline. Enter 30 above or go directly to <a href="/30-days-from-today">30 days from today</a>.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>What is 60 days from today?</h3>
+        <p>60 days from today is approximately 8 weeks and 4 days, or about 2 months. See <a href="/60-days-from-today">60 days from today</a> for the exact date.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>What is 90 days from today?</h3>
+        <p>90 days from today is one calendar quarter — approximately 3 months. This is one of the most common legal and financial deadline periods. See <a href="/90-days-from-today">90 days from today</a>.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Does the calculator include weekends?</h3>
+        <p>Yes — the main count includes all calendar days (weekends and holidays). The "Biz Days" figure shown above counts only Monday–Friday.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>What is 180 days from today?</h3>
+        <p>180 days from today equals approximately 6 months. This is commonly used for visa validity periods and semi-annual deadlines. See <a href="/180-days-from-today">180 days from today</a>.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>What is 365 days from today?</h3>
+        <p>365 days from today is exactly 1 year from today's date — useful for annual renewal reminders, yearly subscriptions, and anniversary planning. See <a href="/365-days-from-today">365 days from today</a>.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+function calcDFT() {
+  var days = parseInt(document.getElementById('daysInput').value, 10);
+  if (!days || days < 1 || days > 9999) return;
+
+  var today = new Date();
+  var future = new Date(today);
+  future.setDate(today.getDate() + days);
+
+  var DAY_NAMES = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  var MON_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+  document.getElementById('resultDate').textContent = MON_NAMES[future.getMonth()] + ' ' + future.getDate() + ', ' + future.getFullYear();
+  document.getElementById('resultDay').textContent = DAY_NAMES[future.getDay()];
+
+  var weeks = Math.floor(days / 7);
+  var rem = days % 7;
+  var wStr = weeks > 0 ? weeks + 'w' : '';
+  if (rem > 0) wStr += (wStr ? ' ' : '') + rem + 'd';
+  if (!wStr) wStr = '0';
+  document.getElementById('weeksVal').textContent = wStr;
+  document.getElementById('monthsVal').textContent = (days / 30.44).toFixed(1);
+
+  var biz = 0;
+  var tmp = new Date(today);
+  for (var i = 0; i < days; i++) {
+    tmp.setDate(tmp.getDate() + 1);
+    var dow = tmp.getDay();
+    if (dow !== 0 && dow !== 6) biz++;
+  }
+  document.getElementById('bizVal').textContent = biz;
+
+  var MON_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  document.getElementById('todayStr').textContent = MON_SHORT[today.getMonth()] + ' ' + today.getDate() + ', ' + today.getFullYear();
+}
+
+calcDFT();
+</script>
+
+</Layout>

@@ -1,0 +1,466 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const schema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "CD Calculator",
+    "url": "https://computezap.com/cd-calculator",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Web",
+    "description": "Free CD calculator. Calculate Certificate of Deposit earnings with compound interest. See maturity value, interest earned, and growth chart instantly.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
+      { "@type": "ListItem", "position": 2, "name": "CD Calculator", "item": "https://computezap.com/cd-calculator" }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do I calculate CD interest?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Use the compound interest formula: A = P(1 + r/n)^(nt), where P is the principal, r is the annual rate, n is compounding frequency per year, and t is time in years. Our CD calculator does this automatically." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is a good CD interest rate in 2026?",
+        "acceptedAnswer": { "@type": "Answer", "text": "In 2026, competitive CD rates range from 4.5% to 5.5% APY for 12-month CDs at online banks. The national average is around 0.61% APY. Always compare APY, not just the stated rate." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between APY and APR on a CD?",
+        "acceptedAnswer": { "@type": "Answer", "text": "APY (Annual Percentage Yield) includes the effect of compounding, so it reflects your actual annual return. APR does not account for compounding. CDs are always quoted in APY." }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I add money to a CD after opening it?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Standard CDs do not allow additional deposits after opening. However, some banks offer add-on CDs that permit additional deposits during the term. Check with your specific bank." }
+      },
+      {
+        "@type": "Question",
+        "name": "What happens if I withdraw from a CD early?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Early withdrawal from a CD triggers a penalty — typically 3 to 6 months of interest for short-term CDs, and up to 12 months of interest for longer terms. This can eat into your principal if you haven't earned enough interest yet." }
+      }
+    ]
+  }
+]);
+---
+<Layout
+  title="CD Calculator — Certificate of Deposit Interest Calculator | ComputeZap"
+  description="Free CD calculator. Calculate Certificate of Deposit earnings with compound interest — daily, monthly, or quarterly. See maturity value, interest earned, and a growth chart instantly."
+  canonical="/cd-calculator"
+  schema={schema}
+>
+<style>
+.hero { text-align:center; padding:2rem 1rem 1.25rem; }
+.hero h1 { font-size:2rem; color:#111; margin:.5rem 0 .35rem; font-weight:800; }
+.hero-sub { color:#555; margin:0; font-size:1rem; }
+.breadcrumb { font-size:.85rem; color:#888; margin-bottom:.75rem; }
+.breadcrumb a { color:var(--blue); text-decoration:none; }
+
+.calc-wrap { display:grid; grid-template-columns:360px 1fr; gap:1.5rem; max-width:1100px; margin:0 auto; padding:0 1rem 3rem; align-items:start; }
+.calc-left { position:sticky; top:1rem; }
+.card { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:1.5rem; margin-bottom:1rem; }
+.card:last-child { margin-bottom:0; }
+
+.result-box { background:var(--blue); border-radius:14px; padding:1.75rem 1.5rem; text-align:center; margin-bottom:1.25rem; box-shadow:0 4px 20px rgba(37,99,235,.18); }
+.res-lbl { font-size:.72rem; color:rgba(255,255,255,.7); text-transform:uppercase; letter-spacing:.09em; margin-bottom:.5rem; }
+.res-val { font-size:2.1rem; font-weight:800; color:#fff; line-height:1.2; }
+.res-sub { font-size:.95rem; color:rgba(255,255,255,.8); margin-top:.3rem; }
+
+.stats-grid { display:grid; grid-template-columns:1fr 1fr; gap:.6rem; margin-bottom:1rem; }
+.stat-item { background:#f8fafc; border:1px solid #f1f5f9; border-radius:10px; padding:.9rem .75rem; text-align:center; }
+.stat-lbl { display:block; font-size:.68rem; color:#94a3b8; text-transform:uppercase; letter-spacing:.06em; margin-bottom:.3rem; font-weight:600; }
+.stat-val { display:block; font-size:1.1rem; font-weight:800; color:#1e293b; }
+.stat-val.green { color:#16a34a; }
+
+.fld-lbl { display:block; font-size:.8rem; font-weight:700; color:#374151; margin-bottom:.4rem; text-transform:uppercase; letter-spacing:.04em; }
+.fld-wrap { position:relative; margin-bottom:1rem; }
+.fld-pfx { position:absolute; left:.9rem; top:50%; transform:translateY(-50%); color:#94a3b8; font-weight:600; pointer-events:none; }
+.fld-sfx { position:absolute; right:.9rem; top:50%; transform:translateY(-50%); color:#94a3b8; font-weight:600; pointer-events:none; }
+.txt-input { width:100%; font-size:1rem; padding:.65rem 1rem; border:1.5px solid #e2e8f0; border-radius:8px; color:#111; box-sizing:border-box; font-family:inherit; background:#fff; appearance:none; }
+.txt-input:focus { outline:none; border-color:var(--blue); box-shadow:0 0 0 3px rgba(37,99,235,.1); }
+.txt-pfx { padding-left:1.75rem; }
+.txt-sfx { padding-right:2rem; }
+.term-row { display:grid; grid-template-columns:1fr 1fr; gap:.6rem; }
+
+/* Chart */
+.chart-box { background:#f8fafc; border:1px solid #f1f5f9; border-radius:10px; padding:.75rem; margin-bottom:1rem; }
+.chart-title { font-size:.72rem; font-weight:700; color:#94a3b8; text-transform:uppercase; letter-spacing:.05em; margin-bottom:.5rem; }
+canvas#growth-chart { width:100%; height:130px; display:block; }
+
+/* Comparison */
+.cmp-row { display:flex; align-items:center; justify-content:space-between; font-size:.82rem; color:#444; margin-bottom:.3rem; }
+.cmp-dot { width:8px; height:8px; border-radius:50%; display:inline-block; margin-right:.4rem; flex-shrink:0; }
+.cmp-bar-wrap { height:5px; background:#e2e8f0; border-radius:99px; margin-bottom:.6rem; overflow:hidden; }
+.cmp-bar { height:100%; border-radius:99px; transition:width .4s; }
+
+.card h2 { font-size:1.1rem; font-weight:700; color:#111; margin:0 0 .8rem; }
+.card h3 { font-size:.95rem; font-weight:700; color:#111; margin:0 0 .4rem; }
+.card p { color:#444; line-height:1.75; font-size:.95rem; margin:0 0 .7rem; }
+.card p:last-child { margin-bottom:0; }
+.card ul { color:#444; line-height:1.85; font-size:.95rem; padding-left:1.25rem; margin:0 0 .7rem; }
+.card ol { color:#444; line-height:1.85; font-size:.95rem; padding-left:1.25rem; margin:0 0 .7rem; }
+.formula-box { background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:.75rem 1rem; font-family:monospace; font-size:.88rem; color:#1e293b; margin:.6rem 0; }
+.tip-box { display:flex; gap:.75rem; background:#eff6ff; border:1px solid #bfdbfe; border-radius:10px; padding:.9rem 1rem; margin:.75rem 0; }
+.tip-icon { font-size:1.1rem; flex-shrink:0; margin-top:.1rem; }
+.tip-box p { margin:0; font-size:.875rem; color:#1e40af; }
+
+.rates-table { width:100%; border-collapse:collapse; font-size:.875rem; margin-top:.5rem; }
+.rates-table th { background:#f8fafc; padding:.45rem .75rem; text-align:left; font-size:.72rem; color:#64748b; font-weight:700; text-transform:uppercase; letter-spacing:.04em; border-bottom:1px solid #e5e7eb; }
+.rates-table td { padding:.45rem .75rem; border-bottom:1px solid #f3f4f6; color:#444; }
+.rates-table tr:last-child td { border-bottom:none; }
+.rates-table .acc { color:var(--blue); font-weight:700; }
+.rates-table tr:hover td { background:#f8fafc; cursor:pointer; }
+
+.faq-item { border-bottom:1px solid #f3f4f6; padding:.85rem 0; }
+.faq-item:last-child { border-bottom:none; padding-bottom:0; }
+.faq-item h3 { font-size:.92rem; color:#111; margin:0 0 .35rem; font-weight:600; }
+.faq-item p { color:#555; font-size:.875rem; margin:0; line-height:1.65; }
+
+.next-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:.75rem; }
+.next-card { background:#fff; border:1px solid #e5e7eb; border-radius:10px; padding:1rem; border-top:3px solid var(--blue); text-decoration:none; display:block; transition:box-shadow .15s; }
+.next-card:hover { box-shadow:0 4px 12px rgba(0,0,0,.08); }
+.next-tag { font-size:.68rem; font-weight:700; text-transform:uppercase; letter-spacing:.07em; color:var(--blue); margin-bottom:.3rem; display:block; }
+.next-card h3 { font-size:.88rem; font-weight:700; color:#111; margin:0 0 .25rem; }
+.next-card p { font-size:.78rem; color:#64748b; margin:0; line-height:1.5; }
+
+@media (max-width:768px) {
+  .calc-wrap { grid-template-columns:1fr; }
+  .calc-left { position:static; }
+  .next-grid { grid-template-columns:1fr; }
+  .hero h1 { font-size:1.65rem; }
+  .res-val { font-size:1.6rem; }
+}
+</style>
+
+<div class="hero">
+  <nav class="breadcrumb"><a href="/">Home</a> › CD Calculator</nav>
+  <h1>CD Calculator</h1>
+  <p class="hero-sub">Calculate Certificate of Deposit earnings with compound interest</p>
+</div>
+
+<div class="calc-wrap">
+  <!-- LEFT: Inputs + Result -->
+  <div class="calc-left">
+    <div class="card">
+      <label class="fld-lbl" for="principal">Initial Deposit</label>
+      <div class="fld-wrap">
+        <span class="fld-pfx">$</span>
+        <input type="number" id="principal" class="txt-input txt-pfx" value="10000" min="0" step="100" oninput="calcCD()" />
+      </div>
+
+      <label class="fld-lbl" for="rate">Annual Percentage Yield (APY)</label>
+      <div class="fld-wrap">
+        <input type="number" id="rate" class="txt-input txt-sfx" value="5.00" min="0" max="30" step="0.01" oninput="calcCD()" />
+        <span class="fld-sfx">%</span>
+      </div>
+
+      <label class="fld-lbl">Term</label>
+      <div class="term-row" style="margin-bottom:1rem;">
+        <input type="number" id="term" class="txt-input" value="12" min="1" oninput="calcCD()" />
+        <select id="term-unit" class="txt-input" onchange="calcCD()">
+          <option value="months" selected>Months</option>
+          <option value="years">Years</option>
+        </select>
+      </div>
+
+      <label class="fld-lbl" for="compound">Compounding Frequency</label>
+      <div class="fld-wrap" style="margin-bottom:0">
+        <select id="compound" class="txt-input" onchange="calcCD()">
+          <option value="365">Daily</option>
+          <option value="12" selected>Monthly</option>
+          <option value="4">Quarterly</option>
+          <option value="2">Semi-Annually</option>
+          <option value="1">Annually</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="result-box">
+        <div class="res-lbl">Total at Maturity</div>
+        <div class="res-val">$<span id="r-maturity">10,512.67</span></div>
+        <div class="res-sub">Interest earned: $<span id="r-interest-sub">512.67</span></div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-item">
+          <span class="stat-lbl">Interest Earned</span>
+          <span class="stat-val green" id="r-interest">$512.67</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-lbl">Effective APY</span>
+          <span class="stat-val" id="r-apy">5.116%</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-lbl">Principal</span>
+          <span class="stat-val" id="r-principal">$10,000</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-lbl">Total Return</span>
+          <span class="stat-val" id="r-return">5.13%</span>
+        </div>
+      </div>
+
+      <div class="chart-box">
+        <div class="chart-title">Balance Growth Over Time</div>
+        <canvas id="growth-chart"></canvas>
+      </div>
+
+      <div style="margin-bottom:.4rem;font-size:.72rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.05em;">vs National Average (0.61%)</div>
+      <div class="cmp-row">
+        <span><span class="cmp-dot" style="background:var(--blue)"></span>Your earnings</span>
+        <strong id="c-yours">$512.67</strong>
+      </div>
+      <div class="cmp-bar-wrap"><div class="cmp-bar" id="c-bar" style="background:var(--blue);width:100%"></div></div>
+      <div class="cmp-row">
+        <span><span class="cmp-dot" style="background:#94a3b8"></span>National avg</span>
+        <strong id="c-natl">$61.00</strong>
+      </div>
+      <div class="cmp-bar-wrap"><div class="cmp-bar" id="c-natl-bar" style="background:#94a3b8;width:12%"></div></div>
+    </div>
+  </div>
+
+  <!-- RIGHT: Content -->
+  <div class="calc-right">
+    <div class="card">
+      <h2>How to Use This Calculator</h2>
+      <p>Enter your deposit amount, the APY offered by the bank, the CD term length, and how often interest compounds. The calculator instantly shows your maturity value and interest earned.</p>
+      <ol>
+        <li>Enter your <strong>initial deposit</strong> — the amount you put into the CD when you open it.</li>
+        <li>Enter the <strong>APY</strong> (Annual Percentage Yield) offered by the bank.</li>
+        <li>Set the <strong>term length</strong> — how long you'll leave the money in.</li>
+        <li>Choose the <strong>compounding frequency</strong> — most CDs compound daily or monthly.</li>
+      </ol>
+      <div class="tip-box">
+        <span class="tip-icon">⭐</span>
+        <p><strong>Fixed rate advantage:</strong> Unlike savings accounts, CDs carry fixed APYs — your rate stays the same for the entire term, so you know your exact earnings upfront.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>CD Calculator Formula</h2>
+      <p>This calculator uses the standard compound interest formula:</p>
+      <div class="formula-box">A = P × (1 + r/n)^(n × t)</div>
+      <ul>
+        <li><strong>A</strong> = Final amount at maturity</li>
+        <li><strong>P</strong> = Principal (initial deposit)</li>
+        <li><strong>r</strong> = Annual interest rate as a decimal (e.g., 5% = 0.05)</li>
+        <li><strong>n</strong> = Times compounded per year (daily=365, monthly=12)</li>
+        <li><strong>t</strong> = Time in years</li>
+      </ul>
+      <div class="formula-box">Interest Earned = A − P</div>
+      <p style="margin-top:.5rem">Example: $10,000 at 5% APY for 12 months (monthly compounding): A = 10,000 × (1 + 0.05/12)^12 = <strong>$10,511.62</strong></p>
+    </div>
+
+    <div class="card">
+      <h2>Factors That Affect Your CD Earnings</h2>
+      <ul>
+        <li><strong>Initial deposit:</strong> Standard CDs only allow one deposit — at opening. The higher your deposit, the more interest you earn.</li>
+        <li><strong>APY:</strong> Higher APY = more earnings. Online banks typically offer 2–4× higher rates than brick-and-mortar banks.</li>
+        <li><strong>Term length:</strong> Longer terms give more time for interest to compound. However, you may miss rate increases if rates rise.</li>
+        <li><strong>Compounding frequency:</strong> Daily compounding earns slightly more than monthly or quarterly, since interest earns interest sooner.</li>
+        <li><strong>Early withdrawal penalty:</strong> Withdrawing before maturity triggers a penalty — typically 3–12 months of interest — which can eat into your principal.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Current CD Rates — 2026</h2>
+      <p>APYs have been trending downward since the Fed started cutting rates in 2024. Locking in a competitive rate now could be beneficial if rates continue to fall.</p>
+      <table class="rates-table">
+        <thead><tr><th>CD Term</th><th>Competitive APY</th><th>National Avg</th></tr></thead>
+        <tbody>
+          {[
+            ['3-month CD','4.50%–5.00%','0.44%'],
+            ['6-month CD','4.70%–5.20%','0.52%'],
+            ['12-month CD','4.80%–5.50%','0.61%'],
+            ['18-month CD','4.50%–5.10%','0.53%'],
+            ['24-month CD','4.20%–5.00%','0.48%'],
+            ['36-month CD','4.00%–4.80%','0.42%'],
+            ['60-month CD','3.80%–4.60%','0.38%'],
+          ].map(([term, comp, avg]) => (
+            <tr>
+              <td>{term}</td>
+              <td class="acc">{comp}</td>
+              <td style="color:#94a3b8">{avg}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <div class="tip-box" style="margin-top:.75rem">
+        <span class="tip-icon">💡</span>
+        <p>Online banks and credit unions consistently offer 4–10× higher CD rates than national brick-and-mortar banks. Always compare APY — not just the stated interest rate.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>What is a Certificate of Deposit (CD)?</h3>
+        <p>A CD is a savings account that holds a fixed amount of money for a fixed period (the term) and earns a fixed interest rate. In exchange for leaving your money untouched, banks pay a higher APY than standard savings accounts.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What is the difference between APY and APR on a CD?</h3>
+        <p>APY (Annual Percentage Yield) accounts for compounding and reflects your actual annual return. APR does not include compounding. CDs are quoted in APY — always compare APY, not APR.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What is a good CD interest rate in 2026?</h3>
+        <p>Competitive 12-month CDs in 2026 offer 4.8%–5.5% APY at online banks. The national average is about 0.61%. Anything above 4.5% APY is currently considered a strong rate.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Can I add money to a CD after opening?</h3>
+        <p>Standard CDs don't allow additional deposits. Some banks offer "add-on CDs" that permit deposits during the term — but these usually offer slightly lower rates than standard CDs.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What happens if I withdraw from a CD early?</h3>
+        <p>Early withdrawal triggers a penalty — typically 3–6 months of interest for short-term CDs, up to 12 months for longer terms. This can reduce or eliminate your earnings, and in rare cases dip into your principal.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>More Calculators</h2>
+      <div class="next-grid">
+        <a href="/reverse-sales-tax-calculator" class="next-card">
+          <span class="next-tag">Finance</span>
+          <h3>Reverse Sales Tax</h3>
+          <p>Find the original pre-tax price from any total amount paid.</p>
+        </a>
+        <a href="/percent-off-calculator" class="next-card">
+          <span class="next-tag">Shopping</span>
+          <h3>Percent Off</h3>
+          <p>Calculate sale price after any percentage discount instantly.</p>
+        </a>
+        <a href="/time-to-decimal-calculator" class="next-card">
+          <span class="next-tag">Time</span>
+          <h3>Time to Decimal</h3>
+          <p>Convert hours and minutes to decimal format for payroll.</p>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+function fmtMoney(v) {
+  return v.toLocaleString('en-US', { minimumFractionDigits:2, maximumFractionDigits:2 });
+}
+
+function calcCD() {
+  var P = parseFloat(document.getElementById('principal').value) || 0;
+  var r = parseFloat(document.getElementById('rate').value) / 100 || 0;
+  var n = parseFloat(document.getElementById('compound').value);
+  var termVal = parseFloat(document.getElementById('term').value) || 0;
+  var termUnit = document.getElementById('term-unit').value;
+  if (P <= 0 || r <= 0 || termVal <= 0) return;
+
+  var t = termUnit === 'years' ? termVal : termVal / 12;
+  var A = P * Math.pow(1 + r / n, n * t);
+  var interest = A - P;
+  var effectiveAPY = (Math.pow(1 + r / n, n) - 1) * 100;
+  var totalReturn = (interest / P) * 100;
+
+  var natlA = P * Math.pow(1 + 0.0061 / 12, 12 * t);
+  var natlInterest = natlA - P;
+
+  document.getElementById('r-maturity').textContent       = fmtMoney(A);
+  document.getElementById('r-interest-sub').textContent   = fmtMoney(interest);
+  document.getElementById('r-interest').textContent       = '$' + fmtMoney(interest);
+  document.getElementById('r-apy').textContent            = effectiveAPY.toFixed(3) + '%';
+  document.getElementById('r-principal').textContent      = '$' + fmtMoney(P);
+  document.getElementById('r-return').textContent         = totalReturn.toFixed(2) + '%';
+  document.getElementById('c-yours').textContent          = '$' + fmtMoney(interest);
+  document.getElementById('c-natl').textContent           = '$' + fmtMoney(natlInterest);
+
+  var maxInt = Math.max(interest, natlInterest, 1);
+  document.getElementById('c-bar').style.width      = Math.min(100, interest / maxInt * 100) + '%';
+  document.getElementById('c-natl-bar').style.width = Math.min(100, natlInterest / maxInt * 100) + '%';
+
+  drawChart(P, r, n, t);
+}
+
+function drawChart(P, r, n, t) {
+  var canvas = document.getElementById('growth-chart');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var W = canvas.offsetWidth || 320;
+  var H = 130;
+  canvas.width = W;
+  canvas.height = H;
+
+  var steps = Math.min(Math.ceil(t * 12), 60);
+  var yourData = [], natlData = [];
+  for (var i = 0; i <= steps; i++) {
+    var ti = (t / steps) * i;
+    yourData.push(P * Math.pow(1 + r / n, n * ti));
+    natlData.push(P * Math.pow(1 + 0.0061 / 12, 12 * ti));
+  }
+
+  var maxVal = Math.max.apply(null, yourData);
+  var minVal = P;
+  var pad = { top:12, right:12, bottom:24, left:48 };
+  var W2 = W - pad.left - pad.right;
+  var H2 = H - pad.top - pad.bottom;
+
+  ctx.clearRect(0, 0, W, H);
+
+  function toX(i) { return pad.left + (i / steps) * W2; }
+  function toY(v) { return pad.top + H2 - ((v - minVal) / (maxVal - minVal + 1)) * H2; }
+
+  ctx.strokeStyle = '#e2e8f0'; ctx.lineWidth = 1;
+  for (var gi = 0; gi <= 3; gi++) {
+    var gy = pad.top + (H2 / 3) * gi;
+    ctx.beginPath(); ctx.moveTo(pad.left, gy); ctx.lineTo(pad.left + W2, gy); ctx.stroke();
+    var gv = maxVal - ((maxVal - minVal) / 3) * gi;
+    ctx.fillStyle = '#94a3b8'; ctx.font = '9px system-ui'; ctx.textAlign = 'right';
+    ctx.fillText('$' + Math.round(gv / 1000) + 'k', pad.left - 3, gy + 3);
+  }
+
+  ctx.beginPath();
+  ctx.moveTo(toX(0), toY(natlData[0]));
+  for (var ni = 1; ni <= steps; ni++) ctx.lineTo(toX(ni), toY(natlData[ni]));
+  ctx.lineTo(toX(steps), H - pad.bottom); ctx.lineTo(toX(0), H - pad.bottom);
+  ctx.closePath(); ctx.fillStyle = 'rgba(148,163,184,.15)'; ctx.fill();
+
+  ctx.beginPath();
+  ctx.moveTo(toX(0), toY(yourData[0]));
+  for (var yi = 1; yi <= steps; yi++) ctx.lineTo(toX(yi), toY(yourData[yi]));
+  ctx.lineTo(toX(steps), H - pad.bottom); ctx.lineTo(toX(0), H - pad.bottom);
+  ctx.closePath(); ctx.fillStyle = 'rgba(37,99,235,.1)'; ctx.fill();
+
+  ctx.beginPath();
+  ctx.moveTo(toX(0), toY(yourData[0]));
+  for (var li = 1; li <= steps; li++) ctx.lineTo(toX(li), toY(yourData[li]));
+  ctx.strokeStyle = '#2563eb'; ctx.lineWidth = 2; ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(toX(0), toY(natlData[0]));
+  for (var lni = 1; lni <= steps; lni++) ctx.lineTo(toX(lni), toY(natlData[lni]));
+  ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 1.5; ctx.stroke();
+
+  [0, Math.floor(steps / 2), steps].forEach(function(di) {
+    ctx.beginPath();
+    ctx.arc(toX(di), toY(yourData[di]), 3, 0, Math.PI * 2);
+    ctx.fillStyle = '#2563eb'; ctx.fill();
+    ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.5; ctx.stroke();
+  });
+
+  ctx.fillStyle = '#94a3b8'; ctx.font = '9px system-ui'; ctx.textAlign = 'center';
+  [0, Math.floor(steps / 2), steps].forEach(function(si) {
+    ctx.fillText('Mo ' + si, toX(si), H - 6);
+  });
+}
+
+window.addEventListener('load', calcCD);
+window.addEventListener('resize', calcCD);
+</script>
+
+</Layout>

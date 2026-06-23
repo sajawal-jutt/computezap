@@ -1,0 +1,492 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const schema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Square Footage Calculator",
+    "url": "https://computezap.com/square-footage-calculator",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "description": "Free square footage calculator. Calculate area in square feet for rooms, floors, walls, and land. Supports rectangle, triangle, circle, and L-shaped rooms with instant unit conversion.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
+      { "@type": "ListItem", "position": 2, "name": "Square Footage Calculator", "item": "https://computezap.com/square-footage-calculator" }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do I calculate square footage of a room?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Measure the length and width of the room in feet using a tape measure, then multiply them together. Formula: Square Footage = Length (ft) × Width (ft). For a 12 ft × 10 ft room, the square footage is 120 sq ft." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many square feet is a 12x12 room?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A 12x12 room is 144 square feet. Calculation: 12 feet × 12 feet = 144 square feet." }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I convert square feet to square meters?",
+        "acceptedAnswer": { "@type": "Answer", "text": "To convert square feet to square meters, multiply by 0.0929. For example, 300 sq ft × 0.0929 = 27.87 square meters. Our calculator automatically shows the conversion." }
+      },
+      {
+        "@type": "Question",
+        "name": "How much flooring do I need for a room?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Calculate the square footage of the room, then add 10% for waste and cuts. For example, a 200 sq ft room needs approximately 220 sq ft of flooring material to account for waste." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many square feet are in an acre?",
+        "acceptedAnswer": { "@type": "Answer", "text": "There are 43,560 square feet in 1 acre. To convert acres to square feet, multiply by 43,560. For example, 0.5 acres = 21,780 sq ft. An acre is roughly the size of a football field without the end zones." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many square feet is a 10x10 room?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A 10x10 room is 100 square feet. Calculation: 10 ft × 10 ft = 100 sq ft. This is a typical small bedroom or large bathroom size." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many square feet is a 20x20 room?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A 20x20 room is 400 square feet. Calculation: 20 ft × 20 ft = 400 sq ft. This is the size of a large master bedroom or a small studio apartment." }
+      },
+      {
+        "@type": "Question",
+        "name": "How big is 1000 square feet?",
+        "acceptedAnswer": { "@type": "Answer", "text": "1,000 square feet is roughly the size of a small apartment or a 2-bedroom home. It could be a 25 ft × 40 ft space. The average US apartment is about 882 sq ft, so 1,000 sq ft is slightly above average." }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I calculate square footage from inches?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Measure length and width in inches, multiply them together to get square inches, then divide by 144 to convert to square feet. Formula: sq ft = (length in inches × width in inches) ÷ 144." }
+      }
+    ]
+  }
+]);
+---
+<Layout
+  title="Square Footage Calculator — Calculate Sq Ft Free | ComputeZap"
+  description="Free square footage calculator. Instantly calculate room area in sq ft, sq meters, and sq yards. Supports rectangle, triangle, circle, and L-shaped rooms."
+  canonical="/square-footage-calculator"
+  schema={schema}
+>
+<style>
+.hero { text-align:center; padding:2rem 1rem 1.25rem; }
+.hero h1 { font-size:2rem; color:#111; margin:.5rem 0 .35rem; font-weight:800; }
+.hero-sub { color:#555; margin:0; font-size:1rem; }
+.breadcrumb { font-size:.85rem; color:#888; margin-bottom:.75rem; }
+.breadcrumb a { color:var(--blue); text-decoration:none; }
+
+.calc-wrap { display:grid; grid-template-columns:360px 1fr; gap:1.5rem; max-width:1100px; margin:0 auto; padding:0 1rem 3rem; align-items:start; }
+.calc-left { position:sticky; top:1rem; }
+.card { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:1.5rem; margin-bottom:1rem; }
+.card:last-child { margin-bottom:0; }
+
+.result-box { background:var(--blue); border-radius:14px; padding:1.75rem 1.5rem; text-align:center; margin-bottom:1.25rem; box-shadow:0 4px 20px rgba(37,99,235,.18); }
+.res-lbl { font-size:.72rem; color:rgba(255,255,255,.7); text-transform:uppercase; letter-spacing:.09em; margin-bottom:.5rem; }
+.res-val { font-size:2.1rem; font-weight:800; color:#fff; line-height:1.2; }
+.res-unit { font-size:1rem; font-weight:400; color:rgba(255,255,255,.8); }
+.res-sub { font-size:.9rem; color:rgba(255,255,255,.75); margin-top:.3rem; }
+
+.stats-grid { display:grid; grid-template-columns:1fr 1fr; gap:.6rem; margin-bottom:1rem; }
+.stat-item { background:#f8fafc; border:1px solid #f1f5f9; border-radius:10px; padding:.9rem .75rem; text-align:center; }
+.stat-lbl { display:block; font-size:.68rem; color:#94a3b8; text-transform:uppercase; letter-spacing:.06em; margin-bottom:.3rem; font-weight:600; }
+.stat-val { display:block; font-size:1rem; font-weight:800; color:#1e293b; }
+
+.shape-tabs { display:flex; gap:.4rem; flex-wrap:wrap; margin-bottom:1rem; }
+.shape-tab { padding:.35rem .8rem; border:1.5px solid #dbeafe; border-radius:20px; background:#fff; font-size:.82rem; font-weight:600; cursor:pointer; color:var(--blue); transition:all .15s; }
+.shape-tab:hover, .shape-tab.active { background:var(--blue); color:#fff; border-color:var(--blue); }
+
+.fld-lbl { display:block; font-size:.8rem; font-weight:700; color:#374151; margin-bottom:.4rem; text-transform:uppercase; letter-spacing:.04em; }
+.fld-wrap { position:relative; margin-bottom:1rem; }
+.fld-sfx { position:absolute; right:.9rem; top:50%; transform:translateY(-50%); color:#94a3b8; font-weight:600; pointer-events:none; }
+.txt-input { width:100%; font-size:1rem; padding:.65rem 1rem; border:1.5px solid #e2e8f0; border-radius:8px; color:#111; box-sizing:border-box; }
+.txt-input:focus { outline:none; border-color:var(--blue); box-shadow:0 0 0 3px rgba(37,99,235,.1); }
+.txt-sfx { padding-right:2rem; }
+.two-col { display:grid; grid-template-columns:1fr 1fr; gap:.5rem; margin-bottom:1rem; }
+.two-col .fld-wrap { margin-bottom:0; }
+
+.canvas-box { background:#f8fafc; border:1px solid #f1f5f9; border-radius:10px; padding:.75rem; text-align:center; }
+canvas#shape-canvas { max-width:100%; }
+
+.card h2 { font-size:1.1rem; font-weight:700; color:#111; margin:0 0 .8rem; }
+.card p { color:#444; line-height:1.75; font-size:.95rem; margin:0 0 .7rem; }
+.card p:last-child { margin-bottom:0; }
+.card ul { color:#444; line-height:1.85; font-size:.95rem; padding-left:1.25rem; margin:0 0 .7rem; }
+.formula-box { background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:.75rem 1rem; font-family:monospace; font-size:.88rem; color:#1e293b; margin:.5rem 0; }
+.tip-box { display:flex; gap:.75rem; background:#eff6ff; border:1px solid #bfdbfe; border-radius:10px; padding:.9rem 1rem; margin:.75rem 0; }
+.tip-icon { font-size:1.1rem; flex-shrink:0; margin-top:.1rem; }
+.tip-box p { margin:0; font-size:.875rem; color:#1e40af; }
+
+.uses-grid { display:grid; grid-template-columns:1fr 1fr; gap:.6rem; }
+.use-item { background:#f8fafc; border-radius:8px; padding:.75rem; }
+.use-icon { font-size:1.1rem; margin-bottom:.25rem; }
+.use-lbl { font-size:.85rem; font-weight:700; color:#111; }
+.use-desc { font-size:.78rem; color:#64748b; margin-top:.1rem; }
+
+.ref-tbl { width:100%; border-collapse:collapse; font-size:.875rem; }
+.ref-tbl th { background:#f8fafc; padding:.45rem .75rem; text-align:left; font-size:.72rem; color:#64748b; font-weight:700; text-transform:uppercase; letter-spacing:.04em; border-bottom:1px solid #e5e7eb; }
+.ref-tbl td { padding:.45rem .75rem; border-bottom:1px solid #f3f4f6; color:#444; }
+.ref-tbl tr:last-child td { border-bottom:none; }
+.ref-tbl .acc { color:var(--blue); font-weight:700; }
+
+.faq-item { border-bottom:1px solid #f3f4f6; padding:.85rem 0; }
+.faq-item:last-child { border-bottom:none; padding-bottom:0; }
+.faq-item h3 { font-size:.92rem; color:#111; margin:0 0 .35rem; font-weight:600; }
+.faq-item p { color:#555; font-size:.875rem; margin:0; line-height:1.65; }
+
+.next-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:.75rem; }
+.next-card { background:#fff; border:1px solid #e5e7eb; border-radius:10px; padding:1rem; border-top:3px solid var(--blue); text-decoration:none; display:block; transition:box-shadow .15s; }
+.next-card:hover { box-shadow:0 4px 12px rgba(0,0,0,.08); }
+.next-tag { font-size:.68rem; font-weight:700; text-transform:uppercase; letter-spacing:.07em; color:var(--blue); margin-bottom:.3rem; display:block; }
+.next-card h3 { font-size:.88rem; font-weight:700; color:#111; margin:0 0 .25rem; }
+.next-card p { font-size:.78rem; color:#64748b; margin:0; line-height:1.5; }
+
+@media (max-width:768px) {
+  .calc-wrap { grid-template-columns:1fr; }
+  .calc-left { position:static; }
+  .next-grid { grid-template-columns:1fr; }
+  .uses-grid { grid-template-columns:1fr 1fr; }
+  .hero h1 { font-size:1.65rem; }
+  .res-val { font-size:1.6rem; }
+}
+</style>
+
+<div class="hero">
+  <nav class="breadcrumb"><a href="/">Home</a> › Square Footage Calculator</nav>
+  <h1>Square Footage Calculator</h1>
+  <p class="hero-sub">Calculate room area in sq ft, sq meters, and sq yards</p>
+</div>
+
+<div class="calc-wrap">
+  <!-- LEFT: Inputs + Result -->
+  <div class="calc-left">
+    <div class="card">
+      <label class="fld-lbl">Shape</label>
+      <div class="shape-tabs">
+        <button class="shape-tab active" id="tab-rect"   onclick="setShape('rect')">Rectangle</button>
+        <button class="shape-tab"        id="tab-tri"    onclick="setShape('tri')">Triangle</button>
+        <button class="shape-tab"        id="tab-circle" onclick="setShape('circle')">Circle</button>
+        <button class="shape-tab"        id="tab-lshape" onclick="setShape('lshape')">L-Shape</button>
+      </div>
+
+      <!-- Rectangle -->
+      <div id="inp-rect">
+        <label class="fld-lbl">Length</label>
+        <div class="fld-wrap"><input type="number" id="rect-l" class="txt-input txt-sfx" value="20" min="0" step="0.1" oninput="calcSF()" /><span class="fld-sfx">ft</span></div>
+        <label class="fld-lbl">Width</label>
+        <div class="fld-wrap"><input type="number" id="rect-w" class="txt-input txt-sfx" value="15" min="0" step="0.1" oninput="calcSF()" /><span class="fld-sfx">ft</span></div>
+      </div>
+
+      <!-- Triangle -->
+      <div id="inp-tri" style="display:none">
+        <label class="fld-lbl">Base</label>
+        <div class="fld-wrap"><input type="number" id="tri-b" class="txt-input txt-sfx" value="20" min="0" step="0.1" oninput="calcSF()" /><span class="fld-sfx">ft</span></div>
+        <label class="fld-lbl">Height</label>
+        <div class="fld-wrap"><input type="number" id="tri-h" class="txt-input txt-sfx" value="10" min="0" step="0.1" oninput="calcSF()" /><span class="fld-sfx">ft</span></div>
+      </div>
+
+      <!-- Circle -->
+      <div id="inp-circle" style="display:none">
+        <label class="fld-lbl">Radius</label>
+        <div class="fld-wrap"><input type="number" id="circ-r" class="txt-input txt-sfx" value="10" min="0" step="0.1" oninput="calcSF()" /><span class="fld-sfx">ft</span></div>
+      </div>
+
+      <!-- L-Shape -->
+      <div id="inp-lshape" style="display:none">
+        <label class="fld-lbl" style="color:var(--blue)">Rectangle A</label>
+        <div class="two-col">
+          <div class="fld-wrap"><input type="number" id="la" class="txt-input txt-sfx" value="20" min="0" step="0.1" oninput="calcSF()" /><span class="fld-sfx">ft</span></div>
+          <div class="fld-wrap"><input type="number" id="wa" class="txt-input txt-sfx" value="10" min="0" step="0.1" oninput="calcSF()" /><span class="fld-sfx">ft</span></div>
+        </div>
+        <label class="fld-lbl" style="color:var(--blue)">Rectangle B</label>
+        <div class="two-col">
+          <div class="fld-wrap"><input type="number" id="lb" class="txt-input txt-sfx" value="15" min="0" step="0.1" oninput="calcSF()" /><span class="fld-sfx">ft</span></div>
+          <div class="fld-wrap"><input type="number" id="wb" class="txt-input txt-sfx" value="8"  min="0" step="0.1" oninput="calcSF()" /><span class="fld-sfx">ft</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="result-box">
+        <div class="res-lbl">Total Area</div>
+        <div class="res-val"><span id="r-sqft">300.00</span> <span class="res-unit">ft²</span></div>
+        <div class="res-sub" id="r-sub-line">20 × 15 ft rectangle</div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-item">
+          <span class="stat-lbl">Square Feet</span>
+          <span class="stat-val"><span id="r-sqft2">300.00</span> ft²</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-lbl">Square Meters</span>
+          <span class="stat-val" id="r-sqm">27.87 m²</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-lbl">Square Yards</span>
+          <span class="stat-val" id="r-sqyd">33.33 yd²</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-lbl">Square Inches</span>
+          <span class="stat-val" id="r-sqin">43,200 in²</span>
+        </div>
+      </div>
+
+      <div class="canvas-box">
+        <canvas id="shape-canvas" width="300" height="130"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: Content -->
+  <div class="calc-right">
+    <div class="card">
+      <h2>How to Measure Square Footage</h2>
+      <p>Use a tape measure to find the length and width of the room in feet. Measure from wall to wall at the widest points. Multiply length × width for the area in square feet.</p>
+      <div class="tip-box">
+        <span class="tip-icon">📏</span>
+        <p><strong>Flooring tip:</strong> Always add 10% extra to your square footage for cuts, waste, and pattern matching.</p>
+      </div>
+      <p>For irregular rooms, break the space into rectangles and add the areas together — use <strong>L-Shape mode</strong> above for rooms with one corner cutout.</p>
+    </div>
+
+    <div class="card">
+      <h2>Formulas by Shape</h2>
+      <div class="formula-box">Rectangle: Area = Length × Width</div>
+      <div class="formula-box">Triangle: Area = ½ × Base × Height</div>
+      <div class="formula-box">Circle: Area = π × Radius² (π ≈ 3.14159)</div>
+      <div class="formula-box">L-Shape: Area = Rectangle A + Rectangle B</div>
+    </div>
+
+    <div class="card">
+      <h2>Common Room Sizes</h2>
+      <table class="ref-tbl">
+        <thead><tr><th>Room Type</th><th>Typical Size</th><th>Square Footage</th></tr></thead>
+        <tbody>
+          {[
+            ['Small Bedroom','10×10 ft','100 ft²'],
+            ['Standard Bedroom','12×12 ft','144 ft²'],
+            ['Master Bedroom','14×16 ft','224 ft²'],
+            ['Living Room','15×18 ft','270 ft²'],
+            ['Large Living Room','20×20 ft','400 ft²'],
+            ['Kitchen','10×12 ft','120 ft²'],
+            ['Bathroom','5×8 ft','40 ft²'],
+            ['Garage (1-car)','12×20 ft','240 ft²'],
+            ['Garage (2-car)','20×22 ft','440 ft²'],
+          ].map(([room, size, sqft]) => (
+            <tr>
+              <td>{room}</td>
+              <td>{size}</td>
+              <td class="acc">{sqft}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h2>Unit Conversions</h2>
+      <table class="ref-tbl">
+        <thead><tr><th>From</th><th>To</th><th>Multiply By</th></tr></thead>
+        <tbody>
+          <tr><td>Square feet (ft²)</td><td>Square meters (m²)</td><td class="acc">× 0.0929</td></tr>
+          <tr><td>Square feet (ft²)</td><td>Square yards (yd²)</td><td class="acc">÷ 9</td></tr>
+          <tr><td>Square feet (ft²)</td><td>Square inches (in²)</td><td class="acc">× 144</td></tr>
+          <tr><td>Square feet (ft²)</td><td>Acres</td><td class="acc">÷ 43,560</td></tr>
+          <tr><td>Square meters (m²)</td><td>Square feet (ft²)</td><td class="acc">× 10.764</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h2>What Can You Calculate?</h2>
+      <div class="uses-grid">
+        <div class="use-item"><div class="use-icon">🪵</div><div class="use-lbl">Flooring</div><div class="use-desc">Hardwood, tile, or carpet</div></div>
+        <div class="use-item"><div class="use-icon">🎨</div><div class="use-lbl">Painting</div><div class="use-desc">1 gallon ≈ 350 sq ft wall</div></div>
+        <div class="use-item"><div class="use-icon">🏡</div><div class="use-lbl">Real Estate</div><div class="use-desc">Compare home sizes</div></div>
+        <div class="use-item"><div class="use-icon">☀️</div><div class="use-lbl">Solar Panels</div><div class="use-desc">Roof coverage planning</div></div>
+        <div class="use-item"><div class="use-icon">🌱</div><div class="use-lbl">Garden / Lawn</div><div class="use-desc">Fertilizer & grass seed</div></div>
+        <div class="use-item"><div class="use-icon">📦</div><div class="use-lbl">Storage</div><div class="use-desc">Furniture layout planning</div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>How many square feet is a 12×12 room?</h3>
+        <p>A 12×12 room is <strong>144 square feet</strong>. Calculation: 12 ft × 12 ft = 144 ft².</p>
+      </div>
+      <div class="faq-item">
+        <h3>How much flooring do I need for a 300 sq ft room?</h3>
+        <p>Buy approximately <strong>330 sq ft</strong> of flooring (300 × 1.10). Always add 10% for waste, cuts, and future repairs.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How do I convert square feet to square meters?</h3>
+        <p>Multiply by 0.0929. Example: 300 ft² × 0.0929 = <strong>27.87 m²</strong>. The calculator shows this automatically.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What is a square foot?</h3>
+        <p>A square foot is a 1 ft × 1 ft square area. It is the standard unit for measuring room sizes, flooring, and real estate in the United States.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How many square feet are in an acre?</h3>
+        <p>There are <strong>43,560 square feet</strong> in 1 acre. To convert acres to sq ft, multiply by 43,560. For example, 0.5 acres = 21,780 sq ft. An acre is roughly the size of a football field (without the end zones).</p>
+      </div>
+      <div class="faq-item">
+        <h3>How many square feet is a 10×10 room?</h3>
+        <p>A 10×10 room is <strong>100 square feet</strong>. Calculation: 10 ft × 10 ft = 100 ft². This is a typical small bedroom or large bathroom size.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How big is 1,000 square feet?</h3>
+        <p>1,000 square feet is roughly the size of a small apartment or a 2-bedroom home. It could be a 25 ft × 40 ft space, or a 20 ft × 50 ft layout. The average US apartment is about 882 sq ft.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How do I calculate square footage from inches?</h3>
+        <p>Measure in inches, multiply length × width to get square inches, then divide by 144 to get square feet. Formula: sq ft = (inches × inches) ÷ 144. Or enter measurements in feet using decimals (e.g., 6 inches = 0.5 ft).</p>
+      </div>
+      <div class="faq-item">
+        <h3>How many square feet is a 20×20 room?</h3>
+        <p>A 20×20 room is <strong>400 square feet</strong>. This is the size of a large master bedroom or a small studio apartment.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>More Calculators</h2>
+      <div class="next-grid">
+        <a href="/pythagorean-theorem-calculator" class="next-card">
+          <span class="next-tag">Math</span>
+          <h3>Pythagorean Theorem</h3>
+          <p>Find any side of a right triangle.</p>
+        </a>
+        <a href="/cd-calculator" class="next-card">
+          <span class="next-tag">Finance</span>
+          <h3>CD Calculator</h3>
+          <p>Calculate savings interest on a CD.</p>
+        </a>
+        <a href="/percent-off-calculator" class="next-card">
+          <span class="next-tag">Shopping</span>
+          <h3>Percent Off</h3>
+          <p>Find sale price after any discount.</p>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+var currentShape = 'rect';
+
+function setShape(s) {
+  currentShape = s;
+  ['rect','tri','circle','lshape'].forEach(function(id) {
+    document.getElementById('inp-' + id).style.display = id === s ? 'block' : 'none';
+    var tab = document.getElementById('tab-' + id);
+    if (tab) tab.classList.toggle('active', id === s);
+  });
+  calcSF();
+}
+
+function fmt(v, dec) { return v.toLocaleString('en-US', { minimumFractionDigits: dec||2, maximumFractionDigits: dec||2 }); }
+
+function calcSF() {
+  var sqft = 0;
+  var subLine = '';
+  if (currentShape === 'rect') {
+    var l = parseFloat(document.getElementById('rect-l').value) || 0;
+    var w = parseFloat(document.getElementById('rect-w').value) || 0;
+    sqft = l * w;
+    subLine = l + ' × ' + w + ' ft rectangle';
+  } else if (currentShape === 'tri') {
+    var b = parseFloat(document.getElementById('tri-b').value) || 0;
+    var h = parseFloat(document.getElementById('tri-h').value) || 0;
+    sqft = 0.5 * b * h;
+    subLine = 'Triangle: ½ × ' + b + ' × ' + h;
+  } else if (currentShape === 'circle') {
+    var r = parseFloat(document.getElementById('circ-r').value) || 0;
+    sqft = Math.PI * r * r;
+    subLine = 'Circle: r = ' + r + ' ft';
+  } else if (currentShape === 'lshape') {
+    var la = parseFloat(document.getElementById('la').value) || 0;
+    var wa = parseFloat(document.getElementById('wa').value) || 0;
+    var lb = parseFloat(document.getElementById('lb').value) || 0;
+    var wb = parseFloat(document.getElementById('wb').value) || 0;
+    sqft = la * wa + lb * wb;
+    subLine = 'L-Shape: A + B combined';
+  }
+
+  document.getElementById('r-sqft').textContent  = fmt(sqft);
+  document.getElementById('r-sqft2').textContent = fmt(sqft);
+  document.getElementById('r-sqm').textContent   = fmt(sqft * 0.0929) + ' m²';
+  document.getElementById('r-sqyd').textContent  = fmt(sqft / 9) + ' yd²';
+  document.getElementById('r-sqin').textContent  = Math.round(sqft * 144).toLocaleString() + ' in²';
+  document.getElementById('r-sub-line').textContent = subLine;
+
+  drawShape(sqft);
+}
+
+function drawShape(sqft) {
+  var canvas = document.getElementById('shape-canvas');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var W = 300, H = 130;
+  canvas.width = W; canvas.height = H;
+  ctx.clearRect(0, 0, W, H);
+
+  ctx.fillStyle = 'rgba(37,99,235,0.08)';
+  ctx.strokeStyle = '#2563eb';
+  ctx.lineWidth = 2;
+  var pad = 24;
+
+  if (currentShape === 'rect') {
+    var l = parseFloat(document.getElementById('rect-l').value) || 1;
+    var w = parseFloat(document.getElementById('rect-w').value) || 1;
+    var ratio = Math.min((W-pad*2) / l, (H-pad*2) / w);
+    var rw = l * ratio, rh = w * ratio;
+    var x = (W - rw) / 2, y = (H - rh) / 2;
+    ctx.fillRect(x, y, rw, rh); ctx.strokeRect(x, y, rw, rh);
+    ctx.fillStyle = '#2563eb'; ctx.font = 'bold 11px system-ui'; ctx.textAlign = 'center';
+    ctx.fillText(l + ' ft', W/2, y - 6);
+    ctx.save(); ctx.translate(x - 10, H/2); ctx.rotate(-Math.PI/2);
+    ctx.fillText(w + ' ft', 0, 0); ctx.restore();
+  } else if (currentShape === 'tri') {
+    var b = parseFloat(document.getElementById('tri-b').value) || 1;
+    var h = parseFloat(document.getElementById('tri-h').value) || 1;
+    var ratio = Math.min((W-pad*2) / b, (H-pad*2) / h);
+    var bw = b * ratio, bh = h * ratio;
+    var bx = (W - bw) / 2, by = (H - bh) / 2;
+    ctx.beginPath();
+    ctx.moveTo(bx + bw/2, by); ctx.lineTo(bx + bw, by + bh); ctx.lineTo(bx, by + bh);
+    ctx.closePath(); ctx.fill(); ctx.stroke();
+  } else if (currentShape === 'circle') {
+    var r = parseFloat(document.getElementById('circ-r').value) || 1;
+    var cr = Math.min((W-pad*2)/2, (H-pad*2)/2);
+    ctx.beginPath(); ctx.arc(W/2, H/2, cr, 0, Math.PI*2);
+    ctx.fill(); ctx.stroke();
+    ctx.fillStyle = '#2563eb'; ctx.font = 'bold 11px system-ui'; ctx.textAlign = 'center';
+    ctx.fillText('r = ' + r + ' ft', W/2, H/2 + 4);
+  } else {
+    ctx.fillStyle = 'rgba(37,99,235,0.08)';
+    ctx.fillRect(40, 20, 60, 50); ctx.strokeRect(40, 20, 60, 50);
+    ctx.fillRect(40, 70, 40, 35); ctx.strokeRect(40, 70, 40, 35);
+    ctx.fillStyle = '#2563eb'; ctx.font = '10px system-ui'; ctx.textAlign = 'center';
+    ctx.fillText('A', 70, 48); ctx.fillText('B', 60, 90);
+  }
+
+  ctx.fillStyle = '#64748b'; ctx.font = '11px system-ui'; ctx.textAlign = 'center';
+  ctx.fillText(fmt(sqft) + ' ft²', W/2, H - 4);
+}
+
+window.addEventListener('load', calcSF);
+</script>
+
+</Layout>

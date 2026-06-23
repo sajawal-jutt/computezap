@@ -1,0 +1,137 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const schema = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Free Online Calculators and Unit Converters",
+  "description": "ComputeZap offers free online calculators and unit converters including CD calculator, square footage calculator, percent off calculator, time to decimal converter, and more.",
+  "url": "https://computezap.com",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "CD Calculator", "url": "https://computezap.com/cd-calculator" },
+    { "@type": "ListItem", "position": 2, "name": "Days From Today Calculator", "url": "https://computezap.com/days-from-today" },
+    { "@type": "ListItem", "position": 3, "name": "Square Footage Calculator", "url": "https://computezap.com/square-footage-calculator" },
+    { "@type": "ListItem", "position": 4, "name": "Percent Off Calculator", "url": "https://computezap.com/percent-off-calculator" },
+    { "@type": "ListItem", "position": 5, "name": "Time to Decimal Calculator", "url": "https://computezap.com/time-to-decimal-calculator" },
+    { "@type": "ListItem", "position": 6, "name": "Reverse Sales Tax Calculator", "url": "https://computezap.com/reverse-sales-tax-calculator" },
+    { "@type": "ListItem", "position": 7, "name": "Cups to Tablespoons Converter", "url": "https://computezap.com/cups-to-tablespoons" }
+  ]
+});
+---
+<Layout
+  title="Free Online Calculators & Unit Converters | ComputeZap"
+  description="Free online calculators and unit converters — CD calculator, square footage, percent off, time to decimal, reverse sales tax, kg to lbs, and more. Fast & accurate."
+  canonical="/"
+  schema={schema}
+>
+  <div class="hero">
+    <h1>Free Online Calculators<br />& Unit Converters</h1>
+    <p>Fast, accurate tools — no signup needed</p>
+  </div>
+
+  <!-- FINANCE TOOLS -->
+  <p class="section-title" id="finance">Finance Calculators</p>
+  <div class="tool-grid">
+    <a href="/cd-calculator" class="tool-card">
+      <span class="icon">🏦</span>
+      <h3>CD Calculator</h3>
+      <p>Calculate Certificate of Deposit earnings with compound interest</p>
+      <span class="badge">High Yield</span>
+    </a>
+    <a href="/mortgage-payoff-calculator" class="tool-card">
+      <span class="icon">🏠</span>
+      <h3>Mortgage Payoff Calculator</h3>
+      <p>See how early payments reduce your mortgage term and interest</p>
+    </a>
+    <a href="/reverse-sales-tax-calculator" class="tool-card">
+      <span class="icon">🧾</span>
+      <h3>Reverse Sales Tax Calculator</h3>
+      <p>Find original price before tax from the final amount paid</p>
+      <span class="badge new">Easy</span>
+    </a>
+  </div>
+
+  <!-- DATE & TIME TOOLS -->
+  <p class="section-title" id="date-time">Date & Time Tools</p>
+  <div class="tool-grid">
+    <a href="/days-from-today" class="tool-card">
+      <span class="icon">📅</span>
+      <h3>Days From Today Calculator</h3>
+      <p>Find the exact date any number of days from today — 30, 60, 90 days and more</p>
+      <span class="badge new">Popular</span>
+    </a>
+    <a href="/30-days-from-today" class="tool-card">
+      <span class="icon">🗓️</span>
+      <h3>30 Days From Today</h3>
+      <p>What date is exactly 30 days from today? Net 30 payment deadline calculator</p>
+    </a>
+    <a href="/90-days-from-today" class="tool-card">
+      <span class="icon">📆</span>
+      <h3>90 Days From Today</h3>
+      <p>Find the date 90 days (3 months / one quarter) from today's date</p>
+    </a>
+  </div>
+
+  <!-- MATH CALCULATORS -->
+  <p class="section-title" id="calculators">Math Calculators</p>
+  <div class="tool-grid">
+    <a href="/percent-off-calculator" class="tool-card">
+      <span class="icon">🏷️</span>
+      <h3>Percent Off Calculator</h3>
+      <p>Calculate discounted price — great for shopping deals</p>
+      <span class="badge new">Popular</span>
+    </a>
+    <a href="/pythagorean-theorem-calculator" class="tool-card">
+      <span class="icon">📐</span>
+      <h3>Pythagorean Theorem Calculator</h3>
+      <p>Find any side of a right triangle using a² + b² = c²</p>
+    </a>
+    <a href="/time-to-decimal-calculator" class="tool-card">
+      <span class="icon">⏱️</span>
+      <h3>Time to Decimal Calculator</h3>
+      <p>Convert hours & minutes to decimal format for timesheets</p>
+      <span class="badge new">Fast</span>
+    </a>
+  </div>
+
+  <!-- UNIT CONVERTERS -->
+  <p class="section-title" id="converters">Unit Converters</p>
+  <div class="tool-grid">
+    <a href="/square-footage-calculator" class="tool-card">
+      <span class="icon">📏</span>
+      <h3>Square Footage Calculator</h3>
+      <p>Calculate area in sq ft for rooms, land, or any space</p>
+    </a>
+    <a href="/kg-to-lbs" class="tool-card">
+      <span class="icon">⚖️</span>
+      <h3>kg to lbs Converter</h3>
+      <p>Convert kilograms to pounds instantly</p>
+    </a>
+    <a href="/cm-to-inches" class="tool-card">
+      <span class="icon">📐</span>
+      <h3>cm to inches Converter</h3>
+      <p>Convert centimeters to inches — most searched converter</p>
+    </a>
+    <a href="/celsius-to-fahrenheit" class="tool-card">
+      <span class="icon">🌡️</span>
+      <h3>Celsius to Fahrenheit</h3>
+      <p>Temperature conversion — °C to °F formula applied instantly</p>
+    </a>
+    <a href="/knots-to-mph" class="tool-card">
+      <span class="icon">🚤</span>
+      <h3>Knots to MPH Converter</h3>
+      <p>Convert nautical speed — knots to miles per hour</p>
+    </a>
+    <a href="/cups-to-gallons" class="tool-card">
+      <span class="icon">🥛</span>
+      <h3>Cups to Gallons Converter</h3>
+      <p>Kitchen & cooking volume conversion</p>
+    </a>
+    <a href="/cups-to-tablespoons" class="tool-card">
+      <span class="icon">🥄</span>
+      <h3>Cups to Tablespoons</h3>
+      <p>How many tablespoons in a cup? 1 cup = 16 tbsp — all fractions covered</p>
+      <span class="badge new">New</span>
+    </a>
+  </div>
+</Layout>

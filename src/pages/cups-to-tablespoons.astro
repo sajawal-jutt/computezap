@@ -1,0 +1,549 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const schema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Cups to Tablespoons Converter",
+    "url": "https://computezap.com/cups-to-tablespoons",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Web",
+    "description": "How many tablespoons in a cup? 1 cup = 16 tablespoons = 48 teaspoons. Free cups to tbsp converter with all cooking fractions: 1/4 cup, 1/3 cup, 1/2 cup, 2/3 cup, 3/4 cup.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
+      { "@type": "ListItem", "position": 2, "name": "Cups to Tablespoons", "item": "https://computezap.com/cups-to-tablespoons" }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How many tablespoons are in a cup?",
+        "acceptedAnswer": { "@type": "Answer", "text": "There are 16 tablespoons in 1 cup. This is the standard US measurement: 1 cup = 16 tablespoons = 48 teaspoons = 8 fluid ounces = 236.6 milliliters." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many tablespoons in 1/4 cup?",
+        "acceptedAnswer": { "@type": "Answer", "text": "There are 4 tablespoons in 1/4 cup. Since 1 cup = 16 tablespoons, one quarter of that is 16 ÷ 4 = 4 tablespoons." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many tablespoons in 1/3 cup?",
+        "acceptedAnswer": { "@type": "Answer", "text": "There are approximately 5 tablespoons + 1 teaspoon in 1/3 cup (5.333 tablespoons exactly). Since tablespoons cannot be split evenly, recipes use '5 tablespoons plus 1 teaspoon' for 1/3 cup." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many tablespoons in 1/2 cup?",
+        "acceptedAnswer": { "@type": "Answer", "text": "There are 8 tablespoons in 1/2 cup. Half of 16 tablespoons (1 full cup) is exactly 8 tablespoons." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many tablespoons in 2/3 cup?",
+        "acceptedAnswer": { "@type": "Answer", "text": "There are approximately 10 tablespoons + 2 teaspoons in 2/3 cup (10.667 tablespoons exactly). This is a common baking measurement." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many tablespoons in 3/4 cup?",
+        "acceptedAnswer": { "@type": "Answer", "text": "There are 12 tablespoons in 3/4 cup. Three quarters of 16 tablespoons = 12 tablespoons exactly." }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I convert tablespoons back to cups?",
+        "acceptedAnswer": { "@type": "Answer", "text": "To convert tablespoons to cups, divide the number of tablespoons by 16. For example, 8 tablespoons ÷ 16 = 0.5 cups (1/2 cup). Use the reverse mode in the calculator above." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many tablespoons is half a cup of butter?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Half a cup of butter equals 8 tablespoons, which is exactly 1 standard US stick of butter. Butter sticks sold in the US are pre-marked with tablespoon measurements on the wrapper." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many teaspoons are in a tablespoon?",
+        "acceptedAnswer": { "@type": "Answer", "text": "There are 3 teaspoons in 1 tablespoon. This means 1 cup = 16 tablespoons = 48 teaspoons. If you only have a teaspoon measure, use 3 teaspoons in place of every tablespoon a recipe calls for." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many tablespoons in a cup of butter?",
+        "acceptedAnswer": { "@type": "Answer", "text": "There are 16 tablespoons in 1 cup of butter, which equals 2 standard US sticks of butter (each stick = 8 tablespoons = 1/2 cup = 113 grams)." }
+      }
+    ]
+  }
+]);
+---
+<Layout
+  title="Cups to Tablespoons Converter — How Many Tbsp in a Cup? | ComputeZap"
+  description="How many tablespoons in a cup? 1 cup = 16 tablespoons. Free converter for cups to tbsp, teaspoons, oz, and ml. Includes 1/4 cup, 1/3 cup, 1/2 cup, 2/3 cup, 3/4 cup fractions."
+  canonical="/cups-to-tablespoons"
+  schema={schema}
+>
+<style>
+.hero { text-align:center; padding:2rem 1rem 1.25rem; }
+.hero h1 { font-size:2rem; color:#111; margin:.5rem 0 .35rem; font-weight:800; }
+.hero-sub { color:#555; margin:0; font-size:1rem; }
+.breadcrumb { font-size:.85rem; color:#888; margin-bottom:.75rem; }
+.breadcrumb a { color:var(--blue); text-decoration:none; }
+
+.calc-wrap { display:grid; grid-template-columns:360px 1fr; gap:1.5rem; max-width:1100px; margin:0 auto; padding:0 1rem 3rem; align-items:start; }
+.calc-left { position:sticky; top:1rem; }
+.card { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:1.5rem; margin-bottom:1rem; }
+.card:last-child { margin-bottom:0; }
+
+/* Mode toggle */
+.mode-wrap { display:grid; grid-template-columns:1fr 1fr; gap:.4rem; margin-bottom:1.25rem; }
+.mode-btn { background:#f8fafc; color:#64748b; border:1.5px solid #e2e8f0; border-radius:8px; padding:.5rem; font-size:.82rem; font-weight:700; cursor:pointer; text-align:center; transition:all .15s; }
+.mode-btn.active { background:var(--blue); color:#fff; border-color:var(--blue); }
+
+.result-box { background:var(--blue); border-radius:14px; padding:1.75rem 1.5rem; text-align:center; margin-bottom:1.25rem; box-shadow:0 4px 20px rgba(37,99,235,.18); }
+.res-lbl { font-size:.72rem; color:rgba(255,255,255,.7); text-transform:uppercase; letter-spacing:.09em; margin-bottom:.5rem; }
+.res-val { font-size:2.1rem; font-weight:800; color:#fff; line-height:1.2; }
+.res-sub { font-size:.95rem; color:rgba(255,255,255,.8); margin-top:.3rem; }
+
+.stats-grid { display:grid; grid-template-columns:1fr 1fr; gap:.6rem; margin-bottom:1rem; }
+.stat-item { background:#f8fafc; border:1px solid #f1f5f9; border-radius:10px; padding:.9rem .75rem; text-align:center; }
+.stat-lbl { display:block; font-size:.68rem; color:#94a3b8; text-transform:uppercase; letter-spacing:.06em; margin-bottom:.3rem; font-weight:600; }
+.stat-val { display:block; font-size:1.1rem; font-weight:800; color:#1e293b; }
+
+/* Primary stat — Tablespoons */
+.stat-primary { background:#eff6ff; border:1.5px solid #bfdbfe; border-radius:12px; padding:1rem 1.25rem; text-align:center; margin-bottom:.6rem; }
+.stat-big { display:block; font-size:2rem; font-weight:900; color:#2563eb; line-height:1.1; }
+
+/* Secondary stat — Teaspoons */
+.stat-secondary { background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:.75rem 1.25rem; text-align:center; margin-bottom:.6rem; }
+.stat-med { display:block; font-size:1.4rem; font-weight:800; color:#1e293b; line-height:1.1; }
+
+.fld-lbl { display:block; font-size:.8rem; font-weight:700; color:#374151; margin-bottom:.4rem; text-transform:uppercase; letter-spacing:.04em; }
+.fld-wrap { position:relative; margin-bottom:1rem; }
+.fld-sfx { position:absolute; right:.9rem; top:50%; transform:translateY(-50%); color:#94a3b8; font-weight:600; pointer-events:none; font-size:.9rem; }
+.txt-input { width:100%; font-size:1.1rem; padding:.7rem 3rem .7rem 1rem; border:1.5px solid #e2e8f0; border-radius:8px; color:#111; box-sizing:border-box; font-family:inherit; background:#fff; }
+.txt-input:focus { outline:none; border-color:var(--blue); box-shadow:0 0 0 3px rgba(37,99,235,.1); }
+
+/* Fraction preset pills */
+.preset-lbl { font-size:.7rem; font-weight:700; color:#94a3b8; text-transform:uppercase; letter-spacing:.05em; margin-bottom:.5rem; display:block; }
+.preset-wrap { display:flex; flex-wrap:wrap; gap:.4rem; margin-bottom:1rem; }
+.preset-btn { background:#fff; color:var(--blue); border:1.5px solid #dbeafe; border-radius:20px; padding:.28rem .75rem; font-size:.82rem; font-weight:700; cursor:pointer; transition:all .15s; }
+.preset-btn:hover, .preset-btn.active { background:var(--blue); color:#fff; border-color:var(--blue); }
+
+/* Fraction display box */
+.frac-box { background:#f0fdf4; border:1px solid #bbf7d0; border-radius:10px; padding:.7rem 1rem; margin-bottom:1rem; font-size:.88rem; color:#166534; display:none; }
+.frac-box.show { display:block; }
+
+.card h2 { font-size:1.1rem; font-weight:700; color:#111; margin:0 0 .8rem; }
+.card h3 { font-size:.95rem; font-weight:700; color:#111; margin:0 0 .4rem; }
+.card p { color:#444; line-height:1.75; font-size:.95rem; margin:0 0 .7rem; }
+.card p:last-child { margin-bottom:0; }
+.formula-box { background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:.75rem 1rem; font-family:monospace; font-size:.88rem; color:#1e293b; margin:.6rem 0; }
+.tip-box { display:flex; gap:.75rem; background:#eff6ff; border:1px solid #bfdbfe; border-radius:10px; padding:.9rem 1rem; margin:.75rem 0; }
+.tip-icon { font-size:1.1rem; flex-shrink:0; margin-top:.1rem; }
+.tip-box p { margin:0; font-size:.875rem; color:#1e40af; }
+
+.ref-tbl { width:100%; border-collapse:collapse; font-size:.875rem; }
+.ref-tbl th { background:#f8fafc; padding:.45rem .75rem; text-align:left; font-size:.72rem; color:#64748b; font-weight:700; text-transform:uppercase; letter-spacing:.04em; border-bottom:1px solid #e5e7eb; }
+.ref-tbl td { padding:.5rem .75rem; border-bottom:1px solid #f3f4f6; color:#444; }
+.ref-tbl tr:last-child td { border-bottom:none; }
+.ref-tbl tr:hover td { background:#f8fafc; cursor:pointer; }
+.ref-tbl .acc { color:var(--blue); font-weight:700; }
+.ref-tbl .hi { background:#eff6ff; }
+.ref-tbl .hi td { color:#1e40af; font-weight:600; }
+
+/* Featured snippet answer box */
+.answer-box { background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:10px; padding:.75rem 1rem; margin:.75rem 0; }
+.answer-row { display:flex; justify-content:space-between; align-items:center; padding:.35rem 0; border-bottom:1px solid #f1f5f9; font-size:.95rem; }
+.answer-row:last-child { border-bottom:none; }
+.answer-lbl { color:#64748b; font-weight:600; }
+.answer-val { color:#2563eb; font-weight:800; }
+
+.faq-item { border-bottom:1px solid #f3f4f6; padding:.85rem 0; }
+.faq-item:last-child { border-bottom:none; padding-bottom:0; }
+.faq-item h3 { font-size:.92rem; color:#111; margin:0 0 .35rem; font-weight:600; }
+.faq-item p { color:#555; font-size:.875rem; margin:0; line-height:1.65; }
+
+.next-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:.75rem; }
+.next-card { background:#fff; border:1px solid #e5e7eb; border-radius:10px; padding:1rem; border-top:3px solid var(--blue); text-decoration:none; display:block; transition:box-shadow .15s; }
+.next-card:hover { box-shadow:0 4px 12px rgba(0,0,0,.08); }
+.next-tag { font-size:.68rem; font-weight:700; text-transform:uppercase; letter-spacing:.07em; color:var(--blue); margin-bottom:.3rem; display:block; }
+.next-card h3 { font-size:.88rem; font-weight:700; color:#111; margin:0 0 .25rem; }
+.next-card p { font-size:.78rem; color:#64748b; margin:0; line-height:1.5; }
+
+@media (max-width:768px) {
+  .calc-wrap { grid-template-columns:1fr; }
+  .calc-left { position:static; }
+  .next-grid { grid-template-columns:1fr; }
+  .hero h1 { font-size:1.65rem; }
+  .res-val { font-size:1.6rem; }
+}
+</style>
+
+<div class="hero">
+  <nav class="breadcrumb"><a href="/">Home</a> › Cups to Tablespoons</nav>
+  <h1>Cups to Tablespoons Converter</h1>
+  <p class="hero-sub">1 cup = 16 tablespoons — convert any amount instantly</p>
+</div>
+
+<div class="calc-wrap">
+  <!-- LEFT -->
+  <div class="calc-left">
+    <div class="card">
+      <div class="mode-wrap">
+        <button class="mode-btn active" id="mode-c2t" onclick="setMode('c2t')">Cups → Tbsp</button>
+        <button class="mode-btn" id="mode-t2c" onclick="setMode('t2c')">Tbsp → Cups</button>
+      </div>
+
+      <label class="fld-lbl" id="input-lbl" for="amount">Cups</label>
+      <div class="fld-wrap">
+        <input type="number" id="amount" class="txt-input" value="1" min="0" step="0.25" oninput="convert(); clearActive()" />
+        <span class="fld-sfx" id="input-unit">cups</span>
+      </div>
+
+      <span class="preset-lbl" id="preset-lbl">Common Fractions</span>
+      <div class="preset-wrap" id="preset-wrap">
+        <button class="preset-btn" onclick="setVal(0.25,'1/4')">¼</button>
+        <button class="preset-btn" onclick="setVal(0.333,'1/3')">⅓</button>
+        <button class="preset-btn" onclick="setVal(0.5,'1/2')">½</button>
+        <button class="preset-btn" onclick="setVal(0.667,'2/3')">⅔</button>
+        <button class="preset-btn" onclick="setVal(0.75,'3/4')">¾</button>
+        <button class="preset-btn" onclick="setVal(1,'1')">1</button>
+        <button class="preset-btn" onclick="setVal(1.5,'1½')">1½</button>
+        <button class="preset-btn" onclick="setVal(2,'2')">2</button>
+        <button class="preset-btn" onclick="setVal(3,'3')">3</button>
+        <button class="preset-btn" onclick="setVal(4,'4')">4</button>
+      </div>
+
+      <div class="frac-box" id="frac-hint"></div>
+    </div>
+
+    <div class="card">
+      <div class="result-box">
+        <div class="res-lbl" id="res-lbl">Tablespoons</div>
+        <div class="res-val"><span id="r-main">16</span> <span id="r-unit" style="font-size:1.1rem;opacity:.85">tbsp</span></div>
+        <div class="res-sub" id="r-sub">1 cup = 16 tablespoons</div>
+      </div>
+
+      <!-- Primary: Tablespoons -->
+      <div class="stat-primary">
+        <span class="stat-lbl" id="s1-lbl">Tablespoons</span>
+        <span class="stat-big" id="s1-val">16</span>
+      </div>
+      <!-- Secondary: Teaspoons -->
+      <div class="stat-secondary">
+        <span class="stat-lbl" id="s2-lbl">Teaspoons</span>
+        <span class="stat-med" id="s2-val">48</span>
+      </div>
+      <!-- Tertiary row: fl oz + ml -->
+      <div class="stats-grid" style="margin-bottom:0">
+        <div class="stat-item">
+          <span class="stat-lbl" id="s3-lbl">Fluid Ounces</span>
+          <span class="stat-val" id="s3-val">8 fl oz</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-lbl" id="s4-lbl">Milliliters</span>
+          <span class="stat-val" id="s4-val">236.6 ml</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="calc-right">
+
+    <!-- FEATURED SNIPPET TARGET -->
+    <div class="card">
+      <h2>How Many Tablespoons Are in a Cup?</h2>
+      <p>There are <strong>16 tablespoons in 1 cup</strong>. This is the standard US measurement used in all American recipes and cookbooks.</p>
+      <div class="answer-box">
+        <div class="answer-row"><span class="answer-lbl">1 cup</span><span class="answer-val">= 16 tablespoons</span></div>
+        <div class="answer-row"><span class="answer-lbl">1 cup</span><span class="answer-val">= 48 teaspoons</span></div>
+        <div class="answer-row"><span class="answer-lbl">1 cup</span><span class="answer-val">= 8 fluid ounces</span></div>
+        <div class="answer-row"><span class="answer-lbl">1 cup</span><span class="answer-val">= 236.6 milliliters</span></div>
+      </div>
+      <p>To convert any amount: <strong>multiply cups by 16</strong> to get tablespoons. To go back, divide tablespoons by 16.</p>
+      <div class="formula-box">Tablespoons = Cups × 16 &nbsp;|&nbsp; Cups = Tablespoons ÷ 16</div>
+    </div>
+
+    <div class="card">
+      <h2>Cups to Tablespoons Conversion Chart</h2>
+      <p>Click any row to instantly fill the calculator above.</p>
+      <table class="ref-tbl">
+        <thead><tr><th>Cups</th><th>Tablespoons</th><th>Teaspoons</th><th>Milliliters</th></tr></thead>
+        <tbody>
+          {[
+            ['⅛ cup','0.125','2 tbsp','6 tsp','29.6 ml'],
+            ['¼ cup','0.25','4 tbsp','12 tsp','59.1 ml'],
+            ['⅓ cup','0.333','5 tbsp + 1 tsp','16 tsp','78.9 ml'],
+            ['½ cup','0.5','8 tbsp','24 tsp','118.3 ml'],
+            ['⅔ cup','0.667','10 tbsp + 2 tsp','32 tsp','157.7 ml'],
+            ['¾ cup','0.75','12 tbsp','36 tsp','177.4 ml'],
+            ['1 cup','1','16 tbsp','48 tsp','236.6 ml'],
+            ['1 ¼ cups','1.25','20 tbsp','60 tsp','295.7 ml'],
+            ['1 ½ cups','1.5','24 tbsp','72 tsp','354.9 ml'],
+            ['2 cups','2','32 tbsp','96 tsp','473.2 ml'],
+            ['3 cups','3','48 tbsp','144 tsp','709.8 ml'],
+            ['4 cups','4','64 tbsp','192 tsp','946.4 ml'],
+          ].map(([label, val, tbsp, tsp, ml]) => (
+            <tr onclick={`setVal(${val},'${label}')`} class={val === '1' ? 'hi' : ''}>
+              <td>{label}</td>
+              <td class="acc">{tbsp}</td>
+              <td>{tsp}</td>
+              <td>{ml}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h2>How to Convert Cups to Tablespoons for Baking & Cooking</h2>
+      <p>In baking and cooking recipes, cups are the most common US measurement — but sometimes you only have a tablespoon measure handy. Since there are exactly <strong>16 tablespoons in 1 cup</strong>, just multiply cups by 16.</p>
+      <div class="tip-box">
+        <span class="tip-icon">🥄</span>
+        <p><strong>Baking tip:</strong> 1 cup = 16 tbsp = 48 tsp = 8 fl oz = 236.6 ml. This chain covers every common cooking measurement — memorize it once and you'll never need to look it up again.</p>
+      </div>
+      <h3 style="margin-top:.75rem">Common cooking fractions at a glance</h3>
+      <ul>
+        <li><strong>¼ cup of butter</strong> = 4 tablespoons</li>
+        <li><strong>⅓ cup of sugar</strong> = 5 tablespoons + 1 teaspoon</li>
+        <li><strong>½ cup of flour</strong> = 8 tablespoons</li>
+        <li><strong>⅔ cup of oil</strong> = 10 tablespoons + 2 teaspoons</li>
+        <li><strong>¾ cup of milk</strong> = 12 tablespoons</li>
+        <li><strong>1 cup of honey</strong> = 16 tablespoons</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Cups to Teaspoons Conversion</h2>
+      <p>Since 1 tablespoon = 3 teaspoons, multiply cups by 48 to get teaspoons directly. Common baking fractions:</p>
+      <table class="ref-tbl">
+        <thead><tr><th>Cups</th><th>Teaspoons</th><th>Tablespoons</th></tr></thead>
+        <tbody>
+          {[
+            ['¼ cup','12 tsp','4 tbsp'],
+            ['⅓ cup','16 tsp','5 tbsp + 1 tsp'],
+            ['½ cup','24 tsp','8 tbsp'],
+            ['⅔ cup','32 tsp','10 tbsp + 2 tsp'],
+            ['¾ cup','36 tsp','12 tbsp'],
+            ['1 cup','48 tsp','16 tbsp'],
+            ['2 cups','96 tsp','32 tbsp'],
+          ].map(([cups, tsp, tbsp]) => (
+            <tr>
+              <td>{cups}</td>
+              <td class="acc">{tsp}</td>
+              <td>{tbsp}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <div class="tip-box" style="margin-top:.75rem">
+        <span class="tip-icon">💡</span>
+        <p><strong>Quick rule:</strong> 1 cup = 48 teaspoons. 1 tablespoon = 3 teaspoons. So if a recipe calls for ¼ cup and you only have a teaspoon measure, use 12 teaspoons.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>US vs Metric Tablespoon</h2>
+      <p>The <strong>US tablespoon</strong> = 14.787 ml. The <strong>metric tablespoon</strong> (used in Australia, UK, Canada) = 15 ml. The difference is small (~1.4%) — for most recipes it doesn't matter, but for precise baking use the correct standard.</p>
+      <table class="ref-tbl" style="margin-top:.5rem">
+        <thead><tr><th>Standard</th><th>1 Tablespoon</th><th>1 Cup (16 tbsp)</th></tr></thead>
+        <tbody>
+          <tr><td>🇺🇸 US</td><td class="acc">14.787 ml</td><td>236.6 ml</td></tr>
+          <tr><td>🌍 Metric (AU/UK)</td><td class="acc">15 ml</td><td>240 ml</td></tr>
+          <tr><td>🇬🇧 UK (imperial)</td><td class="acc">17.758 ml</td><td>284.1 ml</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>How many tablespoons are in a cup?</h3>
+        <p>There are <strong>16 tablespoons</strong> in 1 US cup. Full breakdown: 1 cup = 16 tbsp = 48 tsp = 8 fl oz = 236.6 ml.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How many tablespoons in 1/4 cup?</h3>
+        <p><strong>4 tablespoons</strong> = ¼ cup. Quick check: 16 ÷ 4 = 4.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How many tablespoons in 1/3 cup?</h3>
+        <p><strong>5 tablespoons + 1 teaspoon</strong> = ⅓ cup (5.333 tbsp exactly). Since you can't measure a third of a tablespoon cleanly, recipes use "5 tbsp + 1 tsp."</p>
+      </div>
+      <div class="faq-item">
+        <h3>How many tablespoons in 1/2 cup?</h3>
+        <p><strong>8 tablespoons</strong> = ½ cup. Half of 16 = 8. Easy to remember.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How many tablespoons in 2/3 cup?</h3>
+        <p><strong>10 tablespoons + 2 teaspoons</strong> = ⅔ cup (10.667 tbsp exactly). Common in baking recipes for butter or sugar.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How many tablespoons in 3/4 cup?</h3>
+        <p><strong>12 tablespoons</strong> = ¾ cup. Three-quarters of 16 = 12 exactly.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How do I convert tablespoons back to cups?</h3>
+        <p>Divide by 16. Example: 24 tablespoons ÷ 16 = <strong>1.5 cups</strong> (1½ cups). Use the "Tbsp → Cups" mode in the calculator above.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How many tablespoons is half a cup of butter?</h3>
+        <p>Half a cup of butter = <strong>8 tablespoons</strong> = 1 standard stick of butter (in the US). Butter sticks are marked with tablespoon lines on the wrapper for easy measuring.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How many teaspoons are in a tablespoon?</h3>
+        <p>There are <strong>3 teaspoons in 1 tablespoon</strong>. So 1 cup = 16 tablespoons = 48 teaspoons. If a recipe says 1 tablespoon and you only have a teaspoon, use 3 teaspoons.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Is a tablespoon the same in US and metric recipes?</h3>
+        <p>Not exactly. A US tablespoon = 14.787 ml, while a metric tablespoon (Australia, UK, Canada) = 15 ml. The difference is tiny (~1.4%) and won't affect most recipes, but matters for precise baking.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>More Converters</h2>
+      <div class="next-grid">
+        <a href="/percent-off-calculator" class="next-card">
+          <span class="next-tag">Math</span>
+          <h3>Percent Off</h3>
+          <p>Calculate sale price after any percentage discount.</p>
+        </a>
+        <a href="/reverse-sales-tax-calculator" class="next-card">
+          <span class="next-tag">Finance</span>
+          <h3>Reverse Sales Tax</h3>
+          <p>Find the original pre-tax price from any total.</p>
+        </a>
+        <a href="/square-footage-calculator" class="next-card">
+          <span class="next-tag">Area</span>
+          <h3>Square Footage</h3>
+          <p>Calculate area for rectangle, circle, or L-shape rooms.</p>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+var mode = 'c2t';
+
+function fmt(v) {
+  if (v === Math.round(v)) return v.toString();
+  return parseFloat(v.toFixed(4)).toString();
+}
+
+function fmtCups(v) {
+  var fracs = [[0.125,'⅛'],[0.25,'¼'],[0.333,'⅓'],[0.5,'½'],[0.667,'⅔'],[0.75,'¾']];
+  var whole = Math.floor(v);
+  var frac = parseFloat((v - whole).toFixed(3));
+  var fracStr = '';
+  for (var i = 0; i < fracs.length; i++) {
+    if (Math.abs(frac - fracs[i][0]) < 0.005) { fracStr = fracs[i][1]; break; }
+  }
+  if (!fracStr) return fmt(v) + ' cups';
+  if (whole === 0) return fracStr + ' cup';
+  return whole + ' ' + fracStr + ' cups';
+}
+
+function fracHint(tbsp) {
+  var hints = {
+    5.333: '= 5 tablespoons + 1 teaspoon',
+    10.667: '= 10 tablespoons + 2 teaspoons',
+    2.667: '= 2 tablespoons + 2 teaspoons',
+    1.333: '= 1 tablespoon + 1 teaspoon',
+  };
+  for (var k in hints) {
+    if (Math.abs(tbsp - parseFloat(k)) < 0.005) return hints[k];
+  }
+  return null;
+}
+
+function convert() {
+  var val = parseFloat(document.getElementById('amount').value) || 0;
+  var hint = document.getElementById('frac-hint');
+
+  if (mode === 'c2t') {
+    var tbsp = val * 16;
+    var tsp  = val * 48;
+    var floz = val * 8;
+    var ml   = val * 236.588;
+
+    document.getElementById('r-main').textContent = fmt(tbsp);
+    document.getElementById('r-unit').textContent = tbsp === 1 ? 'tbsp' : 'tbsp';
+    document.getElementById('r-sub').textContent  = fmtCups(val) + ' = ' + fmt(tbsp) + ' tablespoons';
+
+    document.getElementById('s1-lbl').textContent = 'Tablespoons';
+    document.getElementById('s1-val').textContent = fmt(tbsp);
+    document.getElementById('s2-lbl').textContent = 'Teaspoons';
+    document.getElementById('s2-val').textContent = fmt(tsp);
+    document.getElementById('s3-lbl').textContent = 'Fluid Ounces';
+    document.getElementById('s3-val').textContent = fmt(floz) + ' fl oz';
+    document.getElementById('s4-lbl').textContent = 'Milliliters';
+    document.getElementById('s4-val').textContent = parseFloat(ml.toFixed(1)) + ' ml';
+
+    var h = fracHint(tbsp);
+    if (h) { hint.textContent = '💡 ' + h; hint.classList.add('show'); }
+    else hint.classList.remove('show');
+  } else {
+    var cups   = val / 16;
+    var tspR   = val * 3;
+    var flozR  = val / 2;
+    var mlR    = val * 14.787;
+
+    document.getElementById('r-main').textContent = fmt(cups);
+    document.getElementById('r-unit').textContent = cups === 1 ? 'cup' : 'cups';
+    document.getElementById('r-sub').textContent  = fmt(val) + ' tbsp = ' + fmtCups(cups);
+
+    document.getElementById('s1-lbl').textContent = 'Cups';
+    document.getElementById('s1-val').textContent = fmt(cups);
+    document.getElementById('s2-lbl').textContent = 'Teaspoons';
+    document.getElementById('s2-val').textContent = fmt(tspR);
+    document.getElementById('s3-lbl').textContent = 'Fluid Ounces';
+    document.getElementById('s3-val').textContent = fmt(flozR) + ' fl oz';
+    document.getElementById('s4-lbl').textContent = 'Milliliters';
+    document.getElementById('s4-val').textContent = parseFloat(mlR.toFixed(1)) + ' ml';
+
+    hint.classList.remove('show');
+  }
+}
+
+function setMode(m) {
+  mode = m;
+  var isCups = m === 'c2t';
+  document.getElementById('mode-c2t').classList.toggle('active', isCups);
+  document.getElementById('mode-t2c').classList.toggle('active', !isCups);
+  document.getElementById('input-lbl').textContent  = isCups ? 'Cups' : 'Tablespoons';
+  document.getElementById('input-unit').textContent = isCups ? 'cups' : 'tbsp';
+  document.getElementById('res-lbl').textContent    = isCups ? 'Tablespoons' : 'Cups';
+  document.getElementById('preset-lbl').textContent = isCups ? 'Common Fractions' : 'Quick Values';
+
+  var presets = document.getElementById('preset-wrap');
+  if (isCups) {
+    presets.innerHTML = [
+      [0.25,'¼'],[0.333,'⅓'],[0.5,'½'],[0.667,'⅔'],
+      [0.75,'¾'],[1,'1'],[1.5,'1½'],[2,'2'],[3,'3'],[4,'4']
+    ].map(function(x){ return '<button class="preset-btn" onclick="setVal('+x[0]+',\''+x[1]+'\')">'+x[1]+'</button>'; }).join('');
+  } else {
+    presets.innerHTML = [1,2,3,4,6,8,10,12,16,24,32,48]
+      .map(function(v){ return '<button class="preset-btn" onclick="setVal('+v+',\''+v+'\')">'+v+'</button>'; }).join('');
+  }
+
+  document.getElementById('amount').value = isCups ? 1 : 16;
+  convert();
+}
+
+function setVal(v, label) {
+  document.getElementById('amount').value = v;
+  document.querySelectorAll('.preset-btn').forEach(function(b){ b.classList.remove('active'); });
+  convert();
+}
+
+function clearActive() {
+  document.querySelectorAll('.preset-btn').forEach(function(b){ b.classList.remove('active'); });
+}
+
+window.addEventListener('load', convert);
+</script>
+
+</Layout>
