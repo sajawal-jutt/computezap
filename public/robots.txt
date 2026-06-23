@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://computezap.vercel.app/sitemap-index.xml
+Sitemap: https://computezap.com/sitemap-index.xml
