@@ -41,10 +41,37 @@ const image = ogImage || 'https://computezap.com/og-default.png';
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "ComputeZap",
-    "url": "https://computezap.com",
-    "description": "Free online calculators and unit converters — fast, accurate, no signup required."
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://computezap.com/#website",
+        "name": "ComputeZap",
+        "url": "https://computezap.com",
+        "description": "Free online calculators and unit converters — fast, accurate, no signup required.",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://computezap.com/?s={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://computezap.com/#organization",
+        "name": "ComputeZap",
+        "url": "https://computezap.com",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://computezap.com/og-default.png"
+        },
+        "description": "Free online calculators and unit converters for finance, math, cooking, and everyday use.",
+        "foundingDate": "2026",
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "email": "levelupsolution911@gmail.com"
+        }
+      }
+    ]
   }
   </script>
 
