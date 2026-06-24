@@ -102,14 +102,26 @@ const image = ogImage || 'https://computezap.com/og-default.png';
     <slot />
   </main>
 
-  <div class="eeat-strip">
-    <div class="eeat-inner">
-      <span class="eeat-title">Why trust ComputeZap?</span>
-      <div class="eeat-items">
-        <span class="eeat-item"><span class="eeat-check">✓</span> Formulas verified against official standards</span>
-        <span class="eeat-item"><span class="eeat-check">✓</span> Calculations run in your browser — no data sent anywhere</span>
-        <span class="eeat-item"><span class="eeat-check">✓</span> Results are instant and accurate to 6 decimal places</span>
-        <span class="eeat-item"><span class="eeat-check">✓</span> Free forever — no signup, no ads between results</span>
+  <div style="background:#fff;border-top:1px solid #e5e7eb;padding:2rem 1.5rem">
+    <div style="max-width:1120px;margin:0 auto">
+      <p style="font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:#94a3b8;text-align:center;margin-bottom:1rem">Why trust ComputeZap?</p>
+      <div class="eeat-grid">
+        <div style="display:flex;align-items:flex-start;gap:.6rem;padding:.85rem 1rem;background:#f8fafc;border-radius:10px;border:1px solid #f1f5f9">
+          <span style="width:22px;height:22px;background:#dcfce7;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.75rem;color:#16a34a;font-weight:800">✓</span>
+          <span style="font-size:.82rem;color:#374151;line-height:1.5">Formulas verified against official standards</span>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:.6rem;padding:.85rem 1rem;background:#f8fafc;border-radius:10px;border:1px solid #f1f5f9">
+          <span style="width:22px;height:22px;background:#dcfce7;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.75rem;color:#16a34a;font-weight:800">✓</span>
+          <span style="font-size:.82rem;color:#374151;line-height:1.5">Runs entirely in your browser — no data sent anywhere</span>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:.6rem;padding:.85rem 1rem;background:#f8fafc;border-radius:10px;border:1px solid #f1f5f9">
+          <span style="width:22px;height:22px;background:#dcfce7;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.75rem;color:#16a34a;font-weight:800">✓</span>
+          <span style="font-size:.82rem;color:#374151;line-height:1.5">Instant results — accurate to 6 decimal places</span>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:.6rem;padding:.85rem 1rem;background:#f8fafc;border-radius:10px;border:1px solid #f1f5f9">
+          <span style="width:22px;height:22px;background:#dcfce7;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.75rem;color:#16a34a;font-weight:800">✓</span>
+          <span style="font-size:.82rem;color:#374151;line-height:1.5">Free forever — no signup, no ads between results</span>
+        </div>
       </div>
     </div>
   </div>
