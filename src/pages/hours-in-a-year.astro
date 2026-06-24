@@ -1,0 +1,334 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const schema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Hours in a Year Calculator",
+    "url": "https://computezap.com/hours-in-a-year",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Web",
+    "description": "How many hours in a year? A regular year has 8,760 hours. A leap year has 8,784 hours. Work hours per year: 2,080. Free calculator with full time breakdown.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
+      { "@type": "ListItem", "position": 2, "name": "Hours in a Year", "item": "https://computezap.com/hours-in-a-year" }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How many hours in a year?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A regular year has 8,760 hours (365 days × 24 hours). A leap year has 8,784 hours (366 days × 24 hours). Work hours per year at 40 hours/week: 2,080 hours (52 weeks × 40 hours)." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many work hours in a year?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A full-time employee works 2,080 hours per year (52 weeks × 40 hours/week). This is the standard used for salary-to-hourly conversions in the US. After 10 federal holidays, effective work hours drop to about 1,960 hours (52 weeks × 40 – 80 holiday hours)." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many hours are in a leap year?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A leap year has 8,784 hours (366 days × 24 hours = 8,784). That is 24 more hours than a regular year. Leap years: 2024, 2028, 2032, 2036." }
+      },
+      {
+        "@type": "Question",
+        "name": "How do you convert annual salary to hourly rate?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Divide annual salary by 2,080 (work hours per year). Example: $60,000 ÷ 2,080 = $28.85/hour. For a quick estimate: divide annual salary by 2,000 (rounds slightly up to account for holidays). Example: $60,000 ÷ 2,000 = $30/hour." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many hours are in 6 months?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Approximately 4,380 hours in 6 months (half of 8,760). Exact value depends on which 6 months: Jan–Jun in a regular year = 4,344 hours (181 days × 24). Jul–Dec = 4,416 hours (184 days × 24)." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many hours are there in a decade?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A decade (10 years) has 87,648 hours, accounting for 2–3 leap years in that period. A simple estimate: 8,760 × 10 = 87,600 hours. With leap years (2 per 10 years average): 87,600 + 48 = 87,648 hours." }
+      }
+    ]
+  }
+]);
+---
+<Layout
+  title="Hours in a Year — How Many Hours Per Year? | ComputeZap"
+  description="How many hours in a year? Regular year: 8,760 hours. Leap year: 8,784 hours. Work hours: 2,080. Free calculator with full breakdown — hours per day, week, month, and year."
+  canonical="/hours-in-a-year"
+  schema={schema}
+>
+<style is:global>
+.hero{text-align:center;padding:2rem 1rem 1.5rem}
+.hero h1{font-size:2rem;color:#111;margin:.5rem 0 .4rem;font-weight:800;letter-spacing:-.02em}
+.hero-sub{color:#64748b;margin:0;font-size:1.05rem}
+.breadcrumb{font-size:.82rem;color:#94a3b8;margin-bottom:.75rem}
+.breadcrumb a{color:var(--blue);text-decoration:none}
+.calc-wrap{display:grid;grid-template-columns:390px 1fr;gap:1.75rem;max-width:1120px;margin:0 auto;padding:0 1rem 3.5rem;align-items:start}
+.calc-left{position:sticky;top:1rem}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:1.5rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.card:last-child{margin-bottom:0}
+.card-header{display:flex;align-items:center;gap:.6rem;margin-bottom:1.1rem}
+.card-step{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;background:var(--blue);color:#fff;border-radius:50%;font-size:.7rem;font-weight:800;flex-shrink:0}
+.card-title{font-size:1rem;font-weight:700;color:#111;margin:0}
+.card h2{font-size:1.05rem;font-weight:700;color:#111;margin:0 0 .9rem}
+.content-card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:1.5rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.content-card h2{font-size:1.05rem;font-weight:700;color:#111;margin:0 0 .8rem}
+.content-card p{color:#444;line-height:1.75;font-size:.93rem;margin:0 0 .7rem}
+.content-card p:last-child{margin-bottom:0}
+.field-group{margin-bottom:1rem}
+.field-group:last-child{margin-bottom:0}
+.field-lbl{display:block;font-size:.75rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem}
+.field-select{width:100%;font-size:1.1rem;font-weight:700;padding:.65rem .9rem;border:2px solid #e2e8f0;border-radius:10px;color:#111;box-sizing:border-box;font-family:inherit;background:#f8fafc;outline:none;cursor:pointer;transition:all .15s}
+.field-select:focus{border-color:#93c5fd;background:#fff;box-shadow:0 0 0 3px rgba(37,99,235,.07)}
+.field-input{width:100%;font-size:1.5rem;font-weight:800;padding:.65rem .9rem;border:2px solid #e2e8f0;border-radius:10px;color:#111;box-sizing:border-box;font-family:inherit;background:#f8fafc;outline:none;transition:all .15s}
+.field-input:focus{border-color:#93c5fd;background:#fff;box-shadow:0 0 0 3px rgba(37,99,235,.07)}
+.quick-answer{background:#f0fdf4;border:1.5px solid #86efac;border-radius:12px;padding:1rem 1.25rem;margin-bottom:1rem;text-align:center}
+.qa-big{font-size:1.5rem;font-weight:900;color:#15803d;display:block;margin-bottom:.2rem}
+.qa-sub{font-size:.82rem;color:#166534}
+.answer-box{background:linear-gradient(135deg,#1d4ed8 0%,#2563eb 60%,#3b82f6 100%);border-radius:14px;padding:1.5rem 1.5rem 1.25rem;text-align:center;margin-bottom:1rem;box-shadow:0 6px 24px rgba(37,99,235,.22)}
+.a-label{font-size:.68rem;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.3rem;font-weight:700}
+.a-value{font-size:2.4rem;font-weight:900;color:#fff;line-height:1.1;letter-spacing:-.02em}
+.a-unit{font-size:1rem;font-weight:600;color:rgba(255,255,255,.8);margin-top:.2rem}
+.a-sub{font-size:.88rem;color:rgba(255,255,255,.7);margin-top:.3rem}
+.stats-row{display:grid;grid-template-columns:1fr 1fr;gap:.55rem}
+.stat-box{background:#f8fafc;border:1px solid #f1f5f9;border-radius:10px;padding:.85rem .75rem;text-align:center}
+.stat-lbl{display:block;font-size:.62rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.25rem;font-weight:700}
+.stat-val{display:block;font-size:.95rem;font-weight:800;color:#1e293b}
+.conv-table{width:100%;border-collapse:collapse;font-size:.875rem}
+.conv-table th{background:#f8fafc;padding:.65rem .85rem;text-align:left;font-size:.68rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;border-bottom:2px solid #e2e8f0}
+.conv-table td{padding:.7rem .85rem;border-bottom:1px solid #f3f4f6;color:#374151}
+.conv-table tr:last-child td{border-bottom:none}
+.conv-table tbody tr:hover td{background:#f8faff}
+.conv-table .hl td{background:#eff6ff;font-weight:700;color:#1d4ed8}
+.conv-table .hl:hover td{background:#dbeafe}
+.tip-box{display:flex;gap:.75rem;background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:.9rem 1rem;margin:.85rem 0}
+.tip-icon{font-size:1.1rem;flex-shrink:0;margin-top:.05rem}
+.tip-box p{margin:0;font-size:.875rem;color:#1e40af;line-height:1.6}
+.use-grid{display:grid;gap:.75rem}
+.use-card{background:#f8fafc;border-radius:10px;padding:1rem;border-left:3px solid var(--blue)}
+.use-title{font-size:.78rem;font-weight:700;text-transform:uppercase;color:var(--blue);margin-bottom:.3rem}
+.use-card p{font-size:.875rem;color:#374151;margin:0;line-height:1.65}
+.faq-item{border-bottom:1px solid #f3f4f6;padding:.9rem 0}
+.faq-item:last-child{border-bottom:none;padding-bottom:0}
+.faq-item h3{font-size:.9rem;color:#111;margin:0 0 .35rem;font-weight:700}
+.faq-item p{color:#555;font-size:.865rem;margin:0;line-height:1.65}
+.next-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem}
+.next-card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:1rem;border-top:3px solid var(--blue);text-decoration:none;display:block;transition:box-shadow .15s}
+.next-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.08);text-decoration:none}
+.next-tag{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--blue);margin-bottom:.3rem;display:block}
+.next-card h3{font-size:.88rem;font-weight:700;color:#111;margin:0 0 .25rem}
+.next-card p{font-size:.78rem;color:#64748b;margin:0;line-height:1.5}
+@media(max-width:768px){
+  .calc-wrap{grid-template-columns:1fr}
+  .calc-left{position:static}
+  .hero h1{font-size:1.65rem}
+  .a-value{font-size:1.9rem}
+  .next-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:480px){.next-grid{grid-template-columns:1fr}}
+</style>
+
+<div class="hero">
+  <nav class="breadcrumb"><a href="/">Home</a> › Hours in a Year</nav>
+  <h1>Hours in a Year</h1>
+  <p class="hero-sub">How many hours per year — total hours, work hours, and complete time unit reference</p>
+</div>
+
+<div class="calc-wrap">
+  <div class="calc-left">
+    <div class="card">
+      <div class="quick-answer">
+        <span class="qa-big">8,760 hours/year</span>
+        <span class="qa-sub">Regular year · Leap year: 8,784 hours · Work: 2,080 hrs</span>
+      </div>
+      <div class="card-header">
+        <span class="card-step">1</span>
+        <h2 class="card-title">Select Year Type</h2>
+      </div>
+      <div class="field-group">
+        <label class="field-lbl" for="year-type">Year Type</label>
+        <select id="year-type" class="field-select" onchange="calc()">
+          <option value="365">Regular Year (365 days)</option>
+          <option value="366">Leap Year (366 days)</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <label class="field-lbl" for="work-hrs">Work Hours per Week</label>
+        <input type="number" id="work-hrs" class="field-input" value="40" min="1" max="168" step="1" oninput="calc()" />
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-step">2</span>
+        <h2 class="card-title">Result</h2>
+      </div>
+      <div class="answer-box">
+        <div class="a-label">Total Hours in Year</div>
+        <div class="a-value" id="r-total">8,760</div>
+        <div class="a-unit">hours</div>
+        <div class="a-sub" id="r-sub">365 days × 24 hours</div>
+      </div>
+      <div class="stats-row">
+        <div class="stat-box">
+          <span class="stat-lbl">Work Hours</span>
+          <span class="stat-val" id="r-work">2,080</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-lbl">Minutes</span>
+          <span class="stat-val" id="r-mins">525,600</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-lbl">Seconds</span>
+          <span class="stat-val" id="r-secs">31.54M</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-lbl">Weeks</span>
+          <span class="stat-val" id="r-weeks">52</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="calc-right">
+
+    <div class="content-card">
+      <h2>Hours Per Year — Complete Time Reference</h2>
+      <div class="tip-box">
+        <span class="tip-icon">🕐</span>
+        <p><strong>Formula:</strong> Hours = Days × 24. Regular year: 365 × 24 = <strong>8,760 hrs</strong>. Leap year: 366 × 24 = <strong>8,784 hrs</strong>. Work hours (40 hr/wk): 52 × 40 = <strong>2,080 hrs</strong>.</p>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="conv-table">
+          <thead>
+            <tr><th>Period</th><th>Total Hours</th><th>Work Hours (40h/wk)</th><th>Minutes</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1 hour</td><td>1</td><td>—</td><td>60</td></tr>
+            <tr><td>1 day</td><td>24</td><td>8</td><td>1,440</td></tr>
+            <tr><td>1 week</td><td>168</td><td>40</td><td>10,080</td></tr>
+            <tr><td>1 month (28 days)</td><td>672</td><td>~160</td><td>40,320</td></tr>
+            <tr><td>1 month (30 days)</td><td>720</td><td>~176</td><td>43,200</td></tr>
+            <tr><td>1 month (31 days)</td><td>744</td><td>~184</td><td>44,640</td></tr>
+            <tr><td>1 month (avg)</td><td>730</td><td>173</td><td>43,800</td></tr>
+            <tr><td>1 quarter (3 mo)</td><td>2,190</td><td>520</td><td>131,400</td></tr>
+            <tr><td>6 months</td><td>4,380</td><td>1,040</td><td>262,800</td></tr>
+            <tr class="hl"><td><strong>1 year (365 days)</strong></td><td><strong>8,760</strong></td><td><strong>2,080</strong></td><td><strong>525,600</strong></td></tr>
+            <tr class="hl"><td><strong>Leap year (366 days)</strong></td><td><strong>8,784</strong></td><td><strong>2,088</strong></td><td><strong>527,040</strong></td></tr>
+            <tr><td>2 years</td><td>17,520</td><td>4,160</td><td>1,051,200</td></tr>
+            <tr><td>5 years</td><td>43,824</td><td>10,400</td><td>2,629,440</td></tr>
+            <tr><td>10 years</td><td>87,648</td><td>20,800</td><td>5,258,880</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>Salary to Hourly Rate — 8,760 Hours</h2>
+      <div class="use-grid">
+        <div class="use-card">
+          <div class="use-title">Annual to Hourly (Standard)</div>
+          <p>Divide annual salary by <strong>2,080</strong> (work hours/year). A $50,000 salary = $24.04/hr. A $75,000 salary = $36.06/hr. A $100,000 salary = $48.08/hr.</p>
+        </div>
+        <div class="use-card" style="border-left-color:#10b981">
+          <div class="use-title" style="color:#059669">Quick Estimate</div>
+          <p>Divide annual salary by <strong>2,000</strong> for a slightly rounded result. This is the "rule of thumb" used in interviews. $60,000 ÷ 2,000 = $30/hr (actual: $28.85). Rounds up by ~4%.</p>
+        </div>
+        <div class="use-card" style="border-left-color:#f59e0b">
+          <div class="use-title" style="color:#d97706">After Holidays</div>
+          <p>10 US federal holidays = 80 hours off. Effective work hours: <strong>2,000 hrs/year</strong>. Add 2-week PTO (80 hrs): effective hours drop to <strong>1,920 hrs/year</strong> — useful for contractor billing rates.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>How many hours in a year?</h3>
+        <p>A regular year has <strong>8,760 hours</strong> (365 × 24). A leap year has <strong>8,784 hours</strong> (366 × 24). Work hours at 40 hrs/week: <strong>2,080 hours</strong>.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How many work hours in a year?</h3>
+        <p><strong>2,080 work hours</strong> per year (52 weeks × 40 hours). This is the US standard for full-time employment. After 10 federal holidays, effective hours = 1,960. After holidays + 2 weeks PTO = 1,880 hours.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How many hours are in a leap year?</h3>
+        <p><strong>8,784 hours</strong> (366 × 24). That is exactly 24 more hours than a regular year. Leap years: 2024, 2028, 2032, 2036, 2040.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How many hours are in 6 months?</h3>
+        <p>Approximately <strong>4,380 hours</strong> (half of 8,760). Jan–Jun = 181 days × 24 = 4,344 hrs. Jul–Dec = 184 days × 24 = 4,416 hrs.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How do you convert $60,000/year to hourly?</h3>
+        <p>$60,000 ÷ 2,080 hours = <strong>$28.85/hour</strong>. Quick method: $60,000 ÷ 2,000 = $30/hour (rounds slightly up). The 2,080 figure is the exact IRS and HR industry standard for annual-to-hourly conversion.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How many hours in a decade?</h3>
+        <p>A decade (10 years) has approximately <strong>87,648 hours</strong>, accounting for 2–3 leap years. Simple estimate: 8,760 × 10 = 87,600 hrs. With 2 leap years: 87,600 + 48 = 87,648 hrs.</p>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>Related Time Tools</h2>
+      <div class="next-grid">
+        <a href="/weeks-in-a-year" class="next-card">
+          <span class="next-tag">Time</span>
+          <h3>Weeks in a Year</h3>
+          <p>52 weeks per year — work weeks, school weeks, pay periods</p>
+        </a>
+        <a href="/minutes-in-a-day" class="next-card">
+          <span class="next-tag">Time</span>
+          <h3>Minutes in a Day</h3>
+          <p>1,440 minutes per day — complete time unit reference</p>
+        </a>
+        <a href="/seconds-in-a-year" class="next-card">
+          <span class="next-tag">Time</span>
+          <h3>Seconds in a Year</h3>
+          <p>31,536,000 seconds in a regular year</p>
+        </a>
+        <a href="/hours-in-a-month" class="next-card">
+          <span class="next-tag">Time</span>
+          <h3>Hours in a Month</h3>
+          <p>730 average hours per month — all months covered</p>
+        </a>
+        <a href="/time-to-decimal-calculator" class="next-card">
+          <span class="next-tag">Time</span>
+          <h3>Time to Decimal</h3>
+          <p>Convert hours &amp; minutes to decimal for payroll</p>
+        </a>
+        <a href="/days-from-today" class="next-card">
+          <span class="next-tag">Date</span>
+          <h3>Days From Today</h3>
+          <p>Find the exact date any number of days from today</p>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+function calc() {
+  var days = parseInt(document.getElementById('year-type').value);
+  var wkHrs = parseFloat(document.getElementById('work-hrs').value) || 40;
+  var total = days * 24;
+  var work = Math.round(52 * wkHrs);
+  var mins = total * 60;
+  var secs = total * 3600;
+  document.getElementById('r-total').textContent = total.toLocaleString('en-US');
+  document.getElementById('r-sub').textContent = days + ' days × 24 hours';
+  document.getElementById('r-work').textContent = work.toLocaleString('en-US');
+  document.getElementById('r-mins').textContent = mins.toLocaleString('en-US');
+  document.getElementById('r-secs').textContent = (secs / 1000000).toFixed(2) + 'M';
+  document.getElementById('r-weeks').textContent = Math.floor(days / 7);
+}
+calc();
+</script>
+</Layout>

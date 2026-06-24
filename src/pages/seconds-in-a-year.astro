@@ -1,0 +1,314 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const schema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Seconds in a Year Calculator",
+    "url": "https://computezap.com/seconds-in-a-year",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Web",
+    "description": "How many seconds in a year? A regular year has 31,536,000 seconds. A leap year has 31,622,400 seconds. Free calculator with complete seconds reference table.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
+      { "@type": "ListItem", "position": 2, "name": "Seconds in a Year", "item": "https://computezap.com/seconds-in-a-year" }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How many seconds in a year?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A regular year has 31,536,000 seconds (365 days × 24 hours × 60 minutes × 60 seconds). A leap year has 31,622,400 seconds (366 × 86,400). The commonly cited approximation is π × 10^7 ≈ 31,415,927 — accurate to within 0.4%." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many seconds in a day?",
+        "acceptedAnswer": { "@type": "Answer", "text": "There are 86,400 seconds in a day (24 hours × 60 minutes × 60 seconds = 86,400). This number is important in computing — Unix timestamps increment by 86,400 each day." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many seconds in an hour?",
+        "acceptedAnswer": { "@type": "Answer", "text": "There are 3,600 seconds in one hour (60 minutes × 60 seconds = 3,600). Half an hour = 1,800 seconds. A quarter hour = 900 seconds." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many seconds in a week?",
+        "acceptedAnswer": { "@type": "Answer", "text": "There are 604,800 seconds in a week (7 days × 86,400 seconds = 604,800). A work week (40 hours) = 144,000 seconds." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many seconds in a leap year?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A leap year has 31,622,400 seconds (366 days × 86,400 seconds per day). That is 86,400 more seconds than a regular year — exactly one extra day. Leap years: 2024, 2028, 2032, 2036." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the pi seconds approximation for a year?",
+        "acceptedAnswer": { "@type": "Answer", "text": "There is a famous physics approximation: 1 year ≈ π × 10^7 seconds (π × 10,000,000 ≈ 31,415,927 seconds). The actual value is 31,536,000 seconds. The approximation is off by about 0.38% — useful for quick mental math in physics problems." }
+      }
+    ]
+  }
+]);
+---
+<Layout
+  title="Seconds in a Year — How Many Seconds? | ComputeZap"
+  description="How many seconds in a year? Regular year: 31,536,000 seconds. Leap year: 31,622,400 seconds. Free calculator with seconds per minute, hour, day, week, and month."
+  canonical="/seconds-in-a-year"
+  schema={schema}
+>
+<style is:global>
+.hero{text-align:center;padding:2rem 1rem 1.5rem}
+.hero h1{font-size:2rem;color:#111;margin:.5rem 0 .4rem;font-weight:800;letter-spacing:-.02em}
+.hero-sub{color:#64748b;margin:0;font-size:1.05rem}
+.breadcrumb{font-size:.82rem;color:#94a3b8;margin-bottom:.75rem}
+.breadcrumb a{color:var(--blue);text-decoration:none}
+.calc-wrap{display:grid;grid-template-columns:390px 1fr;gap:1.75rem;max-width:1120px;margin:0 auto;padding:0 1rem 3.5rem;align-items:start}
+.calc-left{position:sticky;top:1rem}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:1.5rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.card:last-child{margin-bottom:0}
+.card-header{display:flex;align-items:center;gap:.6rem;margin-bottom:1.1rem}
+.card-step{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;background:var(--blue);color:#fff;border-radius:50%;font-size:.7rem;font-weight:800;flex-shrink:0}
+.card-title{font-size:1rem;font-weight:700;color:#111;margin:0}
+.card h2{font-size:1.05rem;font-weight:700;color:#111;margin:0 0 .9rem}
+.content-card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:1.5rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.content-card h2{font-size:1.05rem;font-weight:700;color:#111;margin:0 0 .8rem}
+.content-card p{color:#444;line-height:1.75;font-size:.93rem;margin:0 0 .7rem}
+.content-card p:last-child{margin-bottom:0}
+.field-group{margin-bottom:1rem}
+.field-group:last-child{margin-bottom:0}
+.field-lbl{display:block;font-size:.75rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem}
+.field-select{width:100%;font-size:1.1rem;font-weight:700;padding:.65rem .9rem;border:2px solid #e2e8f0;border-radius:10px;color:#111;box-sizing:border-box;font-family:inherit;background:#f8fafc;outline:none;cursor:pointer;transition:all .15s}
+.field-select:focus{border-color:#93c5fd;background:#fff;box-shadow:0 0 0 3px rgba(37,99,235,.07)}
+.quick-answer{background:#f0fdf4;border:1.5px solid #86efac;border-radius:12px;padding:1rem 1.25rem;margin-bottom:1rem;text-align:center}
+.qa-big{font-size:1.3rem;font-weight:900;color:#15803d;display:block;margin-bottom:.2rem}
+.qa-sub{font-size:.82rem;color:#166534}
+.answer-box{background:linear-gradient(135deg,#1d4ed8 0%,#2563eb 60%,#3b82f6 100%);border-radius:14px;padding:1.5rem 1.5rem 1.25rem;text-align:center;margin-bottom:1rem;box-shadow:0 6px 24px rgba(37,99,235,.22)}
+.a-label{font-size:.68rem;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.3rem;font-weight:700}
+.a-value{font-size:1.9rem;font-weight:900;color:#fff;line-height:1.1;letter-spacing:-.02em}
+.a-unit{font-size:1rem;font-weight:600;color:rgba(255,255,255,.8);margin-top:.2rem}
+.a-sub{font-size:.88rem;color:rgba(255,255,255,.7);margin-top:.3rem}
+.stats-row{display:grid;grid-template-columns:1fr 1fr;gap:.55rem}
+.stat-box{background:#f8fafc;border:1px solid #f1f5f9;border-radius:10px;padding:.85rem .75rem;text-align:center}
+.stat-lbl{display:block;font-size:.62rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.25rem;font-weight:700}
+.stat-val{display:block;font-size:.9rem;font-weight:800;color:#1e293b}
+.conv-table{width:100%;border-collapse:collapse;font-size:.875rem}
+.conv-table th{background:#f8fafc;padding:.65rem .85rem;text-align:left;font-size:.68rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;border-bottom:2px solid #e2e8f0}
+.conv-table td{padding:.7rem .85rem;border-bottom:1px solid #f3f4f6;color:#374151}
+.conv-table tr:last-child td{border-bottom:none}
+.conv-table tbody tr:hover td{background:#f8faff}
+.conv-table .hl td{background:#eff6ff;font-weight:700;color:#1d4ed8}
+.conv-table .hl:hover td{background:#dbeafe}
+.tip-box{display:flex;gap:.75rem;background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:.9rem 1rem;margin:.85rem 0}
+.tip-icon{font-size:1.1rem;flex-shrink:0;margin-top:.05rem}
+.tip-box p{margin:0;font-size:.875rem;color:#1e40af;line-height:1.6}
+.faq-item{border-bottom:1px solid #f3f4f6;padding:.9rem 0}
+.faq-item:last-child{border-bottom:none;padding-bottom:0}
+.faq-item h3{font-size:.9rem;color:#111;margin:0 0 .35rem;font-weight:700}
+.faq-item p{color:#555;font-size:.865rem;margin:0;line-height:1.65}
+.next-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem}
+.next-card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:1rem;border-top:3px solid var(--blue);text-decoration:none;display:block;transition:box-shadow .15s}
+.next-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.08);text-decoration:none}
+.next-tag{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--blue);margin-bottom:.3rem;display:block}
+.next-card h3{font-size:.88rem;font-weight:700;color:#111;margin:0 0 .25rem}
+.next-card p{font-size:.78rem;color:#64748b;margin:0;line-height:1.5}
+@media(max-width:768px){
+  .calc-wrap{grid-template-columns:1fr}
+  .calc-left{position:static}
+  .hero h1{font-size:1.65rem}
+  .a-value{font-size:1.5rem}
+  .next-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:480px){.next-grid{grid-template-columns:1fr}}
+</style>
+
+<div class="hero">
+  <nav class="breadcrumb"><a href="/">Home</a> › Seconds in a Year</nav>
+  <h1>Seconds in a Year</h1>
+  <p class="hero-sub">How many seconds per year — exact calculation with full time unit reference</p>
+</div>
+
+<div class="calc-wrap">
+  <div class="calc-left">
+    <div class="card">
+      <div class="quick-answer">
+        <span class="qa-big">31,536,000 seconds/year</span>
+        <span class="qa-sub">Regular year · Leap year: 31,622,400 seconds</span>
+      </div>
+      <div class="card-header">
+        <span class="card-step">1</span>
+        <h2 class="card-title">Select Year Type</h2>
+      </div>
+      <div class="field-group">
+        <label class="field-lbl" for="year-type">Year Type</label>
+        <select id="year-type" class="field-select" onchange="calc()">
+          <option value="365">Regular Year (365 days)</option>
+          <option value="366">Leap Year (366 days)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-step">2</span>
+        <h2 class="card-title">Result</h2>
+      </div>
+      <div class="answer-box">
+        <div class="a-label">Seconds in Year</div>
+        <div class="a-value" id="r-secs">31,536,000</div>
+        <div class="a-unit">seconds</div>
+        <div class="a-sub" id="r-sub">365 × 24 × 60 × 60</div>
+      </div>
+      <div class="stats-row">
+        <div class="stat-box">
+          <span class="stat-lbl">Days</span>
+          <span class="stat-val" id="r-days">365</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-lbl">Hours</span>
+          <span class="stat-val" id="r-hours">8,760</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-lbl">Minutes</span>
+          <span class="stat-val" id="r-mins">525,600</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-lbl">π × 10⁷ approx</span>
+          <span class="stat-val">31.4M</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="calc-right">
+
+    <div class="content-card">
+      <h2>Seconds Per Time Period — Full Reference</h2>
+      <div class="tip-box">
+        <span class="tip-icon">⏱️</span>
+        <p><strong>Formula:</strong> Seconds = Days × 86,400. Regular year: 365 × 86,400 = <strong>31,536,000</strong>. Physics shortcut: 1 year ≈ π × 10⁷ seconds (31,415,927) — accurate to within 0.4%.</p>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="conv-table">
+          <thead>
+            <tr><th>Period</th><th>Seconds</th><th>Minutes</th><th>Hours</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1 second</td><td>1</td><td>0.0167</td><td>0.000278</td></tr>
+            <tr><td>1 minute</td><td>60</td><td>1</td><td>0.0167</td></tr>
+            <tr><td>1 hour</td><td>3,600</td><td>60</td><td>1</td></tr>
+            <tr><td>Work day (8h)</td><td>28,800</td><td>480</td><td>8</td></tr>
+            <tr class="hl"><td><strong>1 day (24h)</strong></td><td><strong>86,400</strong></td><td><strong>1,440</strong></td><td><strong>24</strong></td></tr>
+            <tr><td>1 week (7 days)</td><td>604,800</td><td>10,080</td><td>168</td></tr>
+            <tr><td>1 month (30 days)</td><td>2,592,000</td><td>43,200</td><td>720</td></tr>
+            <tr><td>1 month (31 days)</td><td>2,678,400</td><td>44,640</td><td>744</td></tr>
+            <tr><td>1 quarter (91 days)</td><td>7,862,400</td><td>131,040</td><td>2,184</td></tr>
+            <tr><td>6 months (182 days)</td><td>15,724,800</td><td>262,080</td><td>4,368</td></tr>
+            <tr class="hl"><td><strong>1 year (365 days)</strong></td><td><strong>31,536,000</strong></td><td><strong>525,600</strong></td><td><strong>8,760</strong></td></tr>
+            <tr class="hl"><td><strong>Leap year (366 days)</strong></td><td><strong>31,622,400</strong></td><td><strong>527,040</strong></td><td><strong>8,784</strong></td></tr>
+            <tr><td>10 years</td><td>315,360,000</td><td>5,256,000</td><td>87,600</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>The π × 10⁷ Approximation — Physics Trick</h2>
+      <p>A famous physics approximation states <strong>1 year ≈ π × 10⁷ seconds</strong>:</p>
+      <p>π × 10,000,000 = <strong>31,415,927 seconds</strong></p>
+      <p>Actual value: <strong>31,536,000 seconds</strong></p>
+      <p>Error: 31,536,000 − 31,415,927 = 120,073 seconds off (about <strong>0.38% error</strong> — less than half a percent). This is useful for order-of-magnitude estimates in physics, astronomy, and engineering without needing a calculator.</p>
+      <div class="tip-box">
+        <span class="tip-icon">🔭</span>
+        <p><strong>Astronomer's note:</strong> A <em>Julian year</em> (used in astronomy) is exactly <strong>31,557,600 seconds</strong> (365.25 days × 86,400). It accounts for the average leap year cycle. A <em>tropical year</em> (actual solar year) = 31,556,952 seconds.</p>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>How many seconds in a year?</h3>
+        <p>A regular year has <strong>31,536,000 seconds</strong> (365 × 24 × 60 × 60). A leap year has <strong>31,622,400 seconds</strong> (366 × 86,400). The difference is exactly 86,400 seconds — one full day.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How many seconds in a day?</h3>
+        <p>There are <strong>86,400 seconds</strong> in a day (24 × 60 × 60 = 86,400). This is an important constant in computing — Unix timestamps (epoch time) increment by 86,400 every day. TAI and UTC occasionally add a "leap second" to account for Earth's rotation variability.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How many seconds in an hour?</h3>
+        <p>There are <strong>3,600 seconds</strong> in one hour (60 × 60 = 3,600). Half an hour = 1,800 seconds. A quarter hour (15 min) = 900 seconds. 10 minutes = 600 seconds.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How many seconds in a leap year?</h3>
+        <p>A leap year has <strong>31,622,400 seconds</strong> (366 × 86,400). Leap years add exactly one day = 86,400 extra seconds. Upcoming leap years: 2028, 2032, 2036, 2040.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How many seconds old am I?</h3>
+        <p>Multiply your age in years by 31,536,000. A 25-year-old is about 788,400,000 seconds old. A 30-year-old is about 946,080,000 seconds old. Add roughly 86,400 seconds for each extra day past your last birthday.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What is a megasecond?</h3>
+        <p>A megasecond = 1,000,000 seconds ≈ 11.57 days. A year has about 31.5 megaseconds. A gigasecond = 1,000,000,000 seconds ≈ 31.7 years. If you hit 1 gigasecond old around age 31–32 — worth celebrating!</p>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>Related Time Tools</h2>
+      <div class="next-grid">
+        <a href="/weeks-in-a-year" class="next-card">
+          <span class="next-tag">Time</span>
+          <h3>Weeks in a Year</h3>
+          <p>52 weeks per year — work weeks and school weeks</p>
+        </a>
+        <a href="/hours-in-a-year" class="next-card">
+          <span class="next-tag">Time</span>
+          <h3>Hours in a Year</h3>
+          <p>8,760 hours per year — with work hours breakdown</p>
+        </a>
+        <a href="/minutes-in-a-day" class="next-card">
+          <span class="next-tag">Time</span>
+          <h3>Minutes in a Day</h3>
+          <p>1,440 minutes per day — complete time reference</p>
+        </a>
+        <a href="/hours-in-a-month" class="next-card">
+          <span class="next-tag">Time</span>
+          <h3>Hours in a Month</h3>
+          <p>730 average hours per month — all 12 months</p>
+        </a>
+        <a href="/time-to-decimal-calculator" class="next-card">
+          <span class="next-tag">Time</span>
+          <h3>Time to Decimal</h3>
+          <p>Convert hours &amp; minutes to decimal for timesheets</p>
+        </a>
+        <a href="/days-from-today" class="next-card">
+          <span class="next-tag">Date</span>
+          <h3>Days From Today</h3>
+          <p>Find the exact date any number of days from today</p>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+function calc() {
+  var days = parseInt(document.getElementById('year-type').value);
+  var secs = days * 86400;
+  var mins = days * 1440;
+  var hrs  = days * 24;
+  document.getElementById('r-secs').textContent  = secs.toLocaleString('en-US');
+  document.getElementById('r-days').textContent  = days;
+  document.getElementById('r-hours').textContent = hrs.toLocaleString('en-US');
+  document.getElementById('r-mins').textContent  = mins.toLocaleString('en-US');
+  document.getElementById('r-sub').textContent   = days + ' × 24 × 60 × 60';
+}
+calc();
+</script>
+</Layout>
