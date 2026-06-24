@@ -1,5 +1,10 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+html {
+  overflow-x: hidden;
+  width: 100%;
+}
+
 :root {
   --blue: #2563eb;
   --blue-dark: #1d4ed8;
@@ -334,8 +339,10 @@ footer {
 .next-card:hover, .tool-card:hover { text-decoration: none; }
 
 @media (max-width: 768px) {
-  .calc-wrap { grid-template-columns: 1fr !important; }
+  .calc-wrap { grid-template-columns: 1fr !important; width: 100% !important; }
   .calc-left { position: static !important; }
+  .next-grid { grid-template-columns: 1fr !important; }
+  .stats-row { grid-template-columns: 1fr 1fr !important; }
 }
 
 @media (max-width: 600px) {
@@ -345,4 +352,6 @@ footer {
   nav ul { display: none; }
   table { font-size: .78rem; }
   table td, table th { padding: .5rem .6rem; }
+  .card, .content-card { padding: 1rem; }
+  .a-value { font-size: 1.8rem; }
 }
