@@ -1,0 +1,353 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const schema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Hours in a Month Calculator",
+    "url": "https://computezap.com/hours-in-a-month",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Web",
+    "description": "How many hours in a month? A standard month has 730 hours (average). Calculate exact hours for any month — 28, 29, 30, or 31 days.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
+      { "@type": "ListItem", "position": 2, "name": "Hours in a Month", "item": "https://computezap.com/hours-in-a-month" }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How many hours in a month?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A standard month has 730 hours on average (365 days ÷ 12 months × 24 hours). Exact hours depend on the month: 28-day month = 672 hours, 29-day month = 696 hours (leap February), 30-day month = 720 hours, 31-day month = 744 hours." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many work hours in a month?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A standard work month has about 160–174 work hours, based on 40 hours/week. The exact count depends on the number of weekdays. Most months have 20–23 workdays × 8 hours = 160–184 hours. The commonly used standard is 173.33 hours/month (2,080 hours/year ÷ 12)." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many hours are in February?",
+        "acceptedAnswer": { "@type": "Answer", "text": "February has 672 hours in a regular year (28 days × 24 hours) or 696 hours in a leap year (29 days × 24 hours). Leap years occur every 4 years (e.g., 2024, 2028, 2032)." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many hours are in a 30-day month?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A 30-day month has exactly 720 hours (30 × 24 = 720). Months with 30 days: April, June, September, November." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many hours are in a 31-day month?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A 31-day month has exactly 744 hours (31 × 24 = 744). Months with 31 days: January, March, May, July, August, October, December." }
+      },
+      {
+        "@type": "Question",
+        "name": "How do you convert months to hours?",
+        "acceptedAnswer": { "@type": "Answer", "text": "To convert months to hours, multiply the number of days in the month by 24. Formula: hours = days × 24. For an average estimate, multiply months × 730.5 (average hours per month in a non-leap year)." }
+      }
+    ]
+  }
+]);
+---
+<Layout
+  title="Hours in a Month — How Many Hours Per Month? | ComputeZap"
+  description="How many hours in a month? Average: 730 hours. Exact: 672–744 hours depending on month. Free calculator for work hours, total hours, and every month of the year."
+  canonical="/hours-in-a-month"
+  schema={schema}
+>
+<style is:global>
+.hero{text-align:center;padding:2rem 1rem 1.5rem}
+.hero h1{font-size:2rem;color:#111;margin:.5rem 0 .4rem;font-weight:800;letter-spacing:-.02em}
+.hero-sub{color:#64748b;margin:0;font-size:1.05rem}
+.breadcrumb{font-size:.82rem;color:#94a3b8;margin-bottom:.75rem}
+.breadcrumb a{color:var(--blue);text-decoration:none}
+.calc-wrap{display:grid;grid-template-columns:390px 1fr;gap:1.75rem;max-width:1120px;margin:0 auto;padding:0 1rem 3.5rem;align-items:start}
+.calc-left{position:sticky;top:1rem}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:1.5rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.card:last-child{margin-bottom:0}
+.card-header{display:flex;align-items:center;gap:.6rem;margin-bottom:1.1rem}
+.card-step{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;background:var(--blue);color:#fff;border-radius:50%;font-size:.7rem;font-weight:800;flex-shrink:0}
+.card-title{font-size:1rem;font-weight:700;color:#111;margin:0}
+.card h2{font-size:1.05rem;font-weight:700;color:#111;margin:0 0 .9rem}
+.content-card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:1.5rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.content-card h2{font-size:1.05rem;font-weight:700;color:#111;margin:0 0 .8rem}
+.content-card p{color:#444;line-height:1.75;font-size:.93rem;margin:0 0 .7rem}
+.content-card p:last-child{margin-bottom:0}
+.field-group{margin-bottom:1rem}
+.field-group:last-child{margin-bottom:0}
+.field-lbl{display:block;font-size:.75rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem}
+.field-select{width:100%;font-size:1.1rem;font-weight:700;padding:.65rem .9rem;border:2px solid #e2e8f0;border-radius:10px;color:#111;box-sizing:border-box;font-family:inherit;background:#f8fafc;outline:none;cursor:pointer;transition:all .15s}
+.field-select:focus{border-color:#93c5fd;background:#fff;box-shadow:0 0 0 3px rgba(37,99,235,.07)}
+.field-input{width:100%;font-size:1.5rem;font-weight:800;padding:.65rem .9rem;border:2px solid #e2e8f0;border-radius:10px;color:#111;box-sizing:border-box;font-family:inherit;background:#f8fafc;outline:none;transition:all .15s}
+.field-input:focus{border-color:#93c5fd;background:#fff;box-shadow:0 0 0 3px rgba(37,99,235,.07)}
+.answer-box{background:linear-gradient(135deg,#1d4ed8 0%,#2563eb 60%,#3b82f6 100%);border-radius:14px;padding:1.5rem 1.5rem 1.25rem;text-align:center;margin-bottom:1rem;box-shadow:0 6px 24px rgba(37,99,235,.22)}
+.a-label{font-size:.68rem;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.3rem;font-weight:700}
+.a-value{font-size:2.4rem;font-weight:900;color:#fff;line-height:1.1;letter-spacing:-.02em}
+.a-unit{font-size:1rem;font-weight:600;color:rgba(255,255,255,.8);margin-top:.2rem}
+.a-sub{font-size:.88rem;color:rgba(255,255,255,.7);margin-top:.3rem}
+.stats-row{display:grid;grid-template-columns:1fr 1fr;gap:.55rem}
+.stat-box{background:#f8fafc;border:1px solid #f1f5f9;border-radius:10px;padding:.85rem .75rem;text-align:center}
+.stat-lbl{display:block;font-size:.62rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.25rem;font-weight:700}
+.stat-val{display:block;font-size:.95rem;font-weight:800;color:#1e293b}
+.quick-answer{background:#f0fdf4;border:1.5px solid #86efac;border-radius:12px;padding:1rem 1.25rem;margin-bottom:1rem;text-align:center}
+.qa-big{font-size:1.5rem;font-weight:900;color:#15803d;display:block;margin-bottom:.2rem}
+.qa-sub{font-size:.82rem;color:#166534}
+.conv-table{width:100%;border-collapse:collapse;font-size:.875rem}
+.conv-table th{background:#f8fafc;padding:.65rem .85rem;text-align:left;font-size:.68rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;border-bottom:2px solid #e2e8f0}
+.conv-table td{padding:.7rem .85rem;border-bottom:1px solid #f3f4f6;color:#374151}
+.conv-table tr:last-child td{border-bottom:none}
+.conv-table tbody tr:hover td{background:#f8faff}
+.conv-table .highlight-row td{background:#eff6ff;font-weight:700;color:#1d4ed8}
+.conv-table .highlight-row:hover td{background:#dbeafe}
+.tip-box{display:flex;gap:.75rem;background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:.9rem 1rem;margin:.85rem 0}
+.tip-icon{font-size:1.1rem;flex-shrink:0;margin-top:.05rem}
+.tip-box p{margin:0;font-size:.875rem;color:#1e40af;line-height:1.6}
+.faq-item{border-bottom:1px solid #f3f4f6;padding:.9rem 0}
+.faq-item:last-child{border-bottom:none;padding-bottom:0}
+.faq-item h3{font-size:.9rem;color:#111;margin:0 0 .35rem;font-weight:700}
+.faq-item p{color:#555;font-size:.865rem;margin:0;line-height:1.65}
+.next-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem}
+.next-card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:1rem;border-top:3px solid var(--blue);text-decoration:none;display:block;transition:box-shadow .15s}
+.next-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.08);text-decoration:none}
+.next-tag{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--blue);margin-bottom:.3rem;display:block}
+.next-card h3{font-size:.88rem;font-weight:700;color:#111;margin:0 0 .25rem}
+.next-card p{font-size:.78rem;color:#64748b;margin:0;line-height:1.5}
+@media(max-width:768px){
+  .calc-wrap{grid-template-columns:1fr}
+  .calc-left{position:static}
+  .hero h1{font-size:1.65rem}
+  .a-value{font-size:1.9rem}
+  .next-grid{grid-template-columns:1fr}
+}
+</style>
+
+<div class="hero">
+  <nav class="breadcrumb"><a href="/">Home</a> › Hours in a Month</nav>
+  <h1>Hours in a Month</h1>
+  <p class="hero-sub">How many hours per month — total hours, work hours, and every month of the year</p>
+</div>
+
+<div class="calc-wrap">
+  <div class="calc-left">
+    <div class="card">
+      <div class="quick-answer">
+        <span class="qa-big">730 hours/month</span>
+        <span class="qa-sub">Average — exact: 672 to 744 hours</span>
+      </div>
+
+      <div class="card-header">
+        <span class="card-step">1</span>
+        <h2 class="card-title">Select Month</h2>
+      </div>
+
+      <div class="field-group">
+        <label class="field-lbl" for="month-select">Month</label>
+        <select id="month-select" class="field-select" onchange="calculate()">
+          <option value="31">January (31 days)</option>
+          <option value="28">February — Regular Year (28 days)</option>
+          <option value="29">February — Leap Year (29 days)</option>
+          <option value="31">March (31 days)</option>
+          <option value="30">April (30 days)</option>
+          <option value="31">May (31 days)</option>
+          <option value="30">June (30 days)</option>
+          <option value="31">July (31 days)</option>
+          <option value="31">August (31 days)</option>
+          <option value="30">September (30 days)</option>
+          <option value="31">October (31 days)</option>
+          <option value="30">November (30 days)</option>
+          <option value="31">December (31 days)</option>
+        </select>
+      </div>
+
+      <div class="field-group">
+        <label class="field-lbl" for="hours-per-day">Hours per Day (work)</label>
+        <input type="number" id="hours-per-day" class="field-input" value="8" min="1" max="24" step="0.5" oninput="calculate()" />
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-step">2</span>
+        <h2 class="card-title">Result</h2>
+      </div>
+
+      <div class="answer-box">
+        <div class="a-label">Total Hours in Month</div>
+        <div class="a-value" id="r-total">744</div>
+        <div class="a-unit">hours</div>
+        <div class="a-sub" id="r-sub">31 days × 24 hours</div>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-box">
+          <span class="stat-lbl">Work Hours</span>
+          <span class="stat-val" id="r-work">184</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-lbl">Minutes</span>
+          <span class="stat-val" id="r-minutes">44,640</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-lbl">Seconds</span>
+          <span class="stat-val" id="r-seconds">2.68M</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-lbl">Weekdays (~)</span>
+          <span class="stat-val" id="r-weekdays">23</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="calc-right">
+    <div class="content-card">
+      <h2>Hours Per Month — Every Month of the Year</h2>
+      <div class="tip-box">
+        <span class="tip-icon">🕐</span>
+        <p><strong>Average:</strong> 730.5 hours/month (non-leap year) or 731.0 hours/month (leap year). Work standard: 173.33 hours/month (2,080 hours ÷ 12).</p>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="conv-table">
+          <thead>
+            <tr><th>Month</th><th>Days</th><th>Total Hours</th><th>Work Hours (8h/day)</th></tr>
+          </thead>
+          <tbody>
+            <tr class="highlight-row"><td><strong>January</strong></td><td>31</td><td><strong>744 hrs</strong></td><td>~184 hrs</td></tr>
+            <tr><td>February (regular)</td><td>28</td><td>672 hrs</td><td>~160 hrs</td></tr>
+            <tr><td>February (leap)</td><td>29</td><td>696 hrs</td><td>~168 hrs</td></tr>
+            <tr class="highlight-row"><td><strong>March</strong></td><td>31</td><td><strong>744 hrs</strong></td><td>~184 hrs</td></tr>
+            <tr><td>April</td><td>30</td><td>720 hrs</td><td>~176 hrs</td></tr>
+            <tr class="highlight-row"><td><strong>May</strong></td><td>31</td><td><strong>744 hrs</strong></td><td>~184 hrs</td></tr>
+            <tr><td>June</td><td>30</td><td>720 hrs</td><td>~176 hrs</td></tr>
+            <tr class="highlight-row"><td><strong>July</strong></td><td>31</td><td><strong>744 hrs</strong></td><td>~184 hrs</td></tr>
+            <tr class="highlight-row"><td><strong>August</strong></td><td>31</td><td><strong>744 hrs</strong></td><td>~184 hrs</td></tr>
+            <tr><td>September</td><td>30</td><td>720 hrs</td><td>~176 hrs</td></tr>
+            <tr class="highlight-row"><td><strong>October</strong></td><td>31</td><td><strong>744 hrs</strong></td><td>~184 hrs</td></tr>
+            <tr><td>November</td><td>30</td><td>720 hrs</td><td>~176 hrs</td></tr>
+            <tr class="highlight-row"><td><strong>December</strong></td><td>31</td><td><strong>744 hrs</strong></td><td>~184 hrs</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>Hours in a Year — Full Reference</h2>
+      <div style="overflow-x:auto">
+        <table class="conv-table">
+          <thead>
+            <tr><th>Period</th><th>Total Hours</th><th>Work Hours (40h/wk)</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1 day</td><td>24 hrs</td><td>8 hrs</td></tr>
+            <tr><td>1 week</td><td>168 hrs</td><td>40 hrs</td></tr>
+            <tr><td>2 weeks</td><td>336 hrs</td><td>80 hrs</td></tr>
+            <tr class="highlight-row"><td><strong>1 month (avg)</strong></td><td><strong>730.5 hrs</strong></td><td><strong>173.3 hrs</strong></td></tr>
+            <tr><td>1 month (28 days)</td><td>672 hrs</td><td>~160 hrs</td></tr>
+            <tr><td>1 month (30 days)</td><td>720 hrs</td><td>~176 hrs</td></tr>
+            <tr><td>1 month (31 days)</td><td>744 hrs</td><td>~184 hrs</td></tr>
+            <tr><td>1 quarter (3 months)</td><td>2,191 hrs</td><td>520 hrs</td></tr>
+            <tr><td>6 months</td><td>4,383 hrs</td><td>1,040 hrs</td></tr>
+            <tr class="highlight-row"><td><strong>1 year (365 days)</strong></td><td><strong>8,760 hrs</strong></td><td><strong>2,080 hrs</strong></td></tr>
+            <tr><td>1 leap year (366 days)</td><td>8,784 hrs</td><td>2,088 hrs</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>How many hours in a month?</h3>
+        <p>A standard month averages 730 hours (365 days ÷ 12 × 24). Exactly: 28-day month = 672 hrs, 29-day month = 696 hrs, 30-day month = 720 hrs, 31-day month = 744 hrs.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How many work hours in a month?</h3>
+        <p>About 160–184 work hours, depending on weekdays. The standard used in HR/payroll is 173.33 hours/month (2,080 hours/year ÷ 12 months).</p>
+      </div>
+      <div class="faq-item">
+        <h3>How many hours are in February?</h3>
+        <p>February has 672 hours in a regular year (28 × 24) or 696 hours in a leap year (29 × 24). Leap years: 2024, 2028, 2032.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How many hours are in a 30-day month?</h3>
+        <p>720 hours (30 × 24 = 720). Months with 30 days: April, June, September, November.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How many hours are in a 31-day month?</h3>
+        <p>744 hours (31 × 24 = 744). Months with 31 days: January, March, May, July, August, October, December.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How many hours are in a year?</h3>
+        <p>8,760 hours in a regular year (365 × 24) and 8,784 hours in a leap year (366 × 24). Work hours per year at 40 hrs/week = 2,080 hours.</p>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>Related Tools</h2>
+      <div class="next-grid">
+        <a href="/days-from-today" class="next-card">
+          <span class="next-tag">Date</span>
+          <h3>Days From Today</h3>
+          <p>Find the exact date any number of days from today.</p>
+        </a>
+        <a href="/time-to-decimal-calculator" class="next-card">
+          <span class="next-tag">Time</span>
+          <h3>Time to Decimal</h3>
+          <p>Convert hours and minutes to decimal for timesheets.</p>
+        </a>
+        <a href="/percent-off-calculator" class="next-card">
+          <span class="next-tag">Math</span>
+          <h3>Percent Off Calculator</h3>
+          <p>Calculate final price after any discount.</p>
+        </a>
+        <a href="/km-to-miles" class="next-card">
+          <span class="next-tag">Length</span>
+          <h3>km to Miles</h3>
+          <p>Convert kilometers to miles instantly.</p>
+        </a>
+        <a href="/celsius-to-fahrenheit" class="next-card">
+          <span class="next-tag">Temperature</span>
+          <h3>Celsius to °F</h3>
+          <p>Convert temperature between Celsius and Fahrenheit.</p>
+        </a>
+        <a href="/square-footage-calculator" class="next-card">
+          <span class="next-tag">Area</span>
+          <h3>Square Footage</h3>
+          <p>Calculate area in square feet for any space.</p>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+function calculate() {
+  var days    = parseInt(document.getElementById('month-select').value);
+  var hrsDay  = parseFloat(document.getElementById('hours-per-day').value) || 8;
+
+  var total   = days * 24;
+  var weekdays = Math.round(days * 5 / 7);
+  var workHrs  = Math.round(weekdays * hrsDay);
+  var minutes  = total * 60;
+  var seconds  = total * 3600;
+
+  document.getElementById('r-total').textContent    = total.toLocaleString('en-US');
+  document.getElementById('r-sub').textContent      = days + ' days × 24 hours';
+  document.getElementById('r-work').textContent     = workHrs.toLocaleString('en-US');
+  document.getElementById('r-minutes').textContent  = minutes.toLocaleString('en-US');
+  document.getElementById('r-seconds').textContent  = (seconds / 1000000).toFixed(2) + 'M';
+  document.getElementById('r-weekdays').textContent = weekdays;
+}
+
+calculate();
+</script>
+</Layout>

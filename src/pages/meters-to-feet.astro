@@ -1,0 +1,392 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const schema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Meters to Feet Converter",
+    "url": "https://computezap.com/meters-to-feet",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Web",
+    "description": "Convert meters to feet instantly. 1 meter = 3.28084 feet. Free m to ft converter with feet and inches output and full conversion table.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
+      { "@type": "ListItem", "position": 2, "name": "Meters to Feet", "item": "https://computezap.com/meters-to-feet" }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How many feet in a meter?",
+        "acceptedAnswer": { "@type": "Answer", "text": "1 meter = 3.28084 feet. To convert meters to feet, multiply by 3.28084. So 2 m = 6.562 ft, 5 m = 16.404 ft, 10 m = 32.808 ft." }
+      },
+      {
+        "@type": "Question",
+        "name": "How do you convert meters to feet?",
+        "acceptedAnswer": { "@type": "Answer", "text": "To convert meters to feet, multiply by 3.28084. Formula: feet = meters × 3.28084. For feet and inches: take the whole number as feet, then multiply the decimal by 12 to get inches. Example: 1.8 m = 5.906 ft = 5 ft 10.87 in." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many meters in a foot?",
+        "acceptedAnswer": { "@type": "Answer", "text": "1 foot = 0.3048 meters exactly. To convert feet to meters, multiply by 0.3048. So 5 ft = 1.524 m, 6 ft = 1.829 m, 10 ft = 3.048 m." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many feet is 1.8 meters?",
+        "acceptedAnswer": { "@type": "Answer", "text": "1.8 meters = 5 feet 10.87 inches (approximately 5'11\"). This is calculated as: 1.8 × 3.28084 = 5.906 feet. The 0.906 decimal × 12 = 10.87 inches." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many feet is 2 meters?",
+        "acceptedAnswer": { "@type": "Answer", "text": "2 meters = 6 feet 6.74 inches (approximately 6'7\"). Calculated as: 2 × 3.28084 = 6.562 feet. The 0.562 × 12 = 6.74 inches." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is 5 feet in meters?",
+        "acceptedAnswer": { "@type": "Answer", "text": "5 feet = 1.524 meters. Multiply 5 × 0.3048 = 1.524 m. Common height conversions: 5'0\" = 1.524 m, 5'6\" = 1.676 m, 5'10\" = 1.778 m, 6'0\" = 1.829 m." }
+      }
+    ]
+  }
+]);
+---
+<Layout
+  title="Meters to Feet Converter — m to ft | ComputeZap"
+  description="Convert meters to feet instantly. 1 meter = 3.28084 feet. Free m to ft converter showing feet and inches output, plus full conversion table from 1 m to 100 m."
+  canonical="/meters-to-feet"
+  schema={schema}
+>
+<style is:global>
+.hero{text-align:center;padding:2rem 1rem 1.5rem}
+.hero h1{font-size:2rem;color:#111;margin:.5rem 0 .4rem;font-weight:800;letter-spacing:-.02em}
+.hero-sub{color:#64748b;margin:0;font-size:1.05rem}
+.breadcrumb{font-size:.82rem;color:#94a3b8;margin-bottom:.75rem}
+.breadcrumb a{color:var(--blue);text-decoration:none}
+.calc-wrap{display:grid;grid-template-columns:390px 1fr;gap:1.75rem;max-width:1120px;margin:0 auto;padding:0 1rem 3.5rem;align-items:start}
+.calc-left{position:sticky;top:1rem}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:1.5rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.card:last-child{margin-bottom:0}
+.card-header{display:flex;align-items:center;gap:.6rem;margin-bottom:1.1rem}
+.card-step{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;background:var(--blue);color:#fff;border-radius:50%;font-size:.7rem;font-weight:800;flex-shrink:0}
+.card-title{font-size:1rem;font-weight:700;color:#111;margin:0}
+.card h2{font-size:1.05rem;font-weight:700;color:#111;margin:0 0 .9rem}
+.content-card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:1.5rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.content-card h2{font-size:1.05rem;font-weight:700;color:#111;margin:0 0 .8rem}
+.content-card p{color:#444;line-height:1.75;font-size:.93rem;margin:0 0 .7rem}
+.content-card p:last-child{margin-bottom:0}
+.mode-toggle{display:grid;grid-template-columns:1fr 1fr;background:#f1f5f9;border-radius:10px;padding:3px;margin-bottom:1.1rem;gap:3px}
+.mode-btn{padding:.55rem;font-size:.82rem;font-weight:700;border:none;border-radius:8px;cursor:pointer;font-family:inherit;background:transparent;color:#64748b;transition:all .15s}
+.mode-btn.active{background:#fff;color:var(--blue);box-shadow:0 1px 4px rgba(0,0,0,.1)}
+.field-group{margin-bottom:1rem}
+.field-group:last-child{margin-bottom:0}
+.field-lbl{display:block;font-size:.75rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem}
+.input-wrap{position:relative;display:flex;align-items:center}
+.input-sfx{position:absolute;right:.9rem;font-size:1rem;font-weight:700;color:#94a3b8;pointer-events:none}
+.field-input{width:100%;font-size:1.5rem;font-weight:800;padding:.65rem 3.5rem .65rem .9rem;border:2px solid #e2e8f0;border-radius:10px;color:#111;box-sizing:border-box;font-family:inherit;background:#f8fafc;outline:none;transition:all .15s}
+.field-input:focus{border-color:#93c5fd;background:#fff;box-shadow:0 0 0 3px rgba(37,99,235,.07)}
+.answer-box{background:linear-gradient(135deg,#1d4ed8 0%,#2563eb 60%,#3b82f6 100%);border-radius:14px;padding:1.5rem 1.5rem 1.25rem;text-align:center;margin-bottom:1rem;box-shadow:0 6px 24px rgba(37,99,235,.22)}
+.a-label{font-size:.68rem;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.3rem;font-weight:700}
+.a-value{font-size:2.2rem;font-weight:900;color:#fff;line-height:1.1;letter-spacing:-.02em}
+.a-unit{font-size:1rem;font-weight:600;color:rgba(255,255,255,.8);margin-top:.2rem}
+.a-sub{font-size:.88rem;color:rgba(255,255,255,.7);margin-top:.3rem}
+.stats-row{display:grid;grid-template-columns:1fr 1fr;gap:.55rem}
+.stat-box{background:#f8fafc;border:1px solid #f1f5f9;border-radius:10px;padding:.85rem .75rem;text-align:center}
+.stat-lbl{display:block;font-size:.62rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.25rem;font-weight:700}
+.stat-val{display:block;font-size:.95rem;font-weight:800;color:#1e293b}
+.quick-answer{background:#f0fdf4;border:1.5px solid #86efac;border-radius:12px;padding:1rem 1.25rem;margin-bottom:1rem;text-align:center}
+.qa-big{font-size:1.5rem;font-weight:900;color:#15803d;display:block;margin-bottom:.2rem}
+.qa-sub{font-size:.82rem;color:#166534}
+.conv-table{width:100%;border-collapse:collapse;font-size:.875rem}
+.conv-table th{background:#f8fafc;padding:.65rem .85rem;text-align:left;font-size:.68rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;border-bottom:2px solid #e2e8f0}
+.conv-table td{padding:.7rem .85rem;border-bottom:1px solid #f3f4f6;color:#374151}
+.conv-table tr:last-child td{border-bottom:none}
+.conv-table tbody tr:hover td{background:#f8faff}
+.conv-table .highlight-row td{background:#eff6ff;font-weight:700;color:#1d4ed8}
+.conv-table .highlight-row:hover td{background:#dbeafe}
+.tip-box{display:flex;gap:.75rem;background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:.9rem 1rem;margin:.85rem 0}
+.tip-icon{font-size:1.1rem;flex-shrink:0;margin-top:.05rem}
+.tip-box p{margin:0;font-size:.875rem;color:#1e40af;line-height:1.6}
+.faq-item{border-bottom:1px solid #f3f4f6;padding:.9rem 0}
+.faq-item:last-child{border-bottom:none;padding-bottom:0}
+.faq-item h3{font-size:.9rem;color:#111;margin:0 0 .35rem;font-weight:700}
+.faq-item p{color:#555;font-size:.865rem;margin:0;line-height:1.65}
+.next-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem}
+.next-card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:1rem;border-top:3px solid var(--blue);text-decoration:none;display:block;transition:box-shadow .15s}
+.next-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.08);text-decoration:none}
+.next-tag{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--blue);margin-bottom:.3rem;display:block}
+.next-card h3{font-size:.88rem;font-weight:700;color:#111;margin:0 0 .25rem}
+.next-card p{font-size:.78rem;color:#64748b;margin:0;line-height:1.5}
+@media(max-width:768px){
+  .calc-wrap{grid-template-columns:1fr}
+  .calc-left{position:static}
+  .hero h1{font-size:1.65rem}
+  .a-value{font-size:1.75rem}
+  .next-grid{grid-template-columns:1fr}
+}
+</style>
+
+<div class="hero">
+  <nav class="breadcrumb"><a href="/">Home</a> › Meters to Feet</nav>
+  <h1>Meters to Feet Converter</h1>
+  <p class="hero-sub">Convert meters to feet and inches — 1 m = 3.28084 ft</p>
+</div>
+
+<div class="calc-wrap">
+  <div class="calc-left">
+    <div class="card">
+      <div class="quick-answer">
+        <span class="qa-big">1 m = 3.2808 ft</span>
+        <span class="qa-sub">1 foot = 0.3048 meters exactly</span>
+      </div>
+
+      <div class="card-header">
+        <span class="card-step">1</span>
+        <h2 class="card-title">Convert</h2>
+      </div>
+
+      <div class="mode-toggle">
+        <button class="mode-btn active" id="btn-m" onclick="setMode('m')">Meters → Feet</button>
+        <button class="mode-btn" id="btn-ft" onclick="setMode('ft')">Feet → Meters</button>
+      </div>
+
+      <div class="field-group">
+        <label class="field-lbl" id="input-lbl" for="main-input">Meters (m)</label>
+        <div class="input-wrap">
+          <input type="number" id="main-input" class="field-input" value="1" min="0" step="0.01" oninput="convert()" />
+          <span class="input-sfx" id="input-sfx">m</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-step">2</span>
+        <h2 class="card-title">Result</h2>
+      </div>
+
+      <div class="answer-box">
+        <div class="a-label" id="r-label">Feet</div>
+        <div class="a-value" id="r-value">3.2808</div>
+        <div class="a-unit" id="r-unit">feet</div>
+        <div class="a-sub" id="r-sub">= 3 ft 3.37 in</div>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-box">
+          <span class="stat-lbl">Inches</span>
+          <span class="stat-val" id="r-inches">39.37</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-lbl">Centimeters</span>
+          <span class="stat-val" id="r-cm">100</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-lbl">Yards</span>
+          <span class="stat-val" id="r-yards">1.094</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-lbl" id="r-alt-lbl">Meters</span>
+          <span class="stat-val" id="r-alt">1</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="calc-right">
+    <div class="content-card">
+      <h2>Meters to Feet — Common Conversions</h2>
+      <div class="tip-box">
+        <span class="tip-icon">📏</span>
+        <p><strong>Formula:</strong> feet = meters × 3.28084. For feet + inches: whole number = feet, decimal × 12 = inches. Example: 1.75 m = 5.741 ft = 5 ft 8.9 in.</p>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="conv-table">
+          <thead>
+            <tr><th>Meters (m)</th><th>Feet (ft)</th><th>Feet & Inches</th><th>Inches (in)</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>0.5 m</td><td>1.640 ft</td><td>1 ft 7.68 in</td><td>19.69 in</td></tr>
+            <tr class="highlight-row"><td><strong>1 m</strong></td><td><strong>3.281 ft</strong></td><td><strong>3 ft 3.37 in</strong></td><td><strong>39.37 in</strong></td></tr>
+            <tr><td>1.5 m</td><td>4.921 ft</td><td>4 ft 11.06 in</td><td>59.06 in</td></tr>
+            <tr><td>1.6 m</td><td>5.249 ft</td><td>5 ft 2.99 in</td><td>62.99 in</td></tr>
+            <tr><td>1.65 m</td><td>5.413 ft</td><td>5 ft 4.96 in</td><td>64.96 in</td></tr>
+            <tr class="highlight-row"><td><strong>1.7 m</strong></td><td><strong>5.577 ft</strong></td><td><strong>5 ft 6.93 in</strong></td><td><strong>66.93 in</strong></td></tr>
+            <tr><td>1.75 m</td><td>5.741 ft</td><td>5 ft 8.90 in</td><td>68.90 in</td></tr>
+            <tr class="highlight-row"><td><strong>1.8 m</strong></td><td><strong>5.906 ft</strong></td><td><strong>5 ft 10.87 in</strong></td><td><strong>70.87 in</strong></td></tr>
+            <tr><td>1.85 m</td><td>6.070 ft</td><td>6 ft 0.84 in</td><td>72.84 in</td></tr>
+            <tr><td>1.9 m</td><td>6.234 ft</td><td>6 ft 2.81 in</td><td>74.81 in</td></tr>
+            <tr class="highlight-row"><td><strong>2 m</strong></td><td><strong>6.562 ft</strong></td><td><strong>6 ft 6.74 in</strong></td><td><strong>78.74 in</strong></td></tr>
+            <tr><td>2.5 m</td><td>8.202 ft</td><td>8 ft 2.43 in</td><td>98.43 in</td></tr>
+            <tr class="highlight-row"><td><strong>3 m</strong></td><td><strong>9.843 ft</strong></td><td><strong>9 ft 10.11 in</strong></td><td><strong>118.11 in</strong></td></tr>
+            <tr><td>5 m</td><td>16.404 ft</td><td>16 ft 4.85 in</td><td>196.85 in</td></tr>
+            <tr class="highlight-row"><td><strong>10 m</strong></td><td><strong>32.808 ft</strong></td><td><strong>32 ft 9.70 in</strong></td><td><strong>393.70 in</strong></td></tr>
+            <tr><td>20 m</td><td>65.617 ft</td><td>65 ft 7.40 in</td><td>787.40 in</td></tr>
+            <tr><td>50 m</td><td>164.042 ft</td><td>164 ft 0.50 in</td><td>1,968.50 in</td></tr>
+            <tr class="highlight-row"><td><strong>100 m</strong></td><td><strong>328.084 ft</strong></td><td><strong>328 ft 1.01 in</strong></td><td><strong>3,937 in</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>Height Conversion — Feet to Meters</h2>
+      <div style="overflow-x:auto">
+        <table class="conv-table">
+          <thead>
+            <tr><th>Feet & Inches</th><th>Feet</th><th>Meters</th><th>cm</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>4'10" (4 ft 10 in)</td><td>4.833 ft</td><td>1.473 m</td><td>147.3 cm</td></tr>
+            <tr><td>5'0" (5 ft)</td><td>5.000 ft</td><td>1.524 m</td><td>152.4 cm</td></tr>
+            <tr><td>5'2" (5 ft 2 in)</td><td>5.167 ft</td><td>1.575 m</td><td>157.5 cm</td></tr>
+            <tr><td>5'4" (5 ft 4 in)</td><td>5.333 ft</td><td>1.626 m</td><td>162.6 cm</td></tr>
+            <tr><td>5'6" (5 ft 6 in)</td><td>5.500 ft</td><td>1.676 m</td><td>167.6 cm</td></tr>
+            <tr class="highlight-row"><td><strong>5'8" (5 ft 8 in)</strong></td><td><strong>5.667 ft</strong></td><td><strong>1.727 m</strong></td><td><strong>172.7 cm</strong></td></tr>
+            <tr><td>5'10" (5 ft 10 in)</td><td>5.833 ft</td><td>1.778 m</td><td>177.8 cm</td></tr>
+            <tr class="highlight-row"><td><strong>6'0" (6 ft)</strong></td><td><strong>6.000 ft</strong></td><td><strong>1.829 m</strong></td><td><strong>182.9 cm</strong></td></tr>
+            <tr><td>6'2" (6 ft 2 in)</td><td>6.167 ft</td><td>1.880 m</td><td>188.0 cm</td></tr>
+            <tr><td>6'4" (6 ft 4 in)</td><td>6.333 ft</td><td>1.930 m</td><td>193.0 cm</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>How many feet in a meter?</h3>
+        <p>1 meter = 3.28084 feet. To convert meters to feet, multiply by 3.28084. So 2 m = 6.562 ft, 5 m = 16.404 ft, 10 m = 32.808 ft.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How do you convert meters to feet and inches?</h3>
+        <p>Multiply meters × 3.28084 to get total feet. Take the whole number as feet. Multiply the decimal part × 12 to get inches. Example: 1.8 m × 3.28084 = 5.906 ft → 5 feet + (0.906 × 12) = 5 ft 10.87 in.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How many feet is 1.8 meters?</h3>
+        <p>1.8 meters = 5 feet 10.87 inches (about 5'11"). Calculated as 1.8 × 3.28084 = 5.906 ft = 5 ft + 10.87 in.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How many feet is 2 meters?</h3>
+        <p>2 meters = 6 feet 6.74 inches (about 6'7"). Calculated as 2 × 3.28084 = 6.562 ft = 6 ft + 6.74 in.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How many meters in a foot?</h3>
+        <p>1 foot = 0.3048 meters exactly. To convert feet to meters, multiply by 0.3048. So 5 ft = 1.524 m, 6 ft = 1.829 m, 10 ft = 3.048 m.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What is 5 feet in meters?</h3>
+        <p>5 feet = 1.524 meters. Multiply 5 × 0.3048 = 1.524 m. Common: 5'6" = 1.676 m, 5'10" = 1.778 m, 6'0" = 1.829 m.</p>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>Related Converters</h2>
+      <div class="next-grid">
+        <a href="/cm-to-inches" class="next-card">
+          <span class="next-tag">Length</span>
+          <h3>cm to Inches</h3>
+          <p>Convert centimeters to inches instantly.</p>
+        </a>
+        <a href="/km-to-miles" class="next-card">
+          <span class="next-tag">Length</span>
+          <h3>km to Miles</h3>
+          <p>Convert kilometers to miles — includes race distances.</p>
+        </a>
+        <a href="/kg-to-lbs" class="next-card">
+          <span class="next-tag">Weight</span>
+          <h3>kg to lbs</h3>
+          <p>Convert kilograms to pounds instantly.</p>
+        </a>
+        <a href="/celsius-to-fahrenheit" class="next-card">
+          <span class="next-tag">Temperature</span>
+          <h3>Celsius to °F</h3>
+          <p>Convert temperature between Celsius and Fahrenheit.</p>
+        </a>
+        <a href="/ounces-in-a-pound" class="next-card">
+          <span class="next-tag">Weight</span>
+          <h3>Ounces in a Pound</h3>
+          <p>1 lb = 16 oz — instant lbs to oz converter.</p>
+        </a>
+        <a href="/square-footage-calculator" class="next-card">
+          <span class="next-tag">Area</span>
+          <h3>Square Footage</h3>
+          <p>Calculate area in square feet for any room or space.</p>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+var currentMode = 'm';
+
+function setMode(mode) {
+  currentMode = mode;
+  document.getElementById('btn-m').classList.toggle('active', mode === 'm');
+  document.getElementById('btn-ft').classList.toggle('active', mode === 'ft');
+  document.getElementById('input-lbl').textContent = mode === 'm' ? 'Meters (m)' : 'Feet (ft)';
+  document.getElementById('input-sfx').textContent = mode === 'm' ? 'm' : 'ft';
+  document.getElementById('main-input').value = '1';
+  convert();
+}
+
+function fmt(n, dec) {
+  if (n === 0) return '0';
+  return parseFloat(n.toFixed(dec !== undefined ? dec : 4)).toLocaleString('en-US');
+}
+
+function toFeetInches(totalFeet) {
+  var feet = Math.floor(totalFeet);
+  var inches = (totalFeet - feet) * 12;
+  return feet + ' ft ' + fmt(inches, 2) + ' in';
+}
+
+function convert() {
+  var val = parseFloat(document.getElementById('main-input').value);
+  if (isNaN(val) || val < 0) return;
+
+  var m, ft;
+  if (currentMode === 'm') {
+    m  = val;
+    ft = val * 3.28084;
+  } else {
+    ft = val;
+    m  = val * 0.3048;
+  }
+
+  var inches = m * 39.3701;
+  var yards  = m * 1.09361;
+  var cm     = m * 100;
+
+  if (currentMode === 'm') {
+    document.getElementById('r-label').textContent = 'Feet';
+    document.getElementById('r-value').textContent = fmt(ft, 4);
+    document.getElementById('r-unit').textContent  = 'feet';
+    document.getElementById('r-sub').textContent   = '= ' + toFeetInches(ft);
+    document.getElementById('r-alt-lbl').textContent = 'Meters';
+    document.getElementById('r-alt').textContent   = fmt(m, 4);
+  } else {
+    document.getElementById('r-label').textContent = 'Meters';
+    document.getElementById('r-value').textContent = fmt(m, 4);
+    document.getElementById('r-unit').textContent  = 'meters';
+    document.getElementById('r-sub').textContent   = fmt(ft, 4) + ' ft = ' + fmt(m, 4) + ' m';
+    document.getElementById('r-alt-lbl').textContent = 'Feet';
+    document.getElementById('r-alt').textContent   = fmt(ft, 4);
+  }
+
+  document.getElementById('r-inches').textContent = fmt(inches, 2);
+  document.getElementById('r-cm').textContent     = fmt(cm, 2);
+  document.getElementById('r-yards').textContent  = fmt(yards, 4);
+}
+
+convert();
+</script>
+</Layout>

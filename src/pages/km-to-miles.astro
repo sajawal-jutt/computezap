@@ -1,0 +1,407 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const schema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "km to Miles Converter",
+    "url": "https://computezap.com/km-to-miles",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Web",
+    "description": "Convert kilometers to miles instantly. 1 km = 0.621371 miles. Free km to miles and miles to km converter with full conversion table.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
+      { "@type": "ListItem", "position": 2, "name": "km to Miles", "item": "https://computezap.com/km-to-miles" }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How many miles in a kilometer?",
+        "acceptedAnswer": { "@type": "Answer", "text": "1 kilometer = 0.621371 miles. To convert km to miles, multiply by 0.621371. So 5 km = 3.107 miles, 10 km = 6.214 miles, and 100 km = 62.137 miles." }
+      },
+      {
+        "@type": "Question",
+        "name": "How do you convert km to miles?",
+        "acceptedAnswer": { "@type": "Answer", "text": "To convert kilometers to miles, multiply the km value by 0.621371. Formula: miles = km × 0.621371. A quick mental trick: multiply km by 0.6 for an approximate answer. Example: 10 km × 0.621371 = 6.214 miles." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many km in a mile?",
+        "acceptedAnswer": { "@type": "Answer", "text": "1 mile = 1.60934 kilometers. To convert miles to km, multiply by 1.60934. So 5 miles = 8.047 km, 10 miles = 16.093 km, 26.2 miles (marathon) = 42.195 km." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many km is 5 miles?",
+        "acceptedAnswer": { "@type": "Answer", "text": "5 miles = 8.047 kilometers. Multiply 5 × 1.60934 = 8.047 km. Other common conversions: 3 miles = 4.828 km, 10 miles = 16.093 km, 100 miles = 160.934 km." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many miles is 10 km?",
+        "acceptedAnswer": { "@type": "Answer", "text": "10 km = 6.214 miles. Multiply 10 × 0.621371 = 6.214 miles. A 10K race is 6.214 miles. A half marathon is 21.097 km = 13.1 miles. A full marathon is 42.195 km = 26.2 miles." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the formula to convert km to miles?",
+        "acceptedAnswer": { "@type": "Answer", "text": "The exact formula is: miles = km × 0.621371. The reverse formula is: km = miles × 1.60934. A quick approximation: multiply km by 5 then divide by 8 (e.g., 8 km × 5 ÷ 8 = 5 miles)." }
+      }
+    ]
+  }
+]);
+---
+<Layout
+  title="km to Miles Converter — Kilometers to Miles | ComputeZap"
+  description="Convert km to miles instantly. 1 km = 0.621371 miles. Free kilometers to miles and miles to km converter with full conversion table from 1 km to 200 km."
+  canonical="/km-to-miles"
+  schema={schema}
+>
+<style is:global>
+.hero{text-align:center;padding:2rem 1rem 1.5rem}
+.hero h1{font-size:2rem;color:#111;margin:.5rem 0 .4rem;font-weight:800;letter-spacing:-.02em}
+.hero-sub{color:#64748b;margin:0;font-size:1.05rem}
+.breadcrumb{font-size:.82rem;color:#94a3b8;margin-bottom:.75rem}
+.breadcrumb a{color:var(--blue);text-decoration:none}
+.calc-wrap{display:grid;grid-template-columns:390px 1fr;gap:1.75rem;max-width:1120px;margin:0 auto;padding:0 1rem 3.5rem;align-items:start}
+.calc-left{position:sticky;top:1rem}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:1.5rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.card:last-child{margin-bottom:0}
+.card-header{display:flex;align-items:center;gap:.6rem;margin-bottom:1.1rem}
+.card-step{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;background:var(--blue);color:#fff;border-radius:50%;font-size:.7rem;font-weight:800;flex-shrink:0}
+.card-title{font-size:1rem;font-weight:700;color:#111;margin:0}
+.card h2{font-size:1.05rem;font-weight:700;color:#111;margin:0 0 .9rem}
+.card p{color:#444;line-height:1.75;font-size:.93rem;margin:0 0 .7rem}
+.card p:last-child{margin-bottom:0}
+.content-card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:1.5rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.content-card h2{font-size:1.05rem;font-weight:700;color:#111;margin:0 0 .8rem}
+.content-card p{color:#444;line-height:1.75;font-size:.93rem;margin:0 0 .7rem}
+.content-card p:last-child{margin-bottom:0}
+.content-card ul{color:#444;line-height:1.85;font-size:.93rem;padding-left:1.25rem;margin:0}
+.mode-toggle{display:grid;grid-template-columns:1fr 1fr;background:#f1f5f9;border-radius:10px;padding:3px;margin-bottom:1.1rem;gap:3px}
+.mode-btn{padding:.55rem;font-size:.82rem;font-weight:700;border:none;border-radius:8px;cursor:pointer;font-family:inherit;background:transparent;color:#64748b;transition:all .15s}
+.mode-btn.active{background:#fff;color:var(--blue);box-shadow:0 1px 4px rgba(0,0,0,.1)}
+.field-group{margin-bottom:1rem}
+.field-group:last-child{margin-bottom:0}
+.field-lbl{display:block;font-size:.75rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem}
+.input-wrap{position:relative;display:flex;align-items:center}
+.input-sfx{position:absolute;right:.9rem;font-size:1rem;font-weight:700;color:#94a3b8;pointer-events:none}
+.field-input{width:100%;font-size:1.5rem;font-weight:800;padding:.65rem 3.5rem .65rem .9rem;border:2px solid #e2e8f0;border-radius:10px;color:#111;box-sizing:border-box;font-family:inherit;background:#f8fafc;outline:none;transition:all .15s}
+.field-input:focus{border-color:#93c5fd;background:#fff;box-shadow:0 0 0 3px rgba(37,99,235,.07)}
+.answer-box{background:linear-gradient(135deg,#1d4ed8 0%,#2563eb 60%,#3b82f6 100%);border-radius:14px;padding:1.5rem 1.5rem 1.25rem;text-align:center;margin-bottom:1rem;box-shadow:0 6px 24px rgba(37,99,235,.22)}
+.a-label{font-size:.68rem;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.3rem;font-weight:700}
+.a-value{font-size:2.4rem;font-weight:900;color:#fff;line-height:1.1;letter-spacing:-.02em}
+.a-unit{font-size:1rem;font-weight:600;color:rgba(255,255,255,.8);margin-top:.2rem}
+.a-sub{font-size:.88rem;color:rgba(255,255,255,.7);margin-top:.3rem}
+.stats-row{display:grid;grid-template-columns:1fr 1fr;gap:.55rem}
+.stat-box{background:#f8fafc;border:1px solid #f1f5f9;border-radius:10px;padding:.85rem .75rem;text-align:center}
+.stat-lbl{display:block;font-size:.62rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.25rem;font-weight:700}
+.stat-val{display:block;font-size:.95rem;font-weight:800;color:#1e293b}
+.quick-answer{background:#f0fdf4;border:1.5px solid #86efac;border-radius:12px;padding:1rem 1.25rem;margin-bottom:1rem;text-align:center}
+.qa-big{font-size:1.5rem;font-weight:900;color:#15803d;display:block;margin-bottom:.2rem}
+.qa-sub{font-size:.82rem;color:#166534}
+.conv-table{width:100%;border-collapse:collapse;font-size:.875rem}
+.conv-table th{background:#f8fafc;padding:.65rem .85rem;text-align:left;font-size:.68rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;border-bottom:2px solid #e2e8f0}
+.conv-table td{padding:.7rem .85rem;border-bottom:1px solid #f3f4f6;color:#374151}
+.conv-table tr:last-child td{border-bottom:none}
+.conv-table tbody tr:hover td{background:#f8faff}
+.conv-table .highlight-row td{background:#eff6ff;font-weight:700;color:#1d4ed8}
+.conv-table .highlight-row:hover td{background:#dbeafe}
+.tip-box{display:flex;gap:.75rem;background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:.9rem 1rem;margin:.85rem 0}
+.tip-icon{font-size:1.1rem;flex-shrink:0;margin-top:.05rem}
+.tip-box p{margin:0;font-size:.875rem;color:#1e40af;line-height:1.6}
+.faq-item{border-bottom:1px solid #f3f4f6;padding:.9rem 0}
+.faq-item:last-child{border-bottom:none;padding-bottom:0}
+.faq-item h3{font-size:.9rem;color:#111;margin:0 0 .35rem;font-weight:700}
+.faq-item p{color:#555;font-size:.865rem;margin:0;line-height:1.65}
+.next-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem}
+.next-card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:1rem;border-top:3px solid var(--blue);text-decoration:none;display:block;transition:box-shadow .15s}
+.next-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.08);text-decoration:none}
+.next-tag{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--blue);margin-bottom:.3rem;display:block}
+.next-card h3{font-size:.88rem;font-weight:700;color:#111;margin:0 0 .25rem}
+.next-card p{font-size:.78rem;color:#64748b;margin:0;line-height:1.5}
+@media(max-width:768px){
+  .calc-wrap{grid-template-columns:1fr}
+  .calc-left{position:static}
+  .hero h1{font-size:1.65rem}
+  .a-value{font-size:1.9rem}
+  .next-grid{grid-template-columns:1fr}
+}
+</style>
+
+<div class="hero">
+  <nav class="breadcrumb"><a href="/">Home</a> › km to Miles</nav>
+  <h1>km to Miles Converter</h1>
+  <p class="hero-sub">Convert kilometers to miles — 1 km = 0.621371 miles</p>
+</div>
+
+<div class="calc-wrap">
+  <div class="calc-left">
+    <div class="card">
+      <div class="quick-answer">
+        <span class="qa-big">1 km = 0.6214 mi</span>
+        <span class="qa-sub">1 mile = 1.60934 kilometers</span>
+      </div>
+
+      <div class="card-header">
+        <span class="card-step">1</span>
+        <h2 class="card-title">Convert</h2>
+      </div>
+
+      <div class="mode-toggle">
+        <button class="mode-btn active" id="btn-km" onclick="setMode('km')">km → Miles</button>
+        <button class="mode-btn" id="btn-mi" onclick="setMode('mi')">Miles → km</button>
+      </div>
+
+      <div class="field-group">
+        <label class="field-lbl" id="input-lbl" for="main-input">Kilometers (km)</label>
+        <div class="input-wrap">
+          <input type="number" id="main-input" class="field-input" value="1" min="0" step="0.1" oninput="convert()" />
+          <span class="input-sfx" id="input-sfx">km</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-step">2</span>
+        <h2 class="card-title">Result</h2>
+      </div>
+
+      <div class="answer-box">
+        <div class="a-label" id="r-label">Miles</div>
+        <div class="a-value" id="r-value">0.6214</div>
+        <div class="a-unit" id="r-unit">miles</div>
+        <div class="a-sub" id="r-sub">1 km = 0.621371 miles</div>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-box">
+          <span class="stat-lbl">Meters</span>
+          <span class="stat-val" id="r-meters">1,000</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-lbl">Feet</span>
+          <span class="stat-val" id="r-feet">3,281</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-lbl">Yards</span>
+          <span class="stat-val" id="r-yards">1,094</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-lbl">Centimeters</span>
+          <span class="stat-val" id="r-cm">100,000</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="calc-right">
+    <div class="content-card">
+      <h2>Kilometers to Miles — Common Conversions</h2>
+      <div class="tip-box">
+        <span class="tip-icon">📏</span>
+        <p><strong>Quick trick:</strong> Multiply km by 0.6 for a fast estimate. For exact: km × 0.621371. Reverse: miles × 1.60934 = km.</p>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="conv-table">
+          <thead>
+            <tr><th>Kilometers (km)</th><th>Miles (mi)</th><th>Meters (m)</th><th>Feet (ft)</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>0.5 km</td><td>0.311 mi</td><td>500 m</td><td>1,640 ft</td></tr>
+            <tr class="highlight-row"><td><strong>1 km</strong></td><td><strong>0.621 mi</strong></td><td><strong>1,000 m</strong></td><td><strong>3,281 ft</strong></td></tr>
+            <tr><td>2 km</td><td>1.243 mi</td><td>2,000 m</td><td>6,562 ft</td></tr>
+            <tr><td>3 km</td><td>1.864 mi</td><td>3,000 m</td><td>9,843 ft</td></tr>
+            <tr><td>4 km</td><td>2.485 mi</td><td>4,000 m</td><td>13,123 ft</td></tr>
+            <tr class="highlight-row"><td><strong>5 km</strong></td><td><strong>3.107 mi</strong></td><td><strong>5,000 m</strong></td><td><strong>16,404 ft</strong></td></tr>
+            <tr><td>8 km</td><td>4.971 mi</td><td>8,000 m</td><td>26,247 ft</td></tr>
+            <tr class="highlight-row"><td><strong>10 km</strong></td><td><strong>6.214 mi</strong></td><td><strong>10,000 m</strong></td><td><strong>32,808 ft</strong></td></tr>
+            <tr><td>15 km</td><td>9.321 mi</td><td>15,000 m</td><td>49,213 ft</td></tr>
+            <tr><td>20 km</td><td>12.427 mi</td><td>20,000 m</td><td>65,617 ft</td></tr>
+            <tr><td>25 km</td><td>15.534 mi</td><td>25,000 m</td><td>82,021 ft</td></tr>
+            <tr class="highlight-row"><td><strong>42.195 km</strong></td><td><strong>26.219 mi</strong></td><td><strong>42,195 m</strong></td><td><strong>138,435 ft</strong></td></tr>
+            <tr class="highlight-row"><td><strong>50 km</strong></td><td><strong>31.069 mi</strong></td><td><strong>50,000 m</strong></td><td><strong>164,042 ft</strong></td></tr>
+            <tr><td>75 km</td><td>46.603 mi</td><td>75,000 m</td><td>246,063 ft</td></tr>
+            <tr class="highlight-row"><td><strong>100 km</strong></td><td><strong>62.137 mi</strong></td><td><strong>100,000 m</strong></td><td><strong>328,084 ft</strong></td></tr>
+            <tr><td>150 km</td><td>93.206 mi</td><td>150,000 m</td><td>492,126 ft</td></tr>
+            <tr class="highlight-row"><td><strong>200 km</strong></td><td><strong>124.274 mi</strong></td><td><strong>200,000 m</strong></td><td><strong>656,168 ft</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>Miles to Kilometers — Common Conversions</h2>
+      <div style="overflow-x:auto">
+        <table class="conv-table">
+          <thead>
+            <tr><th>Miles (mi)</th><th>Kilometers (km)</th><th>Meters (m)</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>0.5 mi</td><td>0.805 km</td><td>805 m</td></tr>
+            <tr class="highlight-row"><td><strong>1 mile</strong></td><td><strong>1.609 km</strong></td><td><strong>1,609 m</strong></td></tr>
+            <tr><td>2 miles</td><td>3.219 km</td><td>3,219 m</td></tr>
+            <tr><td>3 miles</td><td>4.828 km</td><td>4,828 m</td></tr>
+            <tr><td>5 miles</td><td>8.047 km</td><td>8,047 m</td></tr>
+            <tr class="highlight-row"><td><strong>10 miles</strong></td><td><strong>16.093 km</strong></td><td><strong>16,093 m</strong></td></tr>
+            <tr><td>13.1 miles (half marathon)</td><td>21.082 km</td><td>21,082 m</td></tr>
+            <tr class="highlight-row"><td><strong>26.2 miles (marathon)</strong></td><td><strong>42.165 km</strong></td><td><strong>42,165 m</strong></td></tr>
+            <tr><td>50 miles</td><td>80.467 km</td><td>80,467 m</td></tr>
+            <tr class="highlight-row"><td><strong>100 miles</strong></td><td><strong>160.934 km</strong></td><td><strong>160,934 m</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>Race Distances — km and Miles</h2>
+      <div style="overflow-x:auto">
+        <table class="conv-table">
+          <thead>
+            <tr><th>Race</th><th>km</th><th>Miles</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1K run</td><td>1 km</td><td>0.621 mi</td></tr>
+            <tr><td>5K run</td><td>5 km</td><td>3.107 mi</td></tr>
+            <tr><td>10K run</td><td>10 km</td><td>6.214 mi</td></tr>
+            <tr><td>15K run</td><td>15 km</td><td>9.321 mi</td></tr>
+            <tr><td>Half Marathon</td><td>21.097 km</td><td>13.109 mi</td></tr>
+            <tr class="highlight-row"><td><strong>Marathon</strong></td><td><strong>42.195 km</strong></td><td><strong>26.219 mi</strong></td></tr>
+            <tr><td>50K Ultra</td><td>50 km</td><td>31.069 mi</td></tr>
+            <tr><td>100K Ultra</td><td>100 km</td><td>62.137 mi</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>How many miles in a kilometer?</h3>
+        <p>1 kilometer = 0.621371 miles. To convert km to miles, multiply by 0.621371. So 5 km = 3.107 miles, 10 km = 6.214 miles.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How do you convert km to miles?</h3>
+        <p>Multiply km by 0.621371. Formula: miles = km × 0.621371. Quick estimate: multiply by 0.6. Example: 10 km × 0.621371 = 6.214 miles.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How many km in a mile?</h3>
+        <p>1 mile = 1.60934 kilometers. To convert miles to km, multiply by 1.60934. So 5 miles = 8.047 km, 10 miles = 16.093 km.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How many miles is 10 km?</h3>
+        <p>10 km = 6.214 miles. A 10K race is exactly 6.214 miles. A marathon (42.195 km) = 26.219 miles.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How many km is 5 miles?</h3>
+        <p>5 miles = 8.047 kilometers. Multiply 5 × 1.60934 = 8.047 km.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What is the formula to convert km to miles?</h3>
+        <p>Exact formula: miles = km × 0.621371. Quick approximation: multiply km by 5 then divide by 8 (e.g., 8 km × 5 ÷ 8 = 5 miles).</p>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>Related Converters</h2>
+      <div class="next-grid">
+        <a href="/cm-to-inches" class="next-card">
+          <span class="next-tag">Length</span>
+          <h3>cm to Inches</h3>
+          <p>Convert centimeters to inches instantly.</p>
+        </a>
+        <a href="/meters-to-feet" class="next-card">
+          <span class="next-tag">Length</span>
+          <h3>Meters to Feet</h3>
+          <p>Convert meters to feet and inches — exact formula.</p>
+        </a>
+        <a href="/kg-to-lbs" class="next-card">
+          <span class="next-tag">Weight</span>
+          <h3>kg to lbs</h3>
+          <p>Convert kilograms to pounds instantly.</p>
+        </a>
+        <a href="/celsius-to-fahrenheit" class="next-card">
+          <span class="next-tag">Temperature</span>
+          <h3>Celsius to °F</h3>
+          <p>Convert temperature between Celsius and Fahrenheit.</p>
+        </a>
+        <a href="/ounces-in-a-pound" class="next-card">
+          <span class="next-tag">Weight</span>
+          <h3>Ounces in a Pound</h3>
+          <p>1 lb = 16 oz — instant lbs to oz converter.</p>
+        </a>
+        <a href="/square-footage-calculator" class="next-card">
+          <span class="next-tag">Area</span>
+          <h3>Square Footage</h3>
+          <p>Calculate area in square feet for any room or space.</p>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+var currentMode = 'km';
+
+function setMode(mode) {
+  currentMode = mode;
+  document.getElementById('btn-km').classList.toggle('active', mode === 'km');
+  document.getElementById('btn-mi').classList.toggle('active', mode === 'mi');
+  document.getElementById('input-lbl').textContent = mode === 'km' ? 'Kilometers (km)' : 'Miles (mi)';
+  document.getElementById('input-sfx').textContent = mode === 'km' ? 'km' : 'mi';
+  document.getElementById('main-input').value = mode === 'km' ? '1' : '1';
+  convert();
+}
+
+function fmt(n, dec) {
+  if (n === 0) return '0';
+  return parseFloat(n.toFixed(dec !== undefined ? dec : 4)).toLocaleString('en-US');
+}
+
+function convert() {
+  var val = parseFloat(document.getElementById('main-input').value);
+  if (isNaN(val) || val < 0) return;
+
+  var km, miles;
+  if (currentMode === 'km') {
+    km    = val;
+    miles = val * 0.621371;
+  } else {
+    miles = val;
+    km    = val * 1.60934;
+  }
+
+  var meters = km * 1000;
+  var feet   = km * 3280.84;
+  var yards  = km * 1093.61;
+  var cm     = km * 100000;
+
+  if (currentMode === 'km') {
+    document.getElementById('r-label').textContent = 'Miles';
+    document.getElementById('r-value').textContent = fmt(miles, 4);
+    document.getElementById('r-unit').textContent  = 'miles';
+    document.getElementById('r-sub').textContent   = val + ' km = ' + fmt(miles, 6) + ' miles';
+  } else {
+    document.getElementById('r-label').textContent = 'Kilometers';
+    document.getElementById('r-value').textContent = fmt(km, 4);
+    document.getElementById('r-unit').textContent  = 'km';
+    document.getElementById('r-sub').textContent   = val + ' mi = ' + fmt(km, 5) + ' km';
+  }
+
+  document.getElementById('r-meters').textContent = fmt(meters, 2);
+  document.getElementById('r-feet').textContent   = fmt(feet, 0);
+  document.getElementById('r-yards').textContent  = fmt(yards, 0);
+  document.getElementById('r-cm').textContent     = fmt(cm, 0);
+}
+
+convert();
+</script>
+</Layout>
