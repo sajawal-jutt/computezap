@@ -294,50 +294,17 @@ input:focus, select:focus {
   color: var(--blue);
 }
 
-/* E-E-A-T TRUST STRIP */
-.eeat-strip {
-  background: #f8fafc;
-  border-top: 1px solid #e2e8f0;
-  border-bottom: 1px solid #e2e8f0;
-  padding: 1rem 1.5rem;
+/* E-E-A-T TRUST GRID */
+.eeat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
 }
-.eeat-inner {
-  max-width: 1120px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  gap: 1.25rem;
-  flex-wrap: wrap;
+@media (max-width: 900px) {
+  .eeat-grid { grid-template-columns: repeat(2, 1fr); }
 }
-.eeat-title {
-  font-size: .72rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: .07em;
-  color: #64748b;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-.eeat-items {
-  display: flex;
-  gap: 1.25rem;
-  flex-wrap: wrap;
-}
-.eeat-item {
-  font-size: .78rem;
-  color: #475569;
-  display: flex;
-  align-items: center;
-  gap: .3rem;
-}
-.eeat-check {
-  color: #16a34a;
-  font-weight: 800;
-  font-size: .85rem;
-}
-@media (max-width: 768px) {
-  .eeat-inner { flex-direction: column; align-items: flex-start; gap: .6rem; }
-  .eeat-items { gap: .6rem; }
+@media (max-width: 500px) {
+  .eeat-grid { grid-template-columns: 1fr; }
 }
 
 /* FOOTER */
