@@ -1,0 +1,323 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const schema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Minutes in a Day Calculator",
+    "url": "https://computezap.com/minutes-in-a-day",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Web",
+    "description": "How many minutes in a day? A full day has 1,440 minutes (24 hours × 60 minutes). Work day: 480 minutes. Free calculator with complete time unit reference table.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
+      { "@type": "ListItem", "position": 2, "name": "Minutes in a Day", "item": "https://computezap.com/minutes-in-a-day" }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How many minutes in a day?",
+        "acceptedAnswer": { "@type": "Answer", "text": "There are 1,440 minutes in a day (24 hours × 60 minutes = 1,440). A work day of 8 hours = 480 minutes. A half day = 720 minutes." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many minutes in a week?",
+        "acceptedAnswer": { "@type": "Answer", "text": "There are 10,080 minutes in a week (7 days × 1,440 minutes = 10,080). Work week of 40 hours = 2,400 minutes." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many minutes in a month?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A 30-day month has 43,200 minutes (30 × 1,440). A 31-day month has 44,640 minutes. Average month: about 43,800 minutes. A work month (22 days × 8 hours): 10,560 minutes." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many minutes in a year?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A regular year has 525,600 minutes (365 × 1,440). A leap year has 527,040 minutes (366 × 1,440). Work minutes per year: 124,800 (2,080 hours × 60)." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many minutes in 24 hours?",
+        "acceptedAnswer": { "@type": "Answer", "text": "24 hours × 60 minutes = 1,440 minutes. This equals 86,400 seconds. A full day has exactly 1,440 minutes regardless of daylight saving time adjustments (which only affect clock display, not actual time length)." }
+      },
+      {
+        "@type": "Question",
+        "name": "What percentage of a day is one minute?",
+        "acceptedAnswer": { "@type": "Answer", "text": "One minute is 0.0694% of a day (1 ÷ 1,440 × 100). One hour is 4.167% of a day (1 ÷ 24 × 100). 10 minutes = 0.694% of a day." }
+      }
+    ]
+  }
+]);
+---
+<Layout
+  title="Minutes in a Day — How Many Minutes? | ComputeZap"
+  description="How many minutes in a day? 1,440 minutes (24 × 60). Work day: 480 minutes. Free calculator with minutes per hour, day, week, month, and year reference table."
+  canonical="/minutes-in-a-day"
+  schema={schema}
+>
+<style is:global>
+.hero{text-align:center;padding:2rem 1rem 1.5rem}
+.hero h1{font-size:2rem;color:#111;margin:.5rem 0 .4rem;font-weight:800;letter-spacing:-.02em}
+.hero-sub{color:#64748b;margin:0;font-size:1.05rem}
+.breadcrumb{font-size:.82rem;color:#94a3b8;margin-bottom:.75rem}
+.breadcrumb a{color:var(--blue);text-decoration:none}
+.calc-wrap{display:grid;grid-template-columns:390px 1fr;gap:1.75rem;max-width:1120px;margin:0 auto;padding:0 1rem 3.5rem;align-items:start}
+.calc-left{position:sticky;top:1rem}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:1.5rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.card:last-child{margin-bottom:0}
+.card-header{display:flex;align-items:center;gap:.6rem;margin-bottom:1.1rem}
+.card-step{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;background:var(--blue);color:#fff;border-radius:50%;font-size:.7rem;font-weight:800;flex-shrink:0}
+.card-title{font-size:1rem;font-weight:700;color:#111;margin:0}
+.card h2{font-size:1.05rem;font-weight:700;color:#111;margin:0 0 .9rem}
+.content-card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:1.5rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.content-card h2{font-size:1.05rem;font-weight:700;color:#111;margin:0 0 .8rem}
+.content-card p{color:#444;line-height:1.75;font-size:.93rem;margin:0 0 .7rem}
+.content-card p:last-child{margin-bottom:0}
+.field-group{margin-bottom:1rem}
+.field-group:last-child{margin-bottom:0}
+.field-lbl{display:block;font-size:.75rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem}
+.field-input{width:100%;font-size:1.5rem;font-weight:800;padding:.65rem .9rem;border:2px solid #e2e8f0;border-radius:10px;color:#111;box-sizing:border-box;font-family:inherit;background:#f8fafc;outline:none;transition:all .15s}
+.field-input:focus{border-color:#93c5fd;background:#fff;box-shadow:0 0 0 3px rgba(37,99,235,.07)}
+.quick-answer{background:#f0fdf4;border:1.5px solid #86efac;border-radius:12px;padding:1rem 1.25rem;margin-bottom:1rem;text-align:center}
+.qa-big{font-size:1.5rem;font-weight:900;color:#15803d;display:block;margin-bottom:.2rem}
+.qa-sub{font-size:.82rem;color:#166534}
+.answer-box{background:linear-gradient(135deg,#1d4ed8 0%,#2563eb 60%,#3b82f6 100%);border-radius:14px;padding:1.5rem 1.5rem 1.25rem;text-align:center;margin-bottom:1rem;box-shadow:0 6px 24px rgba(37,99,235,.22)}
+.a-label{font-size:.68rem;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.3rem;font-weight:700}
+.a-value{font-size:2.4rem;font-weight:900;color:#fff;line-height:1.1;letter-spacing:-.02em}
+.a-unit{font-size:1rem;font-weight:600;color:rgba(255,255,255,.8);margin-top:.2rem}
+.a-sub{font-size:.88rem;color:rgba(255,255,255,.7);margin-top:.3rem}
+.stats-row{display:grid;grid-template-columns:1fr 1fr;gap:.55rem}
+.stat-box{background:#f8fafc;border:1px solid #f1f5f9;border-radius:10px;padding:.85rem .75rem;text-align:center}
+.stat-lbl{display:block;font-size:.62rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.25rem;font-weight:700}
+.stat-val{display:block;font-size:.95rem;font-weight:800;color:#1e293b}
+.conv-table{width:100%;border-collapse:collapse;font-size:.875rem}
+.conv-table th{background:#f8fafc;padding:.65rem .85rem;text-align:left;font-size:.68rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;border-bottom:2px solid #e2e8f0}
+.conv-table td{padding:.7rem .85rem;border-bottom:1px solid #f3f4f6;color:#374151}
+.conv-table tr:last-child td{border-bottom:none}
+.conv-table tbody tr:hover td{background:#f8faff}
+.conv-table .hl td{background:#eff6ff;font-weight:700;color:#1d4ed8}
+.conv-table .hl:hover td{background:#dbeafe}
+.tip-box{display:flex;gap:.75rem;background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:.9rem 1rem;margin:.85rem 0}
+.tip-icon{font-size:1.1rem;flex-shrink:0;margin-top:.05rem}
+.tip-box p{margin:0;font-size:.875rem;color:#1e40af;line-height:1.6}
+.faq-item{border-bottom:1px solid #f3f4f6;padding:.9rem 0}
+.faq-item:last-child{border-bottom:none;padding-bottom:0}
+.faq-item h3{font-size:.9rem;color:#111;margin:0 0 .35rem;font-weight:700}
+.faq-item p{color:#555;font-size:.865rem;margin:0;line-height:1.65}
+.next-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem}
+.next-card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:1rem;border-top:3px solid var(--blue);text-decoration:none;display:block;transition:box-shadow .15s}
+.next-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.08);text-decoration:none}
+.next-tag{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--blue);margin-bottom:.3rem;display:block}
+.next-card h3{font-size:.88rem;font-weight:700;color:#111;margin:0 0 .25rem}
+.next-card p{font-size:.78rem;color:#64748b;margin:0;line-height:1.5}
+@media(max-width:768px){
+  .calc-wrap{grid-template-columns:1fr}
+  .calc-left{position:static}
+  .hero h1{font-size:1.65rem}
+  .a-value{font-size:1.9rem}
+  .next-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:480px){.next-grid{grid-template-columns:1fr}}
+</style>
+
+<div class="hero">
+  <nav class="breadcrumb"><a href="/">Home</a> › Minutes in a Day</nav>
+  <h1>Minutes in a Day</h1>
+  <p class="hero-sub">How many minutes per day — total, work, and full time unit reference table</p>
+</div>
+
+<div class="calc-wrap">
+  <div class="calc-left">
+    <div class="card">
+      <div class="quick-answer">
+        <span class="qa-big">1,440 minutes/day</span>
+        <span class="qa-sub">24 hours × 60 minutes · Work day (8h): 480 minutes</span>
+      </div>
+      <div class="card-header">
+        <span class="card-step">1</span>
+        <h2 class="card-title">Enter Hours per Day</h2>
+      </div>
+      <div class="field-group">
+        <label class="field-lbl" for="hrs-input">Hours (custom day length)</label>
+        <input type="number" id="hrs-input" class="field-input" value="24" min="1" max="24" step="0.5" oninput="calc()" />
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-step">2</span>
+        <h2 class="card-title">Result</h2>
+      </div>
+      <div class="answer-box">
+        <div class="a-label">Minutes</div>
+        <div class="a-value" id="r-mins">1,440</div>
+        <div class="a-unit">minutes</div>
+        <div class="a-sub" id="r-sub">24 hours × 60 minutes</div>
+      </div>
+      <div class="stats-row">
+        <div class="stat-box">
+          <span class="stat-lbl">Seconds</span>
+          <span class="stat-val" id="r-secs">86,400</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-lbl">Hours</span>
+          <span class="stat-val" id="r-hrs">24</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-lbl">% of Full Day</span>
+          <span class="stat-val" id="r-pct">100%</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-lbl">Per Week</span>
+          <span class="stat-val" id="r-week">10,080</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="calc-right">
+
+    <div class="content-card">
+      <h2>Minutes Per Time Period — Full Reference</h2>
+      <div class="tip-box">
+        <span class="tip-icon">⏱️</span>
+        <p><strong>Key formula:</strong> Minutes = Hours × 60. A full day: 24 × 60 = <strong>1,440 minutes</strong>. Work day (8h): 8 × 60 = <strong>480 minutes</strong>. School day (6.5h): 6.5 × 60 = <strong>390 minutes</strong>.</p>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="conv-table">
+          <thead>
+            <tr><th>Period</th><th>Minutes</th><th>Hours</th><th>Seconds</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1 minute</td><td>1</td><td>0.0167</td><td>60</td></tr>
+            <tr><td>1 hour</td><td>60</td><td>1</td><td>3,600</td></tr>
+            <tr><td>Work day (8h)</td><td>480</td><td>8</td><td>28,800</td></tr>
+            <tr><td>Half day (12h)</td><td>720</td><td>12</td><td>43,200</td></tr>
+            <tr class="hl"><td><strong>Full day (24h)</strong></td><td><strong>1,440</strong></td><td><strong>24</strong></td><td><strong>86,400</strong></td></tr>
+            <tr><td>Work week (40h)</td><td>2,400</td><td>40</td><td>144,000</td></tr>
+            <tr><td>1 week (7 days)</td><td>10,080</td><td>168</td><td>604,800</td></tr>
+            <tr><td>1 month (30 days)</td><td>43,200</td><td>720</td><td>2,592,000</td></tr>
+            <tr><td>1 month (31 days)</td><td>44,640</td><td>744</td><td>2,678,400</td></tr>
+            <tr><td>1 month (avg)</td><td>43,800</td><td>730</td><td>2,628,000</td></tr>
+            <tr><td>1 quarter (3 mo)</td><td>131,400</td><td>2,190</td><td>7,884,000</td></tr>
+            <tr><td>6 months</td><td>262,800</td><td>4,380</td><td>15,768,000</td></tr>
+            <tr class="hl"><td><strong>1 year (365 days)</strong></td><td><strong>525,600</strong></td><td><strong>8,760</strong></td><td><strong>31,536,000</strong></td></tr>
+            <tr><td>Leap year (366 days)</td><td>527,040</td><td>8,784</td><td>31,622,400</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>How 1,440 Minutes Are Spent — Average Adult</h2>
+      <div style="overflow-x:auto">
+        <table class="conv-table">
+          <thead>
+            <tr><th>Activity</th><th>Hours</th><th>Minutes</th><th>% of Day</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Sleep</td><td>8h</td><td>480 min</td><td>33.3%</td></tr>
+            <tr><td>Work / School</td><td>8h</td><td>480 min</td><td>33.3%</td></tr>
+            <tr><td>Eating &amp; meals</td><td>1.5h</td><td>90 min</td><td>6.25%</td></tr>
+            <tr><td>Commute (avg US)</td><td>1h</td><td>60 min</td><td>4.17%</td></tr>
+            <tr><td>Exercise</td><td>0.5h</td><td>30 min</td><td>2.08%</td></tr>
+            <tr><td>Screen / leisure</td><td>3h</td><td>180 min</td><td>12.5%</td></tr>
+            <tr class="hl"><td><strong>Total</strong></td><td><strong>24h</strong></td><td><strong>1,440 min</strong></td><td><strong>100%</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>How many minutes in a day?</h3>
+        <p>There are <strong>1,440 minutes</strong> in a full 24-hour day (24 × 60 = 1,440). A work day of 8 hours = 480 minutes. A school day of 6.5 hours = 390 minutes.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How many minutes in 24 hours?</h3>
+        <p>24 hours × 60 minutes = <strong>1,440 minutes</strong>. This also equals 86,400 seconds. A day always has exactly 1,440 minutes regardless of timezone or daylight saving — DST only changes the clock reading, not actual time.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How many minutes in a week?</h3>
+        <p>7 days × 1,440 = <strong>10,080 minutes</strong> per week. A 40-hour work week = 2,400 minutes. A school week (5 × 6.5h) = 1,950 minutes.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How many minutes in a month?</h3>
+        <p>A 30-day month = <strong>43,200 minutes</strong> (30 × 1,440). A 31-day month = 44,640 minutes. Average month = ~43,800 minutes. Work month (22 days × 8h) = 10,560 minutes.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How many minutes in a year?</h3>
+        <p>A regular year has <strong>525,600 minutes</strong> (365 × 1,440). A leap year has 527,040 minutes. The song "Seasons of Love" from Rent famously asks "how do you measure a year?" — 525,600 minutes is the answer.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How many seconds in a day?</h3>
+        <p>There are <strong>86,400 seconds</strong> in a day (1,440 minutes × 60). This is why Unix time (seconds since Jan 1, 1970) increments by 86,400 each day.</p>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>Related Time Tools</h2>
+      <div class="next-grid">
+        <a href="/weeks-in-a-year" class="next-card">
+          <span class="next-tag">Time</span>
+          <h3>Weeks in a Year</h3>
+          <p>52 weeks per year — work weeks, school weeks, pay periods</p>
+        </a>
+        <a href="/hours-in-a-year" class="next-card">
+          <span class="next-tag">Time</span>
+          <h3>Hours in a Year</h3>
+          <p>8,760 hours in a regular year — with work hours</p>
+        </a>
+        <a href="/seconds-in-a-year" class="next-card">
+          <span class="next-tag">Time</span>
+          <h3>Seconds in a Year</h3>
+          <p>31,536,000 seconds per year — exact calculation</p>
+        </a>
+        <a href="/hours-in-a-month" class="next-card">
+          <span class="next-tag">Time</span>
+          <h3>Hours in a Month</h3>
+          <p>730 average hours per month — all 12 months</p>
+        </a>
+        <a href="/time-to-decimal-calculator" class="next-card">
+          <span class="next-tag">Time</span>
+          <h3>Time to Decimal</h3>
+          <p>Convert hours &amp; minutes to decimal for timesheets</p>
+        </a>
+        <a href="/days-from-today" class="next-card">
+          <span class="next-tag">Date</span>
+          <h3>Days From Today</h3>
+          <p>Find the exact date any number of days from now</p>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+function calc() {
+  var hrs = parseFloat(document.getElementById('hrs-input').value) || 24;
+  if (hrs > 24) hrs = 24;
+  var mins = Math.round(hrs * 60);
+  var secs = mins * 60;
+  var pct = ((hrs / 24) * 100).toFixed(1);
+  var week = Math.round(hrs * 60 * 7);
+  document.getElementById('r-mins').textContent = mins.toLocaleString('en-US');
+  document.getElementById('r-secs').textContent = secs.toLocaleString('en-US');
+  document.getElementById('r-hrs').textContent = hrs;
+  document.getElementById('r-pct').textContent = pct + '%';
+  document.getElementById('r-week').textContent = week.toLocaleString('en-US');
+  document.getElementById('r-sub').textContent = hrs + ' hours × 60 minutes';
+}
+calc();
+</script>
+</Layout>
