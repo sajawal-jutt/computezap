@@ -1,0 +1,268 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+export function getStaticPaths() {
+  const percents = [5, 10, 15, 20, 25, 30, 40, 50, 60, 70, 75];
+  const prices   = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 60, 70, 75, 80, 90, 100, 110, 120, 125, 150, 175, 200, 250, 300, 400, 500, 750, 1000];
+
+  return percents.flatMap(x =>
+    prices.map(y => ({ params: { x: String(x), y: String(y) } }))
+  );
+}
+
+const x = parseInt(Astro.params.x);   // discount %
+const y = parseInt(Astro.params.y);   // original price $
+
+const savings    = y * x / 100;
+const salePrice  = y - savings;
+const percentPaid = 100 - x;
+
+function fmtD(n) {
+  return n % 1 === 0 ? '$' + n.toFixed(0) : '$' + n.toFixed(2);
+}
+function fmtN(n) {
+  return n % 1 === 0 ? n.toFixed(0) : n.toFixed(2);
+}
+
+const saleFmt  = fmtD(salePrice);
+const saveFmt  = fmtD(savings);
+const origFmt  = fmtD(y);
+
+const allPrices = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 60, 70, 75, 80, 90, 100, 120, 125, 150, 200, 250, 300, 400, 500, 750, 1000];
+const allPcts   = [5, 10, 15, 20, 25, 30, 40, 50, 60, 70, 75];
+
+const relPrices = allPrices.filter(p => p !== y);
+const relPcts   = allPcts.filter(p => p !== x);
+
+const schema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": `${x}% Off ${origFmt} Calculator`,
+    "url": `https://computezap.com/${x}-percent-off-${y}`,
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Web",
+    "description": `${x}% off ${origFmt} = ${saleFmt}. You save ${saveFmt}. Free instant discount calculator.`,
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
+      { "@type": "ListItem", "position": 2, "name": "Percent Off Calculator", "item": "https://computezap.com/percent-off-calculator" },
+      { "@type": "ListItem", "position": 3, "name": `${x}% Off ${origFmt}`, "item": `https://computezap.com/${x}-percent-off-${y}` }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": `What is ${x}% off ${origFmt}?`,
+        "acceptedAnswer": { "@type": "Answer", "text": `${x}% off ${origFmt} is ${saleFmt}. You save ${saveFmt}. Formula: ${origFmt} × (1 − ${x}/100) = ${saleFmt}.` }
+      },
+      {
+        "@type": "Question",
+        "name": `How much do you save with ${x}% off ${origFmt}?`,
+        "acceptedAnswer": { "@type": "Answer", "text": `You save ${saveFmt} with a ${x}% discount on ${origFmt}. Calculation: ${origFmt} × ${x}/100 = ${saveFmt}.` }
+      },
+      {
+        "@type": "Question",
+        "name": `What is the sale price of ${origFmt} after ${x}% off?`,
+        "acceptedAnswer": { "@type": "Answer", "text": `The sale price is ${saleFmt} after taking ${x}% off ${origFmt}. You pay ${percentPaid}% of the original price.` }
+      },
+      {
+        "@type": "Question",
+        "name": `How do you calculate ${x} percent off ${origFmt}?`,
+        "acceptedAnswer": { "@type": "Answer", "text": `Multiply ${origFmt} by ${x} and divide by 100 to get the savings (${saveFmt}). Then subtract from the original: ${origFmt} − ${saveFmt} = ${saleFmt}.` }
+      }
+    ]
+  }
+]);
+---
+<Layout
+  title={`What is ${x}% Off $${y}? — Sale Price ${saleFmt} | ComputeZap`}
+  description={`${x}% off $${y} = ${saleFmt}. You save ${saveFmt}. Instant discount calculation with formula, related prices, and full breakdown.`}
+  canonical={`/${x}-percent-off-${y}`}
+  schema={schema}
+>
+<style is:global>
+.pg-hero{text-align:center;padding:2rem 1rem 1.5rem}
+.pg-hero h1{font-size:1.9rem;color:#111;font-weight:800;margin:.4rem 0 .3rem;line-height:1.25}
+.pg-hero p{color:#555;font-size:.95rem;margin:0}
+.breadcrumb{font-size:.82rem;color:#888;margin-bottom:.6rem}
+.breadcrumb a{color:var(--blue);text-decoration:none}
+.answer-wrap{max-width:560px;margin:0 auto 2.5rem;padding:0 1rem}
+.ans-card{background:var(--blue);border-radius:16px;padding:2rem 1.5rem;text-align:center;box-shadow:0 6px 28px rgba(37,99,235,.22)}
+.ans-lbl{font-size:.72rem;color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.5rem}
+.ans-main{font-size:3rem;font-weight:900;color:#fff;line-height:1;margin-bottom:.3rem}
+.ans-sub{font-size:1.05rem;color:rgba(255,255,255,.85)}
+.ans-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.6rem;margin-top:1.1rem}
+.ans-stat{background:rgba(255,255,255,.15);border-radius:10px;padding:.65rem .5rem;text-align:center}
+.as-lbl{display:block;font-size:.62rem;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.2rem;font-weight:600}
+.as-val{display:block;font-size:.95rem;font-weight:800;color:#fff}
+.content-wrap{max-width:860px;margin:0 auto;padding:0 1rem 3rem}
+.pg-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:1.5rem;margin-bottom:1rem}
+.pg-card h2{font-size:1.05rem;font-weight:700;color:#111;margin:0 0 .85rem}
+.pg-card p{color:#444;line-height:1.75;font-size:.95rem;margin:0 0 .65rem}
+.pg-card p:last-child{margin-bottom:0}
+.pg-card ul{color:#444;line-height:1.85;font-size:.95rem;padding-left:1.25rem;margin:0}
+.formula-box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:.75rem 1rem;font-family:monospace;font-size:.9rem;color:#1e293b;margin:.6rem 0}
+.ref-tbl{width:100%;border-collapse:collapse;font-size:.875rem}
+.ref-tbl th{background:#f8fafc;padding:.45rem .75rem;text-align:left;font-size:.7rem;color:#64748b;font-weight:700;text-transform:uppercase;letter-spacing:.04em;border-bottom:1px solid #e5e7eb}
+.ref-tbl td{padding:.45rem .75rem;border-bottom:1px solid #f3f4f6;color:#444}
+.ref-tbl tr:last-child td{border-bottom:none}
+.ref-tbl .hi td{background:#eff6ff;font-weight:700;color:#1e40af}
+.ref-tbl a{color:var(--blue);text-decoration:none;font-weight:600}
+.ref-tbl a:hover{text-decoration:underline}
+.ref-tbl .grn{color:#16a34a;font-weight:700}
+.ref-tbl .blu{color:var(--blue);font-weight:700}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.faq-item{border-bottom:1px solid #f3f4f6;padding:.85rem 0}
+.faq-item:last-child{border-bottom:none;padding-bottom:0}
+.faq-q{font-size:.92rem;color:#111;font-weight:600;margin:0 0 .3rem}
+.faq-a{color:#555;font-size:.875rem;margin:0;line-height:1.65}
+.next-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem}
+.next-card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:1rem;border-top:3px solid var(--blue);text-decoration:none;display:block}
+.next-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.08)}
+.next-tag{font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--blue);margin-bottom:.3rem;display:block}
+.next-card h3{font-size:.87rem;font-weight:700;color:#111;margin:0 0 .2rem}
+.next-card p{font-size:.77rem;color:#64748b;margin:0;line-height:1.5}
+.try-link{display:inline-block;margin-top:.75rem;background:var(--blue);color:#fff;border-radius:8px;padding:.55rem 1.25rem;font-size:.9rem;font-weight:700;text-decoration:none}
+.try-link:hover{background:#1d4ed8;text-decoration:none}
+@media(max-width:768px){.two-col{grid-template-columns:1fr}.ans-main{font-size:2.2rem}.next-grid{grid-template-columns:1fr 1fr}.ans-stats{grid-template-columns:1fr 1fr}}
+@media(max-width:500px){.next-grid{grid-template-columns:1fr}.ans-stats{grid-template-columns:1fr 1fr}}
+</style>
+
+<div class="pg-hero">
+  <nav class="breadcrumb">
+    <a href="/">Home</a> ›
+    <a href="/percent-off-calculator">Percent Off Calculator</a> ›
+    {x}% Off ${y}
+  </nav>
+  <h1>What is {x}% Off ${y}?</h1>
+  <p>Instant discount answer with full breakdown</p>
+</div>
+
+<div class="answer-wrap">
+  <div class="ans-card">
+    <div class="ans-lbl">Sale Price</div>
+    <div class="ans-main">{saleFmt}</div>
+    <div class="ans-sub">You save {saveFmt} on {origFmt}</div>
+    <div class="ans-stats">
+      <div class="ans-stat">
+        <span class="as-lbl">You Save</span>
+        <span class="as-val">{saveFmt}</span>
+      </div>
+      <div class="ans-stat">
+        <span class="as-lbl">Discount</span>
+        <span class="as-val">{x}%</span>
+      </div>
+      <div class="ans-stat">
+        <span class="as-lbl">You Pay</span>
+        <span class="as-val">{percentPaid}%</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="content-wrap">
+
+  <div class="pg-card">
+    <h2>How to Calculate {x}% Off ${y}</h2>
+    <div class="formula-box">Savings = ${y} × {x} ÷ 100 = {saveFmt}</div>
+    <div class="formula-box">Sale Price = ${y} − {saveFmt} = {saleFmt}</div>
+    <p>To find {x}% off any price: multiply the original price by {x}, then divide by 100 to get the discount amount. Subtract that from the original to get the final sale price.</p>
+    <a href="/percent-off-calculator" class="try-link">Try with a different price →</a>
+  </div>
+
+  <div class="two-col">
+    <!-- Same discount, other prices -->
+    <div class="pg-card">
+      <h2>{x}% Off — Other Prices</h2>
+      <div style="overflow-x:auto">
+      <table class="ref-tbl">
+        <thead><tr><th>Original</th><th>Sale Price</th><th>Save</th></tr></thead>
+        <tbody>
+          {relPrices.map(p => (
+            <tr class={p === y ? 'hi' : ''}>
+              <td><a href={`/${x}-percent-off-${p}`}>${p}</a></td>
+              <td class="blu">{fmtD(p - p * x / 100)}</td>
+              <td class="grn">{fmtD(p * x / 100)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      </div>
+    </div>
+
+    <!-- Same price, other discounts -->
+    <div class="pg-card">
+      <h2>Other Discounts on ${y}</h2>
+      <div style="overflow-x:auto">
+      <table class="ref-tbl">
+        <thead><tr><th>Discount</th><th>Sale Price</th><th>Save</th></tr></thead>
+        <tbody>
+          {relPcts.map(p => (
+            <tr class={p === x ? 'hi' : ''}>
+              <td><a href={`/${p}-percent-off-${y}`}>{p}% off</a></td>
+              <td class="blu">{fmtD(y - y * p / 100)}</td>
+              <td class="grn">{fmtD(y * p / 100)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="pg-card">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <div class="faq-q">What is {x}% off ${y}?</div>
+      <div class="faq-a">{x}% off ${y} is <strong>{saleFmt}</strong>. You save {saveFmt}. The formula is: ${y} × (1 − {x}/100) = {saleFmt}.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">How much do you save with {x}% off ${y}?</div>
+      <div class="faq-a">You save <strong>{saveFmt}</strong> with a {x}% discount on ${y}. That leaves a final price of {saleFmt}.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">What is {x} percent off ${y} in dollars?</div>
+      <div class="faq-a">{x} percent of ${y} is {saveFmt}. After the discount, the sale price is <strong>{saleFmt}</strong>. You pay {percentPaid}% of the original price.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">How do I calculate {x}% off in my head?</div>
+      {x === 10 && <div class="faq-a">For 10% off: move the decimal one place left. 10% of ${y} = {fmtD(y/10)}. So {x}% off ${y} = {saleFmt}.</div>}
+      {x === 25 && <div class="faq-a">For 25% off: divide the price by 4. ${y} ÷ 4 = {fmtD(y/4)} savings. Sale price = {saleFmt}.</div>}
+      {x === 50 && <div class="faq-a">For 50% off: simply divide the price by 2. ${y} ÷ 2 = {saleFmt}.</div>}
+      {x === 20 && <div class="faq-a">For 20% off: find 10% (move decimal left), then double it. 10% of ${y} = {fmtD(y/10)}, × 2 = {saveFmt} saved. Sale price = {saleFmt}.</div>}
+      {![10, 20, 25, 50].includes(x) && <div class="faq-a">Multiply ${y} × {x} = {y * x}, then divide by 100 to get {saveFmt} savings. Subtract from the original: {saleFmt}. For quick estimates, {x < 15 ? `find 10% (${fmtD(y/10)}) and adjust` : `round ${x}% to the nearest 10% for a rough answer`}.</div>}
+    </div>
+  </div>
+
+  <div class="pg-card">
+    <h2>Related Calculators</h2>
+    <div class="next-grid">
+      <a href="/percent-off-calculator" class="next-card">
+        <span class="next-tag">Math</span>
+        <h3>Percent Off Calculator</h3>
+        <p>Calculate any discount — enter your own price and percentage.</p>
+      </a>
+      <a href="/reverse-sales-tax-calculator" class="next-card">
+        <span class="next-tag">Tax</span>
+        <h3>Reverse Sales Tax</h3>
+        <p>Find the pre-tax price from any total paid.</p>
+      </a>
+      <a href="/cd-calculator" class="next-card">
+        <span class="next-tag">Finance</span>
+        <h3>CD Calculator</h3>
+        <p>See how much your savings grow in a CD account.</p>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+</Layout>
