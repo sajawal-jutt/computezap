@@ -437,6 +437,7 @@ img, pre, iframe { max-width: 100%; }
   /* Ensure reference/conversion tables are wide enough to trigger scroll on mobile */
   .ref-tbl, .ref-table, .rates-table { min-width: 380px; }
   .conv-table { min-width: 420px; }
+  .payoff-table, .cmp-table { min-width: 520px; }
   .card, .content-card { padding: 1rem !important; }
   .a-value, .res-val, .stat-big { font-size: 1.7rem !important; }
   .next-grid { grid-template-columns: 1fr !important; }
