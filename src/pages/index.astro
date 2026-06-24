@@ -5,238 +5,367 @@ const schema = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "ItemList",
   "name": "Free Online Calculators and Unit Converters",
-  "description": "ComputeZap offers free online calculators and unit converters including CD calculator, square footage calculator, percent off calculator, time to decimal converter, and more.",
+  "description": "ComputeZap — 25+ free online calculators and unit converters for finance, math, cooking, and everyday use. Fast, accurate, no signup needed.",
   "url": "https://computezap.com",
   "itemListElement": [
-    { "@type": "ListItem", "position": 1, "name": "CD Calculator", "url": "https://computezap.com/cd-calculator" },
-    { "@type": "ListItem", "position": 2, "name": "Days From Today Calculator", "url": "https://computezap.com/days-from-today" },
-    { "@type": "ListItem", "position": 3, "name": "Square Footage Calculator", "url": "https://computezap.com/square-footage-calculator" },
+    { "@type": "ListItem", "position": 1, "name": "cm to Inches Converter", "url": "https://computezap.com/cm-to-inches" },
+    { "@type": "ListItem", "position": 2, "name": "Debt Snowball Calculator", "url": "https://computezap.com/debt-snowball-calculator" },
+    { "@type": "ListItem", "position": 3, "name": "CD Calculator", "url": "https://computezap.com/cd-calculator" },
     { "@type": "ListItem", "position": 4, "name": "Percent Off Calculator", "url": "https://computezap.com/percent-off-calculator" },
-    { "@type": "ListItem", "position": 5, "name": "Time to Decimal Calculator", "url": "https://computezap.com/time-to-decimal-calculator" },
-    { "@type": "ListItem", "position": 6, "name": "Reverse Sales Tax Calculator", "url": "https://computezap.com/reverse-sales-tax-calculator" },
-    { "@type": "ListItem", "position": 7, "name": "Cups to Tablespoons Converter", "url": "https://computezap.com/cups-to-tablespoons" },
-    { "@type": "ListItem", "position": 8, "name": "Liters to Gallons Converter", "url": "https://computezap.com/liters-to-gallons" }
+    { "@type": "ListItem", "position": 5, "name": "kg to lbs Converter", "url": "https://computezap.com/kg-to-lbs" },
+    { "@type": "ListItem", "position": 6, "name": "Days From Today Calculator", "url": "https://computezap.com/days-from-today" },
+    { "@type": "ListItem", "position": 7, "name": "Mortgage Payoff Calculator", "url": "https://computezap.com/mortgage-payoff-calculator" },
+    { "@type": "ListItem", "position": 8, "name": "Celsius to Fahrenheit", "url": "https://computezap.com/celsius-to-fahrenheit" }
   ]
 });
 ---
 <Layout
   title="Free Online Calculators & Unit Converters | ComputeZap"
-  description="Free online calculators and unit converters — CD calculator, days from today, percent off, time to decimal, square footage, and more. Fast & accurate."
+  description="25+ free online calculators and unit converters — cm to inches, kg to lbs, percent off, CD calculator, days from today, and more. Fast, accurate, no signup."
   canonical="/"
   schema={schema}
 >
-  <div class="hero">
-    <h1>Free Online Calculators<br />& Unit Converters</h1>
-    <p>Fast, accurate tools — no signup needed</p>
-  </div>
+<style is:global>
+.home-hero{text-align:center;padding:2.5rem 1rem 1.75rem}
+.home-hero h1{font-size:2.2rem;font-weight:800;color:#111;line-height:1.2;margin:0 0 .5rem;letter-spacing:-.5px}
+.home-hero>p{color:#555;font-size:1rem;margin:0 0 1.25rem}
 
-  <div class="site-intro">
-    <p>ComputeZap offers free online calculators and unit converters for finance, math, cooking, and everyday use. Every tool works instantly in your browser — no downloads, no account required. Whether you need to calculate CD interest, convert liters to gallons, find a sale price, or measure square footage, we have a fast and accurate tool for it.</p>
-  </div>
+.srch-wrap{position:relative;max-width:560px;margin:0 auto 1rem}
+.srch-icon{position:absolute;left:1rem;top:50%;transform:translateY(-50%);font-size:1rem;pointer-events:none}
+.srch-input{width:100%;padding:.8rem 1rem .8rem 2.75rem;border:2px solid #e2e8f0;border-radius:12px;font-size:1rem;font-family:inherit;color:#111;box-sizing:border-box;background:#fff;transition:border-color .15s;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.srch-input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
 
-  <!-- FINANCE TOOLS -->
-  <h2 class="section-title" id="finance">Finance Calculators</h2>
-  <div class="tool-grid">
-    <a href="/cd-calculator" class="tool-card">
-      <span class="icon">🏦</span>
-      <h3>CD Calculator</h3>
-      <p>Calculate Certificate of Deposit earnings with compound interest</p>
-      <span class="badge">High Yield</span>
-    </a>
-    <a href="/mortgage-payoff-calculator" class="tool-card">
-      <span class="icon">🏠</span>
-      <h3>Mortgage Payoff Calculator</h3>
-      <p>See how early payments reduce your mortgage term and interest</p>
-    </a>
-    <a href="/reverse-sales-tax-calculator" class="tool-card">
-      <span class="icon">🧾</span>
-      <h3>Reverse Sales Tax Calculator</h3>
-      <p>Find original price before tax from the final amount paid</p>
-      <span class="badge new">Easy</span>
-    </a>
-    <a href="/debt-snowball-calculator" class="tool-card">
-      <span class="icon">❄️</span>
-      <h3>Debt Snowball Calculator</h3>
-      <p>Pay off debt faster — see payoff order, interest saved, and debt-free date</p>
-      <span class="badge new">Popular</span>
-    </a>
-    <a href="/biweekly-mortgage-calculator" class="tool-card">
-      <span class="icon">🏠</span>
-      <h3>Biweekly Mortgage Calculator</h3>
-      <p>Save years and thousands — see how biweekly payments cut your mortgage short</p>
-      <span class="badge new">New</span>
-    </a>
-  </div>
+.stats-strip{display:flex;justify-content:center;flex-wrap:wrap;gap:.5rem 1.5rem;font-size:.8rem;color:#64748b;font-weight:600}
+.stats-strip span{display:flex;align-items:center;gap:.3rem}
 
-  <!-- DATE & TIME TOOLS -->
-  <h2 class="section-title" id="date-time">Date & Time Tools</h2>
-  <div class="tool-grid">
-    <a href="/days-from-today" class="tool-card">
-      <span class="icon">📅</span>
-      <h3>Days From Today Calculator</h3>
-      <p>Find the exact date any number of days from today — 30, 60, 90 days and more</p>
-      <span class="badge new">Popular</span>
-    </a>
-    <a href="/30-days-from-today" class="tool-card">
-      <span class="icon">🗓️</span>
-      <h3>30 Days From Today</h3>
-      <p>What date is exactly 30 days from today? Net 30 payment deadline calculator</p>
-    </a>
-    <a href="/90-days-from-today" class="tool-card">
-      <span class="icon">📆</span>
-      <h3>90 Days From Today</h3>
-      <p>Find the date 90 days (3 months / one quarter) from today's date</p>
-    </a>
-  </div>
+.no-res{text-align:center;padding:2rem 1rem;color:#64748b;font-size:.95rem;display:none}
+.no-res a{color:var(--blue);font-weight:600}
 
-  <!-- MATH CALCULATORS -->
-  <h2 class="section-title" id="calculators">Math Calculators</h2>
-  <div class="tool-grid">
-    <a href="/percent-off-calculator" class="tool-card">
-      <span class="icon">🏷️</span>
-      <h3>Percent Off Calculator</h3>
-      <p>Calculate discounted price — great for shopping deals</p>
-      <span class="badge new">Popular</span>
-    </a>
-    <a href="/20-percent-off-100" class="tool-card">
-      <span class="icon">🏷️</span>
-      <h3>20% Off $100</h3>
-      <p>What is 20% off $100? Sale price is $80 — you save $20</p>
-    </a>
-    <a href="/30-percent-off-50" class="tool-card">
-      <span class="icon">🏷️</span>
-      <h3>30% Off $50</h3>
-      <p>What is 30% off $50? Sale price is $35 — you save $15</p>
-    </a>
-    <a href="/50-percent-off-200" class="tool-card">
-      <span class="icon">🏷️</span>
-      <h3>50% Off $200</h3>
-      <p>What is 50% off $200? Sale price is $100 — you save $100</p>
-    </a>
-    <a href="/25-percent-off-100" class="tool-card">
-      <span class="icon">🏷️</span>
-      <h3>25% Off $100</h3>
-      <p>What is 25% off $100? Sale price is $75 — you save $25</p>
-    </a>
-    <a href="/10-percent-off-50" class="tool-card">
-      <span class="icon">🏷️</span>
-      <h3>10% Off $50</h3>
-      <p>What is 10% off $50? Sale price is $45 — you save $5</p>
-    </a>
-    <a href="/pythagorean-theorem-calculator" class="tool-card">
-      <span class="icon">📐</span>
-      <h3>Pythagorean Theorem Calculator</h3>
-      <p>Find any side of a right triangle using a² + b² = c²</p>
-    </a>
-    <a href="/time-to-decimal-calculator" class="tool-card">
-      <span class="icon">⏱️</span>
-      <h3>Time to Decimal Calculator</h3>
-      <p>Convert hours & minutes to decimal format for timesheets</p>
-      <span class="badge new">Fast</span>
-    </a>
-  </div>
+.pop-card{border-top:3px solid var(--blue) !important}
 
-  <!-- UNIT CONVERTERS -->
-  <h2 class="section-title" id="converters">Unit Converters</h2>
-  <div class="tool-grid">
-    <a href="/square-footage-calculator" class="tool-card">
-      <span class="icon">📏</span>
-      <h3>Square Footage Calculator</h3>
-      <p>Calculate area in sq ft for rooms, land, or any space</p>
-    </a>
-    <a href="/kg-to-lbs" class="tool-card">
-      <span class="icon">⚖️</span>
-      <h3>kg to lbs Converter</h3>
-      <p>Convert kilograms to pounds instantly</p>
-    </a>
-    <a href="/cm-to-inches" class="tool-card">
-      <span class="icon">📐</span>
-      <h3>cm to inches Converter</h3>
-      <p>Convert centimeters to inches — most searched converter</p>
-    </a>
-    <a href="/celsius-to-fahrenheit" class="tool-card">
-      <span class="icon">🌡️</span>
-      <h3>Celsius to Fahrenheit</h3>
-      <p>Temperature conversion — °C to °F formula applied instantly</p>
-    </a>
-    <a href="/knots-to-mph" class="tool-card">
-      <span class="icon">🚤</span>
-      <h3>Knots to MPH Converter</h3>
-      <p>Convert nautical speed — knots to miles per hour</p>
-    </a>
-    <a href="/oz-to-quarts" class="tool-card">
-      <span class="icon">🧃</span>
-      <h3>Oz to Quarts Converter</h3>
-      <p>Convert fluid ounces to quarts instantly — 1 quart = 32 fl oz</p>
-      <span class="badge new">New</span>
-    </a>
-    <a href="/cups-to-gallons" class="tool-card">
-      <span class="icon">🥛</span>
-      <h3>Cups to Gallons Converter</h3>
-      <p>Kitchen & cooking volume conversion</p>
-    </a>
-    <a href="/cups-to-tablespoons" class="tool-card">
-      <span class="icon">🥄</span>
-      <h3>Cups to Tablespoons</h3>
-      <p>How many tablespoons in a cup? 1 cup = 16 tbsp — all fractions covered</p>
-      <span class="badge new">New</span>
-    </a>
-    <a href="/liters-to-gallons" class="tool-card">
-      <span class="icon">🪣</span>
-      <h3>Liters to Gallons</h3>
-      <p>Convert liters to US or Imperial gallons instantly. 1 gallon = 3.785 liters</p>
-      <span class="badge new">New</span>
-    </a>
-    <a href="/ounces-in-a-pound" class="tool-card">
-      <span class="icon">⚖️</span>
-      <h3>Ounces in a Pound</h3>
-      <p>How many ounces in a pound? 1 lb = 16 oz — instant lbs to oz converter</p>
-      <span class="badge new">New</span>
-    </a>
-    <a href="/km-to-miles" class="tool-card">
-      <span class="icon">🛣️</span>
-      <h3>km to Miles</h3>
-      <p>Convert kilometers to miles instantly — includes race distance table</p>
-      <span class="badge new">New</span>
-    </a>
-    <a href="/meters-to-feet" class="tool-card">
-      <span class="icon">📏</span>
-      <h3>Meters to Feet</h3>
-      <p>Convert meters to feet and inches — includes height conversion table</p>
-      <span class="badge new">New</span>
-    </a>
-    <a href="/fahrenheit-to-celsius" class="tool-card">
-      <span class="icon">🌡️</span>
-      <h3>Fahrenheit to Celsius</h3>
-      <p>Convert °F to °C instantly — body temp, freezing, boiling and more</p>
-      <span class="badge new">New</span>
-    </a>
-  </div>
+.section-title{font-size:.85rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#64748b;margin:2rem 0 .85rem;display:flex;align-items:center;gap:.5rem}
+.section-title::after{content:'';flex:1;height:1px;background:#e5e7eb}
 
-  <!-- DATE & TIME TOOLS (add hours in a month) -->
-  <h2 class="section-title" id="time">Time Tools</h2>
-  <div class="tool-grid">
-    <a href="/hours-in-a-month" class="tool-card">
-      <span class="icon">🕐</span>
-      <h3>Hours in a Month</h3>
-      <p>How many hours per month? 730 avg — get exact hours for any month</p>
-      <span class="badge new">New</span>
-    </a>
-  </div>
+.tool-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.85rem}
+.tool-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:1.1rem 1.25rem;display:flex;flex-direction:column;gap:.3rem;text-decoration:none;transition:transform .15s,box-shadow .15s,border-color .15s}
+.tool-card:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(0,0,0,.09);border-color:#bfdbfe;text-decoration:none}
+.tool-card .icon{font-size:1.4rem}
+.tool-card h3{font-size:.95rem;font-weight:700;color:#111;margin:0}
+.tool-card p{font-size:.82rem;color:#64748b;margin:0;line-height:1.5}
+.badge{display:inline-block;font-size:.68rem;font-weight:700;padding:.18rem .55rem;border-radius:99px;margin-top:.2rem;background:#fef3c7;color:#92400e;width:fit-content}
+.badge.new{background:#dcfce7;color:#166534}
+.badge.hot{background:#fee2e2;color:#991b1b}
 
-  <h2 class="section-title">How Our Tools Help You</h2>
-  <div class="info-section">
-    <div class="info-card">
-      <h2>Finance Calculators — Make Smarter Money Decisions</h2>
-      <p>Our finance calculators handle the math so you can focus on the decision. The CD calculator computes exact interest earnings using the compound interest formula — enter your principal, APY, and term to see your final balance. The mortgage payoff calculator shows how much interest you save by making extra payments each month. The reverse sales tax calculator works backwards from a receipt total to find the original pre-tax price, which is useful for expense reports, business accounting, and budgeting.</p>
-    </div>
-    <div class="info-card">
-      <h2>Days From Today Calculator — Track Dates & Deadlines</h2>
-      <p>Knowing the exact date that falls 30, 60, or 90 days from today matters for contracts, invoices, and project planning. Our days from today calculator works for any number of days — just enter a number and get the future date instantly. Use 30 days from today for net-30 payment terms, 60 days for supplier lead times, and 90 days from today for quarterly reviews and filing deadlines. All calculations account for the correct calendar date including month lengths and leap years.</p>
-    </div>
-    <div class="info-card">
-      <h2>Unit Converters — Cooking, Science & Everyday Measurements</h2>
-      <p>Unit conversion should be fast and error-free. Our cups to tablespoons converter covers every fraction — ¼ cup, ⅓ cup, ½ cup, and 1 cup equals exactly 16 tablespoons. The liters to gallons converter supports both US gallons (1 gallon = 3.785 liters) and Imperial UK gallons (1 gallon = 4.546 liters). Whether you are scaling a recipe, converting fuel economy, or working with international measurements, our converters deliver accurate results instantly with no rounding errors.</p>
-    </div>
+.info-section{display:flex;flex-direction:column;gap:1rem;margin-bottom:2rem}
+.info-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:1.25rem 1.5rem}
+.info-card h2{font-size:1rem;font-weight:700;margin:0 0 .5rem}
+.info-card p{color:#555;font-size:.88rem;line-height:1.75;margin:0}
+
+@media(max-width:600px){.home-hero h1{font-size:1.7rem}.stats-strip{gap:.4rem 1rem}.tool-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:400px){.tool-grid{grid-template-columns:1fr}}
+</style>
+
+<!-- HERO + SEARCH -->
+<div class="home-hero">
+  <h1>Free Online Calculators<br />&amp; Unit Converters</h1>
+  <p>Fast, accurate tools — no signup needed</p>
+  <div class="srch-wrap">
+    <span class="srch-icon">🔍</span>
+    <input
+      type="text"
+      id="tool-search"
+      class="srch-input"
+      placeholder="Search tools — cm to inches, percent off, CD calculator..."
+      autocomplete="off"
+    />
   </div>
+  <div class="stats-strip">
+    <span>✓ 25+ Tools</span>
+    <span>✓ 363 Pages</span>
+    <span>✓ Always Free</span>
+    <span>✓ No Signup</span>
+  </div>
+</div>
+
+<div id="no-res" class="no-res">
+  No tools found for that search. Try <a href="/cm-to-inches">cm to inches</a> or <a href="/percent-off-calculator">percent off</a>.
+</div>
+
+<!-- 🔥 POPULAR -->
+<h2 class="section-title" id="popular">🔥 Most Popular</h2>
+<div class="tool-grid">
+  <a href="/cm-to-inches" class="tool-card pop-card">
+    <span class="icon">📐</span>
+    <h3>cm to Inches Converter</h3>
+    <p>Convert centimeters to inches — most searched length converter</p>
+    <span class="badge hot">🔥 Top Tool</span>
+  </a>
+  <a href="/debt-snowball-calculator" class="tool-card pop-card">
+    <span class="icon">❄️</span>
+    <h3>Debt Snowball Calculator</h3>
+    <p>Pay off debt faster — see payoff order, interest saved, debt-free date</p>
+    <span class="badge hot">🔥 Top Tool</span>
+  </a>
+  <a href="/kg-to-lbs" class="tool-card pop-card">
+    <span class="icon">⚖️</span>
+    <h3>kg to lbs Converter</h3>
+    <p>Convert kilograms to pounds instantly — 1 kg = 2.205 lbs</p>
+    <span class="badge hot">🔥 Top Tool</span>
+  </a>
+  <a href="/cd-calculator" class="tool-card pop-card">
+    <span class="icon">🏦</span>
+    <h3>CD Calculator</h3>
+    <p>Calculate Certificate of Deposit earnings with compound interest</p>
+    <span class="badge hot">🔥 Top Tool</span>
+  </a>
+  <a href="/percent-off-calculator" class="tool-card pop-card">
+    <span class="icon">🏷️</span>
+    <h3>Percent Off Calculator</h3>
+    <p>Find sale price instantly — great for shopping and discount deals</p>
+    <span class="badge hot">🔥 Top Tool</span>
+  </a>
+  <a href="/days-from-today" class="tool-card pop-card">
+    <span class="icon">📅</span>
+    <h3>Days From Today Calculator</h3>
+    <p>Find exact date 30, 60, 90 days from today — deadlines made easy</p>
+    <span class="badge hot">🔥 Top Tool</span>
+  </a>
+</div>
+
+<!-- 💰 FINANCE -->
+<h2 class="section-title" id="finance">💰 Finance Calculators</h2>
+<div class="tool-grid">
+  <a href="/cd-calculator" class="tool-card">
+    <span class="icon">🏦</span>
+    <h3>CD Calculator</h3>
+    <p>Calculate Certificate of Deposit earnings with compound interest</p>
+    <span class="badge">High Yield</span>
+  </a>
+  <a href="/mortgage-payoff-calculator" class="tool-card">
+    <span class="icon">🏠</span>
+    <h3>Mortgage Payoff Calculator</h3>
+    <p>See how extra payments reduce your mortgage term and total interest</p>
+  </a>
+  <a href="/biweekly-mortgage-calculator" class="tool-card">
+    <span class="icon">📆</span>
+    <h3>Biweekly Mortgage Calculator</h3>
+    <p>Save years off your mortgage by switching to biweekly payments</p>
+  </a>
+  <a href="/debt-snowball-calculator" class="tool-card">
+    <span class="icon">❄️</span>
+    <h3>Debt Snowball Calculator</h3>
+    <p>Pay off debt faster — payoff order, interest saved, and debt-free date</p>
+    <span class="badge new">Popular</span>
+  </a>
+  <a href="/reverse-sales-tax-calculator" class="tool-card">
+    <span class="icon">🧾</span>
+    <h3>Reverse Sales Tax Calculator</h3>
+    <p>Find original price before tax from the total amount paid</p>
+  </a>
+</div>
+
+<!-- 📅 DATE & TIME -->
+<h2 class="section-title" id="date-time">📅 Date &amp; Time Tools</h2>
+<div class="tool-grid">
+  <a href="/days-from-today" class="tool-card">
+    <span class="icon">📅</span>
+    <h3>Days From Today Calculator</h3>
+    <p>Find the exact date any number of days from today — 30, 60, 90 and more</p>
+    <span class="badge new">Popular</span>
+  </a>
+  <a href="/30-days-from-today" class="tool-card">
+    <span class="icon">🗓️</span>
+    <h3>30 Days From Today</h3>
+    <p>What date is exactly 30 days from today? Net 30 payment deadline</p>
+  </a>
+  <a href="/60-days-from-today" class="tool-card">
+    <span class="icon">🗓️</span>
+    <h3>60 Days From Today</h3>
+    <p>Find the exact date 60 days (2 months) from today's date</p>
+  </a>
+  <a href="/90-days-from-today" class="tool-card">
+    <span class="icon">📆</span>
+    <h3>90 Days From Today</h3>
+    <p>Find the date 90 days (one quarter / 3 months) from today</p>
+  </a>
+  <a href="/hours-in-a-month" class="tool-card">
+    <span class="icon">🕐</span>
+    <h3>Hours in a Month</h3>
+    <p>How many hours in a month? 730 avg — exact hours for any month</p>
+  </a>
+  <a href="/time-to-decimal-calculator" class="tool-card">
+    <span class="icon">⏱️</span>
+    <h3>Time to Decimal Calculator</h3>
+    <p>Convert hours &amp; minutes to decimal format for timesheets and payroll</p>
+  </a>
+</div>
+
+<!-- 🏷️ DISCOUNTS -->
+<h2 class="section-title" id="discounts">🏷️ Discount Calculator</h2>
+<div class="tool-grid">
+  <a href="/percent-off-calculator" class="tool-card">
+    <span class="icon">🏷️</span>
+    <h3>Percent Off Calculator</h3>
+    <p>Calculate any discount — enter price and % to see sale price instantly</p>
+    <span class="badge new">Popular</span>
+  </a>
+  <a href="/20-percent-off-100" class="tool-card">
+    <span class="icon">🏷️</span>
+    <h3>20% Off $100</h3>
+    <p>What is 20% off $100? Sale price $80 — save $20</p>
+  </a>
+  <a href="/30-percent-off-50" class="tool-card">
+    <span class="icon">🏷️</span>
+    <h3>30% Off $50</h3>
+    <p>What is 30% off $50? Sale price $35 — save $15</p>
+  </a>
+  <a href="/50-percent-off-200" class="tool-card">
+    <span class="icon">🏷️</span>
+    <h3>50% Off $200</h3>
+    <p>What is 50% off $200? Sale price $100 — save $100</p>
+  </a>
+  <a href="/25-percent-off-100" class="tool-card">
+    <span class="icon">🏷️</span>
+    <h3>25% Off $100</h3>
+    <p>What is 25% off $100? Sale price $75 — save $25</p>
+  </a>
+  <a href="/10-percent-off-50" class="tool-card">
+    <span class="icon">🏷️</span>
+    <h3>10% Off $50</h3>
+    <p>What is 10% off $50? Sale price $45 — save $5</p>
+  </a>
+</div>
+
+<!-- ⚖️ UNIT CONVERTERS -->
+<h2 class="section-title" id="converters">⚖️ Unit Converters</h2>
+<div class="tool-grid">
+  <a href="/cm-to-inches" class="tool-card">
+    <span class="icon">📐</span>
+    <h3>cm to Inches</h3>
+    <p>Convert centimeters to inches — 1 cm = 0.3937 inches</p>
+    <span class="badge new">Popular</span>
+  </a>
+  <a href="/kg-to-lbs" class="tool-card">
+    <span class="icon">⚖️</span>
+    <h3>kg to lbs</h3>
+    <p>Convert kilograms to pounds — 1 kg = 2.20462 lbs</p>
+  </a>
+  <a href="/km-to-miles" class="tool-card">
+    <span class="icon">🛣️</span>
+    <h3>km to Miles</h3>
+    <p>Convert kilometers to miles — includes race distance chart</p>
+  </a>
+  <a href="/meters-to-feet" class="tool-card">
+    <span class="icon">📏</span>
+    <h3>Meters to Feet</h3>
+    <p>Convert meters to feet and inches — height conversion table included</p>
+  </a>
+  <a href="/celsius-to-fahrenheit" class="tool-card">
+    <span class="icon">🌡️</span>
+    <h3>Celsius to Fahrenheit</h3>
+    <p>Temperature converter — °C to °F applied instantly</p>
+  </a>
+  <a href="/fahrenheit-to-celsius" class="tool-card">
+    <span class="icon">🌡️</span>
+    <h3>Fahrenheit to Celsius</h3>
+    <p>Convert °F to °C — body temp, freezing, boiling and more</p>
+  </a>
+  <a href="/liters-to-gallons" class="tool-card">
+    <span class="icon">🪣</span>
+    <h3>Liters to Gallons</h3>
+    <p>Convert liters to US or Imperial gallons — 1 gal = 3.785 L</p>
+  </a>
+  <a href="/oz-to-quarts" class="tool-card">
+    <span class="icon">🧃</span>
+    <h3>Oz to Quarts</h3>
+    <p>Convert fluid ounces to quarts — 1 quart = 32 fl oz</p>
+  </a>
+  <a href="/cups-to-tablespoons" class="tool-card">
+    <span class="icon">🥄</span>
+    <h3>Cups to Tablespoons</h3>
+    <p>How many tablespoons in a cup? 1 cup = 16 tbsp — all fractions</p>
+  </a>
+  <a href="/cups-to-gallons" class="tool-card">
+    <span class="icon">🥛</span>
+    <h3>Cups to Gallons</h3>
+    <p>Convert cups to gallons for large cooking quantities</p>
+  </a>
+  <a href="/ounces-in-a-pound" class="tool-card">
+    <span class="icon">⚖️</span>
+    <h3>Ounces in a Pound</h3>
+    <p>How many ounces in a pound? 1 lb = 16 oz converter</p>
+  </a>
+  <a href="/knots-to-mph" class="tool-card">
+    <span class="icon">🚤</span>
+    <h3>Knots to MPH</h3>
+    <p>Convert nautical speed — knots to miles per hour</p>
+  </a>
+</div>
+
+<!-- 🧮 MATH -->
+<h2 class="section-title" id="calculators">🧮 Math Calculators</h2>
+<div class="tool-grid">
+  <a href="/square-footage-calculator" class="tool-card">
+    <span class="icon">📏</span>
+    <h3>Square Footage Calculator</h3>
+    <p>Calculate area in sq ft — rectangle, triangle, circle, L-shape</p>
+  </a>
+  <a href="/pythagorean-theorem-calculator" class="tool-card">
+    <span class="icon">📐</span>
+    <h3>Pythagorean Theorem Calculator</h3>
+    <p>Find any side of a right triangle using a² + b² = c²</p>
+  </a>
+</div>
+
+<!-- INFO SECTION -->
+<h2 class="section-title" style="margin-top:2.5rem">Why ComputeZap?</h2>
+<div class="info-section">
+  <div class="info-card">
+    <h2>Finance Calculators — Make Smarter Money Decisions</h2>
+    <p>Our finance calculators handle the math so you can focus on the decision. The CD calculator computes exact interest earnings using the compound interest formula. The mortgage payoff calculator shows how much interest you save by making extra payments. The debt snowball calculator shows your debt-free date and total interest saved — all instantly in your browser.</p>
+  </div>
+  <div class="info-card">
+    <h2>Unit Converters — Accurate to 6 Decimal Places</h2>
+    <p>Every converter on ComputeZap uses the official conversion factors — no rounding shortcuts. The cm to inches converter uses exactly 0.393701 inches per centimeter. Liters to gallons supports both US (÷3.78541) and Imperial (÷4.54609) gallons. Whether you are cooking, traveling, or working with international specs, the answer is always precise.</p>
+  </div>
+  <div class="info-card">
+    <h2>Discount Calculator — 308 Specific Pages</h2>
+    <p>Need to know what 30% off $50 is? We have a dedicated page for every common discount combination — from 5% off $5 to 75% off $1000. Each page shows the sale price, savings amount, and a full table of related calculations. Bookmark the specific page you need most for instant answers every time you shop.</p>
+  </div>
+</div>
+
+<script is:inline>
+(function () {
+  var input = document.getElementById('tool-search');
+  var noRes = document.getElementById('no-res');
+
+  input.addEventListener('input', function () {
+    var q = this.value.toLowerCase().trim();
+    var cards = document.querySelectorAll('.tool-card');
+    var totalVisible = 0;
+
+    cards.forEach(function (card) {
+      var text = (card.textContent || '').toLowerCase();
+      var show = !q || text.includes(q);
+      card.style.display = show ? '' : 'none';
+      if (show) totalVisible++;
+    });
+
+    // Hide section titles when all cards in that section are hidden
+    document.querySelectorAll('.section-title').forEach(function (title) {
+      var next = title.nextElementSibling;
+      if (next && next.classList.contains('tool-grid')) {
+        var vis = Array.from(next.querySelectorAll('.tool-card')).some(function (c) {
+          return c.style.display !== 'none';
+        });
+        title.style.display = vis ? '' : 'none';
+        next.style.display = vis ? '' : 'none';
+      }
+    });
+
+    noRes.style.display = (q && totalVisible === 0) ? 'block' : 'none';
+  });
+})();
+</script>
+
 </Layout>
