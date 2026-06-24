@@ -194,9 +194,12 @@ const schema = JSON.stringify([
 .faq-item p{color:#555;font-size:.865rem;margin:0;line-height:1.65}
 
 /* ── Related Tools ──────────────────────────────── */
-.more-grid{display:grid;grid-template-columns:1fr 1fr;gap:.55rem}
-.more-link{display:block;padding:.65rem 1rem;background:#f8fafc;border:1.5px solid #e5e7eb;border-radius:9px;font-size:.84rem;font-weight:600;color:#374151;text-decoration:none;transition:all .15s}
-.more-link:hover{border-color:var(--blue);color:var(--blue);background:#eff6ff}
+.next-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem}
+.next-card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:1rem;border-top:3px solid var(--blue);text-decoration:none;display:block;transition:box-shadow .15s}
+.next-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.08)}
+.next-tag{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--blue);margin-bottom:.3rem;display:block}
+.next-card h3{font-size:.88rem;font-weight:700;color:#111;margin:0 0 .25rem}
+.next-card p{font-size:.78rem;color:#64748b;margin:0;line-height:1.5}
 
 /* ── Empty / misc ───────────────────────────────── */
 .empty-msg{color:#94a3b8;font-size:.875rem;text-align:center;padding:1.5rem 0;border:1.5px dashed #e2e8f0;border-radius:10px}
@@ -407,13 +410,37 @@ const schema = JSON.stringify([
     <!-- Related Tools -->
     <div class="content-card">
       <h2>Related Finance Tools</h2>
-      <div class="more-grid">
-        <a href="/biweekly-mortgage-calculator" class="more-link">🏠 Biweekly Mortgage Calculator</a>
-        <a href="/mortgage-payoff-calculator" class="more-link">🏡 Mortgage Payoff Calculator</a>
-        <a href="/cd-calculator" class="more-link">🏦 CD Calculator</a>
-        <a href="/reverse-sales-tax-calculator" class="more-link">🧾 Reverse Sales Tax</a>
-        <a href="/percent-off-calculator" class="more-link">🏷️ Percent Off Calculator</a>
-        <a href="/days-from-today" class="more-link">📅 Days From Today</a>
+      <div class="next-grid">
+        <a href="/biweekly-mortgage-calculator" class="next-card">
+          <span class="next-tag">Finance</span>
+          <h3>Biweekly Mortgage Calculator</h3>
+          <p>Save years and thousands by paying every two weeks.</p>
+        </a>
+        <a href="/mortgage-payoff-calculator" class="next-card">
+          <span class="next-tag">Finance</span>
+          <h3>Mortgage Payoff Calculator</h3>
+          <p>See how extra payments shorten your loan term.</p>
+        </a>
+        <a href="/cd-calculator" class="next-card">
+          <span class="next-tag">Finance</span>
+          <h3>CD Calculator</h3>
+          <p>Calculate Certificate of Deposit interest earnings.</p>
+        </a>
+        <a href="/reverse-sales-tax-calculator" class="next-card">
+          <span class="next-tag">Tax</span>
+          <h3>Reverse Sales Tax</h3>
+          <p>Find the original pre-tax price from any total.</p>
+        </a>
+        <a href="/percent-off-calculator" class="next-card">
+          <span class="next-tag">Shopping</span>
+          <h3>Percent Off Calculator</h3>
+          <p>Calculate the final price after any discount.</p>
+        </a>
+        <a href="/days-from-today" class="next-card">
+          <span class="next-tag">Date</span>
+          <h3>Days From Today</h3>
+          <p>Find the exact date any number of days from today.</p>
+        </a>
       </div>
     </div>
 

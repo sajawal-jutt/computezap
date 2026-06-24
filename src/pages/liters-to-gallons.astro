@@ -428,35 +428,19 @@ const schema = JSON.stringify([
 .faq-q { font-weight: 600; font-size: .92rem; color: var(--gray-900); margin-bottom: .35rem; }
 .faq-a { font-size: .88rem; color: var(--gray-600); line-height: 1.6; }
 
-/* More tools */
-.more-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: .6rem;
-}
-.more-link {
-  display: block;
-  padding: .65rem 1rem;
-  background: var(--gray-50);
-  border: 1px solid var(--gray-200);
-  border-radius: 8px;
-  font-size: .85rem;
-  font-weight: 600;
-  color: var(--gray-700);
-  transition: all .15s;
-}
-.more-link:hover {
-  border-color: var(--blue);
-  color: var(--blue);
-  background: var(--blue-light);
-  text-decoration: none;
-}
+/* Related tools */
+.next-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem}
+.next-card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:1rem;border-top:3px solid var(--blue);text-decoration:none;display:block;transition:box-shadow .15s}
+.next-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.08)}
+.next-tag{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--blue);margin-bottom:.3rem;display:block}
+.next-card h3{font-size:.88rem;font-weight:700;color:#111;margin:0 0 .25rem}
+.next-card p{font-size:.78rem;color:#64748b;margin:0;line-height:1.5}
 
 @media (max-width: 700px) {
   .calc-wrap { flex-direction: column; }
   .calc-left { width: 100%; position: static; }
   .res-main { font-size: 1.7rem; }
-  .more-grid { grid-template-columns: 1fr; }
+  .next-grid { grid-template-columns: 1fr; }
 }
 </style>
 
@@ -713,13 +697,37 @@ const schema = JSON.stringify([
 
     <div class="content-card">
       <h2>Related Converters & Calculators</h2>
-      <div class="more-grid">
-        <a href="/oz-to-quarts" class="more-link">🧃 Oz to Quarts</a>
-        <a href="/cups-to-gallons" class="more-link">🥛 Cups to Gallons</a>
-        <a href="/cups-to-tablespoons" class="more-link">🥄 Cups to Tablespoons</a>
-        <a href="/kg-to-lbs" class="more-link">⚖️ kg to lbs</a>
-        <a href="/cm-to-inches" class="more-link">📐 cm to inches</a>
-        <a href="/celsius-to-fahrenheit" class="more-link">🌡️ Celsius to °F</a>
+      <div class="next-grid">
+        <a href="/oz-to-quarts" class="next-card">
+          <span class="next-tag">Volume</span>
+          <h3>Oz to Quarts</h3>
+          <p>Convert fluid ounces to quarts — 1 quart = 32 oz.</p>
+        </a>
+        <a href="/cups-to-gallons" class="next-card">
+          <span class="next-tag">Volume</span>
+          <h3>Cups to Gallons</h3>
+          <p>Convert cups to gallons for large cooking quantities.</p>
+        </a>
+        <a href="/cups-to-tablespoons" class="next-card">
+          <span class="next-tag">Kitchen</span>
+          <h3>Cups to Tablespoons</h3>
+          <p>How many tablespoons in a cup — all fractions covered.</p>
+        </a>
+        <a href="/kg-to-lbs" class="next-card">
+          <span class="next-tag">Weight</span>
+          <h3>kg to lbs</h3>
+          <p>Convert kilograms to pounds instantly.</p>
+        </a>
+        <a href="/cm-to-inches" class="next-card">
+          <span class="next-tag">Length</span>
+          <h3>cm to Inches</h3>
+          <p>Convert centimeters to inches instantly.</p>
+        </a>
+        <a href="/celsius-to-fahrenheit" class="next-card">
+          <span class="next-tag">Temperature</span>
+          <h3>Celsius to °F</h3>
+          <p>Convert temperature between Celsius and Fahrenheit.</p>
+        </a>
       </div>
     </div>
 

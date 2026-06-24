@@ -103,10 +103,13 @@ const schema = JSON.stringify([
 .content-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:1.5rem;margin-bottom:1rem}
 .content-card h2{font-size:1.1rem;font-weight:700;color:#111;margin:0 0 .8rem}
 .content-card ul{color:#444;line-height:1.85;font-size:.95rem;padding-left:1.25rem;margin:0}
-.more-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
-.more-link{display:block;padding:.65rem 1rem;background:#f8fafc;border:1px solid #e5e7eb;border-radius:8px;font-size:.85rem;font-weight:600;color:#374151;text-decoration:none;transition:all .15s}
-.more-link:hover{border-color:var(--blue);color:var(--blue);background:#eff6ff}
-@media(max-width:768px){.calc-wrap{grid-template-columns:1fr}.calc-left{position:static}.hero h1{font-size:1.65rem}.res-val{font-size:1.6rem}}
+.next-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem}
+.next-card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:1rem;border-top:3px solid var(--blue);text-decoration:none;display:block;transition:box-shadow .15s}
+.next-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.08)}
+.next-tag{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--blue);margin-bottom:.3rem;display:block}
+.next-card h3{font-size:.88rem;font-weight:700;color:#111;margin:0 0 .25rem}
+.next-card p{font-size:.78rem;color:#64748b;margin:0;line-height:1.5}
+@media(max-width:768px){.calc-wrap{grid-template-columns:1fr}.calc-left{position:static}.hero h1{font-size:1.65rem}.res-val{font-size:1.6rem}.next-grid{grid-template-columns:1fr}}
 </style>
 
 <div class="hero">
@@ -268,13 +271,37 @@ const schema = JSON.stringify([
 
     <div class="content-card">
       <h2>Related Converters</h2>
-      <div class="more-grid">
-        <a href="/cm-to-inches" class="more-link">cm to Inches</a>
-        <a href="/celsius-to-fahrenheit" class="more-link">Celsius to °F</a>
-        <a href="/cups-to-tablespoons" class="more-link">Cups to Tablespoons</a>
-        <a href="/liters-to-gallons" class="more-link">Liters to Gallons</a>
-        <a href="/percent-off-calculator" class="more-link">Percent Off Calculator</a>
-        <a href="/square-footage-calculator" class="more-link">Square Footage</a>
+      <div class="next-grid">
+        <a href="/cm-to-inches" class="next-card">
+          <span class="next-tag">Length</span>
+          <h3>cm to Inches</h3>
+          <p>Convert centimeters to inches instantly.</p>
+        </a>
+        <a href="/celsius-to-fahrenheit" class="next-card">
+          <span class="next-tag">Temperature</span>
+          <h3>Celsius to °F</h3>
+          <p>Convert temperature between Celsius and Fahrenheit.</p>
+        </a>
+        <a href="/cups-to-tablespoons" class="next-card">
+          <span class="next-tag">Kitchen</span>
+          <h3>Cups to Tablespoons</h3>
+          <p>How many tablespoons in a cup — all fractions covered.</p>
+        </a>
+        <a href="/liters-to-gallons" class="next-card">
+          <span class="next-tag">Volume</span>
+          <h3>Liters to Gallons</h3>
+          <p>Convert liters to US or Imperial gallons.</p>
+        </a>
+        <a href="/oz-to-quarts" class="next-card">
+          <span class="next-tag">Volume</span>
+          <h3>Oz to Quarts</h3>
+          <p>Convert fluid ounces to quarts — 1 quart = 32 oz.</p>
+        </a>
+        <a href="/percent-off-calculator" class="next-card">
+          <span class="next-tag">Shopping</span>
+          <h3>Percent Off Calculator</h3>
+          <p>Calculate the final price after any discount.</p>
+        </a>
       </div>
     </div>
   </div>
