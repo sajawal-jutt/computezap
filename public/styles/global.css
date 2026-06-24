@@ -310,6 +310,7 @@ footer {
 /* RELATED TOOLS */
 .related { margin-top: 2.5rem; }
 .related h2 { font-size: 1rem; font-weight: 700; margin-bottom: 1rem; color: var(--gray-700); }
+.next-card:hover, .tool-card:hover { text-decoration: none; }
 
 @media (max-width: 600px) {
   .hero h1 { font-size: 1.7rem; }
