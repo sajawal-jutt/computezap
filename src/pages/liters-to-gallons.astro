@@ -1,4 +1,4 @@
-﻿---
+---
 import Layout from '../layouts/Layout.astro';
 
 const schema = JSON.stringify([
@@ -89,432 +89,142 @@ const schema = JSON.stringify([
   canonical="/liters-to-gallons"
   schema={schema}
 >
-
 <style is:global>
-.calc-wrap {
-  display: flex;
-  gap: 2rem;
-  align-items: flex-start;
-}
-.calc-left {
-  width: 340px;
-  flex-shrink: 0;
-  position: sticky;
-  top: 72px;
-}
-.calc-right {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-}
-.left-card {
-  background: #fff;
-  border: 1px solid var(--gray-200);
-  border-radius: var(--radius);
-  padding: 1.5rem;
-  box-shadow: var(--shadow);
-}
-.left-card h1 {
-  font-size: 1.35rem;
-  font-weight: 800;
-  color: var(--gray-900);
-  letter-spacing: -.4px;
-  margin-bottom: 1rem;
-  line-height: 1.25;
-}
-
-/* Mode Toggle */
-.toggle-row {
-  display: flex;
-  gap: .5rem;
-  margin-bottom: .75rem;
-}
-.tog {
-  flex: 1;
-  padding: .5rem .25rem;
-  border: 1.5px solid var(--gray-200);
-  border-radius: 8px;
-  background: var(--gray-50);
-  color: var(--gray-700);
-  font-size: .8rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all .15s;
-}
-.tog.active {
-  background: var(--blue);
-  border-color: var(--blue);
-  color: #fff;
-}
-
-/* Gallon type toggle */
-.type-row {
-  display: flex;
-  gap: .4rem;
-  margin-bottom: 1rem;
-}
-.type-btn {
-  flex: 1;
-  padding: .4rem .25rem;
-  border: 1.5px solid var(--gray-200);
-  border-radius: 6px;
-  background: var(--gray-50);
-  color: var(--gray-600);
-  font-size: .75rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all .15s;
-}
-.type-btn.active {
-  background: #f0fdf4;
-  border-color: #16a34a;
-  color: #166534;
-}
-
-/* Input */
-.input-wrap {
-  margin-bottom: .75rem;
-}
-.input-wrap label {
-  font-size: .82rem;
-  font-weight: 600;
-  color: var(--gray-700);
-  margin-bottom: .35rem;
-  display: block;
-}
-.input-with-unit {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-.input-with-unit input {
-  width: 100%;
-  padding: .65rem .9rem;
-  padding-right: 3.5rem;
-  border: 1.5px solid var(--gray-200);
-  border-radius: 8px;
-  font-size: 1.15rem;
-  font-weight: 600;
-  font-family: inherit;
-  color: var(--gray-900);
-  background: #fff;
-  transition: border-color .15s;
-}
-.input-with-unit input:focus {
-  outline: none;
-  border-color: var(--blue);
-  box-shadow: 0 0 0 3px rgba(37,99,235,.1);
-}
-.input-unit {
-  position: absolute;
-  right: .9rem;
-  font-size: .85rem;
-  font-weight: 700;
-  color: var(--gray-600);
-  pointer-events: none;
-}
-
-/* Pills */
-.pills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: .4rem;
-  margin-bottom: 1rem;
-}
-.pill {
-  padding: .3rem .65rem;
-  border: 1.5px solid var(--gray-200);
-  border-radius: 99px;
-  background: var(--gray-50);
-  color: var(--gray-700);
-  font-size: .8rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all .15s;
-}
-.pill:hover {
-  border-color: var(--blue);
-  color: var(--blue);
-  background: var(--blue-light);
-}
-
-/* Result Box */
-.res-box {
-  background: var(--blue-light);
-  border: 1.5px solid #bfdbfe;
-  border-radius: 10px;
-  padding: 1.1rem 1.25rem;
-  margin-bottom: 1rem;
-  text-align: center;
-}
-.res-label {
-  font-size: .75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: .06em;
-  color: var(--blue);
-  margin-bottom: .25rem;
-}
-.res-main {
-  font-size: 2.1rem;
-  font-weight: 800;
-  color: var(--gray-900);
-  line-height: 1.1;
-}
-.res-sub {
-  font-size: .85rem;
-  color: var(--gray-600);
-  margin-top: .25rem;
-}
-
-/* Primary stat */
-.stat-primary {
-  background: var(--blue-light);
-  border-radius: 8px;
-  padding: .75rem 1rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: .6rem;
-}
-.stat-primary .sp-label {
-  font-size: .8rem;
-  font-weight: 700;
-  color: var(--blue);
-}
-.stat-primary .sp-val {
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: var(--blue);
-}
-
-/* Stats grid */
-.stats-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: .5rem;
-}
-.stat-box {
-  background: var(--gray-50);
-  border: 1px solid var(--gray-200);
-  border-radius: 8px;
-  padding: .6rem .75rem;
-  display: flex;
-  flex-direction: column;
-  gap: .15rem;
-}
-.stat-box .s-lbl {
-  font-size: .72rem;
-  font-weight: 600;
-  color: var(--gray-600);
-  text-transform: uppercase;
-  letter-spacing: .04em;
-}
-.stat-box .s-val {
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: var(--gray-900);
-}
-
-/* Right panel cards */
-.content-card {
-  background: #fff;
-  border: 1px solid var(--gray-200);
-  border-radius: var(--radius);
-  padding: 1.5rem;
-}
-.content-card h2 {
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: var(--gray-900);
-  margin-bottom: .9rem;
-}
-.content-card p {
-  color: var(--gray-600);
-  font-size: .9rem;
-  line-height: 1.7;
-  margin-bottom: .6rem;
-}
-.content-card ul {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: .45rem;
-}
-.content-card ul li {
-  font-size: .9rem;
-  color: var(--gray-600);
-  padding-left: 1.25rem;
-  position: relative;
-  line-height: 1.5;
-}
-.content-card ul li::before {
-  content: "→";
-  position: absolute;
-  left: 0;
-  color: var(--blue);
-  font-weight: 700;
-}
-
-/* Answer box (featured snippet) */
-.answer-box {
-  background: var(--gray-50);
-  border: 1px solid var(--gray-200);
-  border-radius: 8px;
-  overflow: hidden;
-}
-.answer-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: .6rem 1rem;
-  border-bottom: 1px solid var(--gray-200);
-}
-.answer-row:last-child { border-bottom: none; }
-.answer-lbl { font-size: .9rem; color: var(--gray-700); font-weight: 500; }
-.answer-val { font-size: .95rem; font-weight: 700; color: var(--blue); }
-
-/* Conversion table */
-.conv-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: .88rem;
-}
-.conv-table th {
-  background: var(--gray-50);
-  padding: .5rem .75rem;
-  text-align: left;
-  font-size: .78rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: .04em;
-  color: var(--gray-600);
-  border-bottom: 1px solid var(--gray-200);
-}
-.conv-table td {
-  padding: .5rem .75rem;
-  border-bottom: 1px solid var(--gray-100);
-  color: var(--gray-700);
-}
-.conv-table tr:last-child td { border-bottom: none; }
-.conv-table tr:hover td { background: var(--gray-50); }
-.conv-table td:first-child { font-weight: 600; color: var(--gray-900); }
-.conv-table td.highlight { font-weight: 700; color: var(--blue); }
-
-/* Formula box */
-.formula-box {
-  background: var(--gray-50);
-  border-left: 3px solid var(--blue);
-  border-radius: 0 8px 8px 0;
-  padding: 1rem 1.25rem;
-  margin-bottom: .75rem;
-}
-.formula-box code {
-  display: block;
-  font-family: monospace;
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--blue);
-  background: transparent;
-  margin: .35rem 0 .75rem;
-}
-.formula-box p { margin: 0; font-size: .88rem; color: var(--gray-700); }
-
-/* FAQ */
-.faq-item { border-bottom: 1px solid var(--gray-100); padding: .85rem 0; }
-.faq-item:last-child { border-bottom: none; padding-bottom: 0; }
-.faq-q { font-weight: 600; font-size: .92rem; color: var(--gray-900); margin-bottom: .35rem; }
-.faq-a { font-size: .88rem; color: var(--gray-600); line-height: 1.6; }
-
-/* Related tools */
+.hero{text-align:center;padding:2rem 1rem 1.25rem}
+.hero h1{font-size:2rem;color:#111;margin:.5rem 0 .35rem;font-weight:800}
+.hero-sub{color:#555;margin:0;font-size:1rem}
+.breadcrumb{font-size:.85rem;color:#888;margin-bottom:.75rem}
+.breadcrumb a{color:var(--blue);text-decoration:none}
+.calc-wrap{display:grid;grid-template-columns:360px 1fr;gap:1.5rem;max-width:1100px;margin:0 auto;padding:0 1rem 3rem;align-items:start}
+.calc-left{position:sticky;top:1rem}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:1.5rem;margin-bottom:1rem}
+.card:last-child{margin-bottom:0}
+.mode-wrap{display:grid;grid-template-columns:1fr 1fr;gap:.4rem;margin-bottom:1rem}
+.mode-btn{background:#f8fafc;color:#64748b;border:1.5px solid #e2e8f0;border-radius:8px;padding:.5rem;font-size:.82rem;font-weight:700;cursor:pointer;text-align:center;transition:all .15s}
+.mode-btn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.fld-lbl{display:block;font-size:.8rem;font-weight:700;color:#374151;margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.04em}
+.fld-wrap{position:relative;margin-bottom:1rem}
+.fld-sfx{position:absolute;right:.9rem;top:50%;transform:translateY(-50%);color:#94a3b8;font-weight:600;pointer-events:none;font-size:.9rem}
+.txt-input{width:100%;font-size:1.1rem;padding:.7rem 3rem .7rem 1rem;border:1.5px solid #e2e8f0;border-radius:8px;color:#111;box-sizing:border-box;font-family:inherit;background:#fff}
+.txt-input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+.preset-lbl{font-size:.7rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.5rem;display:block}
+.preset-wrap{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1rem}
+.preset-btn{background:#fff;color:var(--blue);border:1.5px solid #dbeafe;border-radius:20px;padding:.28rem .75rem;font-size:.82rem;font-weight:700;cursor:pointer;transition:all .15s}
+.preset-btn:hover{background:var(--blue);color:#fff;border-color:var(--blue)}
+.result-box{display:block;background:var(--blue);border-radius:14px;padding:1.5rem;text-align:center;margin-bottom:1rem;box-shadow:0 4px 20px rgba(37,99,235,.18)}
+.res-lbl{font-size:.72rem;color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:.09em;margin-bottom:.4rem}
+.res-val{font-size:2rem;font-weight:800;color:#fff;line-height:1.2}
+.res-sub{font-size:.9rem;color:rgba(255,255,255,.8);margin-top:.3rem}
+.stat-primary{background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:12px;padding:.9rem 1.25rem;text-align:center;margin-bottom:.6rem}
+.stat-lbl{display:block;font-size:.68rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.3rem;font-weight:600}
+.stat-primary .stat-lbl{color:#2563eb}
+.stat-big{display:block;font-size:1.9rem;font-weight:900;color:#2563eb;line-height:1.1}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.stat-item{background:#f8fafc;border:1px solid #f1f5f9;border-radius:10px;padding:.8rem .75rem;text-align:center}
+.stat-val{display:block;font-size:1.05rem;font-weight:800;color:#1e293b}
+.content-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:1.5rem;margin-bottom:1rem}
+.content-card h2{font-size:1.1rem;font-weight:700;color:#111;margin:0 0 .8rem}
+.content-card p{color:#444;line-height:1.75;font-size:.95rem;margin:0 0 .7rem}
+.content-card p:last-child{margin-bottom:0}
+.content-card ul{color:#444;line-height:1.85;font-size:.95rem;padding-left:1.25rem;margin:0}
+.answer-box{background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:10px;padding:.75rem 1rem;margin:.75rem 0}
+.answer-row{display:flex;justify-content:space-between;align-items:center;padding:.35rem 0;border-bottom:1px solid #f1f5f9;font-size:.95rem}
+.answer-row:last-child{border-bottom:none}
+.answer-lbl{color:#64748b;font-weight:600}
+.answer-val{color:#2563eb;font-weight:800}
+.conv-table{width:100%;border-collapse:collapse;font-size:.875rem}
+.conv-table th{background:#f8fafc;padding:.45rem .75rem;text-align:left;font-size:.72rem;color:#64748b;font-weight:700;text-transform:uppercase;letter-spacing:.04em;border-bottom:1px solid #e5e7eb}
+.conv-table td{padding:.5rem .75rem;border-bottom:1px solid #f3f4f6;color:#444}
+.conv-table tr:last-child td{border-bottom:none}
+.conv-table .highlight{color:var(--blue);font-weight:700}
+.formula-box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:.75rem 1rem;font-family:monospace;font-size:.88rem;color:#1e293b;margin:.6rem 0}
+.formula-box code{display:block;padding:.2rem 0}
+.faq-item{border-bottom:1px solid #f3f4f6;padding:.85rem 0}
+.faq-item:last-child{border-bottom:none;padding-bottom:0}
+.faq-q{font-size:.92rem;color:#111;margin:0 0 .35rem;font-weight:600}
+.faq-a{color:#555;font-size:.875rem;margin:0;line-height:1.65}
 .next-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem}
-.next-card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:1rem;border-top:3px solid var(--blue);text-decoration:none;display:block;transition:box-shadow .15s}
+.next-card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:1rem;border-top:3px solid var(--blue);text-decoration:none;display:block}
 .next-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.08)}
 .next-tag{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--blue);margin-bottom:.3rem;display:block}
 .next-card h3{font-size:.88rem;font-weight:700;color:#111;margin:0 0 .25rem}
 .next-card p{font-size:.78rem;color:#64748b;margin:0;line-height:1.5}
-
-@media (max-width: 700px) {
-  .calc-wrap { flex-direction: column; }
-  .calc-left { width: 100%; position: static; }
-  .res-main { font-size: 1.7rem; }
-  .next-grid { grid-template-columns: 1fr; }
-}
+@media(max-width:768px){.calc-wrap{grid-template-columns:1fr}.calc-left{position:static}.hero h1{font-size:1.65rem}.res-val{font-size:1.6rem}.next-grid{grid-template-columns:1fr}}
 </style>
 
-<div class="breadcrumb"><a href="/">Home</a> › Liters to Gallons Converter</div>
+<div class="hero">
+  <nav class="breadcrumb"><a href="/">Home</a> › Liters to Gallons Converter</nav>
+  <h1>Liters to Gallons Converter</h1>
+  <p class="hero-sub">Convert liters to US or Imperial gallons — includes quarts, pints, and fl oz</p>
+</div>
 
 <div class="calc-wrap">
 
   <!-- ===== LEFT PANEL ===== -->
   <div class="calc-left">
-    <div class="left-card">
-      <h1>Liters to Gallons<br/>Converter</h1>
+    <div class="card">
 
       <!-- Direction Toggle -->
-      <div class="toggle-row">
-        <button class="tog active" id="btn-ltg" onclick="setMode('ltg')">Liters → Gal</button>
-        <button class="tog" id="btn-gtl" onclick="setMode('gtl')">Gal → Liters</button>
+      <div class="mode-wrap">
+        <button class="mode-btn active" id="btn-ltg" onclick="setMode('ltg')">L → Gallons</button>
+        <button class="mode-btn" id="btn-gtl" onclick="setMode('gtl')">Gallons → L</button>
       </div>
 
-      <!-- Gallon Type -->
-      <div class="type-row">
-        <button class="type-btn active" id="btn-us" onclick="setGalType('us')">US Gallon</button>
-        <button class="type-btn" id="btn-imp" onclick="setGalType('imperial')">Imperial (UK)</button>
+      <!-- Gallon Type Toggle -->
+      <div class="mode-wrap">
+        <button class="mode-btn active" id="btn-us" onclick="setGalType('us')">US Gallon</button>
+        <button class="mode-btn" id="btn-imp" onclick="setGalType('imperial')">Imperial (UK)</button>
       </div>
 
       <!-- Input -->
-      <div class="input-wrap">
-        <label id="input-label">Liters (L)</label>
-        <div class="input-with-unit">
-          <input type="number" id="amount" value="1" min="0" step="any" oninput="doConvert()" />
-          <span class="input-unit" id="input-unit">L</span>
-        </div>
+      <label class="fld-lbl" id="input-label">Liters (L)</label>
+      <div class="fld-wrap">
+        <input type="number" id="amount" class="txt-input" value="1" min="0" step="any" oninput="doConvert()" />
+        <span class="fld-sfx" id="input-unit">L</span>
       </div>
 
-      <!-- Preset Pills -->
-      <div class="pills">
-        <button class="pill" onclick="setVal(1)">1</button>
-        <button class="pill" onclick="setVal(2)">2</button>
-        <button class="pill" onclick="setVal(5)">5</button>
-        <button class="pill" onclick="setVal(10)">10</button>
-        <button class="pill" onclick="setVal(20)">20</button>
-        <button class="pill" onclick="setVal(50)">50</button>
-        <button class="pill" onclick="setVal(100)">100</button>
+      <!-- Preset Buttons -->
+      <span class="preset-lbl">Quick Values</span>
+      <div class="preset-wrap">
+        <button class="preset-btn" onclick="setVal(1)">1</button>
+        <button class="preset-btn" onclick="setVal(2)">2</button>
+        <button class="preset-btn" onclick="setVal(5)">5</button>
+        <button class="preset-btn" onclick="setVal(10)">10</button>
+        <button class="preset-btn" onclick="setVal(20)">20</button>
+        <button class="preset-btn" onclick="setVal(50)">50</button>
+        <button class="preset-btn" onclick="setVal(100)">100</button>
       </div>
 
       <!-- Result Box -->
-      <div class="res-box">
-        <div class="res-label" id="res-label">= US Gallons</div>
-        <div class="res-main" id="res-main">0.2642</div>
-        <div class="res-sub" id="res-sub">1 liter</div>
+      <div class="result-box">
+        <div class="res-lbl" id="res-label">= US GALLONS</div>
+        <div class="res-val" id="res-main">0.2642 gal</div>
+        <div class="res-sub" id="res-sub">1 L</div>
       </div>
 
       <!-- Primary stat: gallons -->
       <div class="stat-primary">
-        <span class="sp-label" id="sp-label">Gallons (US)</span>
-        <span class="sp-val" id="sp-val">0.2642</span>
+        <span class="stat-lbl" id="sp-label">Gallons (US)</span>
+        <span class="stat-big" id="sp-val">0.2642</span>
       </div>
 
       <!-- Secondary stats -->
       <div class="stats-grid">
-        <div class="stat-box">
-          <span class="s-lbl">Quarts</span>
-          <span class="s-val" id="stat-qt">1.057</span>
+        <div class="stat-item">
+          <span class="stat-lbl">Quarts</span>
+          <span class="stat-val" id="stat-qt">1.057</span>
         </div>
-        <div class="stat-box">
-          <span class="s-lbl">Pints</span>
-          <span class="s-val" id="stat-pt">2.113</span>
+        <div class="stat-item">
+          <span class="stat-lbl">Pints</span>
+          <span class="stat-val" id="stat-pt">2.113</span>
         </div>
-        <div class="stat-box">
-          <span class="s-lbl">Fluid Ounces</span>
-          <span class="s-val" id="stat-floz">33.81</span>
+        <div class="stat-item">
+          <span class="stat-lbl">Fluid Oz</span>
+          <span class="stat-val" id="stat-floz">33.81</span>
         </div>
-        <div class="stat-box">
-          <span class="s-lbl">Milliliters</span>
-          <span class="s-val" id="stat-ml">1000</span>
+        <div class="stat-item">
+          <span class="stat-lbl">Milliliters</span>
+          <span class="stat-val" id="stat-ml">1000</span>
         </div>
       </div>
 
@@ -599,10 +309,8 @@ const schema = JSON.stringify([
     <div class="content-card">
       <h2>How to Convert Liters to Gallons — Formula</h2>
       <div class="formula-box">
-        <p><strong>Liters → US Gallons:</strong></p>
-        <code>gallons = liters ÷ 3.78541</code>
-        <p><strong>Liters → Imperial Gallons:</strong></p>
-        <code>gallons = liters ÷ 4.54609</code>
+        <code><strong>Liters → US Gallons:</strong> gallons = liters ÷ 3.78541</code>
+        <code><strong>Liters → Imperial Gallons:</strong> gallons = liters ÷ 4.54609</code>
       </div>
       <p><strong>Example:</strong> 10 liters ÷ 3.785 = <strong>2.642 US gallons</strong></p>
       <p><strong>Quick trick:</strong> Divide by 4 for a rough estimate — 10 L ÷ 4 ≈ 2.5 gallons (within 5%).</p>
@@ -643,24 +351,24 @@ const schema = JSON.stringify([
     </div>
 
     <div class="content-card">
-  <h2>Common Mistakes When Converting Liters to Gallons</h2>
-  <ul>
-    <li><strong>Confusing US and Imperial gallons</strong> — 1 US gallon = 3.785 L, but 1 Imperial gallon = 4.546 L. A 20% difference that matters in fuel and recipe conversions.</li>
-    <li><strong>Using 4 as the conversion factor</strong> — dividing by 4 gives a rough estimate (within 5%), but for large volumes like aquariums or fuel tanks, always use 3.785.</li>
-    <li><strong>Mixing metric and imperial mid-calculation</strong> — if you start in liters, finish in liters. Switching units partway through causes compounding errors.</li>
-    <li><strong>Comparing fuel economy across countries</strong> — US mpg uses US gallons; UK mpg uses Imperial gallons. European L/100km is entirely different — always convert the same unit.</li>
-  </ul>
-</div>
+      <h2>Common Mistakes When Converting Liters to Gallons</h2>
+      <ul>
+        <li><strong>Confusing US and Imperial gallons</strong> — 1 US gallon = 3.785 L, but 1 Imperial gallon = 4.546 L. A 20% difference that matters in fuel and recipe conversions.</li>
+        <li><strong>Using 4 as the conversion factor</strong> — dividing by 4 gives a rough estimate (within 5%), but for large volumes like aquariums or fuel tanks, always use 3.785.</li>
+        <li><strong>Mixing metric and imperial mid-calculation</strong> — if you start in liters, finish in liters. Switching units partway through causes compounding errors.</li>
+        <li><strong>Comparing fuel economy across countries</strong> — US mpg uses US gallons; UK mpg uses Imperial gallons. European L/100km is entirely different — always convert the same unit.</li>
+      </ul>
+    </div>
 
     <div class="content-card">
-  <h2>Why Liters to Gallons Conversion Matters</h2>
-  <ul>
-    <li><strong>Fuel economy</strong> — comparing car fuel efficiency between the US and Europe requires converting L/100km to mpg or vice versa.</li>
-    <li><strong>Travel and purchases abroad</strong> — gas stations in most of the world price fuel per liter; knowing the gallon equivalent helps you budget.</li>
-    <li><strong>Cooking and recipes</strong> — international recipes often use liters for large quantities (soups, drinks, sauces) that US recipes list in gallons.</li>
-    <li><strong>Aquariums and tanks</strong> — aquarium sizes and dosing instructions are often in liters in Europe and gallons in the US.</li>
-  </ul>
-</div>
+      <h2>Why Liters to Gallons Conversion Matters</h2>
+      <ul>
+        <li><strong>Fuel economy</strong> — comparing car fuel efficiency between the US and Europe requires converting L/100km to mpg or vice versa.</li>
+        <li><strong>Travel and purchases abroad</strong> — gas stations in most of the world price fuel per liter; knowing the gallon equivalent helps you budget.</li>
+        <li><strong>Cooking and recipes</strong> — international recipes often use liters for large quantities (soups, drinks, sauces) that US recipes list in gallons.</li>
+        <li><strong>Aquariums and tanks</strong> — aquarium sizes and dosing instructions are often in liters in Europe and gallons in the US.</li>
+      </ul>
+    </div>
 
     <!-- FAQs -->
     <div class="content-card">
@@ -702,7 +410,7 @@ const schema = JSON.stringify([
     </div>
 
     <div class="content-card">
-      <h2>Related Converters & Calculators</h2>
+      <h2>Related Converters &amp; Calculators</h2>
       <div class="next-grid">
         <a href="/oz-to-quarts" class="next-card">
           <span class="next-tag">Volume</span>
