@@ -338,6 +338,71 @@ footer {
 .related h2 { font-size: 1rem; font-weight: 700; margin-bottom: 1rem; color: var(--gray-700); }
 .next-card:hover, .tool-card:hover { text-decoration: none; }
 
+/* ── SUBTLE ANIMATIONS ─────────────────────────── */
+
+/* Page fade-in */
+main {
+  animation: fadeIn .3s ease;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Content cards lift on hover (NOT input cards) */
+.content-card {
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.content-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0,0,0,.08);
+}
+
+/* Tool cards on homepage */
+.tool-card {
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.tool-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0,0,0,.09);
+}
+
+/* Related next-cards */
+.next-card {
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.next-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0,0,0,.08);
+}
+
+/* Primary buttons */
+.btn, .go-btn {
+  transition: transform .15s ease, background .15s ease, box-shadow .15s ease;
+}
+.btn:hover, .go-btn:hover {
+  transform: scale(1.03);
+  box-shadow: 0 4px 12px rgba(37,99,235,.25);
+}
+
+/* Quick value / preset buttons */
+.preset-btn, .day-btn, .quick-btn {
+  transition: transform .15s ease, background .15s ease;
+}
+.preset-btn:hover, .day-btn:hover, .quick-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* Mode toggle buttons — no lift, just color */
+.mode-btn, .mode-btn-active {
+  transition: background .15s ease, color .15s ease, box-shadow .15s ease;
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *, main { animation: none !important; transition: none !important; }
+}
+
 /* GLOBAL OVERFLOW PROTECTION — prevents any element from causing horizontal scroll */
 .card, .content-card, .calc-wrap, .calc-left, .calc-right,
 .mode-wrap, .mode-toggle, .next-grid, .stats-row, .stats-grid,
