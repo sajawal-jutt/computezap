@@ -410,6 +410,7 @@ main {
 .answer-box, .result-box, .quick-answer, .preset-wrap {
   max-width: 100%;
   box-sizing: border-box;
+  min-width: 0;
 }
 
 img, pre, iframe { max-width: 100%; }
@@ -417,11 +418,11 @@ img, pre, iframe { max-width: 100%; }
 /* MOBILE BREAKPOINTS */
 @media (max-width: 768px) {
   .calc-wrap { grid-template-columns: 1fr !important; width: 100% !important; padding-left: .75rem !important; padding-right: .75rem !important; }
-  .calc-left { position: static !important; width: 100% !important; }
-  .calc-right { width: 100% !important; }
+  .calc-left { position: static !important; width: 100% !important; min-width: 0 !important; }
+  .calc-right { width: 100% !important; min-width: 0 !important; }
   .dft-wrap { grid-template-columns: 1fr !important; width: 100% !important; padding-left: .75rem !important; padding-right: .75rem !important; }
-  .dft-left { position: static !important; width: 100% !important; }
-  .dft-right { width: 100% !important; }
+  .dft-left { position: static !important; width: 100% !important; min-width: 0 !important; }
+  .dft-right { width: 100% !important; min-width: 0 !important; }
   .next-grid { grid-template-columns: 1fr 1fr !important; }
   .stats-row, .stats-grid { grid-template-columns: 1fr 1fr !important; }
   .mode-wrap, .mode-toggle { width: 100% !important; }
