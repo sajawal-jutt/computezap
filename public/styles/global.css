@@ -405,19 +405,23 @@ main {
 
 /* GLOBAL OVERFLOW PROTECTION — prevents any element from causing horizontal scroll */
 .card, .content-card, .calc-wrap, .calc-left, .calc-right,
+.dft-wrap, .dft-left, .dft-right,
 .mode-wrap, .mode-toggle, .next-grid, .stats-row, .stats-grid,
 .answer-box, .result-box, .quick-answer, .preset-wrap {
   max-width: 100%;
   box-sizing: border-box;
 }
 
-img, table, pre, iframe { max-width: 100%; }
+img, pre, iframe { max-width: 100%; }
 
 /* MOBILE BREAKPOINTS */
 @media (max-width: 768px) {
   .calc-wrap { grid-template-columns: 1fr !important; width: 100% !important; padding-left: .75rem !important; padding-right: .75rem !important; }
   .calc-left { position: static !important; width: 100% !important; }
   .calc-right { width: 100% !important; }
+  .dft-wrap { grid-template-columns: 1fr !important; width: 100% !important; padding-left: .75rem !important; padding-right: .75rem !important; }
+  .dft-left { position: static !important; width: 100% !important; }
+  .dft-right { width: 100% !important; }
   .next-grid { grid-template-columns: 1fr 1fr !important; }
   .stats-row, .stats-grid { grid-template-columns: 1fr 1fr !important; }
   .mode-wrap, .mode-toggle { width: 100% !important; }
@@ -430,6 +434,9 @@ img, table, pre, iframe { max-width: 100%; }
   nav ul { display: none; }
   table { font-size: .78rem; }
   table td, table th { padding: .45rem .5rem; }
+  /* Ensure reference/conversion tables are wide enough to trigger scroll on mobile */
+  .ref-tbl, .ref-table, .rates-table { min-width: 380px; }
+  .conv-table { min-width: 420px; }
   .card, .content-card { padding: 1rem !important; }
   .a-value, .res-val, .stat-big { font-size: 1.7rem !important; }
   .next-grid { grid-template-columns: 1fr !important; }
