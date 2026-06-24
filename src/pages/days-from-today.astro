@@ -1,4 +1,4 @@
----
+﻿---
 import Layout from '../layouts/Layout.astro';
 
 const popularDays = [7, 10, 14, 21, 28, 30, 45, 60, 90, 100, 120, 180, 365];
@@ -67,7 +67,7 @@ const schema = JSON.stringify([
   schema={schema}
 >
 
-<style>
+<style is:global>
 .dft-hero { text-align:center; padding:2rem 1rem 1.25rem; }
 .dft-hero h1 { font-size:2rem; color:#111; margin:.5rem 0 .5rem; font-weight:800; }
 .dft-hero p { color:#555; margin:0; font-size:1.05rem; }
