@@ -47,8 +47,11 @@ const schema = JSON.stringify({
 
 .pop-card{border-top:3px solid var(--blue) !important}
 
-.section-title{font-size:.85rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#64748b;margin:2rem 0 .85rem;display:flex;align-items:center;gap:.5rem}
+.sec-head{display:flex;align-items:center;margin:2rem 0 .85rem;gap:.75rem}
+.section-title{font-size:.85rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#64748b;margin:0;display:flex;align-items:center;gap:.5rem;flex:1}
 .section-title::after{content:'';flex:1;height:1px;background:#e5e7eb}
+.sec-viewall{font-size:.78rem;font-weight:700;color:var(--blue);text-decoration:none;white-space:nowrap;flex-shrink:0}
+.sec-viewall:hover{text-decoration:underline}
 
 .tool-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.85rem}
 .tool-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:1.1rem 1.25rem;display:flex;flex-direction:column;gap:.3rem;text-decoration:none;transition:transform .15s,box-shadow .15s,border-color .15s}
@@ -59,11 +62,7 @@ const schema = JSON.stringify({
 .badge{display:inline-block;font-size:.68rem;font-weight:700;padding:.18rem .55rem;border-radius:99px;margin-top:.2rem;background:#fef3c7;color:#92400e;width:fit-content}
 .badge.new{background:#dcfce7;color:#166534}
 .badge.hot{background:#fee2e2;color:#991b1b}
-
-.browse-card{background:#f8fafc;border:1.5px dashed #cbd5e1;border-radius:12px;padding:1rem 1.25rem;display:flex;align-items:center;justify-content:space-between;text-decoration:none;gap:.5rem;transition:border-color .15s,background .15s}
-.browse-card:hover{border-color:var(--blue);background:#eff6ff;text-decoration:none}
-.browse-card span{font-size:.88rem;font-weight:700;color:#374151}
-.browse-card .bc-arrow{color:var(--blue);font-size:1rem;font-weight:800}
+.see-all{font-size:.72rem;font-weight:700;color:var(--blue);margin-top:.1rem}
 
 .info-section{display:flex;flex-direction:column;gap:1rem;margin-bottom:2rem}
 .info-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:1.25rem 1.5rem}
@@ -103,7 +102,7 @@ const schema = JSON.stringify({
 </div>
 
 <!-- 🔥 POPULAR -->
-<h2 class="section-title" id="popular">🔥 Most Popular</h2>
+<div class="sec-head"><h2 class="section-title" id="popular">🔥 Most Popular</h2></div>
 <div class="tool-grid">
   <a href="/cm-to-inches" class="tool-card pop-card">
     <span class="icon">📐</span>
@@ -144,7 +143,7 @@ const schema = JSON.stringify({
 </div>
 
 <!-- 💰 FINANCE -->
-<h2 class="section-title" id="finance">💰 Finance Calculators</h2>
+<div class="sec-head"><h2 class="section-title" id="finance">💰 Finance Calculators</h2></div>
 <div class="tool-grid">
   <a href="/debt-snowball-calculator" class="tool-card">
     <span class="icon">❄️</span>
@@ -175,7 +174,7 @@ const schema = JSON.stringify({
 </div>
 
 <!-- 📅 DATE & TIME -->
-<h2 class="section-title" id="date-time">📅 Date &amp; Time Tools</h2>
+<div class="sec-head"><h2 class="section-title" id="date-time">📅 Date &amp; Time Tools</h2></div>
 <div class="tool-grid">
   <a href="/30-days-from-today" class="tool-card">
     <span class="icon">🗓️</span>
@@ -229,31 +228,57 @@ const schema = JSON.stringify({
 </div>
 
 <!-- 🏷️ DISCOUNTS -->
-<h2 class="section-title" id="discounts">🏷️ Discount Calculator</h2>
+<div class="sec-head">
+  <h2 class="section-title" id="discounts">🏷️ Discount Calculator</h2>
+  <a href="/discount-pages" class="sec-viewall">View All 308 →</a>
+</div>
 <div class="tool-grid">
   <a href="/percent-off-calculator" class="tool-card">
     <span class="icon">🏷️</span>
     <h3>Percent Off Calculator</h3>
     <p>Enter any price and discount % — get sale price and savings instantly</p>
-  </a>
-  <a href="/discount-pages" class="browse-card">
-    <span>Browse all 308 discount pages — 20% off $100, 30% off $50, and more →</span>
-    <span class="bc-arrow">→</span>
+    <span class="see-all">308 pre-calculated pages →</span>
   </a>
 </div>
 
 <!-- ⚖️ UNIT CONVERTERS -->
-<h2 class="section-title" id="converters">⚖️ Unit Converters</h2>
+<div class="sec-head">
+  <h2 class="section-title" id="converters">⚖️ Unit Converters</h2>
+</div>
 <div class="tool-grid">
-  <a href="/km-to-miles" class="tool-card">
-    <span class="icon">🛣️</span>
-    <h3>km to Miles</h3>
-    <p>Convert kilometers to miles — includes race distance chart</p>
+  <a href="/kg-to-lbs" class="tool-card">
+    <span class="icon">⚖️</span>
+    <h3>kg to lbs Converter</h3>
+    <p>Convert kilograms to pounds — 1 kg = 2.205 lbs</p>
+    <span class="see-all">56 pre-calculated pages →</span>
+  </a>
+  <a href="/cm-to-inches" class="tool-card">
+    <span class="icon">📐</span>
+    <h3>cm to Inches</h3>
+    <p>Convert centimeters to inches instantly</p>
   </a>
   <a href="/meters-to-feet" class="tool-card">
     <span class="icon">📏</span>
     <h3>Meters to Feet</h3>
     <p>Convert meters to feet and inches — height conversion table included</p>
+    <span class="see-all">37 height pages →</span>
+  </a>
+  <a href="/yards-to-meters" class="tool-card">
+    <span class="icon">📐</span>
+    <h3>Yards to Meters</h3>
+    <p>Convert yards to meters — football fields, fabric, golf distances</p>
+    <span class="see-all">109 pre-calculated pages →</span>
+  </a>
+  <a href="/mb-to-gb" class="tool-card">
+    <span class="icon">💾</span>
+    <h3>MB to GB Converter</h3>
+    <p>Convert megabytes to gigabytes — binary and decimal results</p>
+    <span class="see-all">53 pre-calculated pages →</span>
+  </a>
+  <a href="/km-to-miles" class="tool-card">
+    <span class="icon">🛣️</span>
+    <h3>km to Miles</h3>
+    <p>Convert kilometers to miles — includes race distance chart</p>
   </a>
   <a href="/celsius-to-fahrenheit" class="tool-card">
     <span class="icon">🌡️</span>
@@ -295,38 +320,10 @@ const schema = JSON.stringify({
     <h3>Knots to MPH</h3>
     <p>Convert nautical speed — knots to miles per hour</p>
   </a>
-  <a href="/kg-pages" class="browse-card">
-    <span>Browse all 56 kg to lbs pages — 40 kg to 200 kg →</span>
-    <span class="bc-arrow">→</span>
-  </a>
-  <a href="/height-pages" class="browse-card">
-    <span>Browse all 37 height pages — 4'0" to 7'0" in cm →</span>
-    <span class="bc-arrow">→</span>
-  </a>
-  <a href="/yards-to-meters" class="tool-card">
-    <span class="icon">📐</span>
-    <h3>Yards to Meters</h3>
-    <p>Convert yards to meters — football fields, fabric, golf distances</p>
-    <span class="badge new">New</span>
-  </a>
-  <a href="/yards-pages" class="browse-card">
-    <span>Browse all 109 yards to meters pages — 1 yd to 1000 yd →</span>
-    <span class="bc-arrow">→</span>
-  </a>
-  <a href="/mb-to-gb" class="tool-card">
-    <span class="icon">💾</span>
-    <h3>MB to GB Converter</h3>
-    <p>Convert megabytes to gigabytes — binary (÷1024) and decimal (÷1000)</p>
-    <span class="badge new">New</span>
-  </a>
-  <a href="/mb-pages" class="browse-card">
-    <span>Browse all 53 MB to GB pages — 1 MB to 100,000 MB →</span>
-    <span class="bc-arrow">→</span>
-  </a>
 </div>
 
 <!-- 📊 PERCENTAGE -->
-<h2 class="section-title" id="percentage">📊 Percentage Calculators</h2>
+<div class="sec-head"><h2 class="section-title" id="percentage">📊 Percentage Calculators</h2></div>
 <div class="tool-grid">
   <a href="/percentage-calculator" class="tool-card">
     <span class="icon">📊</span>
@@ -361,7 +358,7 @@ const schema = JSON.stringify({
 </div>
 
 <!-- 🧮 MATH -->
-<h2 class="section-title" id="calculators">🧮 Math Calculators</h2>
+<div class="sec-head"><h2 class="section-title" id="calculators">🧮 Math Calculators</h2></div>
 <div class="tool-grid">
   <a href="/decimal-to-fraction" class="tool-card">
     <span class="icon">🔢</span>
@@ -382,7 +379,7 @@ const schema = JSON.stringify({
 </div>
 
 <!-- INFO SECTION -->
-<h2 class="section-title" style="margin-top:2.5rem">Why ComputeZap?</h2>
+<div class="sec-head" style="margin-top:2.5rem"><h2 class="section-title">Why ComputeZap?</h2></div>
 <div class="info-section">
   <div class="info-card">
     <h2>Finance Calculators — Make Smarter Money Decisions</h2>
