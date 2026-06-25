@@ -259,6 +259,10 @@ const schema = JSON.stringify([
   document.getElementById('calc-btn').addEventListener('click', calculate);
   document.addEventListener('keydown', function(e) { if (e.key === 'Enter') calculate(); });
 
+  /* pre-fill 1024 MB on load */
+  document.getElementById('inp-mb').value = 1024;
+  calculate();
+
   function setMode(m) {
     mode = m;
     document.getElementById('btn-mb').classList.toggle('active', m === 'mb');

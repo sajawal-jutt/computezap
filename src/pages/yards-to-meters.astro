@@ -277,6 +277,10 @@ const schema = JSON.stringify([
   document.getElementById('calc-btn').addEventListener('click', calculate);
   document.addEventListener('keydown', function(e) { if (e.key === 'Enter') calculate(); });
 
+  /* pre-fill 100 yards on load */
+  document.getElementById('inp-yd').value = 100;
+  calculate();
+
   function setMode(m) {
     mode = m;
     document.getElementById('btn-yd').classList.toggle('active', m === 'yd');

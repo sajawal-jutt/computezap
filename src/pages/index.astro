@@ -237,7 +237,7 @@ const schema = JSON.stringify({
     <span class="icon">🏷️</span>
     <h3>Percent Off Calculator</h3>
     <p>Enter any price and discount % — get sale price and savings instantly</p>
-    <span class="see-all">308 pre-calculated pages →</span>
+    <span class="see-all" data-href="/discount-pages">308 pre-calculated pages →</span>
   </a>
 </div>
 
@@ -250,7 +250,7 @@ const schema = JSON.stringify({
     <span class="icon">⚖️</span>
     <h3>kg to lbs Converter</h3>
     <p>Convert kilograms to pounds — 1 kg = 2.205 lbs</p>
-    <span class="see-all">56 pre-calculated pages →</span>
+    <span class="see-all" data-href="/kg-pages">56 pre-calculated pages →</span>
   </a>
   <a href="/cm-to-inches" class="tool-card">
     <span class="icon">📐</span>
@@ -261,19 +261,19 @@ const schema = JSON.stringify({
     <span class="icon">📏</span>
     <h3>Meters to Feet</h3>
     <p>Convert meters to feet and inches — height conversion table included</p>
-    <span class="see-all">37 height pages →</span>
+    <span class="see-all" data-href="/height-pages">37 height pages →</span>
   </a>
   <a href="/yards-to-meters" class="tool-card">
     <span class="icon">📐</span>
     <h3>Yards to Meters</h3>
     <p>Convert yards to meters — football fields, fabric, golf distances</p>
-    <span class="see-all">109 pre-calculated pages →</span>
+    <span class="see-all" data-href="/yards-pages">109 pre-calculated pages →</span>
   </a>
   <a href="/mb-to-gb" class="tool-card">
     <span class="icon">💾</span>
     <h3>MB to GB Converter</h3>
     <p>Convert megabytes to gigabytes — binary and decimal results</p>
-    <span class="see-all">53 pre-calculated pages →</span>
+    <span class="see-all" data-href="/mb-pages">53 pre-calculated pages →</span>
   </a>
   <a href="/km-to-miles" class="tool-card">
     <span class="icon">🛣️</span>
@@ -397,12 +397,23 @@ const schema = JSON.stringify({
 
 <script is:inline>
 (function () {
+  /* see-all links — navigate to browse page without triggering card link */
+  document.querySelectorAll('.see-all[data-href]').forEach(function (el) {
+    el.style.cursor = 'pointer';
+    el.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      window.location.href = el.getAttribute('data-href');
+    });
+  });
+
+  /* search */
   var input = document.getElementById('tool-search');
   var noRes = document.getElementById('no-res');
 
   input.addEventListener('input', function () {
     var q = this.value.toLowerCase().trim();
-    var cards = document.querySelectorAll('.tool-card, .browse-card');
+    var cards = document.querySelectorAll('.tool-card');
     var totalVisible = 0;
 
     cards.forEach(function (card) {
@@ -412,14 +423,15 @@ const schema = JSON.stringify({
       if (show) totalVisible++;
     });
 
-    document.querySelectorAll('.section-title').forEach(function (title) {
-      var next = title.nextElementSibling;
-      if (next && next.classList.contains('tool-grid')) {
-        var vis = Array.from(next.querySelectorAll('.tool-card, .browse-card')).some(function (c) {
+    /* hide/show sec-head + tool-grid pairs */
+    document.querySelectorAll('.sec-head').forEach(function (head) {
+      var grid = head.nextElementSibling;
+      if (grid && grid.classList.contains('tool-grid')) {
+        var vis = Array.from(grid.querySelectorAll('.tool-card')).some(function (c) {
           return c.style.display !== 'none';
         });
-        title.style.display = vis ? '' : 'none';
-        next.style.display = vis ? '' : 'none';
+        head.style.display = vis ? '' : 'none';
+        grid.style.display = vis ? '' : 'none';
       }
     });
 
