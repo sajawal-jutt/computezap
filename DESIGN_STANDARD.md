@@ -199,6 +199,17 @@ Required cards **in this order**:
   .next-grid{grid-template-columns:1fr 1fr}
 }
 @media(max-width:480px){.next-grid{grid-template-columns:1fr}}
+
+/* === TWO-COLUMN TABLE LAYOUT (when a page has 2 reference tables side by side) === */
+/* CRITICAL: Do NOT use grid-template-columns:1fr 1fr — causes horizontal overflow on mobile */
+/* Use this exact pattern instead: */
+.two-col{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(250px,100%),1fr));gap:1rem}
+.two-col>*{min-width:0}
+/* Why min-width:0 is required: CSS Grid cells default to min-width:min-content.
+   Without it, a cell expands to its table's natural width even on 320px screens,
+   causing horizontal scroll. min-width:0 allows the cell to shrink below content size.
+   Why minmax(min(250px,100%),1fr): at 320px, min(250px,100%) = ~240px so 1 column auto-fits.
+   At 600px+, min(250px,600px) = 250px so 2 columns fit side by side. No media query needed. */
 ```
 
 ---
