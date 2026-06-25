@@ -40,77 +40,7 @@ const schema = JSON.stringify([
   canonical="/ounces-in-a-pound"
   schema={schema}
 >
-<style is:global>
-.page-hero{text-align:center;padding:2rem 1rem 1rem}
-.page-hero h1{font-size:1.9rem;font-weight:800;letter-spacing:-.03em;color:#111;margin:0 0 .35rem}
-.page-hero p{color:#64748b;font-size:1rem;margin:0}
-.page-hero nav{font-size:.82rem;color:#94a3b8;margin-bottom:.75rem}
-.page-hero nav a{color:var(--blue);text-decoration:none}
-.calc-center{max-width:620px;margin:0 auto;padding:0 1rem 2rem}
-.content-wrap{max-width:900px;margin:0 auto;padding:0 1rem 3.5rem}
-.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:1.5rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(0,0,0,.04)}
-.content-card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:1.5rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(0,0,0,.04)}
-.content-card h2{font-size:1.05rem;font-weight:700;color:#111;margin:0 0 .8rem}
-.content-card h3{font-size:.95rem;font-weight:700;color:#111;margin:.75rem 0 .4rem}
-.content-card p{color:#444;line-height:1.75;font-size:.93rem;margin:0 0 .7rem}
-.content-card p:last-child{margin-bottom:0}
-.content-card ul{color:#444;line-height:1.85;font-size:.93rem;padding-left:1.25rem;margin:.5rem 0 0}
-.mode-wrap{display:grid;grid-template-columns:1fr 1fr;gap:.4rem;margin-bottom:1.25rem}
-.mode-btn{padding:.55rem;font-size:.85rem;font-weight:600;border:1.5px solid #e2e8f0;border-radius:8px;background:#f8fafc;color:#64748b;cursor:pointer;transition:all .15s;text-align:center}
-.mode-btn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
-.input-group{margin-bottom:.85rem}
-.input-group label{display:block;font-size:.82rem;font-weight:600;color:#374151;margin-bottom:.4rem}
-.input-wrap{position:relative}
-.input-sfx{position:absolute;right:.9rem;top:50%;transform:translateY(-50%);color:#94a3b8;font-weight:600;pointer-events:none;font-size:.9rem}
-.input-group input{width:100%;padding:.65rem 3rem .65rem .9rem;border:1.5px solid #e2e8f0;border-radius:8px;font-size:1rem;font-family:inherit;color:#111;transition:border-color .15s;box-sizing:border-box}
-.input-group input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
-.preset-lbl{font-size:.7rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.5rem;display:block}
-.preset-wrap{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1rem}
-.preset-btn{background:#fff;color:var(--blue);border:1.5px solid #dbeafe;border-radius:20px;padding:.28rem .75rem;font-size:.82rem;font-weight:700;cursor:pointer;transition:all .15s}
-.preset-btn:hover{background:var(--blue);color:#fff;border-color:var(--blue)}
-.calc-btn{width:100%;padding:.8rem;background:var(--blue);color:#fff;border:none;border-radius:8px;font-size:1rem;font-weight:700;cursor:pointer;transition:background .15s;margin-bottom:1rem}
-.calc-btn:hover{background:#1d4ed8}
-.answer-hero{background:linear-gradient(135deg,#1d4ed8 0%,#2563eb 60%,#3b82f6 100%);border-radius:14px;padding:1.75rem 1.5rem 1.25rem;text-align:center;margin-bottom:1rem;box-shadow:0 6px 24px rgba(37,99,235,.22);display:none}
-.answer-hero.show{display:block}
-.a-label{font-size:.68rem;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem;font-weight:700}
-.a-value{font-size:2.8rem;font-weight:900;color:#fff;line-height:1;letter-spacing:-.02em}
-.a-unit{font-size:1rem;font-weight:600;color:rgba(255,255,255,.8);margin-top:.3rem}
-.a-sub{font-size:.85rem;color:rgba(255,255,255,.7);margin-top:.4rem}
-.stats-row{display:none;grid-template-columns:1fr 1fr;gap:.55rem}
-.stats-row.show{display:grid}
-.stat-box{background:#f8fafc;border:1px solid #f1f5f9;border-radius:10px;padding:.85rem .75rem;text-align:center}
-.stat-lbl{display:block;font-size:.62rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.25rem;font-weight:700}
-.stat-val{display:block;font-size:.95rem;font-weight:800;color:#1e293b}
-.answer-box{background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:10px;padding:.75rem 1rem;margin:.75rem 0}
-.answer-row{display:flex;justify-content:space-between;align-items:center;padding:.35rem 0;border-bottom:1px solid #f1f5f9;font-size:.93rem}
-.answer-row:last-child{border-bottom:none}
-.answer-lbl{color:#64748b;font-weight:600}
-.answer-val{color:#2563eb;font-weight:800}
-.tip-box{display:flex;gap:.75rem;background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:.9rem 1rem;margin:.75rem 0}
-.tip-icon{font-size:1.1rem;flex-shrink:0;margin-top:.1rem}
-.tip-box p{margin:0;font-size:.875rem;color:#1e40af}
-.two-col{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(250px,100%),1fr));gap:1rem}
-.two-col>*{min-width:0}
-.ref-tbl{width:100%;border-collapse:collapse;font-size:.875rem}
-.ref-tbl th{background:#f8fafc;padding:.6rem .85rem;text-align:left;font-size:.68rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;border-bottom:2px solid #e2e8f0}
-.ref-tbl td{padding:.65rem .85rem;border-bottom:1px solid #f3f4f6;color:#374151}
-.ref-tbl tr:last-child td{border-bottom:none}
-.ref-tbl tbody tr:hover td{background:#f8faff;cursor:pointer}
-.ref-tbl .acc{color:var(--blue);font-weight:700}
-.ref-tbl .hi td{background:#eff6ff;font-weight:700}
-.faq-item{border-bottom:1px solid #f3f4f6;padding:.9rem 0}
-.faq-item:last-child{border-bottom:none;padding-bottom:0}
-.faq-item h3{font-size:.9rem;color:#111;margin:0 0 .35rem;font-weight:700}
-.faq-item p{color:#555;font-size:.865rem;margin:0;line-height:1.65}
-.next-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem}
-.next-card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:1rem;border-top:3px solid var(--blue);text-decoration:none;display:block}
-.next-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.08)}
-.next-tag{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--blue);margin-bottom:.3rem;display:block}
-.next-card h3{font-size:.88rem;font-weight:700;color:#111;margin:0 0 .25rem}
-.next-card p{font-size:.78rem;color:#64748b;margin:0;line-height:1.5}
-@media(max-width:768px){.page-hero h1{font-size:1.65rem}.a-value{font-size:2.1rem}.next-grid{grid-template-columns:1fr 1fr}}
-@media(max-width:480px){.next-grid{grid-template-columns:1fr}}
-</style>
+<!-- Styles loaded from global.css (Design Standard v2) -->
 
 <div class="page-hero">
   <nav><a href="/">Home</a> › Ounces in a Pound</nav>
