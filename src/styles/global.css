@@ -48,16 +48,15 @@ nav {
 .logo {
   display: flex;
   align-items: center;
-  gap: .5rem;
+  gap: .35rem;
   text-decoration: none;
-  line-height: 1;
 }
-.logo svg { flex-shrink: 0; display: block; }
+.logo svg { flex-shrink: 0; display: block; margin-top: 1px; }
 .logo-text {
-  font-size: 1.15rem;
+  font-size: 1.2rem;
   font-weight: 700;
   color: #1e293b;
-  letter-spacing: -0.3px;
+  letter-spacing: -0.4px;
   line-height: 1;
 }
 .logo-text strong { color: var(--blue); font-weight: 800; }
