@@ -49,11 +49,15 @@ const schema = JSON.stringify([
   schema={schema}
 >
 <style is:global>
-.calc-wrap{display:grid;grid-template-columns:420px 1fr;gap:1.75rem;max-width:1120px;margin:0 auto;padding:0 1rem 3.5rem;align-items:start}
-.calc-left{position:sticky;top:1rem}
+.mtg-hero{text-align:center;padding:2rem 1rem 1rem}
+.mtg-hero h1{font-size:1.9rem;font-weight:800;letter-spacing:-.03em;color:#111;margin:0 0 .35rem}
+.mtg-hero p{color:#64748b;font-size:1rem;margin:0}
+.mtg-hero nav{font-size:.82rem;color:#94a3b8;margin-bottom:.75rem}
+
+.calc-center{max-width:620px;margin:0 auto;padding:0 1rem 2rem}
+.content-wrap{max-width:900px;margin:0 auto;padding:0 1rem 3.5rem}
+
 .card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:1.5rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(0,0,0,.04)}
-.card:last-child{margin-bottom:0}
-.card h2{font-size:1.05rem;font-weight:700;color:#111;margin:0 0 .9rem}
 .content-card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:1.5rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(0,0,0,.04)}
 .content-card h2{font-size:1.05rem;font-weight:700;color:#111;margin:0 0 .8rem}
 .content-card p{color:#444;line-height:1.75;font-size:.93rem;margin:0 0 .7rem}
@@ -96,157 +100,153 @@ const schema = JSON.stringify([
 .next-card h3{font-size:.88rem;font-weight:700;color:#111;margin:0 0 .25rem}
 .next-card p{font-size:.78rem;color:#64748b;margin:0;line-height:1.5}
 @media(max-width:768px){
-  .calc-wrap{grid-template-columns:1fr}
-  .calc-left{position:static}
   .a-value{font-size:2.1rem}
   .next-grid{grid-template-columns:1fr 1fr}
 }
 @media(max-width:480px){.next-grid{grid-template-columns:1fr}}
 </style>
 
-<div style="max-width:1120px;margin:0 auto;padding:1.5rem 1rem .5rem">
-  <nav style="font-size:.82rem;color:#94a3b8;margin-bottom:.75rem">
+<div class="mtg-hero">
+  <nav>
     <a href="/" style="color:var(--blue);text-decoration:none">Home</a> › MB to GB Converter
   </nav>
-  <h1 style="font-size:1.9rem;font-weight:800;letter-spacing:-.03em;color:#111;margin:0 0 .35rem">MB to GB Converter</h1>
-  <p style="color:#64748b;font-size:1rem;margin:0 0 1.5rem">Convert megabytes to gigabytes — or GB to MB. Shows binary and decimal results.</p>
+  <h1>MB to GB Converter</h1>
+  <p>Convert megabytes to gigabytes — or GB to MB. Shows binary and decimal results.</p>
 </div>
 
-<div class="calc-wrap">
-  <div class="calc-left">
-    <div class="card">
-      <div class="mode-wrap">
-        <button class="mode-btn active" id="btn-mb">MB → GB</button>
-        <button class="mode-btn" id="btn-gb">GB → MB</button>
-      </div>
+<div class="calc-center">
+  <div class="card">
+    <div class="mode-wrap">
+      <button class="mode-btn active" id="btn-mb">MB → GB</button>
+      <button class="mode-btn" id="btn-gb">GB → MB</button>
+    </div>
 
-      <div id="grp-mb" class="input-group">
-        <label for="inp-mb">Megabytes (MB)</label>
-        <input type="number" id="inp-mb" placeholder="e.g. 1024" min="0" step="any" />
-      </div>
-      <div id="grp-gb" class="input-group" style="display:none">
-        <label for="inp-gb">Gigabytes (GB)</label>
-        <input type="number" id="inp-gb" placeholder="e.g. 1" min="0" step="any" />
-      </div>
+    <div id="grp-mb" class="input-group">
+      <label for="inp-mb">Megabytes (MB)</label>
+      <input type="number" id="inp-mb" placeholder="e.g. 1024" min="0" step="any" />
+    </div>
+    <div id="grp-gb" class="input-group" style="display:none">
+      <label for="inp-gb">Gigabytes (GB)</label>
+      <input type="number" id="inp-gb" placeholder="e.g. 1" min="0" step="any" />
+    </div>
 
-      <button class="calc-btn" id="calc-btn">Convert</button>
+    <button class="calc-btn" id="calc-btn">Convert</button>
 
-      <div class="answer-hero" id="answer">
-        <div class="a-label" id="ans-label">MB =</div>
-        <div class="a-value" id="ans-value">—</div>
-        <div class="a-unit" id="ans-unit">GB</div>
-        <div class="a-sub" id="ans-sub"></div>
+    <div class="answer-hero" id="answer">
+      <div class="a-label" id="ans-label">MB =</div>
+      <div class="a-value" id="ans-value">—</div>
+      <div class="a-unit" id="ans-unit">GB</div>
+      <div class="a-sub" id="ans-sub"></div>
+    </div>
+
+    <div class="stats-row" id="stats">
+      <div class="stat-box">
+        <span class="stat-lbl" id="s1-lbl">Decimal GB</span>
+        <span class="stat-val" id="s1-val">—</span>
       </div>
-
-      <div class="stats-row" id="stats">
-        <div class="stat-box">
-          <span class="stat-lbl" id="s1-lbl">Decimal GB</span>
-          <span class="stat-val" id="s1-val">—</span>
-        </div>
-        <div class="stat-box">
-          <span class="stat-lbl" id="s2-lbl">Kilobytes</span>
-          <span class="stat-val" id="s2-val">—</span>
-        </div>
-        <div class="stat-box">
-          <span class="stat-lbl" id="s3-lbl">Bytes</span>
-          <span class="stat-val" id="s3-val">—</span>
-        </div>
-        <div class="stat-box">
-          <span class="stat-lbl" id="s4-lbl">Terabytes</span>
-          <span class="stat-val" id="s4-val">—</span>
-        </div>
+      <div class="stat-box">
+        <span class="stat-lbl" id="s2-lbl">Kilobytes</span>
+        <span class="stat-val" id="s2-val">—</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl" id="s3-lbl">Bytes</span>
+        <span class="stat-val" id="s3-val">—</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl" id="s4-lbl">Terabytes</span>
+        <span class="stat-val" id="s4-val">—</span>
       </div>
     </div>
   </div>
+</div>
 
-  <div class="calc-right">
-    <div class="content-card">
-      <h2>MB to GB Formula</h2>
-      <p><strong>Binary (what your computer shows):</strong></p>
-      <p style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:10px;padding:.85rem 1rem;font-family:monospace;font-weight:800;text-align:center;font-size:.95rem">GB = MB ÷ 1024</p>
-      <p><strong>Decimal (storage manufacturers):</strong></p>
-      <p style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:10px;padding:.85rem 1rem;font-family:monospace;font-weight:800;text-align:center;font-size:.95rem">GB = MB ÷ 1000</p>
-      <p>Your OS (Windows, macOS, Linux) always uses <strong>binary</strong>. Hard drive boxes use <strong>decimal</strong> — that's why storage shows less than advertised on your computer.</p>
+<div class="content-wrap">
+  <div class="content-card">
+    <h2>MB to GB Formula</h2>
+    <p><strong>Binary (what your computer shows):</strong></p>
+    <p style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:10px;padding:.85rem 1rem;font-family:monospace;font-weight:800;text-align:center;font-size:.95rem">GB = MB ÷ 1024</p>
+    <p><strong>Decimal (storage manufacturers):</strong></p>
+    <p style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:10px;padding:.85rem 1rem;font-family:monospace;font-weight:800;text-align:center;font-size:.95rem">GB = MB ÷ 1000</p>
+    <p>Your OS (Windows, macOS, Linux) always uses <strong>binary</strong>. Hard drive boxes use <strong>decimal</strong> — that's why storage shows less than advertised on your computer.</p>
+  </div>
+
+  <div class="content-card">
+    <h2>MB to GB — Quick Reference Table</h2>
+    <div style="overflow-x:auto">
+      <table class="ref-tbl">
+        <thead>
+          <tr><th>MB</th><th>GB (Binary)</th><th>GB (Decimal)</th><th>Common Use</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><a href="/128-mb-to-gb">128 MB</a></td><td>0.125 GB</td><td>0.128 GB</td><td>Low-res photo / old USB</td></tr>
+          <tr><td><a href="/256-mb-to-gb">256 MB</a></td><td>0.25 GB</td><td>0.256 GB</td><td>Small cache / old RAM</td></tr>
+          <tr><td><a href="/512-mb-to-gb">512 MB</a></td><td>0.5 GB</td><td>0.512 GB</td><td>Half a GB</td></tr>
+          <tr><td><a href="/1000-mb-to-gb">1000 MB</a></td><td>0.97656 GB</td><td>1 GB</td><td>~1 GB download</td></tr>
+          <tr><td><a href="/1024-mb-to-gb">1024 MB</a></td><td>1 GB</td><td>1.024 GB</td><td>Exactly 1 binary GB</td></tr>
+          <tr><td><a href="/2048-mb-to-gb">2048 MB</a></td><td>2 GB</td><td>2.048 GB</td><td>Basic smartphone RAM</td></tr>
+          <tr><td><a href="/4096-mb-to-gb">4096 MB</a></td><td>4 GB</td><td>4.096 GB</td><td>Entry laptop RAM</td></tr>
+          <tr><td><a href="/8192-mb-to-gb">8192 MB</a></td><td>8 GB</td><td>8.192 GB</td><td>Standard laptop RAM</td></tr>
+          <tr><td><a href="/16000-mb-to-gb">16000 MB</a></td><td>15.625 GB</td><td>16 GB</td><td>High-end RAM</td></tr>
+          <tr><td><a href="/32000-mb-to-gb">32000 MB</a></td><td>31.25 GB</td><td>32 GB</td><td>Server RAM / large SSD</td></tr>
+        </tbody>
+      </table>
     </div>
+    <p style="margin-top:.75rem;font-size:.82rem;color:#64748b">→ <a href="/mb-pages">Browse all MB to GB pages</a></p>
+  </div>
 
-    <div class="content-card">
-      <h2>MB to GB — Quick Reference Table</h2>
-      <div style="overflow-x:auto">
-        <table class="ref-tbl">
-          <thead>
-            <tr><th>MB</th><th>GB (Binary)</th><th>GB (Decimal)</th><th>Common Use</th></tr>
-          </thead>
-          <tbody>
-            <tr><td><a href="/128-mb-to-gb">128 MB</a></td><td>0.125 GB</td><td>0.128 GB</td><td>Low-res photo / old USB</td></tr>
-            <tr><td><a href="/256-mb-to-gb">256 MB</a></td><td>0.25 GB</td><td>0.256 GB</td><td>Small cache / old RAM</td></tr>
-            <tr><td><a href="/512-mb-to-gb">512 MB</a></td><td>0.5 GB</td><td>0.512 GB</td><td>Half a GB</td></tr>
-            <tr><td><a href="/1000-mb-to-gb">1000 MB</a></td><td>0.97656 GB</td><td>1 GB</td><td>~1 GB download</td></tr>
-            <tr><td><a href="/1024-mb-to-gb">1024 MB</a></td><td>1 GB</td><td>1.024 GB</td><td>Exactly 1 binary GB</td></tr>
-            <tr><td><a href="/2048-mb-to-gb">2048 MB</a></td><td>2 GB</td><td>2.048 GB</td><td>Basic smartphone RAM</td></tr>
-            <tr><td><a href="/4096-mb-to-gb">4096 MB</a></td><td>4 GB</td><td>4.096 GB</td><td>Entry laptop RAM</td></tr>
-            <tr><td><a href="/8192-mb-to-gb">8192 MB</a></td><td>8 GB</td><td>8.192 GB</td><td>Standard laptop RAM</td></tr>
-            <tr><td><a href="/16000-mb-to-gb">16000 MB</a></td><td>15.625 GB</td><td>16 GB</td><td>High-end RAM</td></tr>
-            <tr><td><a href="/32000-mb-to-gb">32000 MB</a></td><td>31.25 GB</td><td>32 GB</td><td>Server RAM / large SSD</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <p style="margin-top:.75rem;font-size:.82rem;color:#64748b">→ <a href="/mb-pages">Browse all MB to GB pages</a></p>
+  <div class="content-card">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>How many MB is 1 GB?</h3>
+      <p>1 GB = <strong>1024 MB</strong> (binary, used by computers). Storage manufacturers use decimal: 1 GB = 1000 MB. Your OS always shows binary — so a "1 GB" file on your computer is 1024 MB.</p>
     </div>
-
-    <div class="content-card">
-      <h2>Frequently Asked Questions</h2>
-      <div class="faq-item">
-        <h3>How many MB is 1 GB?</h3>
-        <p>1 GB = <strong>1024 MB</strong> (binary, used by computers). Storage manufacturers use decimal: 1 GB = 1000 MB. Your OS always shows binary — so a "1 GB" file on your computer is 1024 MB.</p>
-      </div>
-      <div class="faq-item">
-        <h3>Why does my hard drive show less GB than advertised?</h3>
-        <p>Storage manufacturers use decimal (1 GB = 1000 MB), but your OS uses binary (1 GB = 1024 MB). A "500 GB" drive contains 500,000 MB, which your computer shows as <strong>488.28 GB</strong> (500,000 ÷ 1024).</p>
-      </div>
-      <div class="faq-item">
-        <h3>How many MB is 1 TB?</h3>
-        <p>1 TB = <strong>1,048,576 MB</strong> (binary: 1024 × 1024). In decimal: 1 TB = 1,000,000 MB. Terabytes are used for large hard drives and SSDs.</p>
-      </div>
-      <div class="faq-item">
-        <h3>Is 500 MB half a GB?</h3>
-        <p>Almost — but not exactly. 500 MB = <strong>0.4883 GB</strong> (binary). Exactly half a binary GB is 512 MB. In decimal, 500 MB = 0.5 GB exactly.</p>
-      </div>
+    <div class="faq-item">
+      <h3>Why does my hard drive show less GB than advertised?</h3>
+      <p>Storage manufacturers use decimal (1 GB = 1000 MB), but your OS uses binary (1 GB = 1024 MB). A "500 GB" drive contains 500,000 MB, which your computer shows as <strong>488.28 GB</strong> (500,000 ÷ 1024).</p>
     </div>
+    <div class="faq-item">
+      <h3>How many MB is 1 TB?</h3>
+      <p>1 TB = <strong>1,048,576 MB</strong> (binary: 1024 × 1024). In decimal: 1 TB = 1,000,000 MB. Terabytes are used for large hard drives and SSDs.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Is 500 MB half a GB?</h3>
+      <p>Almost — but not exactly. 500 MB = <strong>0.4883 GB</strong> (binary). Exactly half a binary GB is 512 MB. In decimal, 500 MB = 0.5 GB exactly.</p>
+    </div>
+  </div>
 
-    <div class="content-card">
-      <h2>Related Converters</h2>
-      <div class="next-grid">
-        <a href="/yards-to-meters" class="next-card">
-          <span class="next-tag">Length</span>
-          <h3>Yards to Meters</h3>
-          <p>Convert yards to meters instantly</p>
-        </a>
-        <a href="/kg-to-lbs" class="next-card">
-          <span class="next-tag">Weight</span>
-          <h3>kg to lbs</h3>
-          <p>Kilograms to pounds converter</p>
-        </a>
-        <a href="/cm-to-inches" class="next-card">
-          <span class="next-tag">Length</span>
-          <h3>cm to Inches</h3>
-          <p>Convert centimeters to inches</p>
-        </a>
-        <a href="/percentage-calculator" class="next-card">
-          <span class="next-tag">Math</span>
-          <h3>Percentage Calculator</h3>
-          <p>Calculate percentages instantly</p>
-        </a>
-        <a href="/percent-off-calculator" class="next-card">
-          <span class="next-tag">Math</span>
-          <h3>Percent Off Calculator</h3>
-          <p>Find sale price after any discount</p>
-        </a>
-        <a href="/celsius-to-fahrenheit" class="next-card">
-          <span class="next-tag">Temp</span>
-          <h3>Celsius to Fahrenheit</h3>
-          <p>Temperature converter</p>
-        </a>
-      </div>
+  <div class="content-card">
+    <h2>Related Converters</h2>
+    <div class="next-grid">
+      <a href="/yards-to-meters" class="next-card">
+        <span class="next-tag">Length</span>
+        <h3>Yards to Meters</h3>
+        <p>Convert yards to meters instantly</p>
+      </a>
+      <a href="/kg-to-lbs" class="next-card">
+        <span class="next-tag">Weight</span>
+        <h3>kg to lbs</h3>
+        <p>Kilograms to pounds converter</p>
+      </a>
+      <a href="/cm-to-inches" class="next-card">
+        <span class="next-tag">Length</span>
+        <h3>cm to Inches</h3>
+        <p>Convert centimeters to inches</p>
+      </a>
+      <a href="/percentage-calculator" class="next-card">
+        <span class="next-tag">Math</span>
+        <h3>Percentage Calculator</h3>
+        <p>Calculate percentages instantly</p>
+      </a>
+      <a href="/percent-off-calculator" class="next-card">
+        <span class="next-tag">Math</span>
+        <h3>Percent Off Calculator</h3>
+        <p>Find sale price after any discount</p>
+      </a>
+      <a href="/celsius-to-fahrenheit" class="next-card">
+        <span class="next-tag">Temp</span>
+        <h3>Celsius to Fahrenheit</h3>
+        <p>Temperature converter</p>
+      </a>
     </div>
   </div>
 </div>
