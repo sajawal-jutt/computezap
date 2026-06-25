@@ -1,10 +1,1 @@
-{
-  "redirects": [
-    {
-      "source": "/(.*)",
-      "has": [{ "type": "host", "value": "computezap.com" }],
-      "destination": "https://www.computezap.com/$1",
-      "permanent": true
-    }
-  ]
-}
+{}
