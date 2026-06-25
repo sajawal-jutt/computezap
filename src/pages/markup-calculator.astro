@@ -1,0 +1,308 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const schema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Markup Calculator",
+    "url": "https://computezap.com/markup-calculator",
+    "description": "Free markup calculator. Find selling price from cost and markup %, or calculate markup % from cost and selling price. Instant results.",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
+      { "@type": "ListItem", "position": 2, "name": "Percentage Calculator", "item": "https://computezap.com/percentage-calculator" },
+      { "@type": "ListItem", "position": 3, "name": "Markup Calculator", "item": "https://computezap.com/markup-calculator" }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is markup vs margin?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Markup is calculated on cost: Markup% = ((Selling - Cost) ÷ Cost) × 100. Margin is calculated on revenue: Margin% = ((Selling - Cost) ÷ Selling) × 100. A 50% markup gives a 33.3% margin." }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I calculate selling price with markup?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Selling Price = Cost × (1 + Markup% ÷ 100). Example: Cost $40 with 50% markup = $40 × 1.50 = $60 selling price." }
+      }
+    ]
+  }
+]);
+---
+<Layout
+  title="Markup Calculator — Find Selling Price from Cost + Markup % | ComputeZap"
+  description="Free markup calculator. Find selling price from cost and markup %, or calculate markup % from cost and price. Includes markup vs margin comparison."
+  canonical="/markup-calculator"
+  schema={schema}
+>
+<style is:global>
+.hero{text-align:center;padding:2rem 1rem 1.5rem}
+.hero h1{font-size:2rem;color:#111;margin:.5rem 0 .4rem;font-weight:800;letter-spacing:-.02em}
+.hero-sub{color:#64748b;margin:0;font-size:1.05rem}
+.breadcrumb{font-size:.82rem;color:#94a3b8;margin-bottom:.75rem}
+.breadcrumb a{color:var(--blue);text-decoration:none}
+.calc-wrap{display:grid;grid-template-columns:400px 1fr;gap:1.75rem;max-width:1120px;margin:0 auto;padding:0 1rem 3.5rem;align-items:start}
+.calc-left{position:sticky;top:1rem;display:flex;flex-direction:column;gap:1rem}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:1.5rem;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.card h2{font-size:1rem;font-weight:700;color:#111;margin:0 0 1rem;padding-bottom:.65rem;border-bottom:1px solid #f3f4f6}
+.content-card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:1.5rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.content-card h2{font-size:1.05rem;font-weight:700;color:#111;margin:0 0 .8rem}
+.content-card p{color:#444;line-height:1.75;font-size:.93rem;margin:0 0 .7rem}
+.content-card p:last-child{margin-bottom:0}
+.field-group{margin-bottom:.75rem}
+.field-group label{display:block;font-size:.8rem;font-weight:600;color:#64748b;margin-bottom:.35rem}
+.field-group input{width:100%;padding:.55rem .85rem;border:1.5px solid #e2e8f0;border-radius:8px;font-size:1rem;font-weight:700;color:#111;font-family:inherit;box-sizing:border-box}
+.field-group input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+.calc-btn{width:100%;padding:.65rem;background:var(--blue);color:#fff;border:none;border-radius:9px;font-size:.95rem;font-weight:700;cursor:pointer;font-family:inherit;transition:background .15s;margin-top:.2rem}
+.calc-btn:hover{background:#1d4ed8}
+.answer-hero{background:linear-gradient(135deg,#1d4ed8 0%,#2563eb 60%,#3b82f6 100%);border-radius:12px;padding:1.25rem 1.5rem;text-align:center;display:none;margin-top:.75rem}
+.answer-hero.show{display:block}
+.a-label{font-size:.68rem;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.3rem;font-weight:700}
+.a-value{font-size:2.4rem;font-weight:900;color:#fff;line-height:1}
+.a-unit{font-size:.9rem;color:rgba(255,255,255,.8);margin-top:.25rem;font-weight:600}
+.a-formula{font-size:.78rem;color:rgba(255,255,255,.65);margin-top:.3rem}
+.stats-row{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-top:.65rem}
+.stat-box{background:#f8fafc;border:1px solid #f1f5f9;border-radius:9px;padding:.75rem;text-align:center}
+.stat-lbl{display:block;font-size:.62rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.2rem;font-weight:700}
+.stat-val{display:block;font-size:.95rem;font-weight:800;color:#1e293b}
+.formula-box{background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:12px;padding:1rem 1.25rem;margin:.75rem 0;text-align:center}
+.formula-text{font-size:.95rem;font-weight:800;color:#1e293b;font-family:monospace}
+.formula-sub{font-size:.8rem;color:#64748b;margin-top:.3rem}
+.tip-box{display:flex;gap:.75rem;background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:.9rem 1rem;margin:.85rem 0}
+.tip-icon{font-size:1.1rem;flex-shrink:0}
+.tip-box p{margin:0;font-size:.875rem;color:#1e40af;line-height:1.6}
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-top:.75rem}
+.compare-card{background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:10px;padding:.85rem 1rem}
+.compare-card h3{font-size:.82rem;font-weight:800;color:#1e293b;margin:0 0 .4rem;text-transform:uppercase;letter-spacing:.05em}
+.compare-card p{font-size:.8rem;color:#555;margin:0;line-height:1.6}
+.ref-tbl{width:100%;border-collapse:collapse;font-size:.875rem}
+.ref-tbl th{background:#f8fafc;padding:.6rem .85rem;text-align:left;font-size:.68rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;border-bottom:2px solid #e2e8f0}
+.ref-tbl td{padding:.6rem .85rem;border-bottom:1px solid #f3f4f6;color:#374151}
+.ref-tbl tr:last-child td{border-bottom:none}
+.ref-tbl tbody tr:hover td{background:#f8faff}
+.faq-item{border-bottom:1px solid #f3f4f6;padding:.9rem 0}
+.faq-item:last-child{border-bottom:none;padding-bottom:0}
+.faq-item h3{font-size:.9rem;color:#111;margin:0 0 .35rem;font-weight:700}
+.faq-item p{color:#555;font-size:.865rem;margin:0;line-height:1.65}
+.next-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem}
+.next-card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:1rem;border-top:3px solid var(--blue);text-decoration:none;display:block}
+.next-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.08);text-decoration:none}
+.next-tag{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--blue);margin-bottom:.3rem;display:block}
+.next-card h3{font-size:.88rem;font-weight:700;color:#111;margin:0 0 .25rem}
+.next-card p{font-size:.78rem;color:#64748b;margin:0;line-height:1.5}
+@media(max-width:768px){.calc-wrap{grid-template-columns:1fr}.calc-left{position:static}.hero h1{font-size:1.65rem}.a-value{font-size:1.9rem}.next-grid{grid-template-columns:1fr 1fr}.compare-grid{grid-template-columns:1fr}}
+@media(max-width:480px){.next-grid{grid-template-columns:1fr}}
+</style>
+
+<div class="hero">
+  <nav class="breadcrumb"><a href="/">Home</a> › <a href="/percentage-calculator">Percentage Calculator</a> › Markup Calculator</nav>
+  <h1>Markup Calculator</h1>
+  <p class="hero-sub">Find selling price from cost + markup %, or calculate markup % from cost and price</p>
+</div>
+
+<div class="calc-wrap">
+  <div class="calc-left">
+
+    <div class="card">
+      <h2>Find Selling Price (Cost + Markup %)</h2>
+      <div class="field-group">
+        <label>Cost Price ($)</label>
+        <input type="number" id="cost1" placeholder="40" min="0" step="0.01" />
+      </div>
+      <div class="field-group">
+        <label>Markup Percentage (%)</label>
+        <input type="number" id="markup1" placeholder="50" min="0" />
+      </div>
+      <button class="calc-btn" onclick="calcSellPrice()">Calculate Selling Price →</button>
+      <div id="res1" class="answer-hero">
+        <div class="a-label">Selling Price</div>
+        <div class="a-value" id="res1-val">—</div>
+        <div class="a-unit" id="res1-unit"></div>
+        <div class="a-formula" id="res1-formula"></div>
+      </div>
+      <div id="stats1" class="stats-row" style="display:none">
+        <div class="stat-box"><span class="stat-lbl">Cost</span><span class="stat-val" id="s1-cost"></span></div>
+        <div class="stat-box"><span class="stat-lbl">Profit</span><span class="stat-val" id="s1-profit"></span></div>
+        <div class="stat-box"><span class="stat-lbl">Markup %</span><span class="stat-val" id="s1-markup"></span></div>
+        <div class="stat-box"><span class="stat-lbl">Margin %</span><span class="stat-val" id="s1-margin"></span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Find Markup % (Cost + Selling Price)</h2>
+      <div class="field-group">
+        <label>Cost Price ($)</label>
+        <input type="number" id="cost2" placeholder="40" min="0" step="0.01" />
+      </div>
+      <div class="field-group">
+        <label>Selling Price ($)</label>
+        <input type="number" id="sell2" placeholder="60" min="0" step="0.01" />
+      </div>
+      <button class="calc-btn" onclick="calcMarkup()">Calculate Markup % →</button>
+      <div id="res2" class="answer-hero">
+        <div class="a-label">Markup %</div>
+        <div class="a-value" id="res2-val">—</div>
+        <div class="a-unit" id="res2-unit"></div>
+        <div class="a-formula" id="res2-formula"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="calc-right">
+    <div class="content-card">
+      <h2>Markup Formula</h2>
+      <div class="formula-box">
+        <div class="formula-text">Selling Price = Cost × (1 + Markup% ÷ 100)</div>
+        <div class="formula-sub">Example: Cost $40, Markup 50% → $40 × 1.50 = $60</div>
+      </div>
+      <div class="formula-box">
+        <div class="formula-text">Markup % = ((Selling − Cost) ÷ Cost) × 100</div>
+        <div class="formula-sub">Example: Cost $40, Selling $60 → ((60−40) ÷ 40) × 100 = 50%</div>
+      </div>
+      <div class="tip-box">
+        <span class="tip-icon">💡</span>
+        <p><strong>Markup vs Margin:</strong> Markup % is always higher than margin % for the same product. Cost $40, Sell $60 → Markup = 50% but Margin = 33.3%. Don't confuse them!</p>
+      </div>
+
+      <div class="compare-grid">
+        <div class="compare-card">
+          <h3>Markup</h3>
+          <p>Based on <strong>cost</strong>.<br/>((Sell − Cost) ÷ Cost) × 100<br/>Used by wholesalers & manufacturers.</p>
+        </div>
+        <div class="compare-card">
+          <h3>Margin</h3>
+          <p>Based on <strong>revenue</strong>.<br/>((Sell − Cost) ÷ Sell) × 100<br/>Used by retailers & accountants.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>Markup vs Margin Reference Table</h2>
+      <div style="overflow-x:auto">
+        <table class="ref-tbl">
+          <thead><tr><th>Markup %</th><th>Selling Price (Cost $100)</th><th>Profit</th><th>Margin %</th></tr></thead>
+          <tbody>
+            <tr><td><strong>10%</strong></td><td>$110</td><td>$10</td><td>9.09%</td></tr>
+            <tr><td><strong>20%</strong></td><td>$120</td><td>$20</td><td>16.67%</td></tr>
+            <tr><td><strong>25%</strong></td><td>$125</td><td>$25</td><td>20%</td></tr>
+            <tr><td><strong>33%</strong></td><td>$133</td><td>$33</td><td>24.8%</td></tr>
+            <tr><td><strong>50%</strong></td><td>$150</td><td>$50</td><td>33.33%</td></tr>
+            <tr><td><strong>100%</strong></td><td>$200</td><td>$100</td><td>50%</td></tr>
+            <tr><td><strong>200%</strong></td><td>$300</td><td>$200</td><td>66.67%</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>What is markup vs margin?</h3>
+        <p>Markup is based on cost: <strong>((Selling − Cost) ÷ Cost) × 100</strong>. Margin is based on selling price: <strong>((Selling − Cost) ÷ Selling) × 100</strong>. A 50% markup equals a 33.3% margin. Markup is always higher than margin for the same transaction.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How do I calculate selling price with 30% markup?</h3>
+        <p>Selling Price = Cost × 1.30. If cost is $50: $50 × 1.30 = <strong>$65</strong>. The profit is $15.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What is a good markup percentage?</h3>
+        <p>It depends on the industry. Retail typically uses 50–100% markup. Grocery stores use 10–25%. Jewelry and luxury goods can be 200–300%. Software and digital products often have very high markups due to low marginal cost.</p>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>Related Calculators</h2>
+      <div class="next-grid">
+        <a href="/margin-calculator" class="next-card">
+          <span class="next-tag">Business</span>
+          <h3>Margin Calculator</h3>
+          <p>Calculate profit margin % from revenue and cost</p>
+        </a>
+        <a href="/percentage-calculator" class="next-card">
+          <span class="next-tag">Percentage</span>
+          <h3>Percentage Calculator</h3>
+          <p>What is X% of Y? Three calculators in one</p>
+        </a>
+        <a href="/percentage-increase-calculator" class="next-card">
+          <span class="next-tag">Percentage</span>
+          <h3>% Increase Calculator</h3>
+          <p>Calculate percentage increase between two values</p>
+        </a>
+        <a href="/percent-off-calculator" class="next-card">
+          <span class="next-tag">Discount</span>
+          <h3>Percent Off Calculator</h3>
+          <p>Find sale price after a percentage discount</p>
+        </a>
+        <a href="/reverse-sales-tax-calculator" class="next-card">
+          <span class="next-tag">Finance</span>
+          <h3>Reverse Sales Tax</h3>
+          <p>Find original price before tax was added</p>
+        </a>
+        <a href="/cd-calculator" class="next-card">
+          <span class="next-tag">Finance</span>
+          <h3>CD Calculator</h3>
+          <p>Calculate certificate of deposit earnings</p>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+function fmt(n) {
+  if (n === Math.floor(n)) return '$' + n.toLocaleString();
+  return '$' + parseFloat(n.toFixed(2)).toLocaleString();
+}
+function fmtPct(n) { return parseFloat(n.toFixed(2)) + '%'; }
+
+function calcSellPrice() {
+  var cost = parseFloat(document.getElementById('cost1').value);
+  var markup = parseFloat(document.getElementById('markup1').value);
+  var res = document.getElementById('res1');
+  var stats = document.getElementById('stats1');
+  if (isNaN(cost) || isNaN(markup)) { res.classList.remove('show'); stats.style.display='none'; return; }
+  var sell = cost * (1 + markup / 100);
+  var profit = sell - cost;
+  var margin = (profit / sell) * 100;
+  document.getElementById('res1-val').textContent = fmt(sell);
+  document.getElementById('res1-unit').textContent = 'Cost ' + fmt(cost) + ' + ' + markup + '% markup';
+  document.getElementById('res1-formula').textContent = fmt(cost) + ' × ' + (1 + markup/100).toFixed(2) + ' = ' + fmt(sell);
+  res.classList.add('show');
+  document.getElementById('s1-cost').textContent = fmt(cost);
+  document.getElementById('s1-profit').textContent = fmt(profit);
+  document.getElementById('s1-markup').textContent = fmtPct(markup);
+  document.getElementById('s1-margin').textContent = fmtPct(margin);
+  stats.style.display = 'grid';
+}
+function calcMarkup() {
+  var cost = parseFloat(document.getElementById('cost2').value);
+  var sell = parseFloat(document.getElementById('sell2').value);
+  var res = document.getElementById('res2');
+  if (isNaN(cost) || isNaN(sell) || cost === 0) { res.classList.remove('show'); return; }
+  var markup = ((sell - cost) / cost) * 100;
+  var margin = ((sell - cost) / sell) * 100;
+  var profit = sell - cost;
+  document.getElementById('res2-val').textContent = fmtPct(markup);
+  document.getElementById('res2-unit').textContent = 'Profit: ' + fmt(profit) + ' | Margin: ' + fmtPct(margin);
+  document.getElementById('res2-formula').textContent = '((' + fmt(sell) + ' − ' + fmt(cost) + ') ÷ ' + fmt(cost) + ') × 100';
+  res.classList.add('show');
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key !== 'Enter') return;
+  var t = e.target;
+  if (t.id === 'cost1' || t.id === 'markup1') calcSellPrice();
+  if (t.id === 'cost2' || t.id === 'sell2') calcMarkup();
+});
+</script>
+</Layout>
