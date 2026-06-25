@@ -1,4 +1,4 @@
-﻿---
+---
 import Layout from '../layouts/Layout.astro';
 
 const schema = JSON.stringify([
@@ -9,7 +9,7 @@ const schema = JSON.stringify([
     "url": "https://computezap.com/cups-to-gallons",
     "applicationCategory": "UtilityApplication",
     "operatingSystem": "Web",
-    "description": "Convert cups to gallons instantly. 1 gallon = 16 cups. Free cups to gallons converter with quarts, pints, and fluid ounces chart.",
+    "description": "Convert cups to gallons instantly. 16 cups = 1 gallon. Free cups to gallons converter with kitchen measurement reference table.",
     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
   },
   {
@@ -24,343 +24,310 @@ const schema = JSON.stringify([
     "@context": "https://schema.org",
     "@type": "FAQPage",
     "mainEntity": [
-      { "@type": "Question", "name": "How many cups in a gallon?", "acceptedAnswer": { "@type": "Answer", "text": "There are 16 cups in 1 US gallon. 1 gallon = 16 cups = 4 quarts = 8 pints = 128 fluid ounces = 3.785 liters." } },
-      { "@type": "Question", "name": "How many cups in a half gallon?", "acceptedAnswer": { "@type": "Answer", "text": "There are 8 cups in a half gallon. Half of 16 cups (one full gallon) = 8 cups." } },
-      { "@type": "Question", "name": "How many cups is 2 gallons?", "acceptedAnswer": { "@type": "Answer", "text": "2 gallons = 32 cups. Multiply 2 × 16 cups per gallon = 32 cups." } },
-      { "@type": "Question", "name": "How do I convert cups to gallons?", "acceptedAnswer": { "@type": "Answer", "text": "Divide the number of cups by 16. Formula: gallons = cups ÷ 16. Example: 8 cups ÷ 16 = 0.5 gallons (half a gallon)." } },
-      { "@type": "Question", "name": "How many cups in a quart?", "acceptedAnswer": { "@type": "Answer", "text": "There are 4 cups in 1 US quart. 1 quart = 4 cups = 2 pints = 32 fluid ounces = 0.946 liters." } }
+      { "@type": "Question", "name": "How many cups in a gallon?", "acceptedAnswer": { "@type": "Answer", "text": "There are 16 cups in 1 US gallon." } },
+      { "@type": "Question", "name": "How many cups in half a gallon?", "acceptedAnswer": { "@type": "Answer", "text": "Half a gallon = 8 cups." } },
+      { "@type": "Question", "name": "How many gallons is 32 cups?", "acceptedAnswer": { "@type": "Answer", "text": "32 cups = 2 gallons. Divide 32 ÷ 16 = 2." } },
+      { "@type": "Question", "name": "How many cups in a quart?", "acceptedAnswer": { "@type": "Answer", "text": "1 quart = 4 cups." } },
+      { "@type": "Question", "name": "How many cups in a pint?", "acceptedAnswer": { "@type": "Answer", "text": "1 pint = 2 cups." } }
     ]
   }
 ]);
 ---
 <Layout
-  title="Cups to Gallons Converter — How Many Cups in a Gallon? | ComputeZap"
-  description="Convert cups to gallons instantly. 1 gallon = 16 cups. Free cups to gallons converter with quarts, pints, and fluid ounces. 8 cups = half gallon."
+  title="Cups to Gallons Converter — cups to gal | ComputeZap"
+  description="Convert cups to gallons instantly. 16 cups = 1 US gallon. Free cups to gallons converter with quarts, pints, fluid ounces, and kitchen reference chart."
   canonical="/cups-to-gallons"
   schema={schema}
 >
 <style is:global>
-.hero{text-align:center;padding:2rem 1rem 1.25rem}
-.hero h1{font-size:2rem;color:#111;margin:.5rem 0 .35rem;font-weight:800}
-.hero-sub{color:#555;margin:0;font-size:1rem}
-.breadcrumb{font-size:.85rem;color:#888;margin-bottom:.75rem}
-.breadcrumb a{color:var(--blue);text-decoration:none}
-.calc-wrap{display:grid;grid-template-columns:360px 1fr;gap:1.5rem;max-width:1100px;margin:0 auto;padding:0 1rem 3rem;align-items:start}
-.calc-left{position:sticky;top:1rem}
-.card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:1.5rem;margin-bottom:1rem}
-.card:last-child{margin-bottom:0}
+.page-hero{text-align:center;padding:2rem 1rem 1rem}
+.page-hero h1{font-size:1.9rem;font-weight:800;letter-spacing:-.03em;color:#111;margin:0 0 .35rem}
+.page-hero p{color:#64748b;font-size:1rem;margin:0}
+.page-hero nav{font-size:.82rem;color:#94a3b8;margin-bottom:.75rem}
+.page-hero nav a{color:var(--blue);text-decoration:none}
+.calc-center{max-width:620px;margin:0 auto;padding:0 1rem 2rem}
+.content-wrap{max-width:900px;margin:0 auto;padding:0 1rem 3.5rem}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:1.5rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.content-card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:1.5rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.content-card h2{font-size:1.05rem;font-weight:700;color:#111;margin:0 0 .8rem}
+.content-card h3{font-size:.95rem;font-weight:700;color:#111;margin:.75rem 0 .4rem}
+.content-card p{color:#444;line-height:1.75;font-size:.93rem;margin:0 0 .7rem}
+.content-card p:last-child{margin-bottom:0}
+.content-card ul{color:#444;line-height:1.85;font-size:.93rem;padding-left:1.25rem;margin:.5rem 0 0}
 .mode-wrap{display:grid;grid-template-columns:1fr 1fr;gap:.4rem;margin-bottom:1.25rem}
-.mode-btn{background:#f8fafc;color:#64748b;border:1.5px solid #e2e8f0;border-radius:8px;padding:.5rem;font-size:.82rem;font-weight:700;cursor:pointer;text-align:center;transition:all .15s}
+.mode-btn{padding:.55rem;font-size:.85rem;font-weight:600;border:1.5px solid #e2e8f0;border-radius:8px;background:#f8fafc;color:#64748b;cursor:pointer;transition:all .15s;text-align:center}
 .mode-btn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
-.result-box{background:var(--blue);border-radius:14px;padding:1.75rem 1.5rem;text-align:center;margin-bottom:1.25rem;box-shadow:0 4px 20px rgba(37,99,235,.18)}
-.res-lbl{font-size:.72rem;color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:.09em;margin-bottom:.5rem}
-.res-val{font-size:2.1rem;font-weight:800;color:#fff;line-height:1.2}
-.res-sub{font-size:.95rem;color:rgba(255,255,255,.8);margin-top:.3rem}
-.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:0}
-.stat-item{background:#f8fafc;border:1px solid #f1f5f9;border-radius:10px;padding:.9rem .75rem;text-align:center}
-.stat-lbl{display:block;font-size:.68rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.3rem;font-weight:600}
-.stat-val{display:block;font-size:1.1rem;font-weight:800;color:#1e293b}
-.stat-primary{background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:12px;padding:1rem 1.25rem;text-align:center;margin-bottom:.6rem}
-.stat-big{display:block;font-size:2rem;font-weight:900;color:#2563eb;line-height:1.1}
-.stat-secondary{background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:.75rem 1.25rem;text-align:center;margin-bottom:.6rem}
-.stat-med{display:block;font-size:1.4rem;font-weight:800;color:#1e293b;line-height:1.1}
-.fld-lbl{display:block;font-size:.8rem;font-weight:700;color:#374151;margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.04em}
-.fld-wrap{position:relative;margin-bottom:1rem}
-.fld-sfx{position:absolute;right:.9rem;top:50%;transform:translateY(-50%);color:#94a3b8;font-weight:600;pointer-events:none;font-size:.9rem}
-.txt-input{width:100%;font-size:1.1rem;padding:.7rem 3rem .7rem 1rem;border:1.5px solid #e2e8f0;border-radius:8px;color:#111;box-sizing:border-box;font-family:inherit;background:#fff}
-.txt-input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+.input-group{margin-bottom:.85rem}
+.input-group label{display:block;font-size:.82rem;font-weight:600;color:#374151;margin-bottom:.4rem}
+.input-wrap{position:relative}
+.input-sfx{position:absolute;right:.9rem;top:50%;transform:translateY(-50%);color:#94a3b8;font-weight:600;pointer-events:none;font-size:.9rem}
+.input-group input{width:100%;padding:.65rem 3rem .65rem .9rem;border:1.5px solid #e2e8f0;border-radius:8px;font-size:1rem;font-family:inherit;color:#111;transition:border-color .15s;box-sizing:border-box}
+.input-group input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
 .preset-lbl{font-size:.7rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.5rem;display:block}
-.preset-wrap{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.5rem}
+.preset-wrap{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1rem}
 .preset-btn{background:#fff;color:var(--blue);border:1.5px solid #dbeafe;border-radius:20px;padding:.28rem .75rem;font-size:.82rem;font-weight:700;cursor:pointer;transition:all .15s}
 .preset-btn:hover{background:var(--blue);color:#fff;border-color:var(--blue)}
-.card h2{font-size:1.1rem;font-weight:700;color:#111;margin:0 0 .8rem}
-.card h3{font-size:.95rem;font-weight:700;color:#111;margin:.75rem 0 .4rem}
-.card p{color:#444;line-height:1.75;font-size:.95rem;margin:0 0 .7rem}
-.card p:last-child{margin-bottom:0}
-.card ul{color:#444;line-height:1.85;font-size:.95rem;padding-left:1.25rem;margin:.5rem 0 0}
-.formula-box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:.75rem 1rem;font-family:monospace;font-size:.88rem;color:#1e293b;margin:.6rem 0}
-.tip-box{display:flex;gap:.75rem;background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:.9rem 1rem;margin:.75rem 0}
-.tip-icon{font-size:1.1rem;flex-shrink:0;margin-top:.1rem}
-.tip-box p{margin:0;font-size:.875rem;color:#1e40af}
+.calc-btn{width:100%;padding:.8rem;background:var(--blue);color:#fff;border:none;border-radius:8px;font-size:1rem;font-weight:700;cursor:pointer;transition:background .15s;margin-bottom:1rem}
+.calc-btn:hover{background:#1d4ed8}
+.answer-hero{background:linear-gradient(135deg,#1d4ed8 0%,#2563eb 60%,#3b82f6 100%);border-radius:14px;padding:1.75rem 1.5rem 1.25rem;text-align:center;margin-bottom:1rem;box-shadow:0 6px 24px rgba(37,99,235,.22);display:none}
+.answer-hero.show{display:block}
+.a-label{font-size:.68rem;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem;font-weight:700}
+.a-value{font-size:2.8rem;font-weight:900;color:#fff;line-height:1;letter-spacing:-.02em}
+.a-unit{font-size:1rem;font-weight:600;color:rgba(255,255,255,.8);margin-top:.3rem}
+.a-sub{font-size:.85rem;color:rgba(255,255,255,.7);margin-top:.4rem}
+.stats-row{display:none;grid-template-columns:1fr 1fr;gap:.55rem}
+.stats-row.show{display:grid}
+.stat-box{background:#f8fafc;border:1px solid #f1f5f9;border-radius:10px;padding:.85rem .75rem;text-align:center}
+.stat-lbl{display:block;font-size:.62rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.25rem;font-weight:700}
+.stat-val{display:block;font-size:.95rem;font-weight:800;color:#1e293b}
 .answer-box{background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:10px;padding:.75rem 1rem;margin:.75rem 0}
-.answer-row{display:flex;justify-content:space-between;align-items:center;padding:.35rem 0;border-bottom:1px solid #f1f5f9;font-size:.95rem}
+.answer-row{display:flex;justify-content:space-between;align-items:center;padding:.35rem 0;border-bottom:1px solid #f1f5f9;font-size:.93rem}
 .answer-row:last-child{border-bottom:none}
 .answer-lbl{color:#64748b;font-weight:600}
 .answer-val{color:#2563eb;font-weight:800}
+.tip-box{display:flex;gap:.75rem;background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:.9rem 1rem;margin:.75rem 0}
+.tip-icon{font-size:1.1rem;flex-shrink:0;margin-top:.1rem}
+.tip-box p{margin:0;font-size:.875rem;color:#1e40af}
 .ref-tbl{width:100%;border-collapse:collapse;font-size:.875rem}
-.ref-tbl th{background:#f8fafc;padding:.45rem .75rem;text-align:left;font-size:.72rem;color:#64748b;font-weight:700;text-transform:uppercase;letter-spacing:.04em;border-bottom:1px solid #e5e7eb}
-.ref-tbl td{padding:.5rem .75rem;border-bottom:1px solid #f3f4f6;color:#444;cursor:pointer}
+.ref-tbl th{background:#f8fafc;padding:.6rem .85rem;text-align:left;font-size:.68rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;border-bottom:2px solid #e2e8f0}
+.ref-tbl td{padding:.65rem .85rem;border-bottom:1px solid #f3f4f6;color:#374151}
 .ref-tbl tr:last-child td{border-bottom:none}
+.ref-tbl tbody tr:hover td{background:#f8faff;cursor:pointer}
 .ref-tbl .acc{color:var(--blue);font-weight:700}
-.ref-tbl .hi td{background:#eff6ff;color:#1e40af;font-weight:600}
-.faq-item{border-bottom:1px solid #f3f4f6;padding:.85rem 0}
+.ref-tbl .hi td{background:#eff6ff;font-weight:700}
+.faq-item{border-bottom:1px solid #f3f4f6;padding:.9rem 0}
 .faq-item:last-child{border-bottom:none;padding-bottom:0}
-.faq-item h3{font-size:.92rem;color:#111;margin:0 0 .35rem;font-weight:600}
-.faq-item p{color:#555;font-size:.875rem;margin:0;line-height:1.65}
-.content-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:1.5rem;margin-bottom:1rem}
-.content-card h2{font-size:1.1rem;font-weight:700;color:#111;margin:0 0 .8rem}
-.content-card ul{color:#444;line-height:1.85;font-size:.95rem;padding-left:1.25rem;margin:0}
+.faq-item h3{font-size:.9rem;color:#111;margin:0 0 .35rem;font-weight:700}
+.faq-item p{color:#555;font-size:.865rem;margin:0;line-height:1.65}
 .next-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem}
-.next-card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:1rem;border-top:3px solid var(--blue);text-decoration:none;display:block;transition:box-shadow .15s}
+.next-card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:1rem;border-top:3px solid var(--blue);text-decoration:none;display:block}
 .next-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.08)}
 .next-tag{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--blue);margin-bottom:.3rem;display:block}
 .next-card h3{font-size:.88rem;font-weight:700;color:#111;margin:0 0 .25rem}
 .next-card p{font-size:.78rem;color:#64748b;margin:0;line-height:1.5}
-@media(max-width:768px){.calc-wrap{grid-template-columns:1fr}.calc-left{position:static}.hero h1{font-size:1.65rem}.res-val{font-size:1.6rem}.next-grid{grid-template-columns:1fr}}
+@media(max-width:768px){.page-hero h1{font-size:1.65rem}.a-value{font-size:2.1rem}.next-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.next-grid{grid-template-columns:1fr}}
 </style>
 
-<div class="hero">
-  <nav class="breadcrumb"><a href="/">Home</a> › Cups to Gallons Converter</nav>
+<div class="page-hero">
+  <nav><a href="/">Home</a> › Cups to Gallons Converter</nav>
   <h1>Cups to Gallons Converter</h1>
-  <p class="hero-sub">1 gallon = 16 cups — convert any volume instantly</p>
+  <p>16 cups = 1 US gallon — convert any kitchen volume instantly</p>
 </div>
 
-<div class="calc-wrap">
-  <div class="calc-left">
-    <div class="card">
-      <div class="mode-wrap">
-        <button class="mode-btn active" id="btn-c2g" onclick="setMode('c2g')">Cups → Gallons</button>
-        <button class="mode-btn" id="btn-g2c" onclick="setMode('g2c')">Gallons → Cups</button>
-      </div>
-      <label class="fld-lbl" id="inp-lbl">Cups</label>
-      <div class="fld-wrap">
-        <input type="number" id="amount" class="txt-input" value="16" min="0" step="1" oninput="convert()" />
-        <span class="fld-sfx" id="inp-sfx">cups</span>
-      </div>
-      <span class="preset-lbl">Quick values</span>
-      <div class="preset-wrap" id="preset-wrap">
-        <button class="preset-btn" onclick="setVal(1)">1</button>
-        <button class="preset-btn" onclick="setVal(2)">2</button>
-        <button class="preset-btn" onclick="setVal(4)">4</button>
-        <button class="preset-btn" onclick="setVal(8)">8</button>
-        <button class="preset-btn" onclick="setVal(12)">12</button>
-        <button class="preset-btn" onclick="setVal(16)">16</button>
-        <button class="preset-btn" onclick="setVal(32)">32</button>
+<div class="calc-center">
+  <div class="card">
+    <div class="mode-wrap">
+      <button class="mode-btn active" id="btn-cup">cups → gal</button>
+      <button class="mode-btn" id="btn-gal">gal → cups</button>
+    </div>
+    <div class="input-group">
+      <label id="inp-lbl">Cups</label>
+      <div class="input-wrap">
+        <input type="number" id="amount" value="1" min="0" step="0.5" />
+        <span class="input-sfx" id="inp-sfx">cup</span>
       </div>
     </div>
-    <div class="card">
-      <div class="result-box">
-        <div class="res-lbl" id="res-lbl">Gallons</div>
-        <div class="res-val"><span id="r-main">1</span> <span style="font-size:1.1rem;opacity:.85" id="r-unit">gal</span></div>
-        <div class="res-sub" id="r-sub">16 cups = 1 gallon</div>
+    <span class="preset-lbl">Quick values</span>
+    <div class="preset-wrap" id="preset-wrap">
+      <button class="preset-btn" onclick="setVal(1)">1</button>
+      <button class="preset-btn" onclick="setVal(2)">2</button>
+      <button class="preset-btn" onclick="setVal(4)">4</button>
+      <button class="preset-btn" onclick="setVal(8)">8</button>
+      <button class="preset-btn" onclick="setVal(16)">16</button>
+    </div>
+    <button class="calc-btn" id="calc-btn">Convert</button>
+    <div class="answer-hero" id="answer">
+      <div class="a-label" id="ans-label">1 cup =</div>
+      <div class="a-value" id="ans-value">0.0625</div>
+      <div class="a-unit" id="ans-unit">gallons (gal)</div>
+      <div class="a-sub" id="ans-sub">1 ÷ 16 = 0.0625 gal</div>
+    </div>
+    <div class="stats-row" id="stats">
+      <div class="stat-box">
+        <span class="stat-lbl">Quarts</span>
+        <span class="stat-val" id="s1-val">0.25 qt</span>
       </div>
-      <div class="stat-primary">
-        <span class="stat-lbl" id="s1-lbl">Gallons</span>
-        <span class="stat-big" id="s1-val">1 gal</span>
+      <div class="stat-box">
+        <span class="stat-lbl">Pints</span>
+        <span class="stat-val" id="s2-val">0.5 pt</span>
       </div>
-      <div class="stat-secondary">
-        <span class="stat-lbl" id="s2-lbl">Quarts</span>
-        <span class="stat-med" id="s2-val">4 qt</span>
+      <div class="stat-box">
+        <span class="stat-lbl">Fluid Ounces</span>
+        <span class="stat-val" id="s3-val">8 fl oz</span>
       </div>
-      <div class="stats-grid">
-        <div class="stat-item">
-          <span class="stat-lbl" id="s3-lbl">Pints</span>
-          <span class="stat-val" id="s3-val">8 pt</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-lbl" id="s4-lbl">Fluid Ounces</span>
-          <span class="stat-val" id="s4-val">128 fl oz</span>
-        </div>
+      <div class="stat-box">
+        <span class="stat-lbl">Milliliters</span>
+        <span class="stat-val" id="s4-val">236.6 mL</span>
       </div>
     </div>
   </div>
+</div>
 
-  <div class="calc-right">
-    <div class="card">
-      <h2>How Many Cups in a Gallon?</h2>
-      <p>There are <strong>16 cups in 1 US gallon</strong>. This is the standard US measurement used in cooking and liquid volume. The full breakdown of volume units:</p>
-      <div class="answer-box">
-        <div class="answer-row"><span class="answer-lbl">1 gallon</span><span class="answer-val">= 16 cups</span></div>
-        <div class="answer-row"><span class="answer-lbl">1 gallon</span><span class="answer-val">= 4 quarts</span></div>
-        <div class="answer-row"><span class="answer-lbl">1 gallon</span><span class="answer-val">= 8 pints</span></div>
-        <div class="answer-row"><span class="answer-lbl">1 gallon</span><span class="answer-val">= 128 fluid ounces</span></div>
-        <div class="answer-row"><span class="answer-lbl">1 gallon</span><span class="answer-val">= 3.785 liters</span></div>
-      </div>
-      <div class="formula-box">gallons = cups ÷ 16 &nbsp;|&nbsp; cups = gallons × 16</div>
+<div class="content-wrap">
+
+  <div class="content-card">
+    <h2>Cups to Gallons Reference Table</h2>
+    <div class="tip-box">
+      <span class="tip-icon">🥛</span>
+      <p><strong>Quick rule:</strong> 16 cups = 1 gallon. Divide cups by 16 to get gallons. Example: 8 cups ÷ 16 = 0.5 gallon (half gallon).</p>
     </div>
-
-    <div class="card">
-      <h2>Cups to Gallons Conversion Chart</h2>
-      <p>Click any row to load into the converter above.</p>
-      <div style="overflow-x:auto">
+    <div style="overflow-x:auto">
       <table class="ref-tbl">
-        <thead><tr><th>Cups</th><th>Gallons</th><th>Quarts</th><th>Pints</th></tr></thead>
+        <thead><tr><th>Cups</th><th>Gallons</th><th>Quarts</th><th>Pints</th><th>Fl Oz</th></tr></thead>
         <tbody>
           {[
-            [1,'0.0625 gal','¼ qt','½ pt'],
-            [2,'0.125 gal','½ qt','1 pt'],
-            [4,'0.25 gal','1 qt','2 pt'],
-            [8,'0.5 gal','2 qt','4 pt'],
-            [12,'0.75 gal','3 qt','6 pt'],
-            [16,'1 gal','4 qt','8 pt'],
-            [20,'1.25 gal','5 qt','10 pt'],
-            [24,'1.5 gal','6 qt','12 pt'],
-            [32,'2 gal','8 qt','16 pt'],
-            [48,'3 gal','12 qt','24 pt'],
-            [64,'4 gal','16 qt','32 pt'],
-          ].map(([cups, gal, qt, pt]) => (
-            <tr onclick={`setVal(${cups})`} class={cups === 16 ? 'hi' : ''}>
-              <td>{cups} cups</td><td class="acc">{gal}</td><td>{qt}</td><td>{pt}</td>
+            [1,'0.0625','0.25','0.5','8'],
+            [2,'0.125','0.5','1','16'],
+            [4,'0.25','1','2','32'],
+            [8,'0.5','2','4','64'],
+            [12,'0.75','3','6','96'],
+            [16,'1','4','8','128'],
+            [20,'1.25','5','10','160'],
+            [24,'1.5','6','12','192'],
+            [32,'2','8','16','256'],
+            [48,'3','12','24','384'],
+            [64,'4','16','32','512'],
+          ].map(([cup, gal, qt, pt, floz]) => (
+            <tr onclick={`setVal(${cup})`} class={cup === 16 ? 'hi' : ''}>
+              <td class="acc">{cup} cups</td>
+              <td>{gal} gal</td>
+              <td>{qt} qt</td>
+              <td>{pt} pt</td>
+              <td>{floz} fl oz</td>
             </tr>
           ))}
         </tbody>
       </table>
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>US Volume Measurement Hierarchy</h2>
-      <p>The US liquid volume system is based on doubling — each unit is exactly twice the previous one. This makes mental math easy once you memorize the base relationship of 16 cups per gallon.</p>
-      <div class="tip-box">
-        <span class="tip-icon">🥛</span>
-        <p><strong>Memory trick:</strong> 1 gallon = 4 quarts = 8 pints = 16 cups. Each step doubles: go from cups to pints (÷2), pints to quarts (÷2), quarts to gallons (÷4).</p>
-      </div>
-      <h3>Common cooking volume conversions</h3>
-      <ul>
-        <li><strong>1 cup</strong> = ½ pint = ¼ quart = 8 fluid ounces = 236.6 ml</li>
-        <li><strong>8 cups</strong> = ½ gallon = 4 pints = 2 quarts = 64 fl oz</li>
-        <li><strong>16 cups</strong> = 1 gallon = 8 pints = 4 quarts = 128 fl oz</li>
-        <li><strong>Water jug (1 gallon)</strong> = 16 cups of water per day target</li>
-      </ul>
-    </div>
-
-    <div class="content-card">
-      <h2>When You Need Cups to Gallons Conversion</h2>
-      <ul>
-        <li><strong>Recipe scaling</strong> — scaling up a recipe from serving 4 to serving 64 means converting cups of broth, sauce, or liquid into gallons for large-batch cooking.</li>
-        <li><strong>Punch & beverage prep</strong> — party drink recipes often list gallons; most home measuring tools use cups. Convert to fill the right container.</li>
-        <li><strong>Garden & cleaning chemicals</strong> — dilution ratios for fertilizers and cleaning concentrates are often per gallon; your measuring cup is in cups or ounces.</li>
-        <li><strong>Aquariums</strong> — fish tank volumes are listed in gallons; water conditioner dosing is per cup or liter. Convert to dose accurately.</li>
-        <li><strong>Hydration tracking</strong> — some fitness goals target 1 gallon of water per day. Knowing that equals 16 cups helps track intake throughout the day.</li>
-      </ul>
-    </div>
-
-    <div class="card">
-      <h2>Frequently Asked Questions</h2>
-      <div class="faq-item">
-        <h3>How many cups in a gallon?</h3>
-        <p>There are <strong>16 cups</strong> in 1 US gallon. 1 gallon = 16 cups = 4 quarts = 8 pints = 128 fluid ounces.</p>
-      </div>
-      <div class="faq-item">
-        <h3>How many cups in a half gallon?</h3>
-        <p>There are <strong>8 cups</strong> in a half gallon. Half of 16 cups = 8 cups = 4 pints = 2 quarts = 64 fl oz.</p>
-      </div>
-      <div class="faq-item">
-        <h3>How many cups is 2 gallons?</h3>
-        <p>2 gallons = <strong>32 cups</strong>. Multiply 2 × 16 = 32 cups.</p>
-      </div>
-      <div class="faq-item">
-        <h3>How do I convert cups to gallons?</h3>
-        <p>Divide cups by 16. Formula: <strong>gallons = cups ÷ 16</strong>. Example: 4 cups ÷ 16 = 0.25 gallons (1 quart).</p>
-      </div>
-      <div class="faq-item">
-        <h3>How many cups in a quart?</h3>
-        <p>There are <strong>4 cups</strong> in 1 US quart. 1 quart = 4 cups = 2 pints = 32 fluid ounces = 0.946 liters.</p>
-      </div>
-      <div class="faq-item">
-        <h3>Is a US gallon the same as a UK gallon?</h3>
-        <p>No. A US gallon = 3.785 liters (16 US cups). A UK (imperial) gallon = 4.546 liters, which equals about 19.22 US cups. The UK gallon is about 20% larger than the US gallon.</p>
-      </div>
-    </div>
-
-    <div class="content-card">
-      <h2>Related Converters</h2>
-      <div class="next-grid">
-        <a href="/oz-to-quarts" class="next-card">
-          <span class="next-tag">Volume</span>
-          <h3>Oz to Quarts</h3>
-          <p>Convert fluid ounces to quarts — 1 quart = 32 oz.</p>
-        </a>
-        <a href="/cups-to-tablespoons" class="next-card">
-          <span class="next-tag">Kitchen</span>
-          <h3>Cups to Tablespoons</h3>
-          <p>How many tablespoons in a cup — all fractions covered.</p>
-        </a>
-        <a href="/liters-to-gallons" class="next-card">
-          <span class="next-tag">Volume</span>
-          <h3>Liters to Gallons</h3>
-          <p>Convert liters to US or Imperial gallons.</p>
-        </a>
-        <a href="/kg-to-lbs" class="next-card">
-          <span class="next-tag">Weight</span>
-          <h3>kg to lbs</h3>
-          <p>Convert kilograms to pounds instantly.</p>
-        </a>
-        <a href="/cm-to-inches" class="next-card">
-          <span class="next-tag">Length</span>
-          <h3>cm to Inches</h3>
-          <p>Convert centimeters to inches instantly.</p>
-        </a>
-        <a href="/percent-off-calculator" class="next-card">
-          <span class="next-tag">Shopping</span>
-          <h3>Percent Off Calculator</h3>
-          <p>Calculate the final price after any discount.</p>
-        </a>
-      </div>
     </div>
   </div>
+
+  <div class="content-card">
+    <h2>US Liquid Measurement Hierarchy</h2>
+    <div class="answer-box">
+      <div class="answer-row"><span class="answer-lbl">1 gallon</span><span class="answer-val">= 16 cups</span></div>
+      <div class="answer-row"><span class="answer-lbl">1 gallon</span><span class="answer-val">= 4 quarts</span></div>
+      <div class="answer-row"><span class="answer-lbl">1 gallon</span><span class="answer-val">= 8 pints</span></div>
+      <div class="answer-row"><span class="answer-lbl">1 gallon</span><span class="answer-val">= 128 fl oz</span></div>
+      <div class="answer-row"><span class="answer-lbl">1 gallon</span><span class="answer-val">= 3.785 liters</span></div>
+    </div>
+  </div>
+
+  <div class="content-card">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>How many cups in a gallon?</h3>
+      <p>There are <strong>16 cups</strong> in 1 US gallon.</p>
+    </div>
+    <div class="faq-item">
+      <h3>How many cups in half a gallon?</h3>
+      <p>Half a gallon = <strong>8 cups</strong>.</p>
+    </div>
+    <div class="faq-item">
+      <h3>How many gallons is 32 cups?</h3>
+      <p>32 cups = <strong>2 gallons</strong>. Divide 32 ÷ 16 = 2.</p>
+    </div>
+    <div class="faq-item">
+      <h3>How many cups in a quart?</h3>
+      <p>1 quart = <strong>4 cups</strong>.</p>
+    </div>
+    <div class="faq-item">
+      <h3>How many cups in a pint?</h3>
+      <p>1 pint = <strong>2 cups</strong>.</p>
+    </div>
+  </div>
+
+  <div class="content-card">
+    <h2>Related Converters</h2>
+    <div class="next-grid">
+      <a href="/cups-to-tablespoons" class="next-card">
+        <span class="next-tag">Volume</span>
+        <h3>Cups to Tbsp</h3>
+        <p>Convert cups to tablespoons for baking.</p>
+      </a>
+      <a href="/oz-to-quarts" class="next-card">
+        <span class="next-tag">Volume</span>
+        <h3>Oz to Quarts</h3>
+        <p>Convert fluid ounces to quarts.</p>
+      </a>
+      <a href="/liters-to-gallons" class="next-card">
+        <span class="next-tag">Volume</span>
+        <h3>Liters to Gallons</h3>
+        <p>Convert liters to US and UK gallons.</p>
+      </a>
+      <a href="/kg-to-lbs" class="next-card">
+        <span class="next-tag">Weight</span>
+        <h3>kg to lbs</h3>
+        <p>Convert kilograms to pounds.</p>
+      </a>
+      <a href="/celsius-to-fahrenheit" class="next-card">
+        <span class="next-tag">Temperature</span>
+        <h3>Celsius to °F</h3>
+        <p>Convert oven temperatures.</p>
+      </a>
+      <a href="/ounces-in-a-pound" class="next-card">
+        <span class="next-tag">Weight</span>
+        <h3>Ounces in a Pound</h3>
+        <p>Convert ounces and pounds.</p>
+      </a>
+    </div>
+  </div>
+
 </div>
 
 <script is:inline>
-var mode = 'c2g';
+  var mode = 'cup';
 
-function fmt(v, d) {
-  return parseFloat(v.toFixed(d !== undefined ? d : 4)).toString();
-}
+  document.getElementById('btn-cup').addEventListener('click', function() { setMode('cup'); });
+  document.getElementById('btn-gal').addEventListener('click', function() { setMode('gal'); });
+  document.getElementById('calc-btn').addEventListener('click', convert);
+  document.getElementById('amount').addEventListener('input', convert);
+  document.addEventListener('keydown', function(e) { if (e.key === 'Enter') convert(); });
 
-function convert() {
-  var val = parseFloat(document.getElementById('amount').value) || 0;
-  var gal, cups, qt, pt, floz, liters;
-  if (mode === 'c2g') {
-    cups = val; gal = val / 16; qt = val / 4; pt = val / 2; floz = val * 8; liters = val * 0.2366;
-    document.getElementById('r-main').textContent = fmt(gal, 4);
-    document.getElementById('r-unit').textContent = 'gal';
-    document.getElementById('r-sub').textContent = fmt(val, 1) + ' cups = ' + fmt(gal, 4) + ' gallons';
-    document.getElementById('res-lbl').textContent = 'Gallons';
-    document.getElementById('s1-lbl').textContent = 'Gallons';
-    document.getElementById('s1-val').textContent = fmt(gal, 4) + ' gal';
-    document.getElementById('s2-lbl').textContent = 'Quarts';
-    document.getElementById('s2-val').textContent = fmt(qt, 2) + ' qt';
-    document.getElementById('s3-lbl').textContent = 'Pints';
-    document.getElementById('s3-val').textContent = fmt(pt, 2) + ' pt';
-    document.getElementById('s4-lbl').textContent = 'Fluid Ounces';
-    document.getElementById('s4-val').textContent = fmt(floz, 0) + ' fl oz';
-  } else {
-    gal = val; cups = val * 16; qt = val * 4; pt = val * 8; floz = val * 128; liters = val * 3.785;
-    document.getElementById('r-main').textContent = fmt(cups, 0);
-    document.getElementById('r-unit').textContent = 'cups';
-    document.getElementById('r-sub').textContent = fmt(val, 2) + ' gallons = ' + fmt(cups, 0) + ' cups';
-    document.getElementById('res-lbl').textContent = 'Cups';
-    document.getElementById('s1-lbl').textContent = 'Cups';
-    document.getElementById('s1-val').textContent = fmt(cups, 0) + ' cups';
-    document.getElementById('s2-lbl').textContent = 'Quarts';
-    document.getElementById('s2-val').textContent = fmt(qt, 2) + ' qt';
-    document.getElementById('s3-lbl').textContent = 'Pints';
-    document.getElementById('s3-val').textContent = fmt(pt, 2) + ' pt';
-    document.getElementById('s4-lbl').textContent = 'Fluid Ounces';
-    document.getElementById('s4-val').textContent = fmt(floz, 0) + ' fl oz';
+  document.getElementById('amount').value = 1;
+  convert();
+
+  function fmt(v, d) { return parseFloat(v.toFixed(d !== undefined ? d : 4)).toString(); }
+
+  function setMode(m) {
+    mode = m;
+    var isCup = m === 'cup';
+    document.getElementById('btn-cup').classList.toggle('active', isCup);
+    document.getElementById('btn-gal').classList.toggle('active', !isCup);
+    document.getElementById('inp-lbl').textContent = isCup ? 'Cups' : 'Gallons (gal)';
+    document.getElementById('inp-sfx').textContent = isCup ? 'cup' : 'gal';
+    var presets = document.getElementById('preset-wrap');
+    presets.innerHTML = (isCup ? [1,2,4,8,16] : [0.25,0.5,1,2,4])
+      .map(function(v){ return '<button class="preset-btn" onclick="setVal('+v+')">'+v+'</button>'; }).join('');
+    document.getElementById('amount').value = isCup ? 1 : 1;
+    convert();
   }
-}
 
-function setMode(m) {
-  mode = m;
-  var isC = m === 'c2g';
-  document.getElementById('btn-c2g').classList.toggle('active', isC);
-  document.getElementById('btn-g2c').classList.toggle('active', !isC);
-  document.getElementById('inp-lbl').textContent = isC ? 'Cups' : 'Gallons';
-  document.getElementById('inp-sfx').textContent = isC ? 'cups' : 'gal';
-  var presets = document.getElementById('preset-wrap');
-  presets.innerHTML = (isC ? [1,2,4,8,12,16,32] : [0.25,0.5,1,2,5,10])
-    .map(function(v){ return '<button class="preset-btn" onclick="setVal('+v+')">'+v+'</button>'; }).join('');
-  document.getElementById('amount').value = isC ? 16 : 1;
-  convert();
-}
+  function convert() {
+    var val = parseFloat(document.getElementById('amount').value);
+    if (isNaN(val) || val < 0) return;
+    var cups, gal, qt, pt, floz, ml;
+    if (mode === 'cup') {
+      cups = val; gal = val / 16; qt = val / 4; pt = val / 2; floz = val * 8; ml = val * 236.588;
+      document.getElementById('ans-label').textContent = fmt(val, 2) + ' cup' + (val === 1 ? '' : 's') + ' =';
+      document.getElementById('ans-value').textContent = fmt(gal, 4);
+      document.getElementById('ans-unit').textContent = 'gallon' + (gal === 1 ? '' : 's') + ' (gal)';
+      document.getElementById('ans-sub').textContent = fmt(val,2) + ' ÷ 16 = ' + fmt(gal,4) + ' gal';
+    } else {
+      gal = val; cups = val * 16; qt = val * 4; pt = val * 8; floz = val * 128; ml = val * 3785.41;
+      document.getElementById('ans-label').textContent = fmt(val, 2) + ' gal =';
+      document.getElementById('ans-value').textContent = fmt(cups, 2);
+      document.getElementById('ans-unit').textContent = 'cups';
+      document.getElementById('ans-sub').textContent = fmt(val,2) + ' × 16 = ' + fmt(cups,2) + ' cups';
+    }
+    document.getElementById('s1-val').textContent = fmt(qt, 4) + ' qt';
+    document.getElementById('s2-val').textContent = fmt(pt, 4) + ' pt';
+    document.getElementById('s3-val').textContent = fmt(floz, 2) + ' fl oz';
+    document.getElementById('s4-val').textContent = fmt(ml, 1) + ' mL';
+    document.getElementById('answer').classList.add('show');
+    document.getElementById('stats').classList.add('show');
+  }
 
-function setVal(v) {
-  document.getElementById('amount').value = v;
-  convert();
-}
-
-window.addEventListener('load', convert);
+  function setVal(v) { document.getElementById('amount').value = v; convert(); }
 </script>
 </Layout>

@@ -9,7 +9,7 @@ const schema = JSON.stringify([
     "url": "https://computezap.com/oz-to-quarts",
     "applicationCategory": "UtilityApplication",
     "operatingSystem": "Web",
-    "description": "Convert fluid ounces to quarts instantly. Free oz to quarts converter with common conversion table, formula, and examples.",
+    "description": "Convert fluid ounces to quarts instantly. 1 quart = 32 fl oz. Free oz to qt converter with cooking reference table.",
     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
   },
   {
@@ -24,366 +24,321 @@ const schema = JSON.stringify([
     "@context": "https://schema.org",
     "@type": "FAQPage",
     "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "How many oz in a quart?",
-        "acceptedAnswer": { "@type": "Answer", "text": "There are 32 fluid ounces in 1 US quart. To convert oz to quarts, divide the number of ounces by 32. For example, 16 oz = 0.5 quarts, 32 oz = 1 quart, 64 oz = 2 quarts." }
-      },
-      {
-        "@type": "Question",
-        "name": "How do you convert fluid ounces to quarts?",
-        "acceptedAnswer": { "@type": "Answer", "text": "To convert fluid ounces to quarts, use the formula: quarts = ounces ÷ 32. Since 1 quart equals 32 fluid ounces, you simply divide your ounce value by 32. Example: 48 oz ÷ 32 = 1.5 quarts." }
-      },
-      {
-        "@type": "Question",
-        "name": "Is 32 oz equal to 1 quart?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Yes. 32 US fluid ounces equals exactly 1 US liquid quart. This is a standard US customary measurement. Note: UK Imperial quarts are different — 1 Imperial quart = 40 Imperial fluid ounces." }
-      },
-      {
-        "@type": "Question",
-        "name": "How many quarts is 16 oz?",
-        "acceptedAnswer": { "@type": "Answer", "text": "16 fluid ounces equals 0.5 quarts (one half quart). Since 1 quart = 32 oz, half a quart = 16 oz. This is also equal to 1 US pint." }
-      },
-      {
-        "@type": "Question",
-        "name": "How many quarts is 64 oz?",
-        "acceptedAnswer": { "@type": "Answer", "text": "64 fluid ounces equals 2 quarts. To verify: 64 ÷ 32 = 2. A 64 oz water bottle or jug holds exactly 2 quarts, which is also half a gallon (0.5 gallons)." }
-      },
-      {
-        "@type": "Question",
-        "name": "What is the difference between fluid ounces and ounces?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Fluid ounces (fl oz) measure volume — used for liquids like water, juice, and milk. Regular ounces (oz) measure weight/mass — used for solid ingredients like flour or butter. When converting to quarts, always use fluid ounces since quarts are a volume measurement." }
-      }
+      { "@type": "Question", "name": "How many oz in a quart?", "acceptedAnswer": { "@type": "Answer", "text": "There are 32 fluid ounces in 1 US quart." } },
+      { "@type": "Question", "name": "How do I convert oz to quarts?", "acceptedAnswer": { "@type": "Answer", "text": "Divide fluid ounces by 32. Example: 64 oz ÷ 32 = 2 quarts." } },
+      { "@type": "Question", "name": "How many oz is 2 quarts?", "acceptedAnswer": { "@type": "Answer", "text": "2 quarts = 64 fluid ounces. Multiply 2 × 32 = 64 oz." } },
+      { "@type": "Question", "name": "Is 32 oz the same as 1 quart?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. 32 fluid ounces = exactly 1 US quart." } },
+      { "@type": "Question", "name": "How many cups are in a quart?", "acceptedAnswer": { "@type": "Answer", "text": "4 cups = 1 quart. Each cup is 8 fl oz, so 4 × 8 = 32 fl oz = 1 quart." } }
     ]
   }
 ]);
 ---
 <Layout
   title="Oz to Quarts Converter — Fluid Ounces to Quarts | ComputeZap"
-  description="Convert fluid ounces to quarts instantly. How many oz in a quart? 1 quart = 32 oz. Free converter with full conversion table for 1 oz to 128 oz."
+  description="Convert fluid ounces to quarts instantly. 1 quart = 32 fl oz. Free oz to qt converter with cooking measurement table and kitchen reference chart."
   canonical="/oz-to-quarts"
   schema={schema}
 >
 <style is:global>
-/* ── Layout ─────────────────────────────────────── */
-.hero{text-align:center;padding:2rem 1rem 1.5rem}
-.hero h1{font-size:2rem;color:#111;margin:.5rem 0 .4rem;font-weight:800;letter-spacing:-.02em}
-.hero-sub{color:#64748b;margin:0;font-size:1.05rem}
-.breadcrumb{font-size:.82rem;color:#94a3b8;margin-bottom:.75rem}
-.breadcrumb a{color:var(--blue);text-decoration:none}
-.calc-wrap{display:grid;grid-template-columns:390px 1fr;gap:1.75rem;max-width:1120px;margin:0 auto;padding:0 1rem 3.5rem;align-items:start}
-.calc-left{position:sticky;top:1rem}
-
-/* ── Cards ──────────────────────────────────────── */
+.page-hero{text-align:center;padding:2rem 1rem 1rem}
+.page-hero h1{font-size:1.9rem;font-weight:800;letter-spacing:-.03em;color:#111;margin:0 0 .35rem}
+.page-hero p{color:#64748b;font-size:1rem;margin:0}
+.page-hero nav{font-size:.82rem;color:#94a3b8;margin-bottom:.75rem}
+.page-hero nav a{color:var(--blue);text-decoration:none}
+.calc-center{max-width:620px;margin:0 auto;padding:0 1rem 2rem}
+.content-wrap{max-width:900px;margin:0 auto;padding:0 1rem 3.5rem}
 .card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:1.5rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(0,0,0,.04)}
-.card:last-child{margin-bottom:0}
-.card-header{display:flex;align-items:center;gap:.6rem;margin-bottom:1.1rem}
-.card-step{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;background:var(--blue);color:#fff;border-radius:50%;font-size:.7rem;font-weight:800;flex-shrink:0}
-.card-title{font-size:1rem;font-weight:700;color:#111;margin:0}
-.card h2{font-size:1.05rem;font-weight:700;color:#111;margin:0 0 .9rem}
-.card p{color:#444;line-height:1.75;font-size:.93rem;margin:0 0 .7rem}
-.card p:last-child{margin-bottom:0}
-.card ul{color:#444;line-height:1.85;font-size:.93rem;padding-left:1.25rem;margin:.5rem 0 0}
 .content-card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:1.5rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(0,0,0,.04)}
 .content-card h2{font-size:1.05rem;font-weight:700;color:#111;margin:0 0 .8rem}
+.content-card h3{font-size:.95rem;font-weight:700;color:#111;margin:.75rem 0 .4rem}
 .content-card p{color:#444;line-height:1.75;font-size:.93rem;margin:0 0 .7rem}
 .content-card p:last-child{margin-bottom:0}
-.content-card ul{color:#444;line-height:1.85;font-size:.93rem;padding-left:1.25rem;margin:0}
-
-/* ── Input ───────────────────────────────────────── */
-.field-group{margin-bottom:1rem}
-.field-group:last-child{margin-bottom:0}
-.field-lbl{display:block;font-size:.75rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem}
-.input-wrap{position:relative;display:flex;align-items:center}
-.input-sfx{position:absolute;right:.9rem;font-size:1rem;font-weight:700;color:#94a3b8;pointer-events:none}
-.field-input{width:100%;font-size:1.5rem;font-weight:800;padding:.65rem 3.5rem .65rem .9rem;border:2px solid #e2e8f0;border-radius:10px;color:#111;box-sizing:border-box;font-family:inherit;background:#f8fafc;outline:none;transition:all .15s}
-.field-input:focus{border-color:#93c5fd;background:#fff;box-shadow:0 0 0 3px rgba(37,99,235,.07)}
-
-/* ── Result Box ──────────────────────────────────── */
-.result-hero{background:linear-gradient(135deg,#1d4ed8 0%,#2563eb 60%,#3b82f6 100%);border-radius:14px;padding:1.5rem 1.5rem 1.25rem;text-align:center;margin-bottom:1rem;box-shadow:0 6px 24px rgba(37,99,235,.22)}
-.r-label{font-size:.68rem;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.3rem;font-weight:700}
-.r-value{font-size:2.4rem;font-weight:900;color:#fff;line-height:1.1;letter-spacing:-.02em}
-.r-sub{font-size:.88rem;color:rgba(255,255,255,.75);margin-top:.35rem}
-.stats-row{display:grid;grid-template-columns:1fr 1fr;gap:.55rem;margin-bottom:0}
+.content-card ul{color:#444;line-height:1.85;font-size:.93rem;padding-left:1.25rem;margin:.5rem 0 0}
+.mode-wrap{display:grid;grid-template-columns:1fr 1fr;gap:.4rem;margin-bottom:1.25rem}
+.mode-btn{padding:.55rem;font-size:.85rem;font-weight:600;border:1.5px solid #e2e8f0;border-radius:8px;background:#f8fafc;color:#64748b;cursor:pointer;transition:all .15s;text-align:center}
+.mode-btn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.input-group{margin-bottom:.85rem}
+.input-group label{display:block;font-size:.82rem;font-weight:600;color:#374151;margin-bottom:.4rem}
+.input-wrap{position:relative}
+.input-sfx{position:absolute;right:.9rem;top:50%;transform:translateY(-50%);color:#94a3b8;font-weight:600;pointer-events:none;font-size:.9rem}
+.input-group input{width:100%;padding:.65rem 3rem .65rem .9rem;border:1.5px solid #e2e8f0;border-radius:8px;font-size:1rem;font-family:inherit;color:#111;transition:border-color .15s;box-sizing:border-box}
+.input-group input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+.preset-lbl{font-size:.7rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.5rem;display:block}
+.preset-wrap{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1rem}
+.preset-btn{background:#fff;color:var(--blue);border:1.5px solid #dbeafe;border-radius:20px;padding:.28rem .75rem;font-size:.82rem;font-weight:700;cursor:pointer;transition:all .15s}
+.preset-btn:hover{background:var(--blue);color:#fff;border-color:var(--blue)}
+.calc-btn{width:100%;padding:.8rem;background:var(--blue);color:#fff;border:none;border-radius:8px;font-size:1rem;font-weight:700;cursor:pointer;transition:background .15s;margin-bottom:1rem}
+.calc-btn:hover{background:#1d4ed8}
+.answer-hero{background:linear-gradient(135deg,#1d4ed8 0%,#2563eb 60%,#3b82f6 100%);border-radius:14px;padding:1.75rem 1.5rem 1.25rem;text-align:center;margin-bottom:1rem;box-shadow:0 6px 24px rgba(37,99,235,.22);display:none}
+.answer-hero.show{display:block}
+.a-label{font-size:.68rem;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem;font-weight:700}
+.a-value{font-size:2.8rem;font-weight:900;color:#fff;line-height:1;letter-spacing:-.02em}
+.a-unit{font-size:1rem;font-weight:600;color:rgba(255,255,255,.8);margin-top:.3rem}
+.a-sub{font-size:.85rem;color:rgba(255,255,255,.7);margin-top:.4rem}
+.stats-row{display:none;grid-template-columns:1fr 1fr;gap:.55rem}
+.stats-row.show{display:grid}
 .stat-box{background:#f8fafc;border:1px solid #f1f5f9;border-radius:10px;padding:.85rem .75rem;text-align:center}
 .stat-lbl{display:block;font-size:.62rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.25rem;font-weight:700}
 .stat-val{display:block;font-size:.95rem;font-weight:800;color:#1e293b}
-
-/* ── Conversion Table ────────────────────────────── */
-.conv-table{width:100%;border-collapse:collapse;font-size:.875rem}
-.conv-table th{background:#f8fafc;padding:.65rem .85rem;text-align:left;font-size:.68rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;border-bottom:2px solid #e2e8f0}
-.conv-table td{padding:.7rem .85rem;border-bottom:1px solid #f3f4f6;color:#374151}
-.conv-table tr:last-child td{border-bottom:none}
-.conv-table tbody tr:hover td{background:#f8faff}
-.conv-table .highlight-row td{background:#eff6ff;font-weight:700;color:#1d4ed8}
-.conv-table .highlight-row:hover td{background:#dbeafe}
-
-/* ── Formula Box ─────────────────────────────────── */
-.formula-box{background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:12px;padding:1.1rem 1.25rem;margin:.75rem 0;text-align:center}
-.formula-text{font-size:1.05rem;font-weight:800;color:#1e293b;font-family:monospace;letter-spacing:.02em}
-.formula-sub{font-size:.8rem;color:#64748b;margin-top:.35rem}
-
-/* ── Tip Box ─────────────────────────────────────── */
-.tip-box{display:flex;gap:.75rem;background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:.9rem 1rem;margin:.85rem 0}
-.tip-icon{font-size:1.1rem;flex-shrink:0;margin-top:.05rem}
-.tip-box p{margin:0;font-size:.875rem;color:#1e40af;line-height:1.6}
-
-/* ── FAQ ─────────────────────────────────────────── */
+.answer-box{background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:10px;padding:.75rem 1rem;margin:.75rem 0}
+.answer-row{display:flex;justify-content:space-between;align-items:center;padding:.35rem 0;border-bottom:1px solid #f1f5f9;font-size:.93rem}
+.answer-row:last-child{border-bottom:none}
+.answer-lbl{color:#64748b;font-weight:600}
+.answer-val{color:#2563eb;font-weight:800}
+.tip-box{display:flex;gap:.75rem;background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:.9rem 1rem;margin:.75rem 0}
+.tip-icon{font-size:1.1rem;flex-shrink:0;margin-top:.1rem}
+.tip-box p{margin:0;font-size:.875rem;color:#1e40af}
+.ref-tbl{width:100%;border-collapse:collapse;font-size:.875rem}
+.ref-tbl th{background:#f8fafc;padding:.6rem .85rem;text-align:left;font-size:.68rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;border-bottom:2px solid #e2e8f0}
+.ref-tbl td{padding:.65rem .85rem;border-bottom:1px solid #f3f4f6;color:#374151}
+.ref-tbl tr:last-child td{border-bottom:none}
+.ref-tbl tbody tr:hover td{background:#f8faff;cursor:pointer}
+.ref-tbl .acc{color:var(--blue);font-weight:700}
+.ref-tbl .hi td{background:#eff6ff;font-weight:700}
 .faq-item{border-bottom:1px solid #f3f4f6;padding:.9rem 0}
 .faq-item:last-child{border-bottom:none;padding-bottom:0}
 .faq-item h3{font-size:.9rem;color:#111;margin:0 0 .35rem;font-weight:700}
 .faq-item p{color:#555;font-size:.865rem;margin:0;line-height:1.65}
-
-/* ── Related Tools ───────────────────────────────── */
 .next-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem}
-.next-card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:1rem;border-top:3px solid var(--blue);text-decoration:none;display:block;transition:box-shadow .15s}
+.next-card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:1rem;border-top:3px solid var(--blue);text-decoration:none;display:block}
 .next-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.08)}
 .next-tag{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--blue);margin-bottom:.3rem;display:block}
 .next-card h3{font-size:.88rem;font-weight:700;color:#111;margin:0 0 .25rem}
 .next-card p{font-size:.78rem;color:#64748b;margin:0;line-height:1.5}
-
-/* ── Responsive ──────────────────────────────────── */
-@media(max-width:768px){
-  .calc-wrap{grid-template-columns:1fr}
-  .calc-left{position:static}
-  .hero h1{font-size:1.65rem}
-  .r-value{font-size:1.9rem}
-  .stats-row{grid-template-columns:1fr 1fr}
-  .next-grid{grid-template-columns:1fr}
-}
+@media(max-width:768px){.page-hero h1{font-size:1.65rem}.a-value{font-size:2.1rem}.next-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.next-grid{grid-template-columns:1fr}}
 </style>
 
-<div class="hero">
-  <nav class="breadcrumb"><a href="/">Home</a> › Oz to Quarts Converter</nav>
+<div class="page-hero">
+  <nav><a href="/">Home</a> › Oz to Quarts Converter</nav>
   <h1>Oz to Quarts Converter</h1>
-  <p class="hero-sub">Convert fluid ounces to quarts instantly — 1 quart = 32 fl oz</p>
+  <p>1 quart = 32 fluid ounces — convert any volume instantly</p>
 </div>
 
-<div class="calc-wrap">
-
-  <!-- ══ LEFT PANEL ══ -->
-  <div class="calc-left">
-
-    <div class="card">
-      <div class="card-header">
-        <span class="card-step">1</span>
-        <h2 class="card-title">Enter Fluid Ounces</h2>
-      </div>
-      <div class="field-group">
-        <label class="field-lbl" for="oz-input">Fluid Ounces (fl oz)</label>
-        <div class="input-wrap">
-          <input type="number" id="oz-input" class="field-input" value="32" min="0" step="1" oninput="convert()" placeholder="32" />
-          <span class="input-sfx">fl oz</span>
-        </div>
+<div class="calc-center">
+  <div class="card">
+    <div class="mode-wrap">
+      <button class="mode-btn active" id="btn-oz">fl oz → qt</button>
+      <button class="mode-btn" id="btn-qt">qt → fl oz</button>
+    </div>
+    <div class="input-group">
+      <label id="inp-lbl">Fluid Ounces (fl oz)</label>
+      <div class="input-wrap">
+        <input type="number" id="amount" value="32" min="0" step="1" />
+        <span class="input-sfx" id="inp-sfx">fl oz</span>
       </div>
     </div>
-
-    <div class="card">
-      <div class="card-header">
-        <span class="card-step">2</span>
-        <h2 class="card-title">Result</h2>
+    <span class="preset-lbl">Quick values</span>
+    <div class="preset-wrap" id="preset-wrap">
+      <button class="preset-btn" onclick="setVal(8)">8</button>
+      <button class="preset-btn" onclick="setVal(16)">16</button>
+      <button class="preset-btn" onclick="setVal(32)">32</button>
+      <button class="preset-btn" onclick="setVal(64)">64</button>
+      <button class="preset-btn" onclick="setVal(128)">128</button>
+    </div>
+    <button class="calc-btn" id="calc-btn">Convert</button>
+    <div class="answer-hero" id="answer">
+      <div class="a-label" id="ans-label">32 fl oz =</div>
+      <div class="a-value" id="ans-value">1</div>
+      <div class="a-unit" id="ans-unit">quart (qt)</div>
+      <div class="a-sub" id="ans-sub">32 ÷ 32 = 1 quart</div>
+    </div>
+    <div class="stats-row" id="stats">
+      <div class="stat-box">
+        <span class="stat-lbl">Pints</span>
+        <span class="stat-val" id="s1-val">2 pt</span>
       </div>
-
-      <div class="result-hero">
-        <div class="r-label">Quarts</div>
-        <div class="r-value" id="r-quarts">1</div>
-        <div class="r-sub" id="r-sub">32 fl oz = 1 quart</div>
+      <div class="stat-box">
+        <span class="stat-lbl">Cups</span>
+        <span class="stat-val" id="s2-val">4 cups</span>
       </div>
-
-      <div class="stats-row">
-        <div class="stat-box">
-          <span class="stat-lbl">Pints</span>
-          <span class="stat-val" id="r-pints">2</span>
-        </div>
-        <div class="stat-box">
-          <span class="stat-lbl">Cups</span>
-          <span class="stat-val" id="r-cups">4</span>
-        </div>
-        <div class="stat-box">
-          <span class="stat-lbl">Gallons</span>
-          <span class="stat-val" id="r-gallons">0.25</span>
-        </div>
-        <div class="stat-box">
-          <span class="stat-lbl">Milliliters</span>
-          <span class="stat-val" id="r-ml">946.35</span>
-        </div>
+      <div class="stat-box">
+        <span class="stat-lbl">Liters</span>
+        <span class="stat-val" id="s3-val">0.9464 L</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">Tablespoons</span>
+        <span class="stat-val" id="s4-val">64 tbsp</span>
       </div>
     </div>
+  </div>
+</div>
 
+<div class="content-wrap">
+
+  <div class="content-card">
+    <h2>How Many Oz in a Quart?</h2>
+    <p>There are exactly <strong>32 fluid ounces in 1 US quart</strong>. The quart is divided into 2 pints or 4 cups — a standard US liquid measure used in cooking and recipes.</p>
+    <div class="answer-box">
+      <div class="answer-row"><span class="answer-lbl">1 quart</span><span class="answer-val">= 32 fl oz</span></div>
+      <div class="answer-row"><span class="answer-lbl">1 quart</span><span class="answer-val">= 2 pints</span></div>
+      <div class="answer-row"><span class="answer-lbl">1 quart</span><span class="answer-val">= 4 cups</span></div>
+      <div class="answer-row"><span class="answer-lbl">1 quart</span><span class="answer-val">= 0.946 liters</span></div>
+    </div>
   </div>
 
-  <!-- ══ RIGHT PANEL ══ -->
-  <div class="calc-right">
-
-    <!-- Formula -->
-    <div class="content-card">
-      <h2>Oz to Quarts Formula</h2>
-      <div class="formula-box">
-        <div class="formula-text">Quarts = Fluid Ounces ÷ 32</div>
-        <div class="formula-sub">Because 1 US quart = 32 US fluid ounces</div>
-      </div>
-      <p><strong>Example:</strong> 48 oz ÷ 32 = <strong>1.5 quarts</strong></p>
-      <p><strong>Reverse (quarts to oz):</strong> Multiply quarts × 32. So 2.5 quarts × 32 = 80 oz.</p>
-      <div class="tip-box">
-        <span class="tip-icon">💡</span>
-        <p><strong>Quick trick:</strong> 32 oz = 1 quart. 16 oz = ½ quart. 64 oz = 2 quarts. 128 oz = 1 gallon (4 quarts).</p>
-      </div>
+  <div class="content-card">
+    <h2>Oz to Quarts Reference Table</h2>
+    <div class="tip-box">
+      <span class="tip-icon">🍶</span>
+      <p><strong>Kitchen tip:</strong> Divide fl oz by 32 to get quarts. A standard 16 oz water bottle = 0.5 quarts = 1 pint.</p>
     </div>
-
-    <!-- Common Conversions Table -->
-    <div class="content-card">
-      <h2>Common Oz to Quarts Conversions</h2>
-      <div style="overflow-x:auto">
-        <table class="conv-table">
-          <thead>
-            <tr>
-              <th>Fluid Ounces (fl oz)</th>
-              <th>Quarts (qt)</th>
-              <th>Pints</th>
-              <th>Cups</th>
+    <div style="overflow-x:auto">
+      <table class="ref-tbl">
+        <thead><tr><th>Fluid Oz</th><th>Quarts</th><th>Pints</th><th>Cups</th><th>Common measure</th></tr></thead>
+        <tbody>
+          {[
+            [1,'0.031','0.063','0.125','2 tablespoons'],
+            [4,'0.125','0.25','0.5','½ cup'],
+            [8,'0.25','0.5','1','1 cup'],
+            [12,'0.375','0.75','1.5','1½ cups'],
+            [16,'0.5','1','2','1 pint'],
+            [24,'0.75','1.5','3','¾ quart'],
+            [32,'1','2','4','1 quart'],
+            [48,'1.5','3','6','1½ quarts'],
+            [64,'2','4','8','½ gallon'],
+            [96,'3','6','12','¾ gallon'],
+            [128,'4','8','16','1 gallon'],
+          ].map(([oz, qt, pt, cup, label]) => (
+            <tr onclick={`setVal(${oz})`} class={oz === 32 ? 'hi' : ''}>
+              <td class="acc">{oz} fl oz</td>
+              <td>{qt} qt</td>
+              <td>{pt} pt</td>
+              <td>{cup}</td>
+              <td style="color:#64748b;font-size:.82rem">{label}</td>
             </tr>
-          </thead>
-          <tbody>
-            <tr><td>1 oz</td><td>0.03125 qt</td><td>0.0625 pt</td><td>0.125 c</td></tr>
-            <tr><td>2 oz</td><td>0.0625 qt</td><td>0.125 pt</td><td>0.25 c</td></tr>
-            <tr><td>4 oz</td><td>0.125 qt</td><td>0.25 pt</td><td>0.5 c</td></tr>
-            <tr><td>8 oz</td><td>0.25 qt</td><td>0.5 pt</td><td>1 cup</td></tr>
-            <tr><td>12 oz</td><td>0.375 qt</td><td>0.75 pt</td><td>1.5 c</td></tr>
-            <tr class="highlight-row"><td><strong>16 oz</strong></td><td><strong>0.5 qt</strong></td><td><strong>1 pint</strong></td><td><strong>2 cups</strong></td></tr>
-            <tr><td>24 oz</td><td>0.75 qt</td><td>1.5 pt</td><td>3 cups</td></tr>
-            <tr class="highlight-row"><td><strong>32 oz</strong></td><td><strong>1 quart</strong></td><td><strong>2 pints</strong></td><td><strong>4 cups</strong></td></tr>
-            <tr><td>40 oz</td><td>1.25 qt</td><td>2.5 pt</td><td>5 cups</td></tr>
-            <tr><td>48 oz</td><td>1.5 qt</td><td>3 pt</td><td>6 cups</td></tr>
-            <tr><td>56 oz</td><td>1.75 qt</td><td>3.5 pt</td><td>7 cups</td></tr>
-            <tr class="highlight-row"><td><strong>64 oz</strong></td><td><strong>2 quarts</strong></td><td><strong>4 pints</strong></td><td><strong>8 cups</strong></td></tr>
-            <tr><td>80 oz</td><td>2.5 qt</td><td>5 pt</td><td>10 cups</td></tr>
-            <tr><td>96 oz</td><td>3 qt</td><td>6 pt</td><td>12 cups</td></tr>
-            <tr class="highlight-row"><td><strong>128 oz</strong></td><td><strong>4 quarts</strong></td><td><strong>8 pints</strong></td><td><strong>16 cups</strong></td></tr>
-          </tbody>
-        </table>
-      </div>
+          ))}
+        </tbody>
+      </table>
     </div>
-
-    <!-- Volume Units Reference -->
-    <div class="content-card">
-      <h2>US Liquid Volume — Full Reference</h2>
-      <p>Understanding how fluid ounces, quarts, pints, cups, and gallons relate to each other:</p>
-      <div style="overflow-x:auto">
-        <table class="conv-table">
-          <thead>
-            <tr><th>Unit</th><th>= Fluid Ounces</th><th>= Quarts</th><th>= Gallons</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>1 fluid ounce</td><td>1 fl oz</td><td>0.03125 qt</td><td>0.0078 gal</td></tr>
-            <tr><td>1 cup</td><td>8 fl oz</td><td>0.25 qt</td><td>0.0625 gal</td></tr>
-            <tr><td>1 pint</td><td>16 fl oz</td><td>0.5 qt</td><td>0.125 gal</td></tr>
-            <tr class="highlight-row"><td><strong>1 quart</strong></td><td><strong>32 fl oz</strong></td><td><strong>1 qt</strong></td><td><strong>0.25 gal</strong></td></tr>
-            <tr><td>1 half-gallon</td><td>64 fl oz</td><td>2 qt</td><td>0.5 gal</td></tr>
-            <tr><td>1 gallon</td><td>128 fl oz</td><td>4 qt</td><td>1 gal</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- FAQ -->
-    <div class="content-card">
-      <h2>Frequently Asked Questions</h2>
-      <div class="faq-item">
-        <h3>How many oz in a quart?</h3>
-        <p>There are 32 US fluid ounces in 1 US quart. To convert ounces to quarts, divide by 32. So 16 oz = 0.5 qt, 32 oz = 1 qt, 64 oz = 2 qt.</p>
-      </div>
-      <div class="faq-item">
-        <h3>How do you convert fluid ounces to quarts?</h3>
-        <p>Divide the number of fluid ounces by 32. Formula: quarts = oz ÷ 32. Example: 48 oz ÷ 32 = 1.5 quarts.</p>
-      </div>
-      <div class="faq-item">
-        <h3>Is 32 oz equal to 1 quart?</h3>
-        <p>Yes. 32 US fluid ounces = exactly 1 US liquid quart. UK Imperial quarts are different — 1 Imperial quart = 40 Imperial fluid ounces.</p>
-      </div>
-      <div class="faq-item">
-        <h3>How many quarts is 16 oz?</h3>
-        <p>16 oz = 0.5 quarts (half a quart). 16 oz is also equal to 1 US pint and 2 cups.</p>
-      </div>
-      <div class="faq-item">
-        <h3>How many quarts is 64 oz?</h3>
-        <p>64 oz = 2 quarts. A 64 oz jug holds exactly 2 quarts, which is also half a gallon (0.5 gal).</p>
-      </div>
-      <div class="faq-item">
-        <h3>What is the difference between fluid ounces and ounces?</h3>
-        <p>Fluid ounces (fl oz) measure volume — used for liquids. Regular ounces (oz) measure weight — used for solids like flour or butter. Always use fluid ounces when converting to quarts since quarts measure volume.</p>
-      </div>
-    </div>
-
-    <!-- Related Tools -->
-    <div class="content-card">
-      <h2>Related Unit Converters</h2>
-      <div class="next-grid">
-        <a href="/cups-to-gallons" class="next-card">
-          <span class="next-tag">Volume</span>
-          <h3>Cups to Gallons</h3>
-          <p>Convert cups to gallons for large cooking quantities.</p>
-        </a>
-        <a href="/cups-to-tablespoons" class="next-card">
-          <span class="next-tag">Kitchen</span>
-          <h3>Cups to Tablespoons</h3>
-          <p>How many tablespoons in a cup — all fractions covered.</p>
-        </a>
-        <a href="/liters-to-gallons" class="next-card">
-          <span class="next-tag">Volume</span>
-          <h3>Liters to Gallons</h3>
-          <p>Convert liters to US or Imperial gallons.</p>
-        </a>
-        <a href="/kg-to-lbs" class="next-card">
-          <span class="next-tag">Weight</span>
-          <h3>kg to lbs</h3>
-          <p>Convert kilograms to pounds instantly.</p>
-        </a>
-        <a href="/cm-to-inches" class="next-card">
-          <span class="next-tag">Length</span>
-          <h3>cm to Inches</h3>
-          <p>Convert centimeters to inches instantly.</p>
-        </a>
-        <a href="/celsius-to-fahrenheit" class="next-card">
-          <span class="next-tag">Temperature</span>
-          <h3>Celsius to °F</h3>
-          <p>Convert temperature between Celsius and Fahrenheit.</p>
-        </a>
-      </div>
-    </div>
-
   </div>
+
+  <div class="content-card">
+    <h2>US Liquid Measurement Chart</h2>
+    <ul>
+      <li><strong>1 tablespoon</strong> = 0.5 fl oz</li>
+      <li><strong>1 cup</strong> = 8 fl oz = 16 tablespoons</li>
+      <li><strong>1 pint</strong> = 16 fl oz = 2 cups</li>
+      <li><strong>1 quart</strong> = 32 fl oz = 2 pints = 4 cups</li>
+      <li><strong>1 gallon</strong> = 128 fl oz = 4 quarts = 8 pints = 16 cups</li>
+    </ul>
+  </div>
+
+  <div class="content-card">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>How many oz in a quart?</h3>
+      <p>There are <strong>32 fluid ounces</strong> in 1 US quart.</p>
+    </div>
+    <div class="faq-item">
+      <h3>How many oz is 2 quarts?</h3>
+      <p>2 quarts = <strong>64 fl oz</strong>. Multiply 2 × 32 = 64.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Is 32 oz 1 quart?</h3>
+      <p>Yes. <strong>32 fluid ounces = exactly 1 quart</strong>.</p>
+    </div>
+    <div class="faq-item">
+      <h3>How many cups in a quart?</h3>
+      <p>There are <strong>4 cups</strong> in 1 quart. Each cup = 8 fl oz, so 4 × 8 = 32 fl oz = 1 quart.</p>
+    </div>
+    <div class="faq-item">
+      <h3>How many quarts in a gallon?</h3>
+      <p>There are <strong>4 quarts</strong> in 1 US gallon. 4 × 32 fl oz = 128 fl oz = 1 gallon.</p>
+    </div>
+  </div>
+
+  <div class="content-card">
+    <h2>Related Converters</h2>
+    <div class="next-grid">
+      <a href="/cups-to-tablespoons" class="next-card">
+        <span class="next-tag">Volume</span>
+        <h3>Cups to Tbsp</h3>
+        <p>Convert cups to tablespoons for cooking.</p>
+      </a>
+      <a href="/cups-to-gallons" class="next-card">
+        <span class="next-tag">Volume</span>
+        <h3>Cups to Gallons</h3>
+        <p>Convert cups to gallons instantly.</p>
+      </a>
+      <a href="/liters-to-gallons" class="next-card">
+        <span class="next-tag">Volume</span>
+        <h3>Liters to Gallons</h3>
+        <p>Convert liters to US and UK gallons.</p>
+      </a>
+      <a href="/ounces-in-a-pound" class="next-card">
+        <span class="next-tag">Weight</span>
+        <h3>Ounces in a Pound</h3>
+        <p>Convert ounces to pounds.</p>
+      </a>
+      <a href="/kg-to-lbs" class="next-card">
+        <span class="next-tag">Weight</span>
+        <h3>kg to lbs</h3>
+        <p>Convert kilograms to pounds.</p>
+      </a>
+      <a href="/celsius-to-fahrenheit" class="next-card">
+        <span class="next-tag">Temperature</span>
+        <h3>Celsius to °F</h3>
+        <p>Convert temperature for cooking.</p>
+      </a>
+    </div>
+  </div>
+
 </div>
 
 <script is:inline>
-function convert() {
-  var oz = parseFloat(document.getElementById('oz-input').value);
-  if (isNaN(oz) || oz < 0) {
-    document.getElementById('r-quarts').textContent = '—';
-    document.getElementById('r-sub').textContent = 'Enter a value above';
-    return;
+  var mode = 'oz';
+
+  document.getElementById('btn-oz').addEventListener('click', function() { setMode('oz'); });
+  document.getElementById('btn-qt').addEventListener('click', function() { setMode('qt'); });
+  document.getElementById('calc-btn').addEventListener('click', convert);
+  document.getElementById('amount').addEventListener('input', convert);
+  document.addEventListener('keydown', function(e) { if (e.key === 'Enter') convert(); });
+
+  document.getElementById('amount').value = 32;
+  convert();
+
+  function fmt(v, d) { return parseFloat(v.toFixed(d !== undefined ? d : 4)).toString(); }
+
+  function setMode(m) {
+    mode = m;
+    var isOz = m === 'oz';
+    document.getElementById('btn-oz').classList.toggle('active', isOz);
+    document.getElementById('btn-qt').classList.toggle('active', !isOz);
+    document.getElementById('inp-lbl').textContent = isOz ? 'Fluid Ounces (fl oz)' : 'Quarts (qt)';
+    document.getElementById('inp-sfx').textContent = isOz ? 'fl oz' : 'qt';
+    var presets = document.getElementById('preset-wrap');
+    presets.innerHTML = (isOz ? [8,16,32,64,128] : [0.25,0.5,1,2,4])
+      .map(function(v){ return '<button class="preset-btn" onclick="setVal('+v+')">'+v+'</button>'; }).join('');
+    document.getElementById('amount').value = isOz ? 32 : 1;
+    convert();
   }
 
-  var quarts  = oz / 32;
-  var pints   = oz / 16;
-  var cups    = oz / 8;
-  var gallons = oz / 128;
-  var ml      = oz * 29.5735;
-
-  function fmt(n) {
-    if (n === 0) return '0';
-    if (Number.isInteger(n)) return n.toString();
-    // up to 4 significant decimal places, trim trailing zeros
-    return parseFloat(n.toFixed(4)).toString();
+  function convert() {
+    var val = parseFloat(document.getElementById('amount').value);
+    if (isNaN(val) || val < 0) return;
+    var oz, qt, pt, cup, l, tbsp;
+    if (mode === 'oz') {
+      oz = val; qt = val / 32; pt = val / 16; cup = val / 8; l = val * 0.0295735; tbsp = val * 2;
+      document.getElementById('ans-label').textContent = fmt(val, 0) + ' fl oz =';
+      document.getElementById('ans-value').textContent = fmt(qt, 4);
+      document.getElementById('ans-unit').textContent = 'quart' + (qt === 1 ? '' : 's') + ' (qt)';
+      document.getElementById('ans-sub').textContent = fmt(val,0) + ' ÷ 32 = ' + fmt(qt,4) + ' qt';
+    } else {
+      qt = val; oz = val * 32; pt = val * 2; cup = val * 4; l = val * 0.946353; tbsp = oz * 2;
+      document.getElementById('ans-label').textContent = fmt(val, 2) + ' qt =';
+      document.getElementById('ans-value').textContent = fmt(oz, 1);
+      document.getElementById('ans-unit').textContent = 'fluid ounces (fl oz)';
+      document.getElementById('ans-sub').textContent = fmt(val,2) + ' × 32 = ' + fmt(oz,1) + ' fl oz';
+    }
+    document.getElementById('s1-val').textContent = fmt(pt, 4) + ' pt';
+    document.getElementById('s2-val').textContent = fmt(cup, 4) + ' cups';
+    document.getElementById('s3-val').textContent = fmt(l, 4) + ' L';
+    document.getElementById('s4-val').textContent = fmt(tbsp, 1) + ' tbsp';
+    document.getElementById('answer').classList.add('show');
+    document.getElementById('stats').classList.add('show');
   }
 
-  document.getElementById('r-quarts').textContent  = fmt(quarts);
-  document.getElementById('r-sub').textContent     = oz + ' fl oz = ' + fmt(quarts) + (quarts === 1 ? ' quart' : ' quarts');
-  document.getElementById('r-pints').textContent   = fmt(pints);
-  document.getElementById('r-cups').textContent    = fmt(cups);
-  document.getElementById('r-gallons').textContent = fmt(gallons);
-  document.getElementById('r-ml').textContent      = parseFloat(ml.toFixed(2)).toLocaleString();
-}
-
-convert();
+  function setVal(v) { document.getElementById('amount').value = v; convert(); }
 </script>
 </Layout>

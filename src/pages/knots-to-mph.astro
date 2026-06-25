@@ -1,4 +1,4 @@
-﻿---
+---
 import Layout from '../layouts/Layout.astro';
 
 const schema = JSON.stringify([
@@ -9,7 +9,7 @@ const schema = JSON.stringify([
     "url": "https://computezap.com/knots-to-mph",
     "applicationCategory": "UtilityApplication",
     "operatingSystem": "Web",
-    "description": "Convert knots to mph instantly. 1 knot = 1.15078 mph. Free nautical speed converter. Also shows km/h and m/s.",
+    "description": "Convert knots to mph instantly. 1 knot = 1.15078 mph. Free knots to miles per hour converter with wind speed Beaufort scale and aviation reference.",
     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
   },
   {
@@ -24,346 +24,343 @@ const schema = JSON.stringify([
     "@context": "https://schema.org",
     "@type": "FAQPage",
     "mainEntity": [
-      { "@type": "Question", "name": "How many mph is 1 knot?", "acceptedAnswer": { "@type": "Answer", "text": "1 knot = 1.15078 mph. To convert knots to miles per hour, multiply by 1.15078." } },
-      { "@type": "Question", "name": "How do I convert knots to mph?", "acceptedAnswer": { "@type": "Answer", "text": "Multiply knots by 1.15078. Formula: mph = knots × 1.15078. Example: 20 knots × 1.15078 = 23.016 mph." } },
-      { "@type": "Question", "name": "What is a knot in speed?", "acceptedAnswer": { "@type": "Answer", "text": "A knot is one nautical mile per hour. 1 nautical mile = 1.852 kilometers = 1.15078 statute miles. Knots are used in aviation, maritime navigation, and meteorology." } },
-      { "@type": "Question", "name": "How many knots is 30 mph?", "acceptedAnswer": { "@type": "Answer", "text": "30 mph = 26.07 knots. Divide mph by 1.15078 to get knots: 30 ÷ 1.15078 = 26.07 knots." } },
-      { "@type": "Question", "name": "Why do boats and planes use knots?", "acceptedAnswer": { "@type": "Answer", "text": "Knots are tied to the nautical mile, which is based on the Earth's geometry (1 minute of latitude = 1 nautical mile). This makes navigation charts much easier to use — distance on a chart corresponds directly to nautical miles." } }
+      { "@type": "Question", "name": "How many mph is 1 knot?", "acceptedAnswer": { "@type": "Answer", "text": "1 knot = 1.15078 mph (miles per hour)." } },
+      { "@type": "Question", "name": "How do you convert knots to mph?", "acceptedAnswer": { "@type": "Answer", "text": "Multiply knots by 1.15078 to get mph. Example: 10 knots × 1.15078 = 11.508 mph." } },
+      { "@type": "Question", "name": "What is a knot in speed?", "acceptedAnswer": { "@type": "Answer", "text": "A knot is one nautical mile per hour. 1 nautical mile = 1.852 km = 1.15078 statute miles. Knots are used in aviation and maritime navigation." } },
+      { "@type": "Question", "name": "How fast is 20 knots in mph?", "acceptedAnswer": { "@type": "Answer", "text": "20 knots = 23.016 mph. Multiply 20 × 1.15078 = 23.016 mph." } },
+      { "@type": "Question", "name": "How fast is 100 knots in mph?", "acceptedAnswer": { "@type": "Answer", "text": "100 knots = 115.078 mph. This is a common aircraft airspeed (around cruise speed for small planes)." } }
     ]
   }
 ]);
 ---
 <Layout
-  title="Knots to MPH Converter — Nautical Speed | ComputeZap"
-  description="Convert knots to mph instantly. 1 knot = 1.15078 miles per hour. Free knots to mph converter. Also shows km/h and m/s. Used in sailing, aviation, and weather."
+  title="Knots to MPH Converter — Knots to Miles Per Hour | ComputeZap"
+  description="Convert knots to mph instantly. 1 knot = 1.15078 mph. Free knots to miles per hour converter with Beaufort wind scale, aviation speeds, and km/h reference."
   canonical="/knots-to-mph"
   schema={schema}
 >
 <style is:global>
-.hero{text-align:center;padding:2rem 1rem 1.25rem}
-.hero h1{font-size:2rem;color:#111;margin:.5rem 0 .35rem;font-weight:800}
-.hero-sub{color:#555;margin:0;font-size:1rem}
-.breadcrumb{font-size:.85rem;color:#888;margin-bottom:.75rem}
-.breadcrumb a{color:var(--blue);text-decoration:none}
-.calc-wrap{display:grid;grid-template-columns:360px 1fr;gap:1.5rem;max-width:1100px;margin:0 auto;padding:0 1rem 3rem;align-items:start}
-.calc-left{position:sticky;top:1rem}
-.card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:1.5rem;margin-bottom:1rem}
-.card:last-child{margin-bottom:0}
+.page-hero{text-align:center;padding:2rem 1rem 1rem}
+.page-hero h1{font-size:1.9rem;font-weight:800;letter-spacing:-.03em;color:#111;margin:0 0 .35rem}
+.page-hero p{color:#64748b;font-size:1rem;margin:0}
+.page-hero nav{font-size:.82rem;color:#94a3b8;margin-bottom:.75rem}
+.page-hero nav a{color:var(--blue);text-decoration:none}
+.calc-center{max-width:620px;margin:0 auto;padding:0 1rem 2rem}
+.content-wrap{max-width:900px;margin:0 auto;padding:0 1rem 3.5rem}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:1.5rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.content-card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:1.5rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.content-card h2{font-size:1.05rem;font-weight:700;color:#111;margin:0 0 .8rem}
+.content-card h3{font-size:.95rem;font-weight:700;color:#111;margin:.75rem 0 .4rem}
+.content-card p{color:#444;line-height:1.75;font-size:.93rem;margin:0 0 .7rem}
+.content-card p:last-child{margin-bottom:0}
+.content-card ul{color:#444;line-height:1.85;font-size:.93rem;padding-left:1.25rem;margin:.5rem 0 0}
 .mode-wrap{display:grid;grid-template-columns:1fr 1fr;gap:.4rem;margin-bottom:1.25rem}
-.mode-btn{background:#f8fafc;color:#64748b;border:1.5px solid #e2e8f0;border-radius:8px;padding:.5rem;font-size:.82rem;font-weight:700;cursor:pointer;text-align:center;transition:all .15s}
+.mode-btn{padding:.55rem;font-size:.85rem;font-weight:600;border:1.5px solid #e2e8f0;border-radius:8px;background:#f8fafc;color:#64748b;cursor:pointer;transition:all .15s;text-align:center}
 .mode-btn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
-.result-box{background:var(--blue);border-radius:14px;padding:1.75rem 1.5rem;text-align:center;margin-bottom:1.25rem;box-shadow:0 4px 20px rgba(37,99,235,.18)}
-.res-lbl{font-size:.72rem;color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:.09em;margin-bottom:.5rem}
-.res-val{font-size:2.1rem;font-weight:800;color:#fff;line-height:1.2}
-.res-sub{font-size:.95rem;color:rgba(255,255,255,.8);margin-top:.3rem}
-.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:0}
-.stat-item{background:#f8fafc;border:1px solid #f1f5f9;border-radius:10px;padding:.9rem .75rem;text-align:center}
-.stat-lbl{display:block;font-size:.68rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.3rem;font-weight:600}
-.stat-val{display:block;font-size:1.1rem;font-weight:800;color:#1e293b}
-.stat-primary{background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:12px;padding:1rem 1.25rem;text-align:center;margin-bottom:.6rem}
-.stat-big{display:block;font-size:2rem;font-weight:900;color:#2563eb;line-height:1.1}
-.stat-secondary{background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:.75rem 1.25rem;text-align:center;margin-bottom:.6rem}
-.stat-med{display:block;font-size:1.4rem;font-weight:800;color:#1e293b;line-height:1.1}
-.fld-lbl{display:block;font-size:.8rem;font-weight:700;color:#374151;margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.04em}
-.fld-wrap{position:relative;margin-bottom:1rem}
-.fld-sfx{position:absolute;right:.9rem;top:50%;transform:translateY(-50%);color:#94a3b8;font-weight:600;pointer-events:none;font-size:.9rem}
-.txt-input{width:100%;font-size:1.1rem;padding:.7rem 3rem .7rem 1rem;border:1.5px solid #e2e8f0;border-radius:8px;color:#111;box-sizing:border-box;font-family:inherit;background:#fff}
-.txt-input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+.input-group{margin-bottom:.85rem}
+.input-group label{display:block;font-size:.82rem;font-weight:600;color:#374151;margin-bottom:.4rem}
+.input-wrap{position:relative}
+.input-sfx{position:absolute;right:.9rem;top:50%;transform:translateY(-50%);color:#94a3b8;font-weight:600;pointer-events:none;font-size:.9rem}
+.input-group input{width:100%;padding:.65rem 3rem .65rem .9rem;border:1.5px solid #e2e8f0;border-radius:8px;font-size:1rem;font-family:inherit;color:#111;transition:border-color .15s;box-sizing:border-box}
+.input-group input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
 .preset-lbl{font-size:.7rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.5rem;display:block}
-.preset-wrap{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.5rem}
+.preset-wrap{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1rem}
 .preset-btn{background:#fff;color:var(--blue);border:1.5px solid #dbeafe;border-radius:20px;padding:.28rem .75rem;font-size:.82rem;font-weight:700;cursor:pointer;transition:all .15s}
 .preset-btn:hover{background:var(--blue);color:#fff;border-color:var(--blue)}
-.card h2{font-size:1.1rem;font-weight:700;color:#111;margin:0 0 .8rem}
-.card h3{font-size:.95rem;font-weight:700;color:#111;margin:.75rem 0 .4rem}
-.card p{color:#444;line-height:1.75;font-size:.95rem;margin:0 0 .7rem}
-.card p:last-child{margin-bottom:0}
-.card ul{color:#444;line-height:1.85;font-size:.95rem;padding-left:1.25rem;margin:.5rem 0 0}
-.formula-box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:.75rem 1rem;font-family:monospace;font-size:.88rem;color:#1e293b;margin:.6rem 0}
+.calc-btn{width:100%;padding:.8rem;background:var(--blue);color:#fff;border:none;border-radius:8px;font-size:1rem;font-weight:700;cursor:pointer;transition:background .15s;margin-bottom:1rem}
+.calc-btn:hover{background:#1d4ed8}
+.answer-hero{background:linear-gradient(135deg,#1d4ed8 0%,#2563eb 60%,#3b82f6 100%);border-radius:14px;padding:1.75rem 1.5rem 1.25rem;text-align:center;margin-bottom:1rem;box-shadow:0 6px 24px rgba(37,99,235,.22);display:none}
+.answer-hero.show{display:block}
+.a-label{font-size:.68rem;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem;font-weight:700}
+.a-value{font-size:2.8rem;font-weight:900;color:#fff;line-height:1;letter-spacing:-.02em}
+.a-unit{font-size:1rem;font-weight:600;color:rgba(255,255,255,.8);margin-top:.3rem}
+.a-sub{font-size:.85rem;color:rgba(255,255,255,.7);margin-top:.4rem}
+.stats-row{display:none;grid-template-columns:1fr 1fr;gap:.55rem}
+.stats-row.show{display:grid}
+.stat-box{background:#f8fafc;border:1px solid #f1f5f9;border-radius:10px;padding:.85rem .75rem;text-align:center}
+.stat-lbl{display:block;font-size:.62rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.25rem;font-weight:700}
+.stat-val{display:block;font-size:.95rem;font-weight:800;color:#1e293b}
 .tip-box{display:flex;gap:.75rem;background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:.9rem 1rem;margin:.75rem 0}
 .tip-icon{font-size:1.1rem;flex-shrink:0;margin-top:.1rem}
 .tip-box p{margin:0;font-size:.875rem;color:#1e40af}
-.answer-box{background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:10px;padding:.75rem 1rem;margin:.75rem 0}
-.answer-row{display:flex;justify-content:space-between;align-items:center;padding:.35rem 0;border-bottom:1px solid #f1f5f9;font-size:.95rem}
-.answer-row:last-child{border-bottom:none}
-.answer-lbl{color:#64748b;font-weight:600}
-.answer-val{color:#2563eb;font-weight:800}
 .ref-tbl{width:100%;border-collapse:collapse;font-size:.875rem}
-.ref-tbl th{background:#f8fafc;padding:.45rem .75rem;text-align:left;font-size:.72rem;color:#64748b;font-weight:700;text-transform:uppercase;letter-spacing:.04em;border-bottom:1px solid #e5e7eb}
-.ref-tbl td{padding:.5rem .75rem;border-bottom:1px solid #f3f4f6;color:#444;cursor:pointer}
+.ref-tbl th{background:#f8fafc;padding:.6rem .85rem;text-align:left;font-size:.68rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;border-bottom:2px solid #e2e8f0}
+.ref-tbl td{padding:.65rem .85rem;border-bottom:1px solid #f3f4f6;color:#374151}
 .ref-tbl tr:last-child td{border-bottom:none}
+.ref-tbl tbody tr:hover td{background:#f8faff;cursor:pointer}
 .ref-tbl .acc{color:var(--blue);font-weight:700}
-.ref-tbl .hi td{background:#eff6ff;color:#1e40af;font-weight:600}
-.faq-item{border-bottom:1px solid #f3f4f6;padding:.85rem 0}
+.faq-item{border-bottom:1px solid #f3f4f6;padding:.9rem 0}
 .faq-item:last-child{border-bottom:none;padding-bottom:0}
-.faq-item h3{font-size:.92rem;color:#111;margin:0 0 .35rem;font-weight:600}
-.faq-item p{color:#555;font-size:.875rem;margin:0;line-height:1.65}
-.content-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:1.5rem;margin-bottom:1rem}
-.content-card h2{font-size:1.1rem;font-weight:700;color:#111;margin:0 0 .8rem}
-.content-card ul{color:#444;line-height:1.85;font-size:.95rem;padding-left:1.25rem;margin:0}
+.faq-item h3{font-size:.9rem;color:#111;margin:0 0 .35rem;font-weight:700}
+.faq-item p{color:#555;font-size:.865rem;margin:0;line-height:1.65}
 .next-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem}
-.next-card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:1rem;border-top:3px solid var(--blue);text-decoration:none;display:block;transition:box-shadow .15s}
+.next-card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:1rem;border-top:3px solid var(--blue);text-decoration:none;display:block}
 .next-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.08)}
 .next-tag{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--blue);margin-bottom:.3rem;display:block}
 .next-card h3{font-size:.88rem;font-weight:700;color:#111;margin:0 0 .25rem}
 .next-card p{font-size:.78rem;color:#64748b;margin:0;line-height:1.5}
-@media(max-width:768px){.calc-wrap{grid-template-columns:1fr}.calc-left{position:static}.hero h1{font-size:1.65rem}.res-val{font-size:1.6rem}}
+@media(max-width:768px){.page-hero h1{font-size:1.65rem}.a-value{font-size:2.1rem}.next-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.next-grid{grid-template-columns:1fr}}
 </style>
 
-<div class="hero">
-  <nav class="breadcrumb"><a href="/">Home</a> › Knots to MPH Converter</nav>
+<div class="page-hero">
+  <nav><a href="/">Home</a> › Knots to MPH Converter</nav>
   <h1>Knots to MPH Converter</h1>
-  <p class="hero-sub">1 knot = 1.15078 mph — convert nautical speed instantly</p>
+  <p>1 knot = 1.15078 mph — aviation & maritime speed converter</p>
 </div>
 
-<div class="calc-wrap">
-  <div class="calc-left">
-    <div class="card">
-      <div class="mode-wrap">
-        <button class="mode-btn active" id="btn-kt" onclick="setMode('kt')">Knots → MPH</button>
-        <button class="mode-btn" id="btn-mp" onclick="setMode('mp')">MPH → Knots</button>
-      </div>
-      <label class="fld-lbl" id="inp-lbl">Knots (kn)</label>
-      <div class="fld-wrap">
-        <input type="number" id="amount" class="txt-input" value="20" min="0" step="1" oninput="convert()" />
-        <span class="fld-sfx" id="inp-sfx">kn</span>
-      </div>
-      <span class="preset-lbl">Quick values</span>
-      <div class="preset-wrap" id="preset-wrap">
-        <button class="preset-btn" onclick="setVal(1)">1</button>
-        <button class="preset-btn" onclick="setVal(5)">5</button>
-        <button class="preset-btn" onclick="setVal(10)">10</button>
-        <button class="preset-btn" onclick="setVal(20)">20</button>
-        <button class="preset-btn" onclick="setVal(30)">30</button>
-        <button class="preset-btn" onclick="setVal(50)">50</button>
-        <button class="preset-btn" onclick="setVal(100)">100</button>
-        <button class="preset-btn" onclick="setVal(200)">200</button>
-        <button class="preset-btn" onclick="setVal(500)">500</button>
+<div class="calc-center">
+  <div class="card">
+    <div class="mode-wrap">
+      <button class="mode-btn active" id="btn-kt">knots → mph</button>
+      <button class="mode-btn" id="btn-mph">mph → knots</button>
+    </div>
+    <div class="input-group">
+      <label id="inp-lbl">Speed in Knots (kn)</label>
+      <div class="input-wrap">
+        <input type="number" id="amount" value="1" min="0" step="1" />
+        <span class="input-sfx" id="inp-sfx">kn</span>
       </div>
     </div>
-    <div class="card">
-      <div class="result-box">
-        <div class="res-lbl" id="res-lbl">Miles Per Hour</div>
-        <div class="res-val"><span id="r-main">23.02</span> <span style="font-size:1.1rem;opacity:.85" id="r-unit">mph</span></div>
-        <div class="res-sub" id="r-sub">20 knots = 23.02 mph</div>
+    <span class="preset-lbl">Quick values</span>
+    <div class="preset-wrap" id="preset-wrap">
+      <button class="preset-btn" onclick="setVal(1)">1</button>
+      <button class="preset-btn" onclick="setVal(5)">5</button>
+      <button class="preset-btn" onclick="setVal(10)">10</button>
+      <button class="preset-btn" onclick="setVal(20)">20</button>
+      <button class="preset-btn" onclick="setVal(30)">30</button>
+      <button class="preset-btn" onclick="setVal(60)">60</button>
+      <button class="preset-btn" onclick="setVal(100)">100</button>
+    </div>
+    <button class="calc-btn" id="calc-btn">Convert</button>
+    <div class="answer-hero" id="answer">
+      <div class="a-label" id="ans-label">1 knot =</div>
+      <div class="a-value" id="ans-value">1.1508</div>
+      <div class="a-unit" id="ans-unit">mph</div>
+      <div class="a-sub" id="ans-sub">1 × 1.15078 = 1.1508 mph</div>
+    </div>
+    <div class="stats-row" id="stats">
+      <div class="stat-box">
+        <span class="stat-lbl">km/h</span>
+        <span class="stat-val" id="s1-val">1.852 km/h</span>
       </div>
-      <div class="stat-primary">
-        <span class="stat-lbl" id="s1-lbl">Miles Per Hour</span>
-        <span class="stat-big" id="s1-val">23.02 mph</span>
+      <div class="stat-box">
+        <span class="stat-lbl">m/s</span>
+        <span class="stat-val" id="s2-val">0.5144 m/s</span>
       </div>
-      <div class="stat-secondary">
-        <span class="stat-lbl" id="s2-lbl">Kilometers Per Hour</span>
-        <span class="stat-med" id="s2-val">37.04 km/h</span>
+      <div class="stat-box">
+        <span class="stat-lbl">ft/s</span>
+        <span class="stat-val" id="s3-val">1.688 ft/s</span>
       </div>
-      <div class="stats-grid">
-        <div class="stat-item">
-          <span class="stat-lbl" id="s3-lbl">Meters / Second</span>
-          <span class="stat-val" id="s3-val">10.29 m/s</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-lbl" id="s4-lbl">Feet / Second</span>
-          <span class="stat-val" id="s4-val">33.76 ft/s</span>
-        </div>
+      <div class="stat-box">
+        <span class="stat-lbl">Nautical mi/h</span>
+        <span class="stat-val" id="s4-val">1 nm/h</span>
       </div>
     </div>
   </div>
+</div>
 
-  <div class="calc-right">
-    <div class="card">
-      <h2>How Many MPH is 1 Knot?</h2>
-      <p>1 knot = <strong>1.15078 miles per hour</strong>. A knot is one nautical mile per hour. The nautical mile is defined as exactly 1,852 meters (1.852 km), based on one minute of arc of latitude along the Earth's surface.</p>
-      <div class="answer-box">
-        <div class="answer-row"><span class="answer-lbl">1 knot</span><span class="answer-val">= 1.15078 mph</span></div>
-        <div class="answer-row"><span class="answer-lbl">1 knot</span><span class="answer-val">= 1.852 km/h</span></div>
-        <div class="answer-row"><span class="answer-lbl">1 knot</span><span class="answer-val">= 0.51444 m/s</span></div>
-        <div class="answer-row"><span class="answer-lbl">1 mph</span><span class="answer-val">= 0.86898 knots</span></div>
-      </div>
-      <div class="formula-box">mph = knots × 1.15078 &nbsp;|&nbsp; knots = mph ÷ 1.15078</div>
+<div class="content-wrap">
+
+  <div class="content-card">
+    <h2>Knots to MPH Reference Table</h2>
+    <div class="tip-box">
+      <span class="tip-icon">✈️</span>
+      <p><strong>Quick estimate:</strong> Multiply knots by 1.15 for mph, or by 1.85 for km/h. Example: 100 knots × 1.15 = 115 mph (actual: 115.08).</p>
     </div>
-
-    <div class="card">
-      <h2>Knots to MPH Conversion Chart</h2>
-      <p>Click any row to load into the converter above.</p>
-      <div style="overflow-x:auto">
+    <div style="overflow-x:auto">
       <table class="ref-tbl">
         <thead><tr><th>Knots</th><th>MPH</th><th>km/h</th><th>Context</th></tr></thead>
         <tbody>
           {[
-            [1,'1.15','1.85','Light air (Beaufort 1)'],
-            [5,'5.75','9.26','Light breeze'],
-            [10,'11.51','18.52','Gentle breeze'],
-            [15,'17.26','27.78','Moderate breeze'],
-            [20,'23.02','37.04','Fresh breeze'],
-            [25,'28.77','46.30','Strong breeze'],
-            [30,'34.52','55.56','Near gale'],
-            [34,'39.13','64.82','Gale force'],
-            [47,'54.09','87.04','Storm force'],
-            [64,'73.65','118.53','Hurricane force'],
-            [100,'115.08','185.2','Typical jet stream'],
-            [200,'230.16','370.4','Fast aircraft'],
-            [500,'575.39','926.0','High-speed aircraft'],
+            [1,'1.151','1.852','Light air'],
+            [3,'3.452','5.556','Light breeze'],
+            [5,'5.754','9.260','Light breeze'],
+            [10,'11.508','18.520','Light breeze'],
+            [15,'17.262','27.780','Moderate breeze'],
+            [20,'23.016','37.040','Fresh breeze'],
+            [30,'34.523','55.560','Strong wind'],
+            [40,'46.031','74.080','Gale'],
+            [50,'57.539','92.600','Storm'],
+            [60,'69.047','111.120','Violent storm'],
+            [100,'115.078','185.200','Small aircraft cruise'],
+            [150,'172.617','277.800','Fast aircraft'],
+            [250,'287.695','463.000','Jet cruise'],
+            [500,'575.390','926.000','Fighter jet'],
           ].map(([kn, mph, kmh, ctx]) => (
-            <tr onclick={`setVal(${kn})`} class={kn === 20 ? 'hi' : ''}>
-              <td>{kn} kn</td><td class="acc">{mph}</td><td>{kmh}</td><td>{ctx}</td>
+            <tr onclick={`setVal(${kn})`}>
+              <td class="acc">{kn} kn</td>
+              <td>{mph} mph</td>
+              <td>{kmh} km/h</td>
+              <td style="color:#64748b;font-size:.82rem">{ctx}</td>
             </tr>
           ))}
         </tbody>
       </table>
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>What Is a Knot?</h2>
-      <p>A <strong>knot</strong> is a unit of speed equal to one nautical mile per hour. The name comes from the old sailing practice of measuring ship speed by throwing a knotted rope overboard — sailors counted how many knots passed through their hands in a fixed time to estimate speed.</p>
-      <div class="tip-box">
-        <span class="tip-icon">🚤</span>
-        <p><strong>Quick estimate:</strong> To convert knots to mph, multiply by 1.15 (or just add 15% to the knot value). For 20 knots: 20 × 1.15 = 23 mph. Exact: 23.016 mph.</p>
-      </div>
-      <h3>Common speed references</h3>
-      <ul>
-        <li><strong>Sailboat</strong> — typical cruising speed: 5–10 knots (5.8–11.5 mph)</li>
-        <li><strong>Ferry / cargo ship</strong> — 15–25 knots (17–29 mph)</li>
-        <li><strong>Military destroyer</strong> — up to 34 knots (39 mph)</li>
-        <li><strong>Commercial airliner</strong> — 470–500 knots (541–575 mph)</li>
-        <li><strong>Hurricane</strong> — winds exceeding 64 knots (74 mph)</li>
-      </ul>
-    </div>
-
-    <div class="content-card">
-      <h2>Why Nautical Speed Uses Knots</h2>
-      <ul>
-        <li><strong>Navigation charts</strong> — nautical charts are drawn using nautical miles. Speed in knots ties directly to chart distance — 1 knot means you cover 1 minute of latitude per hour.</li>
-        <li><strong>Aviation</strong> — all commercial and military aviation worldwide uses knots for airspeed. Altitude is in feet; speed is in knots — this is the international standard.</li>
-        <li><strong>Weather forecasting</strong> — wind speed in weather reports at sea and in aviation METARs is given in knots. Hurricane categories are also defined in knots.</li>
-        <li><strong>International maritime law</strong> — speed limits in shipping lanes, port approaches, and protected areas are set in knots to maintain uniformity across all nations.</li>
-      </ul>
-    </div>
-
-    <div class="card">
-      <h2>Frequently Asked Questions</h2>
-      <div class="faq-item">
-        <h3>How many mph is 1 knot?</h3>
-        <p>1 knot = <strong>1.15078 mph</strong>. To convert, multiply the knot value by 1.15078.</p>
-      </div>
-      <div class="faq-item">
-        <h3>How do I convert knots to mph?</h3>
-        <p>Multiply knots by 1.15078. Formula: <strong>mph = knots × 1.15078</strong>. Example: 30 knots × 1.15078 = 34.52 mph.</p>
-      </div>
-      <div class="faq-item">
-        <h3>What is a knot in speed?</h3>
-        <p>A knot is <strong>one nautical mile per hour</strong>. 1 nautical mile = 1,852 meters = 1.15078 statute (land) miles. Knots are used in maritime and aviation navigation.</p>
-      </div>
-      <div class="faq-item">
-        <h3>How many knots is 30 mph?</h3>
-        <p>30 mph = <strong>26.07 knots</strong>. Divide mph by 1.15078: 30 ÷ 1.15078 = 26.07 knots.</p>
-      </div>
-      <div class="faq-item">
-        <h3>Why do boats use knots instead of mph?</h3>
-        <p>Knots tie speed to Earth's geometry — 1 nautical mile equals 1 minute of latitude. This makes chart navigation simple and universal across all countries.</p>
-      </div>
-      <div class="faq-item">
-        <h3>How fast is a knot in km/h?</h3>
-        <p>1 knot = <strong>1.852 km/h</strong> exactly. This is the exact international definition: 1 nautical mile = 1,852 meters.</p>
-      </div>
-    </div>
-
-    <div class="content-card">
-      <h2>Related Converters</h2>
-      <div class="next-grid">
-        <a href="/celsius-to-fahrenheit" class="next-card">
-          <span class="next-tag">Temperature</span>
-          <h3>Celsius to °F</h3>
-          <p>Convert temperature between Celsius and Fahrenheit.</p>
-        </a>
-        <a href="/kg-to-lbs" class="next-card">
-          <span class="next-tag">Weight</span>
-          <h3>kg to lbs</h3>
-          <p>Convert kilograms to pounds instantly.</p>
-        </a>
-        <a href="/cm-to-inches" class="next-card">
-          <span class="next-tag">Length</span>
-          <h3>cm to Inches</h3>
-          <p>Convert centimeters to inches instantly.</p>
-        </a>
-        <a href="/liters-to-gallons" class="next-card">
-          <span class="next-tag">Volume</span>
-          <h3>Liters to Gallons</h3>
-          <p>Convert liters to US or Imperial gallons.</p>
-        </a>
-        <a href="/oz-to-quarts" class="next-card">
-          <span class="next-tag">Volume</span>
-          <h3>Oz to Quarts</h3>
-          <p>Convert fluid ounces to quarts — 1 quart = 32 oz.</p>
-        </a>
-        <a href="/square-footage-calculator" class="next-card">
-          <span class="next-tag">Area</span>
-          <h3>Square Footage</h3>
-          <p>Calculate area in square feet for any room or space.</p>
-        </a>
-      </div>
     </div>
   </div>
+
+  <div class="content-card">
+    <h2>Beaufort Wind Scale</h2>
+    <p>The Beaufort scale uses knots to describe wind conditions at sea and on land:</p>
+    <div style="overflow-x:auto">
+      <table class="ref-tbl">
+        <thead><tr><th>Force</th><th>Knots</th><th>MPH</th><th>Description</th></tr></thead>
+        <tbody>
+          {[
+            ['0','< 1','< 1.2','Calm'],
+            ['1','1–3','1.2–3.5','Light air'],
+            ['2','4–6','4.6–6.9','Light breeze'],
+            ['3','7–10','8.1–11.5','Gentle breeze'],
+            ['4','11–16','12.7–18.4','Moderate breeze'],
+            ['5','17–21','19.6–24.2','Fresh breeze'],
+            ['6','22–27','25.3–31.1','Strong breeze'],
+            ['7','28–33','32.2–38.0','High wind / Near gale'],
+            ['8','34–40','39.1–46.0','Gale'],
+            ['9','41–47','47.2–54.1','Strong / Severe gale'],
+            ['10','48–55','55.2–63.3','Storm'],
+            ['11','56–63','64.4–72.5','Violent storm'],
+            ['12','≥ 64','≥ 73.6','Hurricane'],
+          ].map(([force, kn, mph, desc]) => (
+            <tr onclick={`setVal(${kn.split('–')[0].replace('<','').replace('≥','').trim()})`}>
+              <td><strong>BF {force}</strong></td>
+              <td>{kn} kn</td>
+              <td>{mph}</td>
+              <td style="color:#374151">{desc}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="content-card">
+    <h2>What Is a Knot?</h2>
+    <p>A <strong>knot</strong> is one nautical mile per hour. One nautical mile = 1.852 km = 1.15078 statute miles. Knots are the standard unit of speed in aviation, maritime navigation, and meteorology worldwide. The term originates from the old practice of measuring ship speed by counting knots on a rope thrown overboard.</p>
+    <ul>
+      <li><strong>Ships</strong> — cruising at 20–30 knots (23–35 mph)</li>
+      <li><strong>Small aircraft</strong> — cruise at 100–150 knots (115–173 mph)</li>
+      <li><strong>Commercial jets</strong> — cruise at ~480 knots (552 mph)</li>
+      <li><strong>Wind speed</strong> — measured in knots by meteorologists worldwide</li>
+    </ul>
+  </div>
+
+  <div class="content-card">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>How many mph is 1 knot?</h3>
+      <p>1 knot = <strong>1.15078 mph</strong>.</p>
+    </div>
+    <div class="faq-item">
+      <h3>How fast is 20 knots in mph?</h3>
+      <p>20 knots = <strong>23.016 mph</strong>. Multiply 20 × 1.15078 = 23.016.</p>
+    </div>
+    <div class="faq-item">
+      <h3>How fast is 100 knots in mph?</h3>
+      <p>100 knots = <strong>115.08 mph</strong>. A typical small aircraft cruises at about 100–150 knots.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Why do planes and ships use knots?</h3>
+      <p>Knots are based on nautical miles, which are tied to Earth's geography (1 minute of latitude). This makes navigation charts and calculations simpler at sea and in the air.</p>
+    </div>
+    <div class="faq-item">
+      <h3>How many km/h is 1 knot?</h3>
+      <p>1 knot = <strong>1.852 km/h</strong> exactly. 1 nautical mile = 1.852 km by definition.</p>
+    </div>
+  </div>
+
+  <div class="content-card">
+    <h2>Related Converters</h2>
+    <div class="next-grid">
+      <a href="/km-to-miles" class="next-card">
+        <span class="next-tag">Length</span>
+        <h3>km to Miles</h3>
+        <p>Convert kilometers to miles with speed table.</p>
+      </a>
+      <a href="/meters-to-feet" class="next-card">
+        <span class="next-tag">Length</span>
+        <h3>Meters to Feet</h3>
+        <p>Convert meters to feet and inches.</p>
+      </a>
+      <a href="/celsius-to-fahrenheit" class="next-card">
+        <span class="next-tag">Temperature</span>
+        <h3>Celsius to °F</h3>
+        <p>Convert temperature between scales.</p>
+      </a>
+      <a href="/kg-to-lbs" class="next-card">
+        <span class="next-tag">Weight</span>
+        <h3>kg to lbs</h3>
+        <p>Convert kilograms to pounds.</p>
+      </a>
+      <a href="/liters-to-gallons" class="next-card">
+        <span class="next-tag">Volume</span>
+        <h3>Liters to Gallons</h3>
+        <p>Convert liters to US gallons.</p>
+      </a>
+      <a href="/percent-off-calculator" class="next-card">
+        <span class="next-tag">Math</span>
+        <h3>Percent Off</h3>
+        <p>Calculate sale price after any discount.</p>
+      </a>
+    </div>
+  </div>
+
 </div>
 
 <script is:inline>
-var mode = 'kt';
+  var mode = 'kt';
 
-function fmt(v, d) {
-  return parseFloat(v.toFixed(d !== undefined ? d : 4)).toString();
-}
+  document.getElementById('btn-kt').addEventListener('click', function() { setMode('kt'); });
+  document.getElementById('btn-mph').addEventListener('click', function() { setMode('mph'); });
+  document.getElementById('calc-btn').addEventListener('click', convert);
+  document.getElementById('amount').addEventListener('input', convert);
+  document.addEventListener('keydown', function(e) { if (e.key === 'Enter') convert(); });
 
-function convert() {
-  var val = parseFloat(document.getElementById('amount').value) || 0;
-  var mph, kn, kmh, ms, fts;
-  if (mode === 'kt') {
-    kn = val; mph = val * 1.15078; kmh = val * 1.852; ms = val * 0.514444; fts = ms * 3.28084;
-    document.getElementById('r-main').textContent = fmt(mph, 2);
-    document.getElementById('r-unit').textContent = 'mph';
-    document.getElementById('r-sub').textContent = fmt(val, 1) + ' knots = ' + fmt(mph, 2) + ' mph';
-    document.getElementById('res-lbl').textContent = 'Miles Per Hour';
-    document.getElementById('s1-lbl').textContent = 'Miles Per Hour';
-    document.getElementById('s1-val').textContent = fmt(mph, 2) + ' mph';
-    document.getElementById('s2-lbl').textContent = 'Kilometers Per Hour';
-    document.getElementById('s2-val').textContent = fmt(kmh, 2) + ' km/h';
-    document.getElementById('s3-lbl').textContent = 'Meters / Second';
-    document.getElementById('s3-val').textContent = fmt(ms, 3) + ' m/s';
-    document.getElementById('s4-lbl').textContent = 'Feet / Second';
-    document.getElementById('s4-val').textContent = fmt(fts, 2) + ' ft/s';
-  } else {
-    mph = val; kn = val / 1.15078; kmh = val * 1.60934; ms = mph * 0.44704; fts = ms * 3.28084;
-    document.getElementById('r-main').textContent = fmt(kn, 2);
-    document.getElementById('r-unit').textContent = 'kn';
-    document.getElementById('r-sub').textContent = fmt(val, 1) + ' mph = ' + fmt(kn, 2) + ' knots';
-    document.getElementById('res-lbl').textContent = 'Knots';
-    document.getElementById('s1-lbl').textContent = 'Knots';
-    document.getElementById('s1-val').textContent = fmt(kn, 2) + ' kn';
-    document.getElementById('s2-lbl').textContent = 'Kilometers Per Hour';
-    document.getElementById('s2-val').textContent = fmt(kmh, 2) + ' km/h';
-    document.getElementById('s3-lbl').textContent = 'Meters / Second';
-    document.getElementById('s3-val').textContent = fmt(ms, 3) + ' m/s';
-    document.getElementById('s4-lbl').textContent = 'Feet / Second';
-    document.getElementById('s4-val').textContent = fmt(fts, 2) + ' ft/s';
+  document.getElementById('amount').value = 1;
+  convert();
+
+  function fmt(v, d) { return parseFloat(v.toFixed(d !== undefined ? d : 4)).toString(); }
+
+  function setMode(m) {
+    mode = m;
+    var isKt = m === 'kt';
+    document.getElementById('btn-kt').classList.toggle('active', isKt);
+    document.getElementById('btn-mph').classList.toggle('active', !isKt);
+    document.getElementById('inp-lbl').textContent = isKt ? 'Speed in Knots (kn)' : 'Speed in MPH';
+    document.getElementById('inp-sfx').textContent = isKt ? 'kn' : 'mph';
+    var presets = document.getElementById('preset-wrap');
+    presets.innerHTML = (isKt ? [1,5,10,20,30,60,100] : [1,5,10,25,55,70,100])
+      .map(function(v){ return '<button class="preset-btn" onclick="setVal('+v+')">'+v+'</button>'; }).join('');
+    document.getElementById('amount').value = 1;
+    convert();
   }
-}
 
-function setMode(m) {
-  mode = m;
-  var isKt = m === 'kt';
-  document.getElementById('btn-kt').classList.toggle('active', isKt);
-  document.getElementById('btn-mp').classList.toggle('active', !isKt);
-  document.getElementById('inp-lbl').textContent = isKt ? 'Knots (kn)' : 'Miles Per Hour (mph)';
-  document.getElementById('inp-sfx').textContent = isKt ? 'kn' : 'mph';
-  var presets = document.getElementById('preset-wrap');
-  presets.innerHTML = (isKt ? [1,5,10,20,30,50,100,200,500] : [1,5,10,25,50,60,100,200])
-    .map(function(v){ return '<button class="preset-btn" onclick="setVal('+v+')">'+v+'</button>'; }).join('');
-  document.getElementById('amount').value = isKt ? 20 : 23;
-  convert();
-}
+  function convert() {
+    var val = parseFloat(document.getElementById('amount').value);
+    if (isNaN(val) || val < 0) return;
+    var kn, mph, kmh, ms, fts;
+    if (mode === 'kt') {
+      kn = val; mph = val * 1.15078; kmh = val * 1.852; ms = val * 0.514444; fts = val * 1.68781;
+      document.getElementById('ans-label').textContent = fmt(val, 1) + ' kn =';
+      document.getElementById('ans-value').textContent = fmt(mph, 4);
+      document.getElementById('ans-unit').textContent = 'mph';
+      document.getElementById('ans-sub').textContent = fmt(val,1) + ' × 1.15078 = ' + fmt(mph,4) + ' mph';
+      document.getElementById('s4-val').textContent = fmt(kn, 2) + ' nm/h';
+    } else {
+      mph = val; kn = val / 1.15078; kmh = val * 1.60934; ms = kmh / 3.6; fts = val * 1.46667;
+      document.getElementById('ans-label').textContent = fmt(val, 1) + ' mph =';
+      document.getElementById('ans-value').textContent = fmt(kn, 4);
+      document.getElementById('ans-unit').textContent = 'knots (kn)';
+      document.getElementById('ans-sub').textContent = fmt(val,1) + ' ÷ 1.15078 = ' + fmt(kn,4) + ' kn';
+      document.getElementById('s4-val').textContent = fmt(kn, 4) + ' kn';
+    }
+    document.getElementById('s1-val').textContent = fmt(kmh, 4) + ' km/h';
+    document.getElementById('s2-val').textContent = fmt(ms, 4) + ' m/s';
+    document.getElementById('s3-val').textContent = fmt(fts, 4) + ' ft/s';
+    document.getElementById('answer').classList.add('show');
+    document.getElementById('stats').classList.add('show');
+  }
 
-function setVal(v) {
-  document.getElementById('amount').value = v;
-  convert();
-}
-
-window.addEventListener('load', convert);
+  function setVal(v) { document.getElementById('amount').value = v; convert(); }
 </script>
 </Layout>
