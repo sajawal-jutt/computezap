@@ -262,11 +262,11 @@ Use this before marking a tool as done:
 | yards-to-meters.astro | ✅ Done | 2026-06-25 |
 | mb-to-gb.astro | ✅ Done | 2026-06-25 |
 | kg-to-lbs.astro | ✅ Done | 2026-06-25 |
-| cm-to-inches.astro | ⏳ Pending | — |
-| km-to-miles.astro | ⏳ Pending | — |
-| celsius-to-fahrenheit.astro | ⏳ Pending | — |
-| fahrenheit-to-celsius.astro | ⏳ Pending | — |
-| meters-to-feet.astro | ⏳ Pending | — |
+| cm-to-inches.astro | ✅ Done | 2026-06-25 |
+| km-to-miles.astro | ✅ Done | 2026-06-25 |
+| celsius-to-fahrenheit.astro | ✅ Done | 2026-06-25 |
+| fahrenheit-to-celsius.astro | ✅ Done | 2026-06-25 |
+| meters-to-feet.astro | ✅ Done | 2026-06-25 |
 | liters-to-gallons.astro | ⏳ Pending | — |
 | oz-to-quarts.astro | ⏳ Pending | — |
 | cups-to-tablespoons.astro | ⏳ Pending | — |
