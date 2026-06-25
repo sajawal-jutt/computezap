@@ -5,7 +5,7 @@ const schema = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "ItemList",
   "name": "Free Online Calculators and Unit Converters",
-  "description": "ComputeZap — 25+ free online calculators and unit converters for finance, math, cooking, and everyday use. Fast, accurate, no signup needed.",
+  "description": "ComputeZap — free online calculators and unit converters for finance, math, cooking, and everyday use. Fast, accurate, no signup needed.",
   "url": "https://computezap.com",
   "itemListElement": [
     { "@type": "ListItem", "position": 1, "name": "cm to Inches Converter", "url": "https://computezap.com/cm-to-inches" },
@@ -21,19 +21,23 @@ const schema = JSON.stringify({
 ---
 <Layout
   title="Free Online Calculators & Unit Converters | ComputeZap"
-  description="25+ free online calculators and unit converters — cm to inches, kg to lbs, percent off, CD calculator, days from today, and more. Fast, accurate, no signup."
+  description="Free online calculators and unit converters — cm to inches, kg to lbs, percent off, CD calculator, days from today, and more. Fast, accurate, no signup."
   canonical="/"
   schema={schema}
 >
 <style is:global>
 .home-hero{text-align:center;padding:2.5rem 1rem 1.75rem}
 .home-hero h1{font-size:2.2rem;font-weight:800;color:#111;line-height:1.2;margin:0 0 .5rem;letter-spacing:-.5px}
-.home-hero>p{color:#555;font-size:1rem;margin:0 0 1.25rem}
+.home-hero>.hero-sub{color:#555;font-size:1.05rem;margin:0 0 .4rem}
+.hero-tagline{font-size:.85rem;font-weight:700;color:#94a3b8;letter-spacing:.06em;margin:0 0 1.25rem}
 
-.srch-wrap{position:relative;max-width:560px;margin:0 auto 1rem}
+.srch-wrap{position:relative;max-width:560px;margin:0 auto .85rem}
 .srch-icon{position:absolute;left:1rem;top:50%;transform:translateY(-50%);font-size:1rem;pointer-events:none}
 .srch-input{width:100%;padding:.8rem 1rem .8rem 2.75rem;border:2px solid #e2e8f0;border-radius:12px;font-size:1rem;font-family:inherit;color:#111;box-sizing:border-box;background:#fff;transition:border-color .15s;box-shadow:0 2px 8px rgba(0,0,0,.06)}
 .srch-input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+
+.browse-btn{display:inline-block;margin-bottom:1.1rem;padding:.55rem 1.4rem;background:var(--blue);color:#fff;border-radius:8px;font-size:.88rem;font-weight:700;text-decoration:none;transition:background .15s}
+.browse-btn:hover{background:#1d4ed8;text-decoration:none;color:#fff}
 
 .stats-strip{display:flex;justify-content:center;flex-wrap:wrap;gap:.5rem 1.5rem;font-size:.8rem;color:#64748b;font-weight:600}
 .stats-strip span{display:flex;align-items:center;gap:.3rem}
@@ -56,6 +60,11 @@ const schema = JSON.stringify({
 .badge.new{background:#dcfce7;color:#166534}
 .badge.hot{background:#fee2e2;color:#991b1b}
 
+.browse-card{background:#f8fafc;border:1.5px dashed #cbd5e1;border-radius:12px;padding:1rem 1.25rem;display:flex;align-items:center;justify-content:space-between;text-decoration:none;gap:.5rem;transition:border-color .15s,background .15s}
+.browse-card:hover{border-color:var(--blue);background:#eff6ff;text-decoration:none}
+.browse-card span{font-size:.88rem;font-weight:700;color:#374151}
+.browse-card .bc-arrow{color:var(--blue);font-size:1rem;font-weight:800}
+
 .info-section{display:flex;flex-direction:column;gap:1rem;margin-bottom:2rem}
 .info-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:1.25rem 1.5rem}
 .info-card h2{font-size:1rem;font-weight:700;margin:0 0 .5rem}
@@ -67,8 +76,9 @@ const schema = JSON.stringify({
 
 <!-- HERO + SEARCH -->
 <div class="home-hero">
-  <h1>Free Online Calculators<br />&amp; Unit Converters</h1>
-  <p>Fast, accurate tools — no signup needed</p>
+  <h1>Free Online Calculators<br />&amp; Everyday Tools</h1>
+  <p class="hero-sub">Calculate, convert and solve everyday problems in seconds.</p>
+  <p class="hero-tagline">Fast &bull; Accurate &bull; Always Free</p>
   <div class="srch-wrap">
     <span class="srch-icon">🔍</span>
     <input
@@ -79,16 +89,17 @@ const schema = JSON.stringify({
       autocomplete="off"
     />
   </div>
+  <a href="#popular" class="browse-btn">Browse All Tools ↓</a>
   <div class="stats-strip">
-    <span>✓ 25+ Tools</span>
-    <span>✓ 424 Pages</span>
+    <span>✓ 30+ Tools</span>
+    <span>✓ New Tools Added Weekly</span>
     <span>✓ Always Free</span>
     <span>✓ No Signup</span>
   </div>
 </div>
 
 <div id="no-res" class="no-res">
-  No tools found for that search. Try <a href="/cm-to-inches">cm to inches</a> or <a href="/percent-off-calculator">percent off</a>.
+  No tools found. Try <a href="/cm-to-inches">cm to inches</a> or <a href="/percent-off-calculator">percent off</a>.
 </div>
 
 <!-- 🔥 POPULAR -->
@@ -135,12 +146,6 @@ const schema = JSON.stringify({
 <!-- 💰 FINANCE -->
 <h2 class="section-title" id="finance">💰 Finance Calculators</h2>
 <div class="tool-grid">
-  <a href="/cd-calculator" class="tool-card">
-    <span class="icon">🏦</span>
-    <h3>CD Calculator</h3>
-    <p>Calculate Certificate of Deposit earnings with compound interest</p>
-    <span class="badge">High Yield</span>
-  </a>
   <a href="/mortgage-payoff-calculator" class="tool-card">
     <span class="icon">🏠</span>
     <h3>Mortgage Payoff Calculator</h3>
@@ -150,12 +155,6 @@ const schema = JSON.stringify({
     <span class="icon">📆</span>
     <h3>Biweekly Mortgage Calculator</h3>
     <p>Save years off your mortgage by switching to biweekly payments</p>
-  </a>
-  <a href="/debt-snowball-calculator" class="tool-card">
-    <span class="icon">❄️</span>
-    <h3>Debt Snowball Calculator</h3>
-    <p>Pay off debt faster — payoff order, interest saved, and debt-free date</p>
-    <span class="badge new">Popular</span>
   </a>
   <a href="/reverse-sales-tax-calculator" class="tool-card">
     <span class="icon">🧾</span>
@@ -167,12 +166,6 @@ const schema = JSON.stringify({
 <!-- 📅 DATE & TIME -->
 <h2 class="section-title" id="date-time">📅 Date &amp; Time Tools</h2>
 <div class="tool-grid">
-  <a href="/days-from-today" class="tool-card">
-    <span class="icon">📅</span>
-    <h3>Days From Today Calculator</h3>
-    <p>Find the exact date any number of days from today — 30, 60, 90 and more</p>
-    <span class="badge new">Popular</span>
-  </a>
   <a href="/30-days-from-today" class="tool-card">
     <span class="icon">🗓️</span>
     <h3>30 Days From Today</h3>
@@ -191,36 +184,36 @@ const schema = JSON.stringify({
   <a href="/weeks-in-a-year" class="tool-card">
     <span class="icon">📆</span>
     <h3>Weeks in a Year</h3>
-    <p>How many weeks in a year? 52 weeks + 1 day — work weeks &amp; school weeks</p>
+    <p>52 weeks + 1 day — work weeks, school weeks &amp; pay periods</p>
     <span class="badge new">New</span>
   </a>
   <a href="/hours-in-a-year" class="tool-card">
     <span class="icon">🕐</span>
     <h3>Hours in a Year</h3>
-    <p>8,760 hours per year — work hours, salary to hourly conversion</p>
+    <p>8,760 hours per year — work hours &amp; salary to hourly conversion</p>
     <span class="badge new">New</span>
   </a>
   <a href="/minutes-in-a-day" class="tool-card">
     <span class="icon">⏱️</span>
     <h3>Minutes in a Day</h3>
-    <p>1,440 minutes in a day — complete time unit reference table</p>
+    <p>1,440 minutes in a day — complete time unit reference</p>
     <span class="badge new">New</span>
   </a>
   <a href="/seconds-in-a-year" class="tool-card">
     <span class="icon">⏰</span>
     <h3>Seconds in a Year</h3>
-    <p>31,536,000 seconds per year — exact with π × 10⁷ physics trick</p>
+    <p>31,536,000 seconds per year — exact with π × 10⁷ trick</p>
     <span class="badge new">New</span>
   </a>
   <a href="/hours-in-a-month" class="tool-card">
     <span class="icon">🕐</span>
     <h3>Hours in a Month</h3>
-    <p>How many hours in a month? 730 avg — exact hours for any month</p>
+    <p>730 avg hours per month — exact hours for any month</p>
   </a>
   <a href="/time-to-decimal-calculator" class="tool-card">
     <span class="icon">⏱️</span>
     <h3>Time to Decimal Calculator</h3>
-    <p>Convert hours &amp; minutes to decimal format for timesheets and payroll</p>
+    <p>Convert hours &amp; minutes to decimal for timesheets and payroll</p>
   </a>
 </div>
 
@@ -230,85 +223,17 @@ const schema = JSON.stringify({
   <a href="/percent-off-calculator" class="tool-card">
     <span class="icon">🏷️</span>
     <h3>Percent Off Calculator</h3>
-    <p>Calculate any discount — enter price and % to see sale price instantly</p>
-    <span class="badge new">Popular</span>
+    <p>Enter any price and discount % — get sale price and savings instantly</p>
   </a>
-  <a href="/20-percent-off-100" class="tool-card">
-    <span class="icon">🏷️</span>
-    <h3>20% Off $100</h3>
-    <p>What is 20% off $100? Sale price $80 — save $20</p>
-  </a>
-  <a href="/30-percent-off-50" class="tool-card">
-    <span class="icon">🏷️</span>
-    <h3>30% Off $50</h3>
-    <p>What is 30% off $50? Sale price $35 — save $15</p>
-  </a>
-  <a href="/50-percent-off-200" class="tool-card">
-    <span class="icon">🏷️</span>
-    <h3>50% Off $200</h3>
-    <p>What is 50% off $200? Sale price $100 — save $100</p>
-  </a>
-  <a href="/25-percent-off-100" class="tool-card">
-    <span class="icon">🏷️</span>
-    <h3>25% Off $100</h3>
-    <p>What is 25% off $100? Sale price $75 — save $25</p>
-  </a>
-  <a href="/10-percent-off-50" class="tool-card">
-    <span class="icon">🏷️</span>
-    <h3>10% Off $50</h3>
-    <p>What is 10% off $50? Sale price $45 — save $5</p>
+  <a href="/percent-off-calculator" class="browse-card">
+    <span>Browse 308 specific discount pages — 20% off $100, 30% off $50, and more →</span>
+    <span class="bc-arrow">→</span>
   </a>
 </div>
 
 <!-- ⚖️ UNIT CONVERTERS -->
 <h2 class="section-title" id="converters">⚖️ Unit Converters</h2>
 <div class="tool-grid">
-  <a href="/cm-to-inches" class="tool-card">
-    <span class="icon">📐</span>
-    <h3>cm to Inches</h3>
-    <p>Convert centimeters to inches — 1 cm = 0.3937 inches</p>
-    <span class="badge new">Popular</span>
-  </a>
-  <a href="/kg-to-lbs" class="tool-card">
-    <span class="icon">⚖️</span>
-    <h3>kg to lbs</h3>
-    <p>Convert kilograms to pounds — 1 kg = 2.20462 lbs</p>
-  </a>
-  <a href="/80-kg-to-lbs" class="tool-card">
-    <span class="icon">⚖️</span>
-    <h3>80 kg to lbs</h3>
-    <p>80 kg = 176.37 lbs — with stones, grams, and ounces</p>
-  </a>
-  <a href="/70-kg-to-lbs" class="tool-card">
-    <span class="icon">⚖️</span>
-    <h3>70 kg to lbs</h3>
-    <p>70 kg = 154.32 lbs — common body weight conversion</p>
-  </a>
-  <a href="/60-kg-to-lbs" class="tool-card">
-    <span class="icon">⚖️</span>
-    <h3>60 kg to lbs</h3>
-    <p>60 kg = 132.28 lbs — with stones and pounds breakdown</p>
-  </a>
-  <a href="/75-kg-to-lbs" class="tool-card">
-    <span class="icon">⚖️</span>
-    <h3>75 kg to lbs</h3>
-    <p>75 kg = 165.35 lbs — average male weight conversion</p>
-  </a>
-  <a href="/65-kg-to-lbs" class="tool-card">
-    <span class="icon">⚖️</span>
-    <h3>65 kg to lbs</h3>
-    <p>65 kg = 143.30 lbs — popular body weight query</p>
-  </a>
-  <a href="/90-kg-to-lbs" class="tool-card">
-    <span class="icon">⚖️</span>
-    <h3>90 kg to lbs</h3>
-    <p>90 kg = 198.42 lbs — average US male body weight</p>
-  </a>
-  <a href="/100-kg-to-lbs" class="tool-card">
-    <span class="icon">⚖️</span>
-    <h3>100 kg to lbs</h3>
-    <p>100 kg = 220.46 lbs — easy round number conversion</p>
-  </a>
   <a href="/km-to-miles" class="tool-card">
     <span class="icon">🛣️</span>
     <h3>km to Miles</h3>
@@ -359,6 +284,41 @@ const schema = JSON.stringify({
     <h3>Knots to MPH</h3>
     <p>Convert nautical speed — knots to miles per hour</p>
   </a>
+  <a href="/80-kg-to-lbs" class="tool-card">
+    <span class="icon">⚖️</span>
+    <h3>80 kg to lbs</h3>
+    <p>80 kg = 176.37 lbs — stones, grams, and ounces included</p>
+  </a>
+  <a href="/70-kg-to-lbs" class="tool-card">
+    <span class="icon">⚖️</span>
+    <h3>70 kg to lbs</h3>
+    <p>70 kg = 154.32 lbs — common body weight conversion</p>
+  </a>
+  <a href="/60-kg-to-lbs" class="tool-card">
+    <span class="icon">⚖️</span>
+    <h3>60 kg to lbs</h3>
+    <p>60 kg = 132.28 lbs — with stones and pounds breakdown</p>
+  </a>
+  <a href="/75-kg-to-lbs" class="tool-card">
+    <span class="icon">⚖️</span>
+    <h3>75 kg to lbs</h3>
+    <p>75 kg = 165.35 lbs — average male weight conversion</p>
+  </a>
+  <a href="/65-kg-to-lbs" class="tool-card">
+    <span class="icon">⚖️</span>
+    <h3>65 kg to lbs</h3>
+    <p>65 kg = 143.30 lbs — popular body weight query</p>
+  </a>
+  <a href="/90-kg-to-lbs" class="tool-card">
+    <span class="icon">⚖️</span>
+    <h3>90 kg to lbs</h3>
+    <p>90 kg = 198.42 lbs — average US male body weight</p>
+  </a>
+  <a href="/100-kg-to-lbs" class="tool-card">
+    <span class="icon">⚖️</span>
+    <h3>100 kg to lbs</h3>
+    <p>100 kg = 220.46 lbs — easy round number conversion</p>
+  </a>
 </div>
 
 <!-- 🧮 MATH -->
@@ -394,8 +354,8 @@ const schema = JSON.stringify({
     <p>Every converter on ComputeZap uses the official conversion factors — no rounding shortcuts. The cm to inches converter uses exactly 0.393701 inches per centimeter. Liters to gallons supports both US (÷3.78541) and Imperial (÷4.54609) gallons. Whether you are cooking, traveling, or working with international specs, the answer is always precise.</p>
   </div>
   <div class="info-card">
-    <h2>Discount Calculator — 308 Specific Pages</h2>
-    <p>Need to know what 30% off $50 is? We have a dedicated page for every common discount combination — from 5% off $5 to 75% off $1000. Each page shows the sale price, savings amount, and a full table of related calculations. Bookmark the specific page you need most for instant answers every time you shop.</p>
+    <h2>308 Specific Discount Pages — Instant Answers</h2>
+    <p>Need to know what 30% off $50 is? We have a dedicated page for every common discount combination — from 5% off $5 to 75% off $1,000. Each page shows the sale price, savings amount, and related calculations. No need to do the math — just bookmark the page you use most.</p>
   </div>
 </div>
 
@@ -406,7 +366,7 @@ const schema = JSON.stringify({
 
   input.addEventListener('input', function () {
     var q = this.value.toLowerCase().trim();
-    var cards = document.querySelectorAll('.tool-card');
+    var cards = document.querySelectorAll('.tool-card, .browse-card');
     var totalVisible = 0;
 
     cards.forEach(function (card) {
@@ -416,11 +376,10 @@ const schema = JSON.stringify({
       if (show) totalVisible++;
     });
 
-    // Hide section titles when all cards in that section are hidden
     document.querySelectorAll('.section-title').forEach(function (title) {
       var next = title.nextElementSibling;
       if (next && next.classList.contains('tool-grid')) {
-        var vis = Array.from(next.querySelectorAll('.tool-card')).some(function (c) {
+        var vis = Array.from(next.querySelectorAll('.tool-card, .browse-card')).some(function (c) {
           return c.style.display !== 'none';
         });
         title.style.display = vis ? '' : 'none';
