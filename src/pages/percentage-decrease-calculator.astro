@@ -1,0 +1,294 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const schema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Percentage Decrease Calculator",
+    "url": "https://computezap.com/percentage-decrease-calculator",
+    "description": "Calculate percentage decrease between two values instantly. Formula: ((Old - New) ÷ Old) × 100. Free online calculator.",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
+      { "@type": "ListItem", "position": 2, "name": "Percentage Calculator", "item": "https://computezap.com/percentage-calculator" },
+      { "@type": "ListItem", "position": 3, "name": "Percentage Decrease Calculator", "item": "https://computezap.com/percentage-decrease-calculator" }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do I calculate percentage decrease?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Percentage decrease = ((Old Value - New Value) ÷ Old Value) × 100. Example: from 200 to 150 = ((200 - 150) ÷ 200) × 100 = 25% decrease." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is a 30% decrease of 500?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A 30% decrease of 500 = 500 × (1 - 30/100) = 500 × 0.70 = 350." }
+      }
+    ]
+  }
+]);
+---
+<Layout
+  title="Percentage Decrease Calculator — % Decrease Formula | ComputeZap"
+  description="Calculate percentage decrease between two numbers instantly. Also find new value after a % decrease. Formula: ((Old − New) ÷ Old) × 100."
+  canonical="/percentage-decrease-calculator"
+  schema={schema}
+>
+<style is:global>
+.hero{text-align:center;padding:2rem 1rem 1.5rem}
+.hero h1{font-size:2rem;color:#111;margin:.5rem 0 .4rem;font-weight:800;letter-spacing:-.02em}
+.hero-sub{color:#64748b;margin:0;font-size:1.05rem}
+.breadcrumb{font-size:.82rem;color:#94a3b8;margin-bottom:.75rem}
+.breadcrumb a{color:var(--blue);text-decoration:none}
+.calc-wrap{display:grid;grid-template-columns:400px 1fr;gap:1.75rem;max-width:1120px;margin:0 auto;padding:0 1rem 3.5rem;align-items:start}
+.calc-left{position:sticky;top:1rem;display:flex;flex-direction:column;gap:1rem}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:1.5rem;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.card h2{font-size:1rem;font-weight:700;color:#111;margin:0 0 1rem;padding-bottom:.65rem;border-bottom:1px solid #f3f4f6}
+.content-card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:1.5rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.content-card h2{font-size:1.05rem;font-weight:700;color:#111;margin:0 0 .8rem}
+.content-card p{color:#444;line-height:1.75;font-size:.93rem;margin:0 0 .7rem}
+.content-card p:last-child{margin-bottom:0}
+.field-group{margin-bottom:.75rem}
+.field-group label{display:block;font-size:.8rem;font-weight:600;color:#64748b;margin-bottom:.35rem}
+.field-group input{width:100%;padding:.55rem .85rem;border:1.5px solid #e2e8f0;border-radius:8px;font-size:1rem;font-weight:700;color:#111;font-family:inherit;box-sizing:border-box}
+.field-group input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+.calc-btn{width:100%;padding:.65rem;background:var(--blue);color:#fff;border:none;border-radius:9px;font-size:.95rem;font-weight:700;cursor:pointer;font-family:inherit;transition:background .15s;margin-top:.2rem}
+.calc-btn:hover{background:#1d4ed8}
+.answer-hero{background:linear-gradient(135deg,#1d4ed8 0%,#2563eb 60%,#3b82f6 100%);border-radius:12px;padding:1.25rem 1.5rem;text-align:center;display:none;margin-top:.75rem}
+.answer-hero.show{display:block}
+.a-label{font-size:.68rem;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.3rem;font-weight:700}
+.a-value{font-size:2.4rem;font-weight:900;color:#fff;line-height:1}
+.a-unit{font-size:.9rem;color:rgba(255,255,255,.8);margin-top:.25rem;font-weight:600}
+.a-formula{font-size:.78rem;color:rgba(255,255,255,.65);margin-top:.3rem}
+.stats-row{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-top:.65rem}
+.stat-box{background:#f8fafc;border:1px solid #f1f5f9;border-radius:9px;padding:.75rem;text-align:center}
+.stat-lbl{display:block;font-size:.62rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.2rem;font-weight:700}
+.stat-val{display:block;font-size:.95rem;font-weight:800;color:#1e293b}
+.formula-box{background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:12px;padding:1rem 1.25rem;margin:.75rem 0;text-align:center}
+.formula-text{font-size:.95rem;font-weight:800;color:#1e293b;font-family:monospace}
+.formula-sub{font-size:.8rem;color:#64748b;margin-top:.3rem}
+.tip-box{display:flex;gap:.75rem;background:#fef2f2;border:1px solid #fecaca;border-radius:10px;padding:.9rem 1rem;margin:.85rem 0}
+.tip-icon{font-size:1.1rem;flex-shrink:0}
+.tip-box p{margin:0;font-size:.875rem;color:#991b1b;line-height:1.6}
+.ref-tbl{width:100%;border-collapse:collapse;font-size:.875rem}
+.ref-tbl th{background:#f8fafc;padding:.6rem .85rem;text-align:left;font-size:.68rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;border-bottom:2px solid #e2e8f0}
+.ref-tbl td{padding:.6rem .85rem;border-bottom:1px solid #f3f4f6;color:#374151}
+.ref-tbl tr:last-child td{border-bottom:none}
+.ref-tbl tbody tr:hover td{background:#f8faff}
+.faq-item{border-bottom:1px solid #f3f4f6;padding:.9rem 0}
+.faq-item:last-child{border-bottom:none;padding-bottom:0}
+.faq-item h3{font-size:.9rem;color:#111;margin:0 0 .35rem;font-weight:700}
+.faq-item p{color:#555;font-size:.865rem;margin:0;line-height:1.65}
+.next-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem}
+.next-card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:1rem;border-top:3px solid var(--blue);text-decoration:none;display:block}
+.next-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.08);text-decoration:none}
+.next-tag{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--blue);margin-bottom:.3rem;display:block}
+.next-card h3{font-size:.88rem;font-weight:700;color:#111;margin:0 0 .25rem}
+.next-card p{font-size:.78rem;color:#64748b;margin:0;line-height:1.5}
+@media(max-width:768px){.calc-wrap{grid-template-columns:1fr}.calc-left{position:static}.hero h1{font-size:1.65rem}.a-value{font-size:1.9rem}.next-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.next-grid{grid-template-columns:1fr}}
+</style>
+
+<div class="hero">
+  <nav class="breadcrumb"><a href="/">Home</a> › <a href="/percentage-calculator">Percentage Calculator</a> › Percentage Decrease</nav>
+  <h1>Percentage Decrease Calculator</h1>
+  <p class="hero-sub">Find % decrease between two values — or find the new value after a decrease</p>
+</div>
+
+<div class="calc-wrap">
+  <div class="calc-left">
+
+    <div class="card">
+      <h2>Find Percentage Decrease</h2>
+      <div class="field-group">
+        <label>Original (Old) Value</label>
+        <input type="number" id="old1" placeholder="200" min="0" />
+      </div>
+      <div class="field-group">
+        <label>New Value</label>
+        <input type="number" id="new1" placeholder="150" min="0" />
+      </div>
+      <button class="calc-btn" onclick="calcDecrease()">Calculate % Decrease →</button>
+      <div id="res1" class="answer-hero">
+        <div class="a-label">Percentage Decrease</div>
+        <div class="a-value" id="res1-val">—</div>
+        <div class="a-unit" id="res1-unit"></div>
+        <div class="a-formula" id="res1-formula"></div>
+      </div>
+      <div id="stats1" class="stats-row" style="display:none">
+        <div class="stat-box"><span class="stat-lbl">Old Value</span><span class="stat-val" id="s1-old"></span></div>
+        <div class="stat-box"><span class="stat-lbl">New Value</span><span class="stat-val" id="s1-new"></span></div>
+        <div class="stat-box"><span class="stat-lbl">Reduction</span><span class="stat-val" id="s1-change"></span></div>
+        <div class="stat-box"><span class="stat-lbl">% Decrease</span><span class="stat-val" id="s1-pct"></span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Find New Value After % Decrease</h2>
+      <div class="field-group">
+        <label>Original Value</label>
+        <input type="number" id="orig2" placeholder="500" min="0" />
+      </div>
+      <div class="field-group">
+        <label>Percentage Decrease (%)</label>
+        <input type="number" id="pct2" placeholder="30" min="0" max="100" />
+      </div>
+      <button class="calc-btn" onclick="calcNewVal()">Calculate New Value →</button>
+      <div id="res2" class="answer-hero">
+        <div class="a-label">New Value</div>
+        <div class="a-value" id="res2-val">—</div>
+        <div class="a-unit" id="res2-unit"></div>
+        <div class="a-formula" id="res2-formula"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="calc-right">
+    <div class="content-card">
+      <h2>Percentage Decrease Formula</h2>
+      <div class="formula-box">
+        <div class="formula-text">% Decrease = ((Old − New) ÷ Old) × 100</div>
+        <div class="formula-sub">Example: 200 to 150 → ((200 − 150) ÷ 200) × 100 = 25%</div>
+      </div>
+      <div class="formula-box">
+        <div class="formula-text">New Value = Old × (1 − % ÷ 100)</div>
+        <div class="formula-sub">Example: 500 with 30% decrease → 500 × 0.70 = 350</div>
+      </div>
+      <p><strong>Step-by-step for 200 → 150:</strong></p>
+      <p>1. Find the change: 200 − 150 = <strong>50</strong></p>
+      <p>2. Divide by original: 50 ÷ 200 = <strong>0.25</strong></p>
+      <p>3. Multiply by 100: 0.25 × 100 = <strong>25%</strong></p>
+      <div class="tip-box">
+        <span class="tip-icon">📉</span>
+        <p><strong>Real-world use:</strong> Price drops from $80 to $60 = ((80 − 60) ÷ 80) × 100 = <strong>25% decrease</strong>. Same formula works for weight loss, revenue drops, and temperature changes.</p>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>Percentage Decrease Reference Table</h2>
+      <div style="overflow-x:auto">
+        <table class="ref-tbl">
+          <thead><tr><th>From</th><th>To</th><th>% Decrease</th></tr></thead>
+          <tbody>
+            <tr><td>100</td><td>90</td><td><strong>10%</strong></td></tr>
+            <tr><td>100</td><td>75</td><td><strong>25%</strong></td></tr>
+            <tr><td>100</td><td>50</td><td><strong>50%</strong></td></tr>
+            <tr><td>200</td><td>150</td><td><strong>25%</strong></td></tr>
+            <tr><td>500</td><td>350</td><td><strong>30%</strong></td></tr>
+            <tr><td>1,000</td><td>800</td><td><strong>20%</strong></td></tr>
+            <tr><td>80</td><td>60</td><td><strong>25%</strong></td></tr>
+            <tr><td>250</td><td>200</td><td><strong>20%</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>How do I calculate percentage decrease?</h3>
+        <p>Formula: <strong>((Old − New) ÷ Old) × 100</strong>. Subtract the new value from the old, divide by the old value, then multiply by 100.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What is a 30% decrease of 500?</h3>
+        <p><strong>350.</strong> Formula: 500 × (1 − 0.30) = 500 × 0.70 = 350. The decrease amount is 150.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What is the difference between percentage decrease and percentage increase?</h3>
+        <p>Both use the same structure but the direction is reversed. Decrease: ((Old − New) ÷ Old) × 100. Increase: ((New − Old) ÷ Old) × 100. If the result is negative, it means a decrease even when using the increase formula.</p>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>Related Calculators</h2>
+      <div class="next-grid">
+        <a href="/percentage-calculator" class="next-card">
+          <span class="next-tag">Percentage</span>
+          <h3>Percentage Calculator</h3>
+          <p>What is X% of Y? Three calculators in one</p>
+        </a>
+        <a href="/percentage-increase-calculator" class="next-card">
+          <span class="next-tag">Percentage</span>
+          <h3>% Increase Calculator</h3>
+          <p>Calculate percentage increase between two values</p>
+        </a>
+        <a href="/markup-calculator" class="next-card">
+          <span class="next-tag">Business</span>
+          <h3>Markup Calculator</h3>
+          <p>Calculate selling price from cost and markup %</p>
+        </a>
+        <a href="/margin-calculator" class="next-card">
+          <span class="next-tag">Business</span>
+          <h3>Margin Calculator</h3>
+          <p>Calculate profit margin from revenue and cost</p>
+        </a>
+        <a href="/percent-off-calculator" class="next-card">
+          <span class="next-tag">Discount</span>
+          <h3>Percent Off Calculator</h3>
+          <p>Find sale price after a percentage discount</p>
+        </a>
+        <a href="/reverse-sales-tax-calculator" class="next-card">
+          <span class="next-tag">Finance</span>
+          <h3>Reverse Sales Tax</h3>
+          <p>Find original price before tax was added</p>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+function fmt(n) {
+  if (n === Math.floor(n)) return n.toLocaleString();
+  return parseFloat(n.toFixed(2)).toLocaleString();
+}
+function calcDecrease() {
+  var oldV = parseFloat(document.getElementById('old1').value);
+  var newV = parseFloat(document.getElementById('new1').value);
+  var res = document.getElementById('res1');
+  var stats = document.getElementById('stats1');
+  if (isNaN(oldV) || isNaN(newV) || oldV === 0) { res.classList.remove('show'); stats.style.display='none'; return; }
+  var pct = ((oldV - newV) / oldV) * 100;
+  var change = oldV - newV;
+  document.getElementById('res1-val').textContent = fmt(Math.abs(pct)) + '%';
+  document.getElementById('res1-unit').textContent = (pct >= 0 ? 'Decrease' : 'Increase') + ' from ' + fmt(oldV) + ' to ' + fmt(newV);
+  document.getElementById('res1-formula').textContent = '((' + fmt(oldV) + ' − ' + fmt(newV) + ') ÷ ' + fmt(oldV) + ') × 100';
+  res.classList.add('show');
+  document.getElementById('s1-old').textContent = fmt(oldV);
+  document.getElementById('s1-new').textContent = fmt(newV);
+  document.getElementById('s1-change').textContent = '−' + fmt(Math.abs(change));
+  document.getElementById('s1-pct').textContent = '−' + fmt(Math.abs(pct)) + '%';
+  stats.style.display = 'grid';
+}
+function calcNewVal() {
+  var orig = parseFloat(document.getElementById('orig2').value);
+  var pct = parseFloat(document.getElementById('pct2').value);
+  var res = document.getElementById('res2');
+  if (isNaN(orig) || isNaN(pct)) { res.classList.remove('show'); return; }
+  var newVal = orig * (1 - pct / 100);
+  var decrease = orig - newVal;
+  document.getElementById('res2-val').textContent = fmt(newVal);
+  document.getElementById('res2-unit').textContent = fmt(orig) + ' − ' + pct + '% = ' + fmt(newVal);
+  document.getElementById('res2-formula').textContent = fmt(orig) + ' × ' + (1 - pct/100).toFixed(2) + ' = ' + fmt(newVal) + ' (decrease: −' + fmt(decrease) + ')';
+  res.classList.add('show');
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key !== 'Enter') return;
+  var t = e.target;
+  if (t.id === 'old1' || t.id === 'new1') calcDecrease();
+  if (t.id === 'orig2' || t.id === 'pct2') calcNewVal();
+});
+</script>
+</Layout>
