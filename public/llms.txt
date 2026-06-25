@@ -1,36 +1,62 @@
 # ComputeZap
 
-> Free online calculators and unit converters for finance, math, cooking, and everyday use. All tools work instantly in your browser — no downloads, no account required.
+> Free online calculators and unit converters for finance, math, cooking, and everyday use. All tools run instantly in your browser — no downloads, no account, always free.
+
+ComputeZap provides 426 pages of free calculation tools covering finance, unit conversion, date and time, math, and discount calculations. Every tool produces instant results using standard formulas. No data is sent to any server.
 
 ## Finance Calculators
 
-- CD Calculator (/cd-calculator): Calculate Certificate of Deposit earnings using compound interest formula. Enter principal, APY, and term length to get exact interest earned and final balance.
-- Mortgage Payoff Calculator (/mortgage-payoff-calculator): See how extra payments reduce your mortgage term and total interest paid.
-- Reverse Sales Tax Calculator (/reverse-sales-tax-calculator): Find the original pre-tax price from a total amount paid. Useful for expense reports and receipts.
+- [Debt Snowball Calculator](https://www.computezap.com/debt-snowball-calculator): Pay off multiple debts using the snowball method. Shows payoff order, interest saved, and debt-free date.
+- [CD Calculator](https://www.computezap.com/cd-calculator): Calculate Certificate of Deposit earnings using the compound interest formula. Enter principal, APY, and term to get exact interest and final balance.
+- [Mortgage Payoff Calculator](https://www.computezap.com/mortgage-payoff-calculator): Shows how extra monthly payments reduce total interest paid and years remaining on a mortgage.
+- [Biweekly Mortgage Calculator](https://www.computezap.com/biweekly-mortgage-calculator): Calculate interest savings from switching to biweekly mortgage payments instead of monthly.
+- [Reverse Sales Tax Calculator](https://www.computezap.com/reverse-sales-tax-calculator): Find the original pre-tax price from a total amount paid. Useful for receipts and expense reports.
 
 ## Date & Time Tools
 
-- Days From Today Calculator (/days-from-today): Find the exact calendar date any number of days from today. Handles net payment terms, deadlines, and project planning.
-- 30 Days From Today (/30-days-from-today): What is the exact date 30 days from today? Used for net-30 payment deadlines.
-- 90 Days From Today (/90-days-from-today): Find the date 90 days (one quarter) from today. Used for quarterly planning and filing deadlines.
-
-## Math Calculators
-
-- Percent Off Calculator (/percent-off-calculator): Calculate the sale price after a percentage discount. Shows savings amount and final price.
-- Pythagorean Theorem Calculator (/pythagorean-theorem-calculator): Find any side of a right triangle using a² + b² = c².
-- Time to Decimal Calculator (/time-to-decimal-calculator): Convert hours and minutes to decimal format for payroll and timesheets.
+- [Days From Today Calculator](https://www.computezap.com/days-from-today): Find the exact calendar date any number of days from today. Handles net payment terms and deadlines.
+- [30 Days From Today](https://www.computezap.com/30-days-from-today): Exact date 30 days from today — used for net-30 payment deadlines.
+- [60 Days From Today](https://www.computezap.com/60-days-from-today): Exact date 60 days from today.
+- [90 Days From Today](https://www.computezap.com/90-days-from-today): Exact date 90 days (one quarter) from today. Used for quarterly planning and filing deadlines.
+- [Weeks in a Year](https://www.computezap.com/weeks-in-a-year): How many weeks in a year — 52 weeks plus 1 day. Includes work weeks, school weeks, and biweekly pay periods.
+- [Hours in a Year](https://www.computezap.com/hours-in-a-year): 8,760 hours in a standard year. Includes work hours calculator and salary-to-hourly converter.
+- [Minutes in a Day](https://www.computezap.com/minutes-in-a-day): 1,440 minutes in a day. Includes full time unit reference table.
+- [Seconds in a Year](https://www.computezap.com/seconds-in-a-year): 31,536,000 seconds per year. Includes the π × 10⁷ physics approximation.
+- [Hours in a Month](https://www.computezap.com/hours-in-a-month): 730 average hours per month — exact hours for every month of the year.
+- [Time to Decimal Calculator](https://www.computezap.com/time-to-decimal-calculator): Convert hours and minutes to decimal format for payroll and timesheets.
 
 ## Unit Converters
 
-- Square Footage Calculator (/square-footage-calculator): Calculate area in square feet for rooms, land, or any rectangular space.
-- kg to lbs Converter (/kg-to-lbs): Convert kilograms to pounds instantly.
-- cm to inches Converter (/cm-to-inches): Convert centimeters to inches — the most searched length converter.
-- Celsius to Fahrenheit (/celsius-to-fahrenheit): Temperature conversion using the °C to °F formula.
-- Knots to MPH Converter (/knots-to-mph): Convert nautical speed (knots) to miles per hour.
-- Cups to Gallons Converter (/cups-to-gallons): Kitchen and cooking volume conversion.
-- Cups to Tablespoons Converter (/cups-to-tablespoons): How many tablespoons in a cup? 1 cup = 16 tablespoons. All fractions covered.
-- Liters to Gallons Converter (/liters-to-gallons): Convert liters to US gallons (1 gal = 3.785 L) or Imperial gallons (1 gal = 4.546 L).
+- [cm to Inches Converter](https://www.computezap.com/cm-to-inches): Convert centimeters to inches. 1 cm = 0.393701 inches. Most searched length converter.
+- [kg to lbs Converter](https://www.computezap.com/kg-to-lbs): Convert kilograms to pounds. 1 kg = 2.20462 lbs. Includes stones and grams.
+- [km to Miles Converter](https://www.computezap.com/km-to-miles): Convert kilometers to miles. Includes race distance reference chart.
+- [Meters to Feet Converter](https://www.computezap.com/meters-to-feet): Convert meters to feet and inches with height conversion table.
+- [Celsius to Fahrenheit](https://www.computezap.com/celsius-to-fahrenheit): Temperature converter using the standard °C to °F formula.
+- [Fahrenheit to Celsius](https://www.computezap.com/fahrenheit-to-celsius): Convert °F to °C — body temperature, freezing, and boiling points included.
+- [Liters to Gallons](https://www.computezap.com/liters-to-gallons): Convert liters to US gallons (÷3.78541) or Imperial gallons (÷4.54609).
+- [Oz to Quarts](https://www.computezap.com/oz-to-quarts): Convert fluid ounces to quarts. 1 quart = 32 fl oz.
+- [Cups to Tablespoons](https://www.computezap.com/cups-to-tablespoons): 1 cup = 16 tablespoons. All common fractions covered.
+- [Cups to Gallons](https://www.computezap.com/cups-to-gallons): Convert cups to gallons for large-batch cooking.
+- [Ounces in a Pound](https://www.computezap.com/ounces-in-a-pound): 1 pound = 16 ounces. Includes full conversion table.
+- [Knots to MPH](https://www.computezap.com/knots-to-mph): Convert nautical speed in knots to miles per hour.
+
+## Math Calculators
+
+- [Decimal to Fraction Calculator](https://www.computezap.com/decimal-to-fraction): Convert any decimal to a fraction — shows simplified form, mixed number, and step-by-step work.
+- [Percent Off Calculator](https://www.computezap.com/percent-off-calculator): Calculate sale price after any percentage discount. Shows savings amount and final price.
+- [Square Footage Calculator](https://www.computezap.com/square-footage-calculator): Calculate area in square feet for rectangles, triangles, circles, and L-shapes.
+- [Pythagorean Theorem Calculator](https://www.computezap.com/pythagorean-theorem-calculator): Find any side of a right triangle using a² + b² = c².
+
+## Discount Pages Index
+
+- [All Discount Pages](https://www.computezap.com/discount-pages): Directory of all 308 specific discount calculator pages — 5% to 75% off prices from $5 to $1,000.
+
+## kg to lbs Pages Index
+
+- [All kg to lbs Pages](https://www.computezap.com/kg-pages): Directory of all 56 specific kg-to-lbs pages — 40 kg to 200 kg with pounds, stones, grams, and ounces.
 
 ## About
 
-ComputeZap was founded in 2026. Contact: levelupsolution911@gmail.com
+ComputeZap launched in 2026. All calculations run client-side in the browser using verified formulas. No user data is collected or transmitted.
+
+Contact: mail.sajawaljutt@gmail.com
