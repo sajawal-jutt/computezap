@@ -140,13 +140,18 @@ const image = ogImage || 'https://computezap.com/og-default.png';
     </div>
   </footer>
 
-  <!-- Google Analytics (deferred for better mobile performance) -->
-  <script defer src="https://www.googletagmanager.com/gtag/js?id=G-HKNEP4FGVH"></script>
+  <!-- Google Analytics — fully deferred to avoid TBT -->
   <script is:inline>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-HKNEP4FGVH');
+    window.addEventListener('load', function() {
+      var s = document.createElement('script');
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-HKNEP4FGVH';
+      s.async = true;
+      document.head.appendChild(s);
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-HKNEP4FGVH', { send_page_view: true });
+    });
   </script>
 </body>
 </html>
