@@ -41,169 +41,170 @@ const schema = JSON.stringify([
   schema={schema}
 >
 <style is:global>
-.hero{text-align:center;padding:2rem 1rem 1.25rem}
-.hero h1{font-size:2rem;color:#111;margin:.5rem 0 .35rem;font-weight:800}
-.hero-sub{color:#555;margin:0;font-size:1rem}
-.breadcrumb{font-size:.85rem;color:#888;margin-bottom:.75rem}
-.breadcrumb a{color:var(--blue);text-decoration:none}
-.calc-wrap{display:grid;grid-template-columns:360px 1fr;gap:1.5rem;max-width:1100px;margin:0 auto;padding:0 1rem 3rem;align-items:start}
-.calc-left{position:sticky;top:1rem}
-.card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:1.5rem;margin-bottom:1rem}
-.card:last-child{margin-bottom:0}
+.page-hero{text-align:center;padding:2rem 1rem 1rem}
+.page-hero h1{font-size:1.9rem;font-weight:800;letter-spacing:-.03em;color:#111;margin:0 0 .35rem}
+.page-hero p{color:#64748b;font-size:1rem;margin:0}
+.page-hero nav{font-size:.82rem;color:#94a3b8;margin-bottom:.75rem}
+.page-hero nav a{color:var(--blue);text-decoration:none}
+.calc-center{max-width:620px;margin:0 auto;padding:0 1rem 2rem}
+.content-wrap{max-width:900px;margin:0 auto;padding:0 1rem 3.5rem}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:1.5rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.content-card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:1.5rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.content-card h2{font-size:1.05rem;font-weight:700;color:#111;margin:0 0 .8rem}
+.content-card h3{font-size:.95rem;font-weight:700;color:#111;margin:.75rem 0 .4rem}
+.content-card p{color:#444;line-height:1.75;font-size:.93rem;margin:0 0 .7rem}
+.content-card p:last-child{margin-bottom:0}
+.content-card ul{color:#444;line-height:1.85;font-size:.93rem;padding-left:1.25rem;margin:.5rem 0 0}
 .mode-wrap{display:grid;grid-template-columns:1fr 1fr;gap:.4rem;margin-bottom:1.25rem}
-.mode-btn{background:#f8fafc;color:#64748b;border:1.5px solid #e2e8f0;border-radius:8px;padding:.5rem;font-size:.82rem;font-weight:700;cursor:pointer;text-align:center;transition:all .15s}
+.mode-btn{padding:.55rem;font-size:.85rem;font-weight:600;border:1.5px solid #e2e8f0;border-radius:8px;background:#f8fafc;color:#64748b;cursor:pointer;transition:all .15s;text-align:center}
 .mode-btn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
-.result-box{background:var(--blue);border-radius:14px;padding:1.75rem 1.5rem;text-align:center;margin-bottom:1.25rem;box-shadow:0 4px 20px rgba(37,99,235,.18)}
-.res-lbl{font-size:.72rem;color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:.09em;margin-bottom:.5rem}
-.res-val{font-size:2.1rem;font-weight:800;color:#fff;line-height:1.2}
-.res-sub{font-size:.95rem;color:rgba(255,255,255,.8);margin-top:.3rem}
-.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:0}
-.stat-item{background:#f8fafc;border:1px solid #f1f5f9;border-radius:10px;padding:.9rem .75rem;text-align:center}
-.stat-lbl{display:block;font-size:.68rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.3rem;font-weight:600}
-.stat-val{display:block;font-size:1.1rem;font-weight:800;color:#1e293b}
-.stat-primary{background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:12px;padding:1rem 1.25rem;text-align:center;margin-bottom:.6rem}
-.stat-big{display:block;font-size:2rem;font-weight:900;color:#2563eb;line-height:1.1}
-.stat-secondary{background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:.75rem 1.25rem;text-align:center;margin-bottom:.6rem}
-.stat-med{display:block;font-size:1.4rem;font-weight:800;color:#1e293b;line-height:1.1}
-.fld-lbl{display:block;font-size:.8rem;font-weight:700;color:#374151;margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.04em}
-.fld-wrap{position:relative;margin-bottom:1rem}
-.fld-sfx{position:absolute;right:.9rem;top:50%;transform:translateY(-50%);color:#94a3b8;font-weight:600;pointer-events:none;font-size:.9rem}
-.txt-input{width:100%;font-size:1.1rem;padding:.7rem 3rem .7rem 1rem;border:1.5px solid #e2e8f0;border-radius:8px;color:#111;box-sizing:border-box;font-family:inherit;background:#fff}
-.txt-input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+.input-group{margin-bottom:.85rem}
+.input-group label{display:block;font-size:.82rem;font-weight:600;color:#374151;margin-bottom:.4rem}
+.input-wrap{position:relative}
+.input-sfx{position:absolute;right:.9rem;top:50%;transform:translateY(-50%);color:#94a3b8;font-weight:600;pointer-events:none;font-size:.9rem}
+.input-group input{width:100%;padding:.65rem 3rem .65rem .9rem;border:1.5px solid #e2e8f0;border-radius:8px;font-size:1rem;font-family:inherit;color:#111;transition:border-color .15s;box-sizing:border-box}
+.input-group input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
 .preset-lbl{font-size:.7rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.5rem;display:block}
-.preset-wrap{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.5rem}
+.preset-wrap{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1rem}
 .preset-btn{background:#fff;color:var(--blue);border:1.5px solid #dbeafe;border-radius:20px;padding:.28rem .75rem;font-size:.82rem;font-weight:700;cursor:pointer;transition:all .15s}
 .preset-btn:hover{background:var(--blue);color:#fff;border-color:var(--blue)}
-.card h2{font-size:1.1rem;font-weight:700;color:#111;margin:0 0 .8rem}
-.card h3{font-size:.95rem;font-weight:700;color:#111;margin:.75rem 0 .4rem}
-.card p{color:#444;line-height:1.75;font-size:.95rem;margin:0 0 .7rem}
-.card p:last-child{margin-bottom:0}
-.card ul{color:#444;line-height:1.85;font-size:.95rem;padding-left:1.25rem;margin:.5rem 0 0}
-.formula-box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:.75rem 1rem;font-family:monospace;font-size:.88rem;color:#1e293b;margin:.6rem 0}
-.tip-box{display:flex;gap:.75rem;background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:.9rem 1rem;margin:.75rem 0}
-.tip-icon{font-size:1.1rem;flex-shrink:0;margin-top:.1rem}
-.tip-box p{margin:0;font-size:.875rem;color:#1e40af}
+.calc-btn{width:100%;padding:.8rem;background:var(--blue);color:#fff;border:none;border-radius:8px;font-size:1rem;font-weight:700;cursor:pointer;transition:background .15s;margin-bottom:1rem}
+.calc-btn:hover{background:#1d4ed8}
+.answer-hero{background:linear-gradient(135deg,#1d4ed8 0%,#2563eb 60%,#3b82f6 100%);border-radius:14px;padding:1.75rem 1.5rem 1.25rem;text-align:center;margin-bottom:1rem;box-shadow:0 6px 24px rgba(37,99,235,.22);display:none}
+.answer-hero.show{display:block}
+.a-label{font-size:.68rem;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem;font-weight:700}
+.a-value{font-size:2.8rem;font-weight:900;color:#fff;line-height:1;letter-spacing:-.02em}
+.a-unit{font-size:1rem;font-weight:600;color:rgba(255,255,255,.8);margin-top:.3rem}
+.a-sub{font-size:.85rem;color:rgba(255,255,255,.7);margin-top:.4rem}
+.stats-row{display:none;grid-template-columns:1fr 1fr;gap:.55rem}
+.stats-row.show{display:grid}
+.stat-box{background:#f8fafc;border:1px solid #f1f5f9;border-radius:10px;padding:.85rem .75rem;text-align:center}
+.stat-lbl{display:block;font-size:.62rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.25rem;font-weight:700}
+.stat-val{display:block;font-size:.95rem;font-weight:800;color:#1e293b}
 .answer-box{background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:10px;padding:.75rem 1rem;margin:.75rem 0}
-.answer-row{display:flex;justify-content:space-between;align-items:center;padding:.35rem 0;border-bottom:1px solid #f1f5f9;font-size:.95rem}
+.answer-row{display:flex;justify-content:space-between;align-items:center;padding:.35rem 0;border-bottom:1px solid #f1f5f9;font-size:.93rem}
 .answer-row:last-child{border-bottom:none}
 .answer-lbl{color:#64748b;font-weight:600}
 .answer-val{color:#2563eb;font-weight:800}
+.formula-box{background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:10px;padding:.85rem 1rem;text-align:center;font-family:monospace;font-weight:800;color:#1e293b;font-size:.95rem;margin:.6rem 0 1rem}
+.tip-box{display:flex;gap:.75rem;background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:.9rem 1rem;margin:.75rem 0}
+.tip-icon{font-size:1.1rem;flex-shrink:0;margin-top:.1rem}
+.tip-box p{margin:0;font-size:.875rem;color:#1e40af}
 .ref-tbl{width:100%;border-collapse:collapse;font-size:.875rem}
-.ref-tbl th{background:#f8fafc;padding:.45rem .75rem;text-align:left;font-size:.72rem;color:#64748b;font-weight:700;text-transform:uppercase;letter-spacing:.04em;border-bottom:1px solid #e5e7eb}
-.ref-tbl td{padding:.5rem .75rem;border-bottom:1px solid #f3f4f6;color:#444;cursor:pointer}
+.ref-tbl th{background:#f8fafc;padding:.6rem .85rem;text-align:left;font-size:.68rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;border-bottom:2px solid #e2e8f0}
+.ref-tbl td{padding:.65rem .85rem;border-bottom:1px solid #f3f4f6;color:#374151}
 .ref-tbl tr:last-child td{border-bottom:none}
+.ref-tbl tbody tr:hover td{background:#f8faff;cursor:pointer}
 .ref-tbl .acc{color:var(--blue);font-weight:700}
-.ref-tbl .hi td{background:#eff6ff;color:#1e40af;font-weight:600}
-.faq-item{border-bottom:1px solid #f3f4f6;padding:.85rem 0}
+.ref-tbl .hi td{background:#eff6ff;font-weight:700}
+.faq-item{border-bottom:1px solid #f3f4f6;padding:.9rem 0}
 .faq-item:last-child{border-bottom:none;padding-bottom:0}
-.faq-item h3{font-size:.92rem;color:#111;margin:0 0 .35rem;font-weight:600}
-.faq-item p{color:#555;font-size:.875rem;margin:0;line-height:1.65}
-.content-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:1.5rem;margin-bottom:1rem}
-.content-card h2{font-size:1.1rem;font-weight:700;color:#111;margin:0 0 .8rem}
-.content-card ul{color:#444;line-height:1.85;font-size:.95rem;padding-left:1.25rem;margin:0}
+.faq-item h3{font-size:.9rem;color:#111;margin:0 0 .35rem;font-weight:700}
+.faq-item p{color:#555;font-size:.865rem;margin:0;line-height:1.65}
 .next-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem}
-.next-card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:1rem;border-top:3px solid var(--blue);text-decoration:none;display:block;transition:box-shadow .15s}
-.next-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.08)}
+.next-card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:1rem;border-top:3px solid var(--blue);text-decoration:none;display:block}
+.next-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.08);text-decoration:none}
 .next-tag{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--blue);margin-bottom:.3rem;display:block}
 .next-card h3{font-size:.88rem;font-weight:700;color:#111;margin:0 0 .25rem}
 .next-card p{font-size:.78rem;color:#64748b;margin:0;line-height:1.5}
-@media(max-width:768px){.calc-wrap{grid-template-columns:1fr}.calc-left{position:static}.hero h1{font-size:1.65rem}.res-val{font-size:1.6rem}}
+@media(max-width:768px){.page-hero h1{font-size:1.65rem}.a-value{font-size:2.1rem}.next-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.next-grid{grid-template-columns:1fr}}
 </style>
 
-<div class="hero">
-  <nav class="breadcrumb"><a href="/">Home</a> › cm to Inches Converter</nav>
+<div class="page-hero">
+  <nav><a href="/">Home</a> › cm to Inches Converter</nav>
   <h1>cm to Inches Converter</h1>
-  <p class="hero-sub">1 centimeter = 0.3937 inches — convert any length instantly</p>
+  <p>1 centimeter = 0.3937 inches — convert any length instantly</p>
 </div>
 
-<div class="calc-wrap">
-  <div class="calc-left">
-    <div class="card">
-      <div class="mode-wrap">
-        <button class="mode-btn active" id="btn-cm" onclick="setMode('cm')">cm → in</button>
-        <button class="mode-btn" id="btn-in" onclick="setMode('in')">in → cm</button>
-      </div>
-      <label class="fld-lbl" id="inp-lbl">Centimeters (cm)</label>
-      <div class="fld-wrap">
-        <input type="number" id="amount" class="txt-input" value="170" min="0" step="0.1" oninput="convert()" />
-        <span class="fld-sfx" id="inp-sfx">cm</span>
-      </div>
-      <span class="preset-lbl">Quick values</span>
-      <div class="preset-wrap" id="preset-wrap">
-        <button class="preset-btn" onclick="setVal(10)">10</button>
-        <button class="preset-btn" onclick="setVal(30)">30</button>
-        <button class="preset-btn" onclick="setVal(60)">60</button>
-        <button class="preset-btn" onclick="setVal(100)">100</button>
-        <button class="preset-btn" onclick="setVal(150)">150</button>
-        <button class="preset-btn" onclick="setVal(160)">160</button>
-        <button class="preset-btn" onclick="setVal(165)">165</button>
-        <button class="preset-btn" onclick="setVal(170)">170</button>
-        <button class="preset-btn" onclick="setVal(175)">175</button>
-        <button class="preset-btn" onclick="setVal(180)">180</button>
+<div class="calc-center">
+  <div class="card">
+    <div class="mode-wrap">
+      <button class="mode-btn active" id="btn-cm">cm → in</button>
+      <button class="mode-btn" id="btn-in">in → cm</button>
+    </div>
+    <div class="input-group">
+      <label id="inp-lbl">Centimeters (cm)</label>
+      <div class="input-wrap">
+        <input type="number" id="amount" value="170" min="0" step="0.1" />
+        <span class="input-sfx" id="inp-sfx">cm</span>
       </div>
     </div>
-    <div class="card">
-      <div class="result-box">
-        <div class="res-lbl" id="res-lbl">Inches</div>
-        <div class="res-val"><span id="r-main">66.93</span> <span style="font-size:1.1rem;opacity:.85" id="r-unit">in</span></div>
-        <div class="res-sub" id="r-sub">170 cm = 66.93 inches</div>
+    <span class="preset-lbl">Quick values</span>
+    <div class="preset-wrap" id="preset-wrap">
+      <button class="preset-btn" onclick="setVal(10)">10</button>
+      <button class="preset-btn" onclick="setVal(30)">30</button>
+      <button class="preset-btn" onclick="setVal(100)">100</button>
+      <button class="preset-btn" onclick="setVal(160)">160</button>
+      <button class="preset-btn" onclick="setVal(165)">165</button>
+      <button class="preset-btn" onclick="setVal(170)">170</button>
+      <button class="preset-btn" onclick="setVal(175)">175</button>
+      <button class="preset-btn" onclick="setVal(180)">180</button>
+    </div>
+    <button class="calc-btn" id="calc-btn">Convert</button>
+    <div class="answer-hero" id="answer">
+      <div class="a-label" id="ans-label">170 cm =</div>
+      <div class="a-value" id="ans-value">66.93</div>
+      <div class="a-unit" id="ans-unit">inches (in)</div>
+      <div class="a-sub" id="ans-sub">170 × 0.393701 = 66.93 in</div>
+    </div>
+    <div class="stats-row" id="stats">
+      <div class="stat-box">
+        <span class="stat-lbl" id="s1-lbl">Feet & Inches</span>
+        <span class="stat-val" id="s1-val">5′ 6.93″</span>
       </div>
-      <div class="stat-primary">
-        <span class="stat-lbl" id="s1-lbl">Inches</span>
-        <span class="stat-big" id="s1-val">66.93 in</span>
+      <div class="stat-box">
+        <span class="stat-lbl" id="s2-lbl">Feet (decimal)</span>
+        <span class="stat-val" id="s2-val">5.577 ft</span>
       </div>
-      <div class="stat-secondary">
-        <span class="stat-lbl" id="s2-lbl">Feet & Inches</span>
-        <span class="stat-med" id="s2-val">5′ 6.93″</span>
+      <div class="stat-box">
+        <span class="stat-lbl" id="s3-lbl">Millimeters</span>
+        <span class="stat-val" id="s3-val">1700 mm</span>
       </div>
-      <div class="stats-grid">
-        <div class="stat-item">
-          <span class="stat-lbl" id="s3-lbl">Feet (decimal)</span>
-          <span class="stat-val" id="s3-val">5.577 ft</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-lbl" id="s4-lbl">Millimeters</span>
-          <span class="stat-val" id="s4-val">1700 mm</span>
-        </div>
+      <div class="stat-box">
+        <span class="stat-lbl" id="s4-lbl">Meters</span>
+        <span class="stat-val" id="s4-val">1.7 m</span>
       </div>
     </div>
   </div>
+</div>
 
-  <div class="calc-right">
-    <div class="card">
-      <h2>How Many Inches in a Centimeter?</h2>
-      <p>There are <strong>0.393701 inches in 1 centimeter</strong>. Conversely, 1 inch = 2.54 cm exactly — this is the international definition of the inch set in 1959.</p>
-      <div class="answer-box">
-        <div class="answer-row"><span class="answer-lbl">1 cm</span><span class="answer-val">= 0.3937 inches</span></div>
-        <div class="answer-row"><span class="answer-lbl">1 inch</span><span class="answer-val">= 2.54 cm</span></div>
-        <div class="answer-row"><span class="answer-lbl">1 foot</span><span class="answer-val">= 30.48 cm</span></div>
-        <div class="answer-row"><span class="answer-lbl">1 meter</span><span class="answer-val">= 39.37 inches</span></div>
-      </div>
-      <div class="formula-box">inches = cm × 0.393701 &nbsp;|&nbsp; cm = inches × 2.54</div>
+<div class="content-wrap">
+
+  <div class="content-card">
+    <h2>How Many Inches in a Centimeter?</h2>
+    <p>There are <strong>0.393701 inches in 1 centimeter</strong>. Conversely, 1 inch = 2.54 cm exactly — this is the international definition of the inch set in 1959.</p>
+    <div class="answer-box">
+      <div class="answer-row"><span class="answer-lbl">1 cm</span><span class="answer-val">= 0.3937 inches</span></div>
+      <div class="answer-row"><span class="answer-lbl">1 inch</span><span class="answer-val">= 2.54 cm</span></div>
+      <div class="answer-row"><span class="answer-lbl">1 foot</span><span class="answer-val">= 30.48 cm</span></div>
+      <div class="answer-row"><span class="answer-lbl">1 meter</span><span class="answer-val">= 39.37 inches</span></div>
     </div>
+    <div class="formula-box">inches = cm × 0.393701 &nbsp;|&nbsp; cm = inches × 2.54</div>
+  </div>
 
-    <div class="card">
-      <h2>cm to Inches Height Chart</h2>
-      <p>Click any row to load into the converter above.</p>
-      <div style="overflow-x:auto">
+  <div class="content-card">
+    <h2>cm to Inches Height Chart</h2>
+    <p>Click any row to load into the converter above.</p>
+    <div style="overflow-x:auto">
       <table class="ref-tbl">
         <thead><tr><th>cm</th><th>Inches</th><th>Feet & Inches</th></tr></thead>
         <tbody>
           {[
-            [150,'59.06 in',"4' 11.1\""],
-            [155,'61.02 in',"5' 1.0\""],
-            [160,'62.99 in',"5' 3.0\""],
-            [163,'64.17 in',"5' 4.2\""],
-            [165,'64.96 in',"5' 4.96\""],
-            [168,'66.14 in',"5' 6.1\""],
-            [170,'66.93 in',"5' 6.9\""],
-            [172,'67.72 in',"5' 7.7\""],
-            [175,'68.90 in',"5' 8.9\""],
-            [178,'70.08 in',"5' 10.1\""],
-            [180,'70.87 in',"5' 10.9\""],
-            [183,'72.05 in',"6' 0.0\""],
-            [185,'72.83 in',"6' 0.8\""],
-            [190,'74.80 in',"6' 2.8\""],
+            [150,'59.06 in',"4′ 11.1″"],
+            [155,'61.02 in',"5′ 1.0″"],
+            [160,'62.99 in',"5′ 3.0″"],
+            [163,'64.17 in',"5′ 4.2″"],
+            [165,'64.96 in',"5′ 5.0″"],
+            [168,'66.14 in',"5′ 6.1″"],
+            [170,'66.93 in',"5′ 6.9″"],
+            [172,'67.72 in',"5′ 7.7″"],
+            [175,'68.90 in',"5′ 8.9″"],
+            [178,'70.08 in',"5′ 10.1″"],
+            [180,'70.87 in',"5′ 10.9″"],
+            [183,'72.05 in',"6′ 0.0″"],
+            [185,'72.83 in',"6′ 0.8″"],
+            [190,'74.80 in',"6′ 2.8″"],
           ].map(([cm, inches, ft]) => (
             <tr onclick={`setVal(${cm})`} class={cm === 170 ? 'hi' : ''}>
               <td>{cm} cm</td><td class="acc">{inches}</td><td>{ft}</td>
@@ -211,172 +212,177 @@ const schema = JSON.stringify([
           ))}
         </tbody>
       </table>
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>How to Convert cm to Inches</h2>
-      <p>To convert centimeters to inches, multiply the cm value by <strong>0.393701</strong>. To get feet and inches, first divide the total inches by 12 to get whole feet, then the remainder is the inches.</p>
-      <div class="tip-box">
-        <span class="tip-icon">📏</span>
-        <p><strong>Quick estimate:</strong> Divide cm by 2.54 (or multiply by 0.4) for a fast approximation. For 170 cm: 170 ÷ 2.54 = 66.93 inches = 5 feet 6.9 inches.</p>
-      </div>
-      <h3>Common length conversions</h3>
-      <ul>
-        <li><strong>Screen sizes</strong> — a 55-inch TV is 139.7 cm; a 65-inch TV is 165.1 cm</li>
-        <li><strong>Paper</strong> — A4 paper is 29.7 cm × 21 cm (11.69 × 8.27 inches)</li>
-        <li><strong>Ruler</strong> — 30 cm ruler = 11.81 inches (close to 12 inches / 1 foot)</li>
-        <li><strong>Standard door</strong> — 203 cm = 6 feet 8 inches (80 inches)</li>
-      </ul>
-    </div>
-
-    <div class="content-card">
-      <h2>When You Need cm to Inches Conversion</h2>
-      <ul>
-        <li><strong>Height conversion</strong> — most of the world measures height in cm; the US uses feet and inches. This is the most searched use case for this converter.</li>
-        <li><strong>Screen & display sizes</strong> — TV and monitor sizes are listed in inches in the US; specs from other countries use cm or mm.</li>
-        <li><strong>Fabric & sewing</strong> — US patterns use inches; European and Asian patterns use cm. Convert for accurate cutting.</li>
-        <li><strong>Construction & DIY</strong> — lumber and hardware dimensions switch between metric and imperial depending on the country of origin.</li>
-        <li><strong>Shipping & packaging</strong> — international package dimensions may be in cm; US carriers quote rates by inch dimensions.</li>
-      </ul>
-    </div>
-
-    <div class="card">
-      <h2>Frequently Asked Questions</h2>
-      <div class="faq-item">
-        <h3>How many inches in 1 cm?</h3>
-        <p>1 centimeter = <strong>0.393701 inches</strong>. Equivalently, 1 inch = 2.54 cm exactly.</p>
-      </div>
-      <div class="faq-item">
-        <h3>What is 170 cm in feet and inches?</h3>
-        <p>170 cm = <strong>5 feet 6.93 inches</strong> (approximately 5'7"). Total: 66.93 inches.</p>
-      </div>
-      <div class="faq-item">
-        <h3>What is 180 cm in feet?</h3>
-        <p>180 cm = <strong>5 feet 10.87 inches</strong> (approximately 5'11"). Total: 70.87 inches.</p>
-      </div>
-      <div class="faq-item">
-        <h3>What is 160 cm in feet and inches?</h3>
-        <p>160 cm = <strong>5 feet 2.99 inches</strong> (approximately 5'3"). Total: 62.99 inches.</p>
-      </div>
-      <div class="faq-item">
-        <h3>How do I convert inches to cm?</h3>
-        <p>Multiply inches by 2.54. Formula: <strong>cm = inches × 2.54</strong>. Example: 12 inches × 2.54 = 30.48 cm. Use the in → cm mode above.</p>
-      </div>
-      <div class="faq-item">
-        <h3>What is 5 feet in cm?</h3>
-        <p>5 feet = 60 inches = <strong>152.4 cm</strong>. One foot = 30.48 cm, so 5 × 30.48 = 152.4 cm.</p>
-      </div>
-      <div class="faq-item">
-        <h3>What is 6 feet in cm?</h3>
-        <p>6 feet = 72 inches = <strong>182.88 cm</strong>. Six × 30.48 = 182.88 cm.</p>
-      </div>
-    </div>
-
-    <div class="content-card">
-      <h2>Related Converters</h2>
-      <div class="next-grid">
-        <a href="/kg-to-lbs" class="next-card">
-          <span class="next-tag">Weight</span>
-          <h3>kg to lbs</h3>
-          <p>Convert kilograms to pounds instantly.</p>
-        </a>
-        <a href="/celsius-to-fahrenheit" class="next-card">
-          <span class="next-tag">Temperature</span>
-          <h3>Celsius to °F</h3>
-          <p>Convert temperature between Celsius and Fahrenheit.</p>
-        </a>
-        <a href="/square-footage-calculator" class="next-card">
-          <span class="next-tag">Area</span>
-          <h3>Square Footage</h3>
-          <p>Calculate area in square feet for any room or space.</p>
-        </a>
-        <a href="/liters-to-gallons" class="next-card">
-          <span class="next-tag">Volume</span>
-          <h3>Liters to Gallons</h3>
-          <p>Convert liters to US or Imperial gallons.</p>
-        </a>
-        <a href="/oz-to-quarts" class="next-card">
-          <span class="next-tag">Volume</span>
-          <h3>Oz to Quarts</h3>
-          <p>Convert fluid ounces to quarts — 1 quart = 32 oz.</p>
-        </a>
-        <a href="/cups-to-tablespoons" class="next-card">
-          <span class="next-tag">Kitchen</span>
-          <h3>Cups to Tablespoons</h3>
-          <p>How many tablespoons in a cup — all fractions covered.</p>
-        </a>
-      </div>
     </div>
   </div>
+
+  <div class="content-card">
+    <h2>How to Convert cm to Inches</h2>
+    <p>To convert centimeters to inches, multiply the cm value by <strong>0.393701</strong>. To get feet and inches, first divide the total inches by 12 to get whole feet, then the remainder is the inches.</p>
+    <div class="tip-box">
+      <span class="tip-icon">📏</span>
+      <p><strong>Quick estimate:</strong> Divide cm by 2.54 (or multiply by 0.4) for a fast approximation. For 170 cm: 170 ÷ 2.54 = 66.93 inches = 5 feet 6.9 inches.</p>
+    </div>
+    <h3>Common length conversions</h3>
+    <ul>
+      <li><strong>Screen sizes</strong> — a 55-inch TV is 139.7 cm; a 65-inch TV is 165.1 cm</li>
+      <li><strong>Paper</strong> — A4 paper is 29.7 cm × 21 cm (11.69 × 8.27 inches)</li>
+      <li><strong>Ruler</strong> — 30 cm ruler = 11.81 inches (close to 12 inches / 1 foot)</li>
+      <li><strong>Standard door</strong> — 203 cm = 6 feet 8 inches (80 inches)</li>
+    </ul>
+  </div>
+
+  <div class="content-card">
+    <h2>When You Need cm to Inches Conversion</h2>
+    <ul>
+      <li><strong>Height conversion</strong> — most of the world measures height in cm; the US uses feet and inches. This is the most searched use case for this converter.</li>
+      <li><strong>Screen & display sizes</strong> — TV and monitor sizes are listed in inches in the US; specs from other countries use cm or mm.</li>
+      <li><strong>Fabric & sewing</strong> — US patterns use inches; European and Asian patterns use cm. Convert for accurate cutting.</li>
+      <li><strong>Construction & DIY</strong> — lumber and hardware dimensions switch between metric and imperial depending on the country of origin.</li>
+      <li><strong>Shipping & packaging</strong> — international package dimensions may be in cm; US carriers quote rates by inch dimensions.</li>
+    </ul>
+  </div>
+
+  <div class="content-card">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>How many inches in 1 cm?</h3>
+      <p>1 centimeter = <strong>0.393701 inches</strong>. Equivalently, 1 inch = 2.54 cm exactly.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What is 170 cm in feet and inches?</h3>
+      <p>170 cm = <strong>5 feet 6.93 inches</strong> (approximately 5'7"). Total: 66.93 inches.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What is 180 cm in feet?</h3>
+      <p>180 cm = <strong>5 feet 10.87 inches</strong> (approximately 5'11"). Total: 70.87 inches.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What is 160 cm in feet and inches?</h3>
+      <p>160 cm = <strong>5 feet 2.99 inches</strong> (approximately 5'3"). Total: 62.99 inches.</p>
+    </div>
+    <div class="faq-item">
+      <h3>How do I convert inches to cm?</h3>
+      <p>Multiply inches by 2.54. Formula: <strong>cm = inches × 2.54</strong>. Example: 12 inches × 2.54 = 30.48 cm. Use the in → cm mode above.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What is 5 feet in cm?</h3>
+      <p>5 feet = 60 inches = <strong>152.4 cm</strong>. One foot = 30.48 cm, so 5 × 30.48 = 152.4 cm.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What is 6 feet in cm?</h3>
+      <p>6 feet = 72 inches = <strong>182.88 cm</strong>. Six × 30.48 = 182.88 cm.</p>
+    </div>
+  </div>
+
+  <div class="content-card">
+    <h2>Related Converters</h2>
+    <div class="next-grid">
+      <a href="/kg-to-lbs" class="next-card">
+        <span class="next-tag">Weight</span>
+        <h3>kg to lbs</h3>
+        <p>Convert kilograms to pounds instantly.</p>
+      </a>
+      <a href="/celsius-to-fahrenheit" class="next-card">
+        <span class="next-tag">Temperature</span>
+        <h3>Celsius to °F</h3>
+        <p>Convert temperature between Celsius and Fahrenheit.</p>
+      </a>
+      <a href="/meters-to-feet" class="next-card">
+        <span class="next-tag">Length</span>
+        <h3>Meters to Feet</h3>
+        <p>Convert meters to feet and inches.</p>
+      </a>
+      <a href="/km-to-miles" class="next-card">
+        <span class="next-tag">Length</span>
+        <h3>km to Miles</h3>
+        <p>Convert kilometers to miles with full table.</p>
+      </a>
+      <a href="/yards-to-meters" class="next-card">
+        <span class="next-tag">Length</span>
+        <h3>Yards to Meters</h3>
+        <p>Convert yards to meters instantly.</p>
+      </a>
+      <a href="/percent-off-calculator" class="next-card">
+        <span class="next-tag">Shopping</span>
+        <h3>Percent Off Calculator</h3>
+        <p>Calculate the final price after any discount.</p>
+      </a>
+    </div>
+  </div>
+
 </div>
 
 <script is:inline>
-var mode = 'cm';
+  var mode = 'cm';
 
-function fmt(v, d) {
-  return parseFloat(v.toFixed(d !== undefined ? d : 4)).toString();
-}
+  document.getElementById('btn-cm').addEventListener('click', function() { setMode('cm'); });
+  document.getElementById('btn-in').addEventListener('click', function() { setMode('in'); });
+  document.getElementById('calc-btn').addEventListener('click', convert);
+  document.getElementById('amount').addEventListener('input', convert);
+  document.addEventListener('keydown', function(e) { if (e.key === 'Enter') convert(); });
 
-function fmtFt(inches) {
-  var ft = Math.floor(inches / 12);
-  var inn = parseFloat((inches % 12).toFixed(2));
-  return ft + '′ ' + inn + '″';
-}
+  document.getElementById('amount').value = 170;
+  convert();
 
-function convert() {
-  var val = parseFloat(document.getElementById('amount').value) || 0;
-  var inches, cm, ft, mm;
-  if (mode === 'cm') {
-    cm = val; inches = val * 0.393701; ft = inches / 12; mm = val * 10;
-    document.getElementById('r-main').textContent = fmt(inches, 2);
-    document.getElementById('r-unit').textContent = 'in';
-    document.getElementById('r-sub').textContent = fmt(val, 1) + ' cm = ' + fmt(inches, 2) + ' inches';
-    document.getElementById('res-lbl').textContent = 'Inches';
-    document.getElementById('s1-lbl').textContent = 'Inches';
-    document.getElementById('s1-val').textContent = fmt(inches, 2) + ' in';
-    document.getElementById('s2-lbl').textContent = 'Feet & Inches';
-    document.getElementById('s2-val').textContent = fmtFt(inches);
-    document.getElementById('s3-lbl').textContent = 'Feet (decimal)';
-    document.getElementById('s3-val').textContent = fmt(ft, 3) + ' ft';
-    document.getElementById('s4-lbl').textContent = 'Millimeters';
-    document.getElementById('s4-val').textContent = fmt(mm, 0) + ' mm';
-  } else {
-    inches = val; cm = val * 2.54; ft = val / 12; mm = cm * 10;
-    document.getElementById('r-main').textContent = fmt(cm, 2);
-    document.getElementById('r-unit').textContent = 'cm';
-    document.getElementById('r-sub').textContent = fmt(val, 2) + ' in = ' + fmt(cm, 2) + ' cm';
-    document.getElementById('res-lbl').textContent = 'Centimeters';
-    document.getElementById('s1-lbl').textContent = 'Centimeters';
-    document.getElementById('s1-val').textContent = fmt(cm, 2) + ' cm';
-    document.getElementById('s2-lbl').textContent = 'Feet (decimal)';
-    document.getElementById('s2-val').textContent = fmt(ft, 3) + ' ft';
-    document.getElementById('s3-lbl').textContent = 'Feet & Inches';
-    document.getElementById('s3-val').textContent = fmtFt(val);
-    document.getElementById('s4-lbl').textContent = 'Millimeters';
-    document.getElementById('s4-val').textContent = fmt(mm, 0) + ' mm';
+  function fmt(v, d) { return parseFloat(v.toFixed(d !== undefined ? d : 4)).toString(); }
+
+  function fmtFt(inches) {
+    var ft = Math.floor(inches / 12);
+    var inn = parseFloat((inches % 12).toFixed(2));
+    return ft + '′ ' + inn + '″';
   }
-}
 
-function setMode(m) {
-  mode = m;
-  var isCm = m === 'cm';
-  document.getElementById('btn-cm').classList.toggle('active', isCm);
-  document.getElementById('btn-in').classList.toggle('active', !isCm);
-  document.getElementById('inp-lbl').textContent = isCm ? 'Centimeters (cm)' : 'Inches (in)';
-  document.getElementById('inp-sfx').textContent = isCm ? 'cm' : 'in';
-  var presets = document.getElementById('preset-wrap');
-  presets.innerHTML = (isCm ? [10,30,60,100,150,160,165,170,175,180] : [1,6,12,24,36,60,66,70,72])
-    .map(function(v){ return '<button class="preset-btn" onclick="setVal('+v+')">'+v+'</button>'; }).join('');
-  document.getElementById('amount').value = isCm ? 170 : 67;
-  convert();
-}
+  function setMode(m) {
+    mode = m;
+    var isCm = m === 'cm';
+    document.getElementById('btn-cm').classList.toggle('active', isCm);
+    document.getElementById('btn-in').classList.toggle('active', !isCm);
+    document.getElementById('inp-lbl').textContent = isCm ? 'Centimeters (cm)' : 'Inches (in)';
+    document.getElementById('inp-sfx').textContent = isCm ? 'cm' : 'in';
+    var presets = document.getElementById('preset-wrap');
+    presets.innerHTML = (isCm ? [10,30,100,160,165,170,175,180] : [1,6,12,24,36,60,66,70,72])
+      .map(function(v){ return '<button class="preset-btn" onclick="setVal('+v+')">'+v+'</button>'; }).join('');
+    document.getElementById('amount').value = isCm ? 170 : 67;
+    convert();
+  }
 
-function setVal(v) {
-  document.getElementById('amount').value = v;
-  convert();
-}
+  function convert() {
+    var val = parseFloat(document.getElementById('amount').value);
+    if (isNaN(val) || val < 0) return;
+    var inches, cm, ft, mm, m;
+    if (mode === 'cm') {
+      cm = val; inches = val * 0.393701; ft = inches / 12; mm = val * 10; m = val / 100;
+      document.getElementById('ans-label').textContent = fmt(val, 1) + ' cm =';
+      document.getElementById('ans-value').textContent = fmt(inches, 2);
+      document.getElementById('ans-unit').textContent = 'inches (in)';
+      document.getElementById('ans-sub').textContent = fmt(val, 1) + ' × 0.393701 = ' + fmt(inches, 2) + ' in';
+      document.getElementById('s1-lbl').textContent = 'Feet & Inches';
+      document.getElementById('s1-val').textContent = fmtFt(inches);
+      document.getElementById('s2-lbl').textContent = 'Feet (decimal)';
+      document.getElementById('s2-val').textContent = fmt(ft, 3) + ' ft';
+      document.getElementById('s3-lbl').textContent = 'Millimeters';
+      document.getElementById('s3-val').textContent = fmt(mm, 0) + ' mm';
+      document.getElementById('s4-lbl').textContent = 'Meters';
+      document.getElementById('s4-val').textContent = fmt(m, 4) + ' m';
+    } else {
+      inches = val; cm = val * 2.54; ft = val / 12; mm = cm * 10; m = cm / 100;
+      document.getElementById('ans-label').textContent = fmt(val, 2) + ' in =';
+      document.getElementById('ans-value').textContent = fmt(cm, 2);
+      document.getElementById('ans-unit').textContent = 'centimeters (cm)';
+      document.getElementById('ans-sub').textContent = fmt(val, 2) + ' × 2.54 = ' + fmt(cm, 2) + ' cm';
+      document.getElementById('s1-lbl').textContent = 'Feet & Inches';
+      document.getElementById('s1-val').textContent = fmtFt(val);
+      document.getElementById('s2-lbl').textContent = 'Feet (decimal)';
+      document.getElementById('s2-val').textContent = fmt(ft, 3) + ' ft';
+      document.getElementById('s3-lbl').textContent = 'Millimeters';
+      document.getElementById('s3-val').textContent = fmt(mm, 0) + ' mm';
+      document.getElementById('s4-lbl').textContent = 'Meters';
+      document.getElementById('s4-val').textContent = fmt(m, 4) + ' m';
+    }
+    document.getElementById('answer').classList.add('show');
+    document.getElementById('stats').classList.add('show');
+  }
 
-window.addEventListener('load', convert);
+  function setVal(v) { document.getElementById('amount').value = v; convert(); }
 </script>
 </Layout>

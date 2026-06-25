@@ -9,7 +9,7 @@ const schema = JSON.stringify([
     "url": "https://computezap.com/fahrenheit-to-celsius",
     "applicationCategory": "UtilityApplication",
     "operatingSystem": "Web",
-    "description": "Convert Fahrenheit to Celsius instantly. Formula: °C = (°F - 32) × 5/9. Free °F to °C converter with full temperature conversion table.",
+    "description": "Convert Fahrenheit to Celsius instantly. Formula: °C = (°F − 32) ÷ 1.8. Free temperature converter with cooking charts and key reference temperatures.",
     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
   },
   {
@@ -24,427 +24,411 @@ const schema = JSON.stringify([
     "@context": "https://schema.org",
     "@type": "FAQPage",
     "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "How do you convert Fahrenheit to Celsius?",
-        "acceptedAnswer": { "@type": "Answer", "text": "To convert Fahrenheit to Celsius, subtract 32 then multiply by 5/9. Formula: °C = (°F - 32) × 5/9. Example: 98.6°F = (98.6 - 32) × 5/9 = 37°C." }
-      },
-      {
-        "@type": "Question",
-        "name": "What is 100°F in Celsius?",
-        "acceptedAnswer": { "@type": "Answer", "text": "100°F = 37.78°C. Calculated as (100 - 32) × 5/9 = 68 × 0.5556 = 37.78°C. Note: Normal human body temperature is 98.6°F = 37°C." }
-      },
-      {
-        "@type": "Question",
-        "name": "What is 72°F in Celsius?",
-        "acceptedAnswer": { "@type": "Answer", "text": "72°F = 22.22°C. Calculated as (72 - 32) × 5/9 = 40 × 0.5556 = 22.22°C. Room temperature is typically 68–77°F (20–25°C)." }
-      },
-      {
-        "@type": "Question",
-        "name": "What is 32°F in Celsius?",
-        "acceptedAnswer": { "@type": "Answer", "text": "32°F = 0°C. This is the freezing point of water. Calculated as (32 - 32) × 5/9 = 0°C." }
-      },
-      {
-        "@type": "Question",
-        "name": "What temperature is the same in Fahrenheit and Celsius?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Fahrenheit and Celsius are equal at -40°. Both scales meet at -40°F = -40°C. This is derived by solving (°F - 32) × 5/9 = °F." }
-      },
-      {
-        "@type": "Question",
-        "name": "What is the formula to convert Celsius to Fahrenheit?",
-        "acceptedAnswer": { "@type": "Answer", "text": "To convert Celsius to Fahrenheit: °F = (°C × 9/5) + 32. Example: 100°C = (100 × 9/5) + 32 = 180 + 32 = 212°F (boiling point of water)." }
-      }
+      { "@type": "Question", "name": "How do you convert Fahrenheit to Celsius?", "acceptedAnswer": { "@type": "Answer", "text": "Subtract 32 from the Fahrenheit temperature, then divide by 1.8. Formula: °C = (°F − 32) ÷ 1.8. Example: (98.6°F − 32) ÷ 1.8 = 37°C." } },
+      { "@type": "Question", "name": "What is 98.6°F in Celsius?", "acceptedAnswer": { "@type": "Answer", "text": "98.6°F = 37°C. This is normal human body temperature." } },
+      { "@type": "Question", "name": "What is 32°F in Celsius?", "acceptedAnswer": { "@type": "Answer", "text": "32°F = 0°C. This is the freezing point of water." } },
+      { "@type": "Question", "name": "What is 212°F in Celsius?", "acceptedAnswer": { "@type": "Answer", "text": "212°F = 100°C. This is the boiling point of water at sea level." } },
+      { "@type": "Question", "name": "What is 350°F in Celsius?", "acceptedAnswer": { "@type": "Answer", "text": "350°F = 176.67°C. This is a moderate oven temperature for baking." } },
+      { "@type": "Question", "name": "What is 72°F in Celsius?", "acceptedAnswer": { "@type": "Answer", "text": "72°F = 22.2°C. This is a comfortable room temperature." } }
     ]
   }
 ]);
 ---
 <Layout
   title="Fahrenheit to Celsius Converter — °F to °C | ComputeZap"
-  description="Convert Fahrenheit to Celsius instantly. Formula: °C = (°F - 32) × 5/9. Free °F to °C and °C to °F converter with full temperature table including body temp, freezing, boiling."
+  description="Convert Fahrenheit to Celsius instantly. °C = (°F − 32) ÷ 1.8. Free temperature converter with cooking charts, oven temperatures, and meat doneness guide."
   canonical="/fahrenheit-to-celsius"
   schema={schema}
 >
 <style is:global>
-.hero{text-align:center;padding:2rem 1rem 1.5rem}
-.hero h1{font-size:2rem;color:#111;margin:.5rem 0 .4rem;font-weight:800;letter-spacing:-.02em}
-.hero-sub{color:#64748b;margin:0;font-size:1.05rem}
-.breadcrumb{font-size:.82rem;color:#94a3b8;margin-bottom:.75rem}
-.breadcrumb a{color:var(--blue);text-decoration:none}
-.calc-wrap{display:grid;grid-template-columns:390px 1fr;gap:1.75rem;max-width:1120px;margin:0 auto;padding:0 1rem 3.5rem;align-items:start}
-.calc-left{position:sticky;top:1rem}
+.page-hero{text-align:center;padding:2rem 1rem 1rem}
+.page-hero h1{font-size:1.9rem;font-weight:800;letter-spacing:-.03em;color:#111;margin:0 0 .35rem}
+.page-hero p{color:#64748b;font-size:1rem;margin:0}
+.page-hero nav{font-size:.82rem;color:#94a3b8;margin-bottom:.75rem}
+.page-hero nav a{color:var(--blue);text-decoration:none}
+.calc-center{max-width:620px;margin:0 auto;padding:0 1rem 2rem}
+.content-wrap{max-width:900px;margin:0 auto;padding:0 1rem 3.5rem}
 .card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:1.5rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(0,0,0,.04)}
-.card:last-child{margin-bottom:0}
-.card-header{display:flex;align-items:center;gap:.6rem;margin-bottom:1.1rem}
-.card-step{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;background:var(--blue);color:#fff;border-radius:50%;font-size:.7rem;font-weight:800;flex-shrink:0}
-.card-title{font-size:1rem;font-weight:700;color:#111;margin:0}
-.card h2{font-size:1.05rem;font-weight:700;color:#111;margin:0 0 .9rem}
 .content-card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:1.5rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(0,0,0,.04)}
 .content-card h2{font-size:1.05rem;font-weight:700;color:#111;margin:0 0 .8rem}
+.content-card h3{font-size:.95rem;font-weight:700;color:#111;margin:.75rem 0 .4rem}
 .content-card p{color:#444;line-height:1.75;font-size:.93rem;margin:0 0 .7rem}
 .content-card p:last-child{margin-bottom:0}
-.mode-toggle{display:grid;grid-template-columns:1fr 1fr;background:#f1f5f9;border-radius:10px;padding:3px;margin-bottom:1.1rem;gap:3px}
-.mode-btn{padding:.55rem;font-size:.82rem;font-weight:700;border:none;border-radius:8px;cursor:pointer;font-family:inherit;background:transparent;color:#64748b;transition:all .15s}
-.mode-btn.active{background:#fff;color:var(--blue);box-shadow:0 1px 4px rgba(0,0,0,.1)}
-.field-group{margin-bottom:1rem}
-.field-group:last-child{margin-bottom:0}
-.field-lbl{display:block;font-size:.75rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem}
-.input-wrap{position:relative;display:flex;align-items:center}
-.input-sfx{position:absolute;right:.9rem;font-size:1.1rem;font-weight:700;color:#94a3b8;pointer-events:none}
-.field-input{width:100%;font-size:1.5rem;font-weight:800;padding:.65rem 3.5rem .65rem .9rem;border:2px solid #e2e8f0;border-radius:10px;color:#111;box-sizing:border-box;font-family:inherit;background:#f8fafc;outline:none;transition:all .15s}
-.field-input:focus{border-color:#93c5fd;background:#fff;box-shadow:0 0 0 3px rgba(37,99,235,.07)}
-.answer-box{background:linear-gradient(135deg,#1d4ed8 0%,#2563eb 60%,#3b82f6 100%);border-radius:14px;padding:1.5rem 1.5rem 1.25rem;text-align:center;margin-bottom:1rem;box-shadow:0 6px 24px rgba(37,99,235,.22)}
-.a-label{font-size:.68rem;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.3rem;font-weight:700}
-.a-value{font-size:2.4rem;font-weight:900;color:#fff;line-height:1.1;letter-spacing:-.02em}
-.a-unit{font-size:1rem;font-weight:600;color:rgba(255,255,255,.8);margin-top:.2rem}
-.a-sub{font-size:.88rem;color:rgba(255,255,255,.7);margin-top:.3rem}
-.stats-row{display:grid;grid-template-columns:1fr 1fr;gap:.55rem}
+.content-card ul{color:#444;line-height:1.85;font-size:.93rem;padding-left:1.25rem;margin:.5rem 0 0}
+.mode-wrap{display:grid;grid-template-columns:1fr 1fr;gap:.4rem;margin-bottom:1.25rem}
+.mode-btn{padding:.55rem;font-size:.85rem;font-weight:600;border:1.5px solid #e2e8f0;border-radius:8px;background:#f8fafc;color:#64748b;cursor:pointer;transition:all .15s;text-align:center}
+.mode-btn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.input-group{margin-bottom:.85rem}
+.input-group label{display:block;font-size:.82rem;font-weight:600;color:#374151;margin-bottom:.4rem}
+.input-wrap{position:relative}
+.input-sfx{position:absolute;right:.9rem;top:50%;transform:translateY(-50%);color:#94a3b8;font-weight:600;pointer-events:none;font-size:.9rem}
+.input-group input{width:100%;padding:.65rem 3rem .65rem .9rem;border:1.5px solid #e2e8f0;border-radius:8px;font-size:1rem;font-family:inherit;color:#111;transition:border-color .15s;box-sizing:border-box}
+.input-group input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+.preset-lbl{font-size:.7rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.5rem;display:block}
+.preset-wrap{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1rem}
+.preset-btn{background:#fff;color:var(--blue);border:1.5px solid #dbeafe;border-radius:20px;padding:.28rem .75rem;font-size:.82rem;font-weight:700;cursor:pointer;transition:all .15s}
+.preset-btn:hover{background:var(--blue);color:#fff;border-color:var(--blue)}
+.calc-btn{width:100%;padding:.8rem;background:var(--blue);color:#fff;border:none;border-radius:8px;font-size:1rem;font-weight:700;cursor:pointer;transition:background .15s;margin-bottom:1rem}
+.calc-btn:hover{background:#1d4ed8}
+.answer-hero{background:linear-gradient(135deg,#1d4ed8 0%,#2563eb 60%,#3b82f6 100%);border-radius:14px;padding:1.75rem 1.5rem 1.25rem;text-align:center;margin-bottom:1rem;box-shadow:0 6px 24px rgba(37,99,235,.22);display:none}
+.answer-hero.show{display:block}
+.a-label{font-size:.68rem;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem;font-weight:700}
+.a-value{font-size:2.8rem;font-weight:900;color:#fff;line-height:1;letter-spacing:-.02em}
+.a-unit{font-size:1rem;font-weight:600;color:rgba(255,255,255,.8);margin-top:.3rem}
+.a-sub{font-size:.85rem;color:rgba(255,255,255,.7);margin-top:.4rem}
+.stats-row{display:none;grid-template-columns:1fr 1fr;gap:.55rem}
+.stats-row.show{display:grid}
 .stat-box{background:#f8fafc;border:1px solid #f1f5f9;border-radius:10px;padding:.85rem .75rem;text-align:center}
 .stat-lbl{display:block;font-size:.62rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.25rem;font-weight:700}
 .stat-val{display:block;font-size:.95rem;font-weight:800;color:#1e293b}
-.quick-answer{background:#f0fdf4;border:1.5px solid #86efac;border-radius:12px;padding:1rem 1.25rem;margin-bottom:1rem;text-align:center}
-.qa-big{font-size:1.35rem;font-weight:900;color:#15803d;display:block;margin-bottom:.2rem}
-.qa-sub{font-size:.82rem;color:#166534}
-.formula-box{background:#fefce8;border:1.5px solid #fde047;border-radius:12px;padding:.9rem 1.1rem;margin-bottom:1rem;text-align:center}
-.formula-text{font-size:.95rem;font-weight:700;color:#713f12;font-family:monospace}
-.conv-table{width:100%;border-collapse:collapse;font-size:.875rem}
-.conv-table th{background:#f8fafc;padding:.65rem .85rem;text-align:left;font-size:.68rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;border-bottom:2px solid #e2e8f0}
-.conv-table td{padding:.7rem .85rem;border-bottom:1px solid #f3f4f6;color:#374151}
-.conv-table tr:last-child td{border-bottom:none}
-.conv-table tbody tr:hover td{background:#f8faff}
-.conv-table .highlight-row td{background:#eff6ff;font-weight:700;color:#1d4ed8}
-.conv-table .highlight-row:hover td{background:#dbeafe}
-.conv-table .hot-row td{background:#fff7ed;font-weight:700;color:#c2410c}
-.conv-table .cold-row td{background:#f0f9ff;font-weight:700;color:#0369a1}
-.tip-box{display:flex;gap:.75rem;background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:.9rem 1rem;margin:.85rem 0}
-.tip-icon{font-size:1.1rem;flex-shrink:0;margin-top:.05rem}
-.tip-box p{margin:0;font-size:.875rem;color:#1e40af;line-height:1.6}
+.formula-box{background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:10px;padding:.85rem 1rem;text-align:center;font-family:monospace;font-weight:800;color:#1e293b;font-size:.95rem;margin:.6rem 0 1rem}
+.tip-box{display:flex;gap:.75rem;background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:.9rem 1rem;margin:.75rem 0}
+.tip-icon{font-size:1.1rem;flex-shrink:0;margin-top:.1rem}
+.tip-box p{margin:0;font-size:.875rem;color:#1e40af}
+.ref-tbl{width:100%;border-collapse:collapse;font-size:.875rem}
+.ref-tbl th{background:#f8fafc;padding:.6rem .85rem;text-align:left;font-size:.68rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;border-bottom:2px solid #e2e8f0}
+.ref-tbl td{padding:.65rem .85rem;border-bottom:1px solid #f3f4f6;color:#374151}
+.ref-tbl tr:last-child td{border-bottom:none}
+.ref-tbl tbody tr:hover td{background:#f8faff;cursor:pointer}
+.ref-tbl .acc{color:var(--blue);font-weight:700}
+.ref-tbl .hi td{background:#eff6ff;font-weight:700}
+.two-col{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(250px,100%),1fr));gap:1rem}
+.two-col>*{min-width:0}
 .faq-item{border-bottom:1px solid #f3f4f6;padding:.9rem 0}
 .faq-item:last-child{border-bottom:none;padding-bottom:0}
 .faq-item h3{font-size:.9rem;color:#111;margin:0 0 .35rem;font-weight:700}
 .faq-item p{color:#555;font-size:.865rem;margin:0;line-height:1.65}
 .next-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem}
-.next-card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:1rem;border-top:3px solid var(--blue);text-decoration:none;display:block;transition:box-shadow .15s}
-.next-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.08);text-decoration:none}
+.next-card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:1rem;border-top:3px solid var(--blue);text-decoration:none;display:block}
+.next-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.08)}
 .next-tag{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--blue);margin-bottom:.3rem;display:block}
 .next-card h3{font-size:.88rem;font-weight:700;color:#111;margin:0 0 .25rem}
 .next-card p{font-size:.78rem;color:#64748b;margin:0;line-height:1.5}
-@media(max-width:768px){
-  .calc-wrap{grid-template-columns:1fr}
-  .calc-left{position:static}
-  .hero h1{font-size:1.65rem}
-  .a-value{font-size:1.9rem}
-  .next-grid{grid-template-columns:1fr}
-}
+@media(max-width:768px){.page-hero h1{font-size:1.65rem}.a-value{font-size:2.1rem}.next-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.next-grid{grid-template-columns:1fr}}
 </style>
 
-<div class="hero">
-  <nav class="breadcrumb"><a href="/">Home</a> › Fahrenheit to Celsius</nav>
-  <h1>Fahrenheit to Celsius</h1>
-  <p class="hero-sub">Convert °F to °C instantly — formula, table, and common temperatures</p>
+<div class="page-hero">
+  <nav><a href="/">Home</a> › Fahrenheit to Celsius Converter</nav>
+  <h1>Fahrenheit to Celsius Converter</h1>
+  <p>°C = (°F − 32) ÷ 1.8 — convert any temperature instantly</p>
 </div>
 
-<div class="calc-wrap">
-  <div class="calc-left">
-    <div class="card">
-      <div class="quick-answer">
-        <span class="qa-big">°C = (°F − 32) × 5/9</span>
-        <span class="qa-sub">°F = (°C × 9/5) + 32</span>
-      </div>
-
-      <div class="card-header">
-        <span class="card-step">1</span>
-        <h2 class="card-title">Convert</h2>
-      </div>
-
-      <div class="mode-toggle">
-        <button class="mode-btn active" id="btn-f" onclick="setMode('f')">°F → °C</button>
-        <button class="mode-btn" id="btn-c" onclick="setMode('c')">°C → °F</button>
-      </div>
-
-      <div class="field-group">
-        <label class="field-lbl" id="input-lbl" for="main-input">Fahrenheit (°F)</label>
-        <div class="input-wrap">
-          <input type="number" id="main-input" class="field-input" value="98.6" step="0.1" oninput="convert()" />
-          <span class="input-sfx" id="input-sfx">°F</span>
-        </div>
+<div class="calc-center">
+  <div class="card">
+    <div class="mode-wrap">
+      <button class="mode-btn active" id="btn-f">°F → °C</button>
+      <button class="mode-btn" id="btn-c">°C → °F</button>
+    </div>
+    <div class="input-group">
+      <label id="inp-lbl">Temperature in Fahrenheit (°F)</label>
+      <div class="input-wrap">
+        <input type="number" id="amount" value="98.6" step="0.1" />
+        <span class="input-sfx" id="inp-sfx">°F</span>
       </div>
     </div>
-
-    <div class="card">
-      <div class="card-header">
-        <span class="card-step">2</span>
-        <h2 class="card-title">Result</h2>
+    <span class="preset-lbl">Key temperatures</span>
+    <div class="preset-wrap" id="preset-wrap">
+      <button class="preset-btn" onclick="setVal(-40)">-40</button>
+      <button class="preset-btn" onclick="setVal(32)">32</button>
+      <button class="preset-btn" onclick="setVal(68)">68</button>
+      <button class="preset-btn" onclick="setVal(98.6)">98.6</button>
+      <button class="preset-btn" onclick="setVal(212)">212</button>
+    </div>
+    <button class="calc-btn" id="calc-btn">Convert</button>
+    <div class="answer-hero" id="answer">
+      <div class="a-label" id="ans-label">98.6°F =</div>
+      <div class="a-value" id="ans-value">37</div>
+      <div class="a-unit" id="ans-unit">°C (Celsius)</div>
+      <div class="a-sub" id="ans-sub">(98.6 − 32) ÷ 1.8 = 37°C · Body temp</div>
+    </div>
+    <div class="stats-row" id="stats">
+      <div class="stat-box">
+        <span class="stat-lbl">Kelvin</span>
+        <span class="stat-val" id="s1-val">310.15 K</span>
       </div>
-
-      <div class="answer-box">
-        <div class="a-label" id="r-label">Celsius</div>
-        <div class="a-value" id="r-value">37</div>
-        <div class="a-unit" id="r-unit">°C</div>
-        <div class="a-sub" id="r-sub">Normal body temperature</div>
+      <div class="stat-box">
+        <span class="stat-lbl">Rankine</span>
+        <span class="stat-val" id="s2-val">558.27 °R</span>
       </div>
+      <div class="stat-box">
+        <span class="stat-lbl" id="s3-lbl">Celsius</span>
+        <span class="stat-val" id="s3-val">37°C</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">Status</span>
+        <span class="stat-val" id="s4-val">Body Temp</span>
+      </div>
+    </div>
+  </div>
+</div>
 
-      <div class="stats-row">
-        <div class="stat-box">
-          <span class="stat-lbl">Kelvin</span>
-          <span class="stat-val" id="r-kelvin">310.15</span>
+<div class="content-wrap">
+
+  <div class="content-card">
+    <h2>Fahrenheit to Celsius Formula</h2>
+    <p>To convert <strong>Fahrenheit to Celsius</strong>, subtract 32 from the Fahrenheit value then divide by 1.8. To go the other way, multiply °C by 1.8 and add 32.</p>
+    <div class="formula-box">°C = (°F − 32) ÷ 1.8 &nbsp;|&nbsp; °F = (°C × 1.8) + 32</div>
+    <div class="tip-box">
+      <span class="tip-icon">🌡️</span>
+      <p><strong>Quick estimate:</strong> Subtract 32, then halve it (÷ 2 instead of ÷ 1.8) for a fast approximation. Example: 72°F → 72-32=40 → 40÷2=20°C (actual: 22.2°C). Good for rough weather conversions.</p>
+    </div>
+  </div>
+
+  <div class="content-card">
+    <h2>°F to °C Reference Table</h2>
+    <p>Click any row to load into the converter above:</p>
+    <div class="two-col">
+      <div>
+        <h3>°F → °C (weather)</h3>
+        <div style="overflow-x:auto">
+          <table class="ref-tbl">
+            <thead><tr><th>°F</th><th>°C</th><th>Note</th></tr></thead>
+            <tbody>
+              {[
+                ['-40','-40','Extreme cold'],
+                ['0','-17.8','Arctic cold'],
+                ['14','-10','Very cold'],
+                ['32','0','Freezing'],
+                ['41','5','Cold'],
+                ['50','10','Cool'],
+                ['59','15','Mild'],
+                ['68','20','Comfortable'],
+                ['77','25','Warm'],
+                ['86','30','Hot'],
+                ['95','35','Very hot'],
+                ['98.6','37','Body temp'],
+                ['100','37.8','Low fever'],
+                ['104','40','High fever'],
+                ['212','100','Boiling'],
+              ].map(([f, c, note]) => (
+                <tr onclick={`setVal(${f})`} class={f === '98.6' ? 'hi' : ''}>
+                  <td class="acc">{f}°F</td><td>{c}°C</td>
+                  <td style="color:#64748b;font-size:.8rem">{note}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-        <div class="stat-box">
-          <span class="stat-lbl">Rankine</span>
-          <span class="stat-val" id="r-rankine">558.27</span>
-        </div>
-        <div class="stat-box">
-          <span class="stat-lbl" id="r-alt-lbl">°F</span>
-          <span class="stat-val" id="r-alt">98.6</span>
-        </div>
-        <div class="stat-box">
-          <span class="stat-lbl" id="r-status-lbl">Status</span>
-          <span class="stat-val" id="r-status">Body Temp</span>
+      </div>
+      <div>
+        <h3>°C → °F (quick ref)</h3>
+        <div style="overflow-x:auto">
+          <table class="ref-tbl">
+            <thead><tr><th>°C</th><th>°F</th></tr></thead>
+            <tbody>
+              {[
+                ['-40','-40'],['-20','-4'],['-10','14'],['0','32'],
+                ['5','41'],['10','50'],['15','59'],['20','68'],
+                ['25','77'],['30','86'],['35','95'],['37','98.6'],
+                ['40','104'],['50','122'],['100','212'],
+              ].map(([c, f]) => (
+                <tr><td>{c}°C</td><td class="acc">{f}°F</td></tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="calc-right">
-    <div class="content-card">
-      <h2>Fahrenheit to Celsius — Common Temperatures</h2>
-      <div class="tip-box">
-        <span class="tip-icon">🌡️</span>
-        <p><strong>Quick formula:</strong> °C = (°F − 32) × 5/9. Fast estimate: subtract 30, divide by 2 (e.g., 70°F → (70-30)/2 = 20°C approx).</p>
+  <div class="content-card">
+    <h2>Cooking Temperature Guide</h2>
+    <p>US recipes typically use °F for oven temperatures; the rest of the world uses °C. Use this guide when following American recipes:</p>
+    <div class="two-col">
+      <div>
+        <h3>Oven temperatures</h3>
+        <div style="overflow-x:auto">
+          <table class="ref-tbl">
+            <thead><tr><th>°F</th><th>°C</th><th>Setting</th></tr></thead>
+            <tbody>
+              {[
+                ['250','121','Very low'],
+                ['275','135','Very low'],
+                ['300','149','Low'],
+                ['325','163','Low-moderate'],
+                ['350','177','Moderate'],
+                ['375','191','Moderate-hot'],
+                ['400','204','Hot'],
+                ['425','218','Very hot'],
+                ['450','232','Very hot'],
+                ['475','246','Extremely hot'],
+                ['500','260','Broil/Max'],
+              ].map(([f, c, label]) => (
+                <tr onclick={`setVal(${f})`}>
+                  <td class="acc">{f}°F</td><td>{c}°C</td>
+                  <td style="color:#64748b;font-size:.8rem">{label}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
-      <div style="overflow-x:auto">
-        <table class="conv-table">
-          <thead>
-            <tr><th>Fahrenheit (°F)</th><th>Celsius (°C)</th><th>Description</th></tr>
-          </thead>
-          <tbody>
-            <tr class="cold-row"><td>-40°F</td><td>-40°C</td><td>Same in both scales</td></tr>
-            <tr class="cold-row"><td>0°F</td><td>-17.78°C</td><td>Very cold winter</td></tr>
-            <tr class="cold-row"><td>14°F</td><td>-10°C</td><td>Freezing cold</td></tr>
-            <tr><td>23°F</td><td>-5°C</td><td>Cold winter</td></tr>
-            <tr class="highlight-row"><td><strong>32°F</strong></td><td><strong>0°C</strong></td><td><strong>Freezing point of water</strong></td></tr>
-            <tr><td>41°F</td><td>5°C</td><td>Cold — refrigerator temp</td></tr>
-            <tr><td>50°F</td><td>10°C</td><td>Cool spring/autumn</td></tr>
-            <tr><td>59°F</td><td>15°C</td><td>Mild weather</td></tr>
-            <tr class="highlight-row"><td><strong>68°F</strong></td><td><strong>20°C</strong></td><td><strong>Room temperature (cool)</strong></td></tr>
-            <tr><td>72°F</td><td>22.22°C</td><td>Comfortable room temp</td></tr>
-            <tr><td>77°F</td><td>25°C</td><td>Warm room temperature</td></tr>
-            <tr><td>86°F</td><td>30°C</td><td>Hot summer day</td></tr>
-            <tr class="highlight-row"><td><strong>98.6°F</strong></td><td><strong>37°C</strong></td><td><strong>Normal body temperature</strong></td></tr>
-            <tr><td>100.4°F</td><td>38°C</td><td>Fever threshold</td></tr>
-            <tr class="hot-row"><td><strong>104°F</strong></td><td><strong>40°C</strong></td><td><strong>High fever</strong></td></tr>
-            <tr class="hot-row"><td>122°F</td><td>50°C</td><td>Dangerously hot</td></tr>
-            <tr class="highlight-row"><td><strong>212°F</strong></td><td><strong>100°C</strong></td><td><strong>Boiling point of water</strong></td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="content-card">
-      <h2>Celsius to Fahrenheit — Common Temperatures</h2>
-      <div style="overflow-x:auto">
-        <table class="conv-table">
-          <thead>
-            <tr><th>Celsius (°C)</th><th>Fahrenheit (°F)</th><th>Description</th></tr>
-          </thead>
-          <tbody>
-            <tr class="cold-row"><td>-40°C</td><td>-40°F</td><td>Same in both scales</td></tr>
-            <tr class="cold-row"><td>-20°C</td><td>-4°F</td><td>Very cold winter</td></tr>
-            <tr class="cold-row"><td>-10°C</td><td>14°F</td><td>Freezing cold</td></tr>
-            <tr class="highlight-row"><td><strong>0°C</strong></td><td><strong>32°F</strong></td><td><strong>Freezing point</strong></td></tr>
-            <tr><td>10°C</td><td>50°F</td><td>Cool weather</td></tr>
-            <tr><td>15°C</td><td>59°F</td><td>Mild spring</td></tr>
-            <tr class="highlight-row"><td><strong>20°C</strong></td><td><strong>68°F</strong></td><td><strong>Room temperature</strong></td></tr>
-            <tr><td>25°C</td><td>77°F</td><td>Warm room temp</td></tr>
-            <tr><td>30°C</td><td>86°F</td><td>Hot summer</td></tr>
-            <tr class="highlight-row"><td><strong>37°C</strong></td><td><strong>98.6°F</strong></td><td><strong>Body temperature</strong></td></tr>
-            <tr class="hot-row"><td>40°C</td><td>104°F</td><td>High fever</td></tr>
-            <tr class="highlight-row"><td><strong>100°C</strong></td><td><strong>212°F</strong></td><td><strong>Boiling point</strong></td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="content-card">
-      <h2>Cooking Temperature Guide — °F and °C</h2>
-      <p style="color:#444;font-size:.93rem;margin:0 0 .85rem">Oven temperatures and meat doneness levels vary by country. US recipes use °F; European and international recipes use °C. Use this guide when converting any recipe:</p>
-      <div style="overflow-x:auto">
-        <table class="conv-table">
-          <thead>
-            <tr><th>Oven Setting</th><th>°F</th><th>°C</th><th>Gas Mark</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>Very low / slow</td><td>250°F</td><td>121°C</td><td>½</td></tr>
-            <tr><td>Low</td><td>300°F</td><td>149°C</td><td>2</td></tr>
-            <tr class="highlight-row"><td><strong>Moderate / medium</strong></td><td><strong>350°F</strong></td><td><strong>177°C</strong></td><td><strong>4</strong></td></tr>
-            <tr><td>Moderately hot</td><td>375°F</td><td>190°C</td><td>5</td></tr>
-            <tr class="highlight-row"><td><strong>Hot (most baking)</strong></td><td><strong>400°F</strong></td><td><strong>204°C</strong></td><td><strong>6</strong></td></tr>
-            <tr><td>Very hot</td><td>425°F</td><td>218°C</td><td>7</td></tr>
-            <tr><td>Extremely hot</td><td>450°F</td><td>232°C</td><td>8</td></tr>
-            <tr class="hot-row"><td>Pizza / bread crust</td><td>500°F+</td><td>260°C+</td><td>9+</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div style="margin-top:1rem;overflow-x:auto">
-        <table class="conv-table">
-          <thead>
-            <tr><th>Meat Doneness</th><th>Internal °F</th><th>Internal °C</th></tr>
-          </thead>
-          <tbody>
-            <tr class="cold-row"><td>Beef — Rare</td><td>125°F</td><td>52°C</td></tr>
-            <tr><td>Beef — Medium Rare</td><td>135°F</td><td>57°C</td></tr>
-            <tr class="highlight-row"><td><strong>Beef — Medium</strong></td><td><strong>145°F</strong></td><td><strong>63°C</strong></td></tr>
-            <tr><td>Beef — Well Done</td><td>160°F</td><td>71°C</td></tr>
-            <tr class="highlight-row"><td><strong>Chicken (safe)</strong></td><td><strong>165°F</strong></td><td><strong>74°C</strong></td></tr>
-            <tr><td>Pork</td><td>145°F</td><td>63°C</td></tr>
-            <tr><td>Fish</td><td>145°F</td><td>63°C</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="content-card">
-      <h2>Frequently Asked Questions</h2>
-      <div class="faq-item">
-        <h3>How do you convert Fahrenheit to Celsius?</h3>
-        <p>Subtract 32, then multiply by 5/9. Formula: °C = (°F - 32) × 5/9. Example: 98.6°F = (98.6 - 32) × 5/9 = 37°C.</p>
-      </div>
-      <div class="faq-item">
-        <h3>What is 100°F in Celsius?</h3>
-        <p>100°F = 37.78°C. Calculated as (100 - 32) × 5/9 = 37.78°C. Normal body temperature is 98.6°F = 37°C.</p>
-      </div>
-      <div class="faq-item">
-        <h3>What is 72°F in Celsius?</h3>
-        <p>72°F = 22.22°C. Comfortable room temperature range is 68–77°F (20–25°C).</p>
-      </div>
-      <div class="faq-item">
-        <h3>What is 32°F in Celsius?</h3>
-        <p>32°F = 0°C. This is the freezing point of water. Water freezes at 0°C / 32°F and boils at 100°C / 212°F.</p>
-      </div>
-      <div class="faq-item">
-        <h3>At what temperature are Fahrenheit and Celsius the same?</h3>
-        <p>Both scales are equal at -40°. That is, -40°F = -40°C exactly.</p>
-      </div>
-      <div class="faq-item">
-        <h3>What is the formula to convert Celsius to Fahrenheit?</h3>
-        <p>°F = (°C × 9/5) + 32. Example: 100°C = (100 × 9/5) + 32 = 212°F. Quick estimate: double the Celsius, add 30 (e.g., 20°C → 40 + 30 = 70°F approx).</p>
-      </div>
-    </div>
-
-    <div class="content-card">
-      <h2>Related Converters</h2>
-      <div class="next-grid">
-        <a href="/celsius-to-fahrenheit" class="next-card">
-          <span class="next-tag">Temperature</span>
-          <h3>Celsius to °F</h3>
-          <p>Convert Celsius to Fahrenheit — same tool, reverse direction.</p>
-        </a>
-        <a href="/kg-to-lbs" class="next-card">
-          <span class="next-tag">Weight</span>
-          <h3>kg to lbs</h3>
-          <p>Convert kilograms to pounds instantly.</p>
-        </a>
-        <a href="/km-to-miles" class="next-card">
-          <span class="next-tag">Length</span>
-          <h3>km to Miles</h3>
-          <p>Convert kilometers to miles with full table.</p>
-        </a>
-        <a href="/cm-to-inches" class="next-card">
-          <span class="next-tag">Length</span>
-          <h3>cm to Inches</h3>
-          <p>Convert centimeters to inches instantly.</p>
-        </a>
-        <a href="/ounces-in-a-pound" class="next-card">
-          <span class="next-tag">Weight</span>
-          <h3>Ounces in a Pound</h3>
-          <p>1 lb = 16 oz — instant lbs to oz converter.</p>
-        </a>
-        <a href="/meters-to-feet" class="next-card">
-          <span class="next-tag">Length</span>
-          <h3>Meters to Feet</h3>
-          <p>Convert meters to feet and inches — with height table.</p>
-        </a>
+      <div>
+        <h3>Meat doneness (°F internal)</h3>
+        <div style="overflow-x:auto">
+          <table class="ref-tbl">
+            <thead><tr><th>°F</th><th>°C</th><th>Doneness</th></tr></thead>
+            <tbody>
+              {[
+                ['120','49','Beef — rare'],
+                ['130','54','Beef — med-rare'],
+                ['140','60','Beef — medium'],
+                ['150','66','Beef — med-well'],
+                ['160','71','Beef/pork — well done'],
+                ['145','63','Pork — safe'],
+                ['145','63','Fish — safe'],
+                ['165','74','Poultry — safe'],
+                ['140','60','Lamb — med-rare'],
+                ['160','71','Lamb — well done'],
+              ].map(([f, c, label]) => (
+                <tr onclick={`setVal(${f})`}>
+                  <td class="acc">{f}°F</td><td>{c}°C</td>
+                  <td style="color:#64748b;font-size:.8rem">{label}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
+
+  <div class="content-card">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>How do you convert Fahrenheit to Celsius?</h3>
+      <p>Formula: <strong>°C = (°F − 32) ÷ 1.8</strong>. Subtract 32, then divide by 1.8. Example: (98.6 - 32) ÷ 1.8 = 37°C.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What is 98.6°F in Celsius?</h3>
+      <p>98.6°F = <strong>37°C</strong> — normal human body temperature.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What is 32°F in Celsius?</h3>
+      <p>32°F = <strong>0°C</strong> — the freezing point of water. (32 - 32) ÷ 1.8 = 0.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What is 212°F in Celsius?</h3>
+      <p>212°F = <strong>100°C</strong> — the boiling point of water at sea level. (212 - 32) ÷ 1.8 = 100.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What is 350°F in Celsius?</h3>
+      <p>350°F = <strong>176.67°C</strong> — a moderate oven temperature. Used for baking cakes and cookies.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What is 72°F in Celsius?</h3>
+      <p>72°F = <strong>22.22°C</strong> — a comfortable room temperature. (72 - 32) ÷ 1.8 = 22.22.</p>
+    </div>
+  </div>
+
+  <div class="content-card">
+    <h2>Related Converters</h2>
+    <div class="next-grid">
+      <a href="/celsius-to-fahrenheit" class="next-card">
+        <span class="next-tag">Temperature</span>
+        <h3>Celsius to °F</h3>
+        <p>Convert °C to Fahrenheit with temp chart.</p>
+      </a>
+      <a href="/kg-to-lbs" class="next-card">
+        <span class="next-tag">Weight</span>
+        <h3>kg to lbs</h3>
+        <p>Convert kilograms to pounds.</p>
+      </a>
+      <a href="/cm-to-inches" class="next-card">
+        <span class="next-tag">Length</span>
+        <h3>cm to Inches</h3>
+        <p>Convert centimeters to inches.</p>
+      </a>
+      <a href="/km-to-miles" class="next-card">
+        <span class="next-tag">Length</span>
+        <h3>km to Miles</h3>
+        <p>Convert kilometers to miles.</p>
+      </a>
+      <a href="/meters-to-feet" class="next-card">
+        <span class="next-tag">Length</span>
+        <h3>Meters to Feet</h3>
+        <p>Convert meters to feet and inches.</p>
+      </a>
+      <a href="/percent-off-calculator" class="next-card">
+        <span class="next-tag">Shopping</span>
+        <h3>Percent Off</h3>
+        <p>Calculate sale price after any discount.</p>
+      </a>
+    </div>
+  </div>
+
 </div>
 
 <script is:inline>
-var currentMode = 'f';
+  var mode = 'f';
 
-var tempDescriptions = {
-  '-40': 'Same in °F and °C',
-  '0':   'Freezing point of water',
-  '20':  'Comfortable room temp',
-  '37':  'Normal body temperature',
-  '38':  'Fever threshold',
-  '100': 'Boiling point of water'
-};
+  document.getElementById('btn-f').addEventListener('click', function() { setMode('f'); });
+  document.getElementById('btn-c').addEventListener('click', function() { setMode('c'); });
+  document.getElementById('calc-btn').addEventListener('click', convert);
+  document.getElementById('amount').addEventListener('input', convert);
+  document.addEventListener('keydown', function(e) { if (e.key === 'Enter') convert(); });
 
-function setMode(mode) {
-  currentMode = mode;
-  document.getElementById('btn-f').classList.toggle('active', mode === 'f');
-  document.getElementById('btn-c').classList.toggle('active', mode === 'c');
-  document.getElementById('input-lbl').textContent = mode === 'f' ? 'Fahrenheit (°F)' : 'Celsius (°C)';
-  document.getElementById('input-sfx').textContent = mode === 'f' ? '°F' : '°C';
-  document.getElementById('main-input').value = mode === 'f' ? '98.6' : '37';
+  document.getElementById('amount').value = 98.6;
   convert();
-}
 
-function getStatus(c) {
-  if (c <= -10)  return 'Freezing';
-  if (c <= 0)    return 'Below Zero';
-  if (c <= 10)   return 'Very Cold';
-  if (c <= 18)   return 'Cold';
-  if (c <= 24)   return 'Comfortable';
-  if (c <= 30)   return 'Warm';
-  if (c < 37)    return 'Hot';
-  if (c === 37)  return 'Body Temp';
-  if (c < 38)    return 'Slightly High';
-  if (c < 40)    return 'Fever';
-  return 'High Fever';
-}
+  function fmt(v, d) { return parseFloat(v.toFixed(d !== undefined ? d : 2)).toString(); }
 
-function fmt(n, dec) {
-  return parseFloat(n.toFixed(dec !== undefined ? dec : 2)).toLocaleString('en-US');
-}
-
-function convert() {
-  var val = parseFloat(document.getElementById('main-input').value);
-  if (isNaN(val)) return;
-
-  var f, c;
-  if (currentMode === 'f') {
-    f = val;
-    c = (val - 32) * 5 / 9;
-  } else {
-    c = val;
-    f = (val * 9 / 5) + 32;
+  function getStatus(c) {
+    if (c <= -40) return 'Extreme cold';
+    if (c < 0) return 'Freezing';
+    if (c < 10) return 'Very cold';
+    if (c < 18) return 'Cold';
+    if (c < 24) return 'Comfortable';
+    if (c < 30) return 'Warm';
+    if (c < 37) return 'Hot';
+    if (Math.abs(c - 37) < 0.1) return 'Body Temp';
+    if (c < 38) return 'Low-grade fever';
+    if (c < 40) return 'Fever';
+    return 'Very hot';
   }
 
-  var k = c + 273.15;
-  var r = f + 459.67;
-
-  if (currentMode === 'f') {
-    document.getElementById('r-label').textContent   = 'Celsius';
-    document.getElementById('r-value').textContent   = fmt(c, 2);
-    document.getElementById('r-unit').textContent    = '°C';
-    document.getElementById('r-sub').textContent     = fmt(f, 2) + '°F = ' + fmt(c, 2) + '°C';
-    document.getElementById('r-alt-lbl').textContent = '°F';
-    document.getElementById('r-alt').textContent     = fmt(f, 2);
-  } else {
-    document.getElementById('r-label').textContent   = 'Fahrenheit';
-    document.getElementById('r-value').textContent   = fmt(f, 2);
-    document.getElementById('r-unit').textContent    = '°F';
-    document.getElementById('r-sub').textContent     = fmt(c, 2) + '°C = ' + fmt(f, 2) + '°F';
-    document.getElementById('r-alt-lbl').textContent = '°C';
-    document.getElementById('r-alt').textContent     = fmt(c, 2);
+  function setMode(m) {
+    mode = m;
+    var isF = m === 'f';
+    document.getElementById('btn-f').classList.toggle('active', isF);
+    document.getElementById('btn-c').classList.toggle('active', !isF);
+    document.getElementById('inp-lbl').textContent = isF ? 'Temperature in Fahrenheit (°F)' : 'Temperature in Celsius (°C)';
+    document.getElementById('inp-sfx').textContent = isF ? '°F' : '°C';
+    document.getElementById('s3-lbl').textContent = isF ? 'Celsius' : 'Fahrenheit';
+    var presets = document.getElementById('preset-wrap');
+    presets.innerHTML = (isF ? [-40,32,68,98.6,212] : [-40,0,20,37,100])
+      .map(function(v){ return '<button class="preset-btn" onclick="setVal('+v+')">'+v+'</button>'; }).join('');
+    document.getElementById('amount').value = isF ? 98.6 : 37;
+    convert();
   }
 
-  document.getElementById('r-kelvin').textContent  = fmt(k, 2);
-  document.getElementById('r-rankine').textContent = fmt(r, 2);
-  document.getElementById('r-status').textContent  = getStatus(c);
-}
+  function convert() {
+    var val = parseFloat(document.getElementById('amount').value);
+    if (isNaN(val)) return;
+    var c, f, k, r;
+    if (mode === 'f') {
+      f = val; c = (val - 32) / 1.8; k = c + 273.15; r = val + 459.67;
+      document.getElementById('ans-label').textContent = fmt(val, 1) + '°F =';
+      document.getElementById('ans-value').textContent = fmt(c, 2);
+      document.getElementById('ans-unit').textContent = '°C (Celsius)';
+      document.getElementById('ans-sub').textContent = '(' + fmt(val,1) + ' − 32) ÷ 1.8 = ' + fmt(c,2) + '°C · ' + getStatus(c);
+      document.getElementById('s3-val').textContent = fmt(c, 2) + '°C';
+    } else {
+      c = val; f = (val * 9/5) + 32; k = val + 273.15; r = f + 459.67;
+      document.getElementById('ans-label').textContent = fmt(val, 1) + '°C =';
+      document.getElementById('ans-value').textContent = fmt(f, 2);
+      document.getElementById('ans-unit').textContent = '°F (Fahrenheit)';
+      document.getElementById('ans-sub').textContent = '(' + fmt(val,1) + ' × 1.8) + 32 = ' + fmt(f,2) + '°F · ' + getStatus(c);
+      document.getElementById('s3-val').textContent = fmt(f, 2) + '°F';
+    }
+    document.getElementById('s1-val').textContent = fmt(k, 2) + ' K';
+    document.getElementById('s2-val').textContent = fmt(r, 2) + ' °R';
+    document.getElementById('s4-val').textContent = getStatus(c);
+    document.getElementById('answer').classList.add('show');
+    document.getElementById('stats').classList.add('show');
+  }
 
-convert();
+  function setVal(v) { document.getElementById('amount').value = v; convert(); }
 </script>
 </Layout>

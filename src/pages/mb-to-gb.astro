@@ -1,0 +1,325 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const schema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "MB to GB Converter",
+    "url": "https://computezap.com/mb-to-gb",
+    "description": "Free MB to GB converter. Convert megabytes to gigabytes instantly — binary (÷1024) and decimal (÷1000). Works both ways.",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
+      { "@type": "ListItem", "position": 2, "name": "MB to GB Converter", "item": "https://computezap.com/mb-to-gb" }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How many MB is 1 GB?",
+        "acceptedAnswer": { "@type": "Answer", "text": "1 GB = 1024 MB (binary, used by computers and OS). Storage manufacturers use decimal: 1 GB = 1000 MB. Your OS always shows binary." }
+      },
+      {
+        "@type": "Question",
+        "name": "How do you convert MB to GB?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Divide MB by 1024 to get binary GB (what your computer shows). Example: 512 MB ÷ 1024 = 0.5 GB." }
+      },
+      {
+        "@type": "Question",
+        "name": "Why does my hard drive show less GB than advertised?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Storage manufacturers use decimal (1 GB = 1000 MB), but your OS uses binary (1 GB = 1024 MB). A 500 GB drive contains 500,000 MB, which your OS shows as 476.8 GB (÷1024)." }
+      }
+    ]
+  }
+]);
+---
+<Layout
+  title="MB to GB Converter — Convert Megabytes to Gigabytes | ComputeZap"
+  description="Convert MB to GB instantly. Free megabytes to gigabytes converter — shows binary GB (÷1024) and decimal GB (÷1000). Also converts GB to MB."
+  canonical="/mb-to-gb"
+  schema={schema}
+>
+<style is:global>
+.mtg-hero{text-align:center;padding:2rem 1rem 1rem}
+.mtg-hero h1{font-size:1.9rem;font-weight:800;letter-spacing:-.03em;color:#111;margin:0 0 .35rem}
+.mtg-hero p{color:#64748b;font-size:1rem;margin:0}
+.mtg-hero nav{font-size:.82rem;color:#94a3b8;margin-bottom:.75rem}
+
+.calc-center{max-width:620px;margin:0 auto;padding:0 1rem 2rem}
+.content-wrap{max-width:900px;margin:0 auto;padding:0 1rem 3.5rem}
+
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:1.5rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.content-card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:1.5rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.content-card h2{font-size:1.05rem;font-weight:700;color:#111;margin:0 0 .8rem}
+.content-card p{color:#444;line-height:1.75;font-size:.93rem;margin:0 0 .7rem}
+.content-card p:last-child{margin-bottom:0}
+.mode-wrap{display:grid;grid-template-columns:1fr 1fr;gap:.4rem;margin-bottom:1.25rem}
+.mode-btn{padding:.55rem;font-size:.85rem;font-weight:600;border:1.5px solid #e2e8f0;border-radius:8px;background:#f8fafc;color:#64748b;cursor:pointer;transition:all .15s;text-align:center}
+.mode-btn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.input-group{margin-bottom:1rem}
+.input-group label{display:block;font-size:.82rem;font-weight:600;color:#374151;margin-bottom:.4rem}
+.input-group input{width:100%;padding:.65rem .9rem;border:1.5px solid #e2e8f0;border-radius:8px;font-size:1rem;font-family:inherit;color:#111;transition:border-color .15s;box-sizing:border-box}
+.input-group input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+.calc-btn{width:100%;padding:.8rem;background:var(--blue);color:#fff;border:none;border-radius:8px;font-size:1rem;font-weight:700;cursor:pointer;transition:background .15s;margin-bottom:1rem}
+.calc-btn:hover{background:#1d4ed8}
+.answer-hero{background:linear-gradient(135deg,#1d4ed8 0%,#2563eb 60%,#3b82f6 100%);border-radius:14px;padding:1.75rem 1.5rem 1.25rem;text-align:center;margin-bottom:1rem;box-shadow:0 6px 24px rgba(37,99,235,.22);display:none}
+.answer-hero.show{display:block}
+.a-label{font-size:.68rem;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem;font-weight:700}
+.a-value{font-size:2.8rem;font-weight:900;color:#fff;line-height:1;letter-spacing:-.02em}
+.a-unit{font-size:1rem;font-weight:600;color:rgba(255,255,255,.8);margin-top:.3rem}
+.a-sub{font-size:.85rem;color:rgba(255,255,255,.7);margin-top:.4rem}
+.stats-row{display:none;grid-template-columns:1fr 1fr;gap:.55rem}
+.stats-row.show{display:grid}
+.stat-box{background:#f8fafc;border:1px solid #f1f5f9;border-radius:10px;padding:.85rem .75rem;text-align:center}
+.stat-lbl{display:block;font-size:.62rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.25rem;font-weight:700}
+.stat-val{display:block;font-size:.95rem;font-weight:800;color:#1e293b}
+.ref-tbl{width:100%;border-collapse:collapse;font-size:.875rem}
+.ref-tbl th{background:#f8fafc;padding:.6rem .85rem;text-align:left;font-size:.68rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;border-bottom:2px solid #e2e8f0}
+.ref-tbl td{padding:.65rem .85rem;border-bottom:1px solid #f3f4f6;color:#374151}
+.ref-tbl tr:last-child td{border-bottom:none}
+.ref-tbl tbody tr:hover td{background:#f8faff}
+.ref-tbl a{color:var(--blue);text-decoration:none;font-weight:600}
+.ref-tbl a:hover{text-decoration:underline}
+.faq-item{border-bottom:1px solid #f3f4f6;padding:.9rem 0}
+.faq-item:last-child{border-bottom:none;padding-bottom:0}
+.faq-item h3{font-size:.9rem;color:#111;margin:0 0 .35rem;font-weight:700}
+.faq-item p{color:#555;font-size:.865rem;margin:0;line-height:1.65}
+.next-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem}
+.next-card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:1rem;border-top:3px solid var(--blue);text-decoration:none;display:block}
+.next-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.08);text-decoration:none}
+.next-tag{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--blue);margin-bottom:.3rem;display:block}
+.next-card h3{font-size:.88rem;font-weight:700;color:#111;margin:0 0 .25rem}
+.next-card p{font-size:.78rem;color:#64748b;margin:0;line-height:1.5}
+@media(max-width:768px){
+  .a-value{font-size:2.1rem}
+  .next-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:480px){.next-grid{grid-template-columns:1fr}}
+</style>
+
+<div class="mtg-hero">
+  <nav>
+    <a href="/" style="color:var(--blue);text-decoration:none">Home</a> › MB to GB Converter
+  </nav>
+  <h1>MB to GB Converter</h1>
+  <p>Convert megabytes to gigabytes — or GB to MB. Shows binary and decimal results.</p>
+</div>
+
+<div class="calc-center">
+  <div class="card">
+    <div class="mode-wrap">
+      <button class="mode-btn active" id="btn-mb">MB → GB</button>
+      <button class="mode-btn" id="btn-gb">GB → MB</button>
+    </div>
+
+    <div id="grp-mb" class="input-group">
+      <label for="inp-mb">Megabytes (MB)</label>
+      <input type="number" id="inp-mb" placeholder="e.g. 1024" min="0" step="any" />
+    </div>
+    <div id="grp-gb" class="input-group" style="display:none">
+      <label for="inp-gb">Gigabytes (GB)</label>
+      <input type="number" id="inp-gb" placeholder="e.g. 1" min="0" step="any" />
+    </div>
+
+    <button class="calc-btn" id="calc-btn">Convert</button>
+
+    <div class="answer-hero" id="answer">
+      <div class="a-label" id="ans-label">MB =</div>
+      <div class="a-value" id="ans-value">—</div>
+      <div class="a-unit" id="ans-unit">GB</div>
+      <div class="a-sub" id="ans-sub"></div>
+    </div>
+
+    <div class="stats-row" id="stats">
+      <div class="stat-box">
+        <span class="stat-lbl" id="s1-lbl">Decimal GB</span>
+        <span class="stat-val" id="s1-val">—</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl" id="s2-lbl">Kilobytes</span>
+        <span class="stat-val" id="s2-val">—</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl" id="s3-lbl">Bytes</span>
+        <span class="stat-val" id="s3-val">—</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl" id="s4-lbl">Terabytes</span>
+        <span class="stat-val" id="s4-val">—</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="content-wrap">
+  <div class="content-card">
+    <h2>MB to GB Formula</h2>
+    <p><strong>Binary (what your computer shows):</strong></p>
+    <p style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:10px;padding:.85rem 1rem;font-family:monospace;font-weight:800;text-align:center;font-size:.95rem">GB = MB ÷ 1024</p>
+    <p><strong>Decimal (storage manufacturers):</strong></p>
+    <p style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:10px;padding:.85rem 1rem;font-family:monospace;font-weight:800;text-align:center;font-size:.95rem">GB = MB ÷ 1000</p>
+    <p>Your OS (Windows, macOS, Linux) always uses <strong>binary</strong>. Hard drive boxes use <strong>decimal</strong> — that's why storage shows less than advertised on your computer.</p>
+  </div>
+
+  <div class="content-card">
+    <h2>MB to GB — Quick Reference Table</h2>
+    <div style="overflow-x:auto">
+      <table class="ref-tbl">
+        <thead>
+          <tr><th>MB</th><th>GB (Binary)</th><th>GB (Decimal)</th><th>Common Use</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><a href="/128-mb-to-gb">128 MB</a></td><td>0.125 GB</td><td>0.128 GB</td><td>Low-res photo / old USB</td></tr>
+          <tr><td><a href="/256-mb-to-gb">256 MB</a></td><td>0.25 GB</td><td>0.256 GB</td><td>Small cache / old RAM</td></tr>
+          <tr><td><a href="/512-mb-to-gb">512 MB</a></td><td>0.5 GB</td><td>0.512 GB</td><td>Half a GB</td></tr>
+          <tr><td><a href="/1000-mb-to-gb">1000 MB</a></td><td>0.97656 GB</td><td>1 GB</td><td>~1 GB download</td></tr>
+          <tr><td><a href="/1024-mb-to-gb">1024 MB</a></td><td>1 GB</td><td>1.024 GB</td><td>Exactly 1 binary GB</td></tr>
+          <tr><td><a href="/2048-mb-to-gb">2048 MB</a></td><td>2 GB</td><td>2.048 GB</td><td>Basic smartphone RAM</td></tr>
+          <tr><td><a href="/4096-mb-to-gb">4096 MB</a></td><td>4 GB</td><td>4.096 GB</td><td>Entry laptop RAM</td></tr>
+          <tr><td><a href="/8192-mb-to-gb">8192 MB</a></td><td>8 GB</td><td>8.192 GB</td><td>Standard laptop RAM</td></tr>
+          <tr><td><a href="/16000-mb-to-gb">16000 MB</a></td><td>15.625 GB</td><td>16 GB</td><td>High-end RAM</td></tr>
+          <tr><td><a href="/32000-mb-to-gb">32000 MB</a></td><td>31.25 GB</td><td>32 GB</td><td>Server RAM / large SSD</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top:.75rem;font-size:.82rem;color:#64748b">→ <a href="/mb-pages">Browse all MB to GB pages</a></p>
+  </div>
+
+  <div class="content-card">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>How many MB is 1 GB?</h3>
+      <p>1 GB = <strong>1024 MB</strong> (binary, used by computers). Storage manufacturers use decimal: 1 GB = 1000 MB. Your OS always shows binary — so a "1 GB" file on your computer is 1024 MB.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Why does my hard drive show less GB than advertised?</h3>
+      <p>Storage manufacturers use decimal (1 GB = 1000 MB), but your OS uses binary (1 GB = 1024 MB). A "500 GB" drive contains 500,000 MB, which your computer shows as <strong>488.28 GB</strong> (500,000 ÷ 1024).</p>
+    </div>
+    <div class="faq-item">
+      <h3>How many MB is 1 TB?</h3>
+      <p>1 TB = <strong>1,048,576 MB</strong> (binary: 1024 × 1024). In decimal: 1 TB = 1,000,000 MB. Terabytes are used for large hard drives and SSDs.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Is 500 MB half a GB?</h3>
+      <p>Almost — but not exactly. 500 MB = <strong>0.4883 GB</strong> (binary). Exactly half a binary GB is 512 MB. In decimal, 500 MB = 0.5 GB exactly.</p>
+    </div>
+  </div>
+
+  <div class="content-card">
+    <h2>Related Converters</h2>
+    <div class="next-grid">
+      <a href="/yards-to-meters" class="next-card">
+        <span class="next-tag">Length</span>
+        <h3>Yards to Meters</h3>
+        <p>Convert yards to meters instantly</p>
+      </a>
+      <a href="/kg-to-lbs" class="next-card">
+        <span class="next-tag">Weight</span>
+        <h3>kg to lbs</h3>
+        <p>Kilograms to pounds converter</p>
+      </a>
+      <a href="/cm-to-inches" class="next-card">
+        <span class="next-tag">Length</span>
+        <h3>cm to Inches</h3>
+        <p>Convert centimeters to inches</p>
+      </a>
+      <a href="/percentage-calculator" class="next-card">
+        <span class="next-tag">Math</span>
+        <h3>Percentage Calculator</h3>
+        <p>Calculate percentages instantly</p>
+      </a>
+      <a href="/percent-off-calculator" class="next-card">
+        <span class="next-tag">Math</span>
+        <h3>Percent Off Calculator</h3>
+        <p>Find sale price after any discount</p>
+      </a>
+      <a href="/celsius-to-fahrenheit" class="next-card">
+        <span class="next-tag">Temp</span>
+        <h3>Celsius to Fahrenheit</h3>
+        <p>Temperature converter</p>
+      </a>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  var mode = 'mb';
+
+  document.getElementById('btn-mb').addEventListener('click', function() { setMode('mb'); });
+  document.getElementById('btn-gb').addEventListener('click', function() { setMode('gb'); });
+  document.getElementById('calc-btn').addEventListener('click', calculate);
+  document.addEventListener('keydown', function(e) { if (e.key === 'Enter') calculate(); });
+
+  /* pre-fill 1024 MB on load */
+  document.getElementById('inp-mb').value = 1024;
+  calculate();
+
+  function setMode(m) {
+    mode = m;
+    document.getElementById('btn-mb').classList.toggle('active', m === 'mb');
+    document.getElementById('btn-gb').classList.toggle('active', m === 'gb');
+    document.getElementById('grp-mb').style.display = m === 'mb' ? '' : 'none';
+    document.getElementById('grp-gb').style.display = m === 'gb' ? '' : 'none';
+    document.getElementById('answer').classList.remove('show');
+    document.getElementById('stats').classList.remove('show');
+  }
+
+  function fmt(n) {
+    return n.toLocaleString('en-US', { maximumFractionDigits: 5 });
+  }
+
+  function calculate() {
+    if (mode === 'mb') {
+      var mb = parseFloat(document.getElementById('inp-mb').value);
+      if (isNaN(mb) || mb < 0) return;
+      var gbBin = Math.round(mb / 1024 * 100000) / 100000;
+      var gbDec = Math.round(mb / 1000 * 100000) / 100000;
+      var kb = mb * 1024;
+      var bytes = mb * 1048576;
+      var tb = Math.round(mb / (1024 * 1024) * 1000000) / 1000000;
+      document.getElementById('ans-label').textContent = mb + ' MB =';
+      document.getElementById('ans-value').textContent = gbBin;
+      document.getElementById('ans-unit').textContent = 'gigabytes (GB)';
+      document.getElementById('ans-sub').textContent = mb + ' MB ÷ 1024 = ' + gbBin + ' GB';
+      document.getElementById('s1-lbl').textContent = 'Decimal GB';
+      document.getElementById('s1-val').textContent = gbDec + ' GB';
+      document.getElementById('s2-lbl').textContent = 'Kilobytes';
+      document.getElementById('s2-val').textContent = kb.toLocaleString('en-US') + ' KB';
+      document.getElementById('s3-lbl').textContent = 'Bytes';
+      document.getElementById('s3-val').textContent = bytes.toLocaleString('en-US');
+      document.getElementById('s4-lbl').textContent = 'Terabytes';
+      document.getElementById('s4-val').textContent = tb + ' TB';
+    } else {
+      var gb = parseFloat(document.getElementById('inp-gb').value);
+      if (isNaN(gb) || gb < 0) return;
+      var mbBin = Math.round(gb * 1024 * 100) / 100;
+      var mbDec = Math.round(gb * 1000 * 100) / 100;
+      var kbVal = Math.round(gb * 1024 * 1024);
+      var bytesVal = Math.round(gb * 1073741824);
+      document.getElementById('ans-label').textContent = gb + ' GB =';
+      document.getElementById('ans-value').textContent = mbBin.toLocaleString('en-US');
+      document.getElementById('ans-unit').textContent = 'megabytes (MB)';
+      document.getElementById('ans-sub').textContent = gb + ' GB × 1024 = ' + mbBin.toLocaleString('en-US') + ' MB';
+      document.getElementById('s1-lbl').textContent = 'Decimal MB';
+      document.getElementById('s1-val').textContent = mbDec.toLocaleString('en-US') + ' MB';
+      document.getElementById('s2-lbl').textContent = 'Kilobytes';
+      document.getElementById('s2-val').textContent = kbVal.toLocaleString('en-US') + ' KB';
+      document.getElementById('s3-lbl').textContent = 'Bytes';
+      document.getElementById('s3-val').textContent = bytesVal.toLocaleString('en-US');
+      document.getElementById('s4-lbl').textContent = 'Terabytes';
+      document.getElementById('s4-val').textContent = (Math.round(gb / 1024 * 1000000) / 1000000) + ' TB';
+    }
+    document.getElementById('answer').classList.add('show');
+    document.getElementById('stats').classList.add('show');
+  }
+</script>
+</Layout>

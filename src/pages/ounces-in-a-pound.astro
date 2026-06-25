@@ -24,36 +24,12 @@ const schema = JSON.stringify([
     "@context": "https://schema.org",
     "@type": "FAQPage",
     "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "How many ounces in a pound?",
-        "acceptedAnswer": { "@type": "Answer", "text": "There are exactly 16 ounces in 1 pound. This is a fixed US customary and Imperial measurement. So 1 lb = 16 oz, 2 lbs = 32 oz, 0.5 lbs = 8 oz." }
-      },
-      {
-        "@type": "Question",
-        "name": "How do you convert pounds to ounces?",
-        "acceptedAnswer": { "@type": "Answer", "text": "To convert pounds to ounces, multiply the number of pounds by 16. Formula: ounces = pounds × 16. Example: 2.5 lbs × 16 = 40 oz." }
-      },
-      {
-        "@type": "Question",
-        "name": "How do you convert ounces to pounds?",
-        "acceptedAnswer": { "@type": "Answer", "text": "To convert ounces to pounds, divide the number of ounces by 16. Formula: pounds = ounces ÷ 16. Example: 24 oz ÷ 16 = 1.5 lbs." }
-      },
-      {
-        "@type": "Question",
-        "name": "How many ounces in a half pound?",
-        "acceptedAnswer": { "@type": "Answer", "text": "There are 8 ounces in a half pound (0.5 lb). Since 1 pound = 16 ounces, half of 16 = 8 ounces. A quarter pound = 4 ounces, and three-quarter pound = 12 ounces." }
-      },
-      {
-        "@type": "Question",
-        "name": "Is a fluid ounce the same as an ounce?",
-        "acceptedAnswer": { "@type": "Answer", "text": "No. A fluid ounce (fl oz) measures volume and is used for liquids. A regular ounce (oz) measures weight/mass and is used for solids. When converting to pounds, always use weight ounces (oz), not fluid ounces (fl oz)." }
-      },
-      {
-        "@type": "Question",
-        "name": "How many ounces in a pound of gold?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Gold and other precious metals use Troy weight, not standard (avoirdupois) weight. 1 Troy pound = 12 Troy ounces. However, 1 standard pound = 16 standard ounces. For everyday cooking, shipping, and body weight, 1 pound = 16 ounces always applies." }
-      }
+      { "@type": "Question", "name": "How many ounces in a pound?", "acceptedAnswer": { "@type": "Answer", "text": "There are exactly 16 ounces in 1 pound. 1 lb = 16 oz, 2 lbs = 32 oz, 0.5 lbs = 8 oz." } },
+      { "@type": "Question", "name": "How do you convert pounds to ounces?", "acceptedAnswer": { "@type": "Answer", "text": "Multiply pounds by 16. Formula: oz = lbs × 16. Example: 2.5 lbs × 16 = 40 oz." } },
+      { "@type": "Question", "name": "How do you convert ounces to pounds?", "acceptedAnswer": { "@type": "Answer", "text": "Divide ounces by 16. Formula: lbs = oz ÷ 16. Example: 24 oz ÷ 16 = 1.5 lbs." } },
+      { "@type": "Question", "name": "How many ounces in a half pound?", "acceptedAnswer": { "@type": "Answer", "text": "There are 8 ounces in a half pound (0.5 lb). A quarter pound = 4 oz, three-quarter pound = 12 oz." } },
+      { "@type": "Question", "name": "Is a fluid ounce the same as an ounce?", "acceptedAnswer": { "@type": "Answer", "text": "No. Fluid ounces (fl oz) measure volume. Regular ounces (oz) measure weight. When converting to pounds, always use weight ounces (oz)." } },
+      { "@type": "Question", "name": "How many ounces in a pound of gold?", "acceptedAnswer": { "@type": "Answer", "text": "Gold uses Troy weight: 1 Troy pound = 12 Troy ounces. For everyday use, 1 standard pound = 16 standard ounces always." } }
     ]
   }
 ]);
@@ -64,391 +40,278 @@ const schema = JSON.stringify([
   canonical="/ounces-in-a-pound"
   schema={schema}
 >
-<style is:global>
-/* ── Layout ─────────────────────────────────────── */
-.hero{text-align:center;padding:2rem 1rem 1.5rem}
-.hero h1{font-size:2rem;color:#111;margin:.5rem 0 .4rem;font-weight:800;letter-spacing:-.02em}
-.hero-sub{color:#64748b;margin:0;font-size:1.05rem}
-.breadcrumb{font-size:.82rem;color:#94a3b8;margin-bottom:.75rem}
-.breadcrumb a{color:var(--blue);text-decoration:none}
-.calc-wrap{display:grid;grid-template-columns:390px 1fr;gap:1.75rem;max-width:1120px;margin:0 auto;padding:0 1rem 3.5rem;align-items:start}
-.calc-left{position:sticky;top:1rem}
+<!-- Styles loaded from global.css (Design Standard v2) -->
 
-/* ── Cards ──────────────────────────────────────── */
-.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:1.5rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(0,0,0,.04)}
-.card:last-child{margin-bottom:0}
-.card-header{display:flex;align-items:center;gap:.6rem;margin-bottom:1.1rem}
-.card-step{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;background:var(--blue);color:#fff;border-radius:50%;font-size:.7rem;font-weight:800;flex-shrink:0}
-.card-title{font-size:1rem;font-weight:700;color:#111;margin:0}
-.card h2{font-size:1.05rem;font-weight:700;color:#111;margin:0 0 .9rem}
-.card p{color:#444;line-height:1.75;font-size:.93rem;margin:0 0 .7rem}
-.card p:last-child{margin-bottom:0}
-.card ul{color:#444;line-height:1.85;font-size:.93rem;padding-left:1.25rem;margin:.5rem 0 0}
-.content-card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:1.5rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(0,0,0,.04)}
-.content-card h2{font-size:1.05rem;font-weight:700;color:#111;margin:0 0 .8rem}
-.content-card p{color:#444;line-height:1.75;font-size:.93rem;margin:0 0 .7rem}
-.content-card p:last-child{margin-bottom:0}
-.content-card ul{color:#444;line-height:1.85;font-size:.93rem;padding-left:1.25rem;margin:0}
-
-/* ── Toggle ──────────────────────────────────────── */
-.mode-toggle{display:grid;grid-template-columns:1fr 1fr;background:#f1f5f9;border-radius:10px;padding:3px;margin-bottom:1.1rem;gap:3px}
-.mode-btn{padding:.55rem;font-size:.82rem;font-weight:700;border:none;border-radius:8px;cursor:pointer;font-family:inherit;background:transparent;color:#64748b;transition:all .15s}
-.mode-btn.active{background:#fff;color:var(--blue);box-shadow:0 1px 4px rgba(0,0,0,.1)}
-
-/* ── Input ───────────────────────────────────────── */
-.field-group{margin-bottom:1rem}
-.field-group:last-child{margin-bottom:0}
-.field-lbl{display:block;font-size:.75rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem}
-.input-wrap{position:relative;display:flex;align-items:center}
-.input-sfx{position:absolute;right:.9rem;font-size:1rem;font-weight:700;color:#94a3b8;pointer-events:none}
-.field-input{width:100%;font-size:1.5rem;font-weight:800;padding:.65rem 3.5rem .65rem .9rem;border:2px solid #e2e8f0;border-radius:10px;color:#111;box-sizing:border-box;font-family:inherit;background:#f8fafc;outline:none;transition:all .15s}
-.field-input:focus{border-color:#93c5fd;background:#fff;box-shadow:0 0 0 3px rgba(37,99,235,.07)}
-
-/* ── Answer Box ──────────────────────────────────── */
-.answer-box{background:linear-gradient(135deg,#1d4ed8 0%,#2563eb 60%,#3b82f6 100%);border-radius:14px;padding:1.5rem 1.5rem 1.25rem;text-align:center;margin-bottom:1rem;box-shadow:0 6px 24px rgba(37,99,235,.22)}
-.a-label{font-size:.68rem;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.3rem;font-weight:700}
-.a-value{font-size:2.4rem;font-weight:900;color:#fff;line-height:1.1;letter-spacing:-.02em}
-.a-unit{font-size:1rem;font-weight:600;color:rgba(255,255,255,.8);margin-top:.2rem}
-.a-sub{font-size:.88rem;color:rgba(255,255,255,.7);margin-top:.3rem}
-
-/* ── Stats Row ───────────────────────────────────── */
-.stats-row{display:grid;grid-template-columns:1fr 1fr;gap:.55rem}
-.stat-box{background:#f8fafc;border:1px solid #f1f5f9;border-radius:10px;padding:.85rem .75rem;text-align:center}
-.stat-lbl{display:block;font-size:.62rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.25rem;font-weight:700}
-.stat-val{display:block;font-size:.95rem;font-weight:800;color:#1e293b}
-
-/* ── Quick Answer Banner ─────────────────────────── */
-.quick-answer{background:#f0fdf4;border:1.5px solid #86efac;border-radius:12px;padding:1rem 1.25rem;margin-bottom:1rem;text-align:center}
-.qa-big{font-size:1.5rem;font-weight:900;color:#15803d;display:block;margin-bottom:.2rem}
-.qa-sub{font-size:.82rem;color:#166534}
-
-/* ── Conversion Table ────────────────────────────── */
-.conv-table{width:100%;border-collapse:collapse;font-size:.875rem}
-.conv-table th{background:#f8fafc;padding:.65rem .85rem;text-align:left;font-size:.68rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;border-bottom:2px solid #e2e8f0}
-.conv-table td{padding:.7rem .85rem;border-bottom:1px solid #f3f4f6;color:#374151}
-.conv-table tr:last-child td{border-bottom:none}
-.conv-table tbody tr:hover td{background:#f8faff}
-.conv-table .highlight-row td{background:#eff6ff;font-weight:700;color:#1d4ed8}
-.conv-table .highlight-row:hover td{background:#dbeafe}
-
-/* ── Tip Box ─────────────────────────────────────── */
-.tip-box{display:flex;gap:.75rem;background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:.9rem 1rem;margin:.85rem 0}
-.tip-icon{font-size:1.1rem;flex-shrink:0;margin-top:.05rem}
-.tip-box p{margin:0;font-size:.875rem;color:#1e40af;line-height:1.6}
-
-/* ── FAQ ─────────────────────────────────────────── */
-.faq-item{border-bottom:1px solid #f3f4f6;padding:.9rem 0}
-.faq-item:last-child{border-bottom:none;padding-bottom:0}
-.faq-item h3{font-size:.9rem;color:#111;margin:0 0 .35rem;font-weight:700}
-.faq-item p{color:#555;font-size:.865rem;margin:0;line-height:1.65}
-
-/* ── Related Tools ───────────────────────────────── */
-.next-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem}
-.next-card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:1rem;border-top:3px solid var(--blue);text-decoration:none;display:block;transition:box-shadow .15s}
-.next-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.08);text-decoration:none}
-.next-tag{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--blue);margin-bottom:.3rem;display:block}
-.next-card h3{font-size:.88rem;font-weight:700;color:#111;margin:0 0 .25rem}
-.next-card p{font-size:.78rem;color:#64748b;margin:0;line-height:1.5}
-
-/* ── Responsive ──────────────────────────────────── */
-@media(max-width:768px){
-  .calc-wrap{grid-template-columns:1fr}
-  .calc-left{position:static}
-  .hero h1{font-size:1.65rem}
-  .a-value{font-size:1.9rem}
-  .stats-row{grid-template-columns:1fr 1fr}
-  .next-grid{grid-template-columns:1fr}
-}
-</style>
-
-<div class="hero">
-  <nav class="breadcrumb"><a href="/">Home</a> › Ounces in a Pound</nav>
+<div class="page-hero">
+  <nav><a href="/">Home</a> › Ounces in a Pound</nav>
   <h1>Ounces in a Pound</h1>
-  <p class="hero-sub">1 pound = 16 ounces — convert lbs to oz or oz to lbs instantly</p>
+  <p>1 pound = 16 ounces — convert lbs to oz or oz to lbs instantly</p>
 </div>
 
-<div class="calc-wrap">
-
-  <!-- ══ LEFT PANEL ══ -->
-  <div class="calc-left">
-
-    <div class="card">
-      <div class="quick-answer">
-        <span class="qa-big">1 lb = 16 oz</span>
-        <span class="qa-sub">1 pound equals exactly 16 ounces</span>
-      </div>
-
-      <div class="card-header">
-        <span class="card-step">1</span>
-        <h2 class="card-title">Convert</h2>
-      </div>
-
-      <div class="mode-toggle">
-        <button class="mode-btn active" id="btn-lbs" onclick="setMode('lbs')">Pounds → Ounces</button>
-        <button class="mode-btn" id="btn-oz" onclick="setMode('oz')">Ounces → Pounds</button>
-      </div>
-
-      <div class="field-group">
-        <label class="field-lbl" id="input-lbl" for="main-input">Pounds (lb)</label>
-        <div class="input-wrap">
-          <input type="number" id="main-input" class="field-input" value="1" min="0" step="0.1" oninput="convert()" />
-          <span class="input-sfx" id="input-sfx">lb</span>
-        </div>
+<div class="calc-center">
+  <div class="card">
+    <div class="mode-wrap">
+      <button class="mode-btn active" id="btn-lbs">lbs → oz</button>
+      <button class="mode-btn" id="btn-oz">oz → lbs</button>
+    </div>
+    <div class="input-group">
+      <label id="inp-lbl">Pounds (lb)</label>
+      <div class="input-wrap">
+        <input type="number" id="amount" value="1" min="0" step="0.1" />
+        <span class="input-sfx" id="inp-sfx">lb</span>
       </div>
     </div>
-
-    <div class="card">
-      <div class="card-header">
-        <span class="card-step">2</span>
-        <h2 class="card-title">Result</h2>
+    <span class="preset-lbl">Quick values</span>
+    <div class="preset-wrap" id="preset-wrap">
+      <button class="preset-btn" onclick="setVal(0.5)">½ lb</button>
+      <button class="preset-btn" onclick="setVal(1)">1</button>
+      <button class="preset-btn" onclick="setVal(2)">2</button>
+      <button class="preset-btn" onclick="setVal(5)">5</button>
+      <button class="preset-btn" onclick="setVal(10)">10</button>
+    </div>
+    <button class="calc-btn" id="calc-btn">Convert</button>
+    <div class="answer-hero" id="answer">
+      <div class="a-label" id="ans-label">1 lb =</div>
+      <div class="a-value" id="ans-value">16</div>
+      <div class="a-unit" id="ans-unit">ounces (oz)</div>
+      <div class="a-sub" id="ans-sub">1 × 16 = 16 oz</div>
+    </div>
+    <div class="stats-row" id="stats">
+      <div class="stat-box">
+        <span class="stat-lbl">Grams</span>
+        <span class="stat-val" id="s1-val">453.59 g</span>
       </div>
-
-      <div class="answer-box">
-        <div class="a-label" id="r-label">Ounces</div>
-        <div class="a-value" id="r-value">16</div>
-        <div class="a-unit" id="r-unit">oz</div>
-        <div class="a-sub" id="r-sub">1 lb = 16 oz</div>
+      <div class="stat-box">
+        <span class="stat-lbl">Kilograms</span>
+        <span class="stat-val" id="s2-val">0.4536 kg</span>
       </div>
-
-      <div class="stats-row">
-        <div class="stat-box">
-          <span class="stat-lbl">Grams</span>
-          <span class="stat-val" id="r-grams">453.59</span>
-        </div>
-        <div class="stat-box">
-          <span class="stat-lbl">Kilograms</span>
-          <span class="stat-val" id="r-kg">0.4536</span>
-        </div>
-        <div class="stat-box">
-          <span class="stat-lbl" id="r-alt-lbl">Pounds</span>
-          <span class="stat-val" id="r-alt">1</span>
-        </div>
-        <div class="stat-box">
-          <span class="stat-lbl">Milligrams</span>
-          <span class="stat-val" id="r-mg">453,592</span>
-        </div>
+      <div class="stat-box">
+        <span class="stat-lbl" id="s3-lbl">Pounds</span>
+        <span class="stat-val" id="s3-val">1 lb</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">Milligrams</span>
+        <span class="stat-val" id="s4-val">453,592 mg</span>
       </div>
     </div>
+  </div>
+</div>
 
+<div class="content-wrap">
+
+  <div class="content-card">
+    <h2>How Many Ounces in a Pound?</h2>
+    <p>There are exactly <strong>16 ounces in 1 pound</strong>. This is a fixed US customary and Imperial measurement — no rounding required.</p>
+    <div class="answer-box">
+      <div class="answer-row"><span class="answer-lbl">1 pound</span><span class="answer-val">= 16 oz</span></div>
+      <div class="answer-row"><span class="answer-lbl">½ pound</span><span class="answer-val">= 8 oz</span></div>
+      <div class="answer-row"><span class="answer-lbl">¼ pound</span><span class="answer-val">= 4 oz</span></div>
+      <div class="answer-row"><span class="answer-lbl">1 pound</span><span class="answer-val">= 453.59 grams</span></div>
+    </div>
   </div>
 
-  <!-- ══ RIGHT PANEL ══ -->
-  <div class="calc-right">
-
-    <!-- Quick Reference -->
+  <div class="two-col">
     <div class="content-card">
-      <h2>Pounds to Ounces — Common Conversions</h2>
-      <div class="tip-box">
-        <span class="tip-icon">⚖️</span>
-        <p><strong>Key fact:</strong> 1 pound = 16 ounces exactly. To convert lbs to oz: multiply by 16. To convert oz to lbs: divide by 16.</p>
-      </div>
+      <h2>Pounds to Ounces</h2>
       <div style="overflow-x:auto">
-        <table class="conv-table">
-          <thead>
-            <tr>
-              <th>Pounds (lb)</th>
-              <th>Ounces (oz)</th>
-              <th>Grams (g)</th>
-              <th>Kilograms (kg)</th>
-            </tr>
-          </thead>
+        <table class="ref-tbl">
+          <thead><tr><th>Pounds (lb)</th><th>Ounces (oz)</th><th>Grams</th></tr></thead>
           <tbody>
-            <tr><td>¼ lb (0.25)</td><td>4 oz</td><td>113.4 g</td><td>0.113 kg</td></tr>
-            <tr><td>½ lb (0.5)</td><td>8 oz</td><td>226.8 g</td><td>0.227 kg</td></tr>
-            <tr><td>¾ lb (0.75)</td><td>12 oz</td><td>340.2 g</td><td>0.340 kg</td></tr>
-            <tr class="highlight-row"><td><strong>1 lb</strong></td><td><strong>16 oz</strong></td><td><strong>453.6 g</strong></td><td><strong>0.454 kg</strong></td></tr>
-            <tr><td>1.5 lb</td><td>24 oz</td><td>680.4 g</td><td>0.680 kg</td></tr>
-            <tr class="highlight-row"><td><strong>2 lb</strong></td><td><strong>32 oz</strong></td><td><strong>907.2 g</strong></td><td><strong>0.907 kg</strong></td></tr>
-            <tr><td>2.5 lb</td><td>40 oz</td><td>1,134 g</td><td>1.134 kg</td></tr>
-            <tr class="highlight-row"><td><strong>3 lb</strong></td><td><strong>48 oz</strong></td><td><strong>1,361 g</strong></td><td><strong>1.361 kg</strong></td></tr>
-            <tr><td>4 lb</td><td>64 oz</td><td>1,814 g</td><td>1.814 kg</td></tr>
-            <tr class="highlight-row"><td><strong>5 lb</strong></td><td><strong>80 oz</strong></td><td><strong>2,268 g</strong></td><td><strong>2.268 kg</strong></td></tr>
-            <tr><td>6 lb</td><td>96 oz</td><td>2,722 g</td><td>2.722 kg</td></tr>
-            <tr><td>8 lb</td><td>128 oz</td><td>3,629 g</td><td>3.629 kg</td></tr>
-            <tr class="highlight-row"><td><strong>10 lb</strong></td><td><strong>160 oz</strong></td><td><strong>4,536 g</strong></td><td><strong>4.536 kg</strong></td></tr>
+            {[
+              [0.25,'4','113.4'],
+              [0.5,'8','226.8'],
+              [0.75,'12','340.2'],
+              [1,'16','453.6'],
+              [1.5,'24','680.4'],
+              [2,'32','907.2'],
+              [2.5,'40','1,134'],
+              [3,'48','1,361'],
+              [4,'64','1,814'],
+              [5,'80','2,268'],
+              [10,'160','4,536'],
+            ].map(([lb, oz, g]) => (
+              <tr onclick={`setVal(${lb})`} class={lb === 1 ? 'hi' : ''}>
+                <td class="acc">{lb === 0.25 ? '¼ lb' : lb === 0.5 ? '½ lb' : lb === 0.75 ? '¾ lb' : lb + ' lb'}</td>
+                <td>{oz} oz</td>
+                <td>{g} g</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
     </div>
 
-    <!-- Ounces to Pounds Table -->
     <div class="content-card">
-      <h2>Ounces to Pounds — Common Conversions</h2>
+      <h2>Ounces to Pounds</h2>
       <div style="overflow-x:auto">
-        <table class="conv-table">
-          <thead>
-            <tr>
-              <th>Ounces (oz)</th>
-              <th>Pounds (lb)</th>
-              <th>Grams (g)</th>
-            </tr>
-          </thead>
+        <table class="ref-tbl">
+          <thead><tr><th>Ounces (oz)</th><th>Pounds (lb)</th><th>Grams</th></tr></thead>
           <tbody>
-            <tr><td>1 oz</td><td>0.0625 lb</td><td>28.35 g</td></tr>
-            <tr><td>2 oz</td><td>0.125 lb</td><td>56.70 g</td></tr>
-            <tr><td>4 oz</td><td>0.25 lb (¼ lb)</td><td>113.4 g</td></tr>
-            <tr><td>6 oz</td><td>0.375 lb</td><td>170.1 g</td></tr>
-            <tr class="highlight-row"><td><strong>8 oz</strong></td><td><strong>0.5 lb (½ lb)</strong></td><td><strong>226.8 g</strong></td></tr>
-            <tr><td>10 oz</td><td>0.625 lb</td><td>283.5 g</td></tr>
-            <tr><td>12 oz</td><td>0.75 lb (¾ lb)</td><td>340.2 g</td></tr>
-            <tr class="highlight-row"><td><strong>16 oz</strong></td><td><strong>1 lb</strong></td><td><strong>453.6 g</strong></td></tr>
-            <tr><td>24 oz</td><td>1.5 lb</td><td>680.4 g</td></tr>
-            <tr class="highlight-row"><td><strong>32 oz</strong></td><td><strong>2 lb</strong></td><td><strong>907.2 g</strong></td></tr>
-            <tr><td>48 oz</td><td>3 lb</td><td>1,361 g</td></tr>
-            <tr><td>64 oz</td><td>4 lb</td><td>1,814 g</td></tr>
-            <tr class="highlight-row"><td><strong>80 oz</strong></td><td><strong>5 lb</strong></td><td><strong>2,268 g</strong></td></tr>
+            <tr><td class="acc">1 oz</td><td>0.0625 lb</td><td>28.35 g</td></tr>
+            <tr><td class="acc">2 oz</td><td>0.125 lb</td><td>56.70 g</td></tr>
+            <tr><td class="acc">4 oz</td><td>0.25 lb (¼ lb)</td><td>113.4 g</td></tr>
+            <tr><td class="acc">6 oz</td><td>0.375 lb</td><td>170.1 g</td></tr>
+            <tr class="hi"><td class="acc">8 oz</td><td>0.5 lb (½ lb)</td><td>226.8 g</td></tr>
+            <tr><td class="acc">10 oz</td><td>0.625 lb</td><td>283.5 g</td></tr>
+            <tr><td class="acc">12 oz</td><td>0.75 lb (¾ lb)</td><td>340.2 g</td></tr>
+            <tr class="hi"><td class="acc">16 oz</td><td>1 lb</td><td>453.6 g</td></tr>
+            <tr><td class="acc">24 oz</td><td>1.5 lb</td><td>680.4 g</td></tr>
+            <tr class="hi"><td class="acc">32 oz</td><td>2 lb</td><td>907.2 g</td></tr>
+            <tr><td class="acc">48 oz</td><td>3 lb</td><td>1,361 g</td></tr>
+            <tr><td class="acc">80 oz</td><td>5 lb</td><td>2,268 g</td></tr>
           </tbody>
         </table>
       </div>
     </div>
-
-    <!-- Weight Units Reference -->
-    <div class="content-card">
-      <h2>US Weight Units — Full Reference</h2>
-      <div style="overflow-x:auto">
-        <table class="conv-table">
-          <thead>
-            <tr><th>Unit</th><th>= Ounces</th><th>= Pounds</th><th>= Grams</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>1 ounce (oz)</td><td>1 oz</td><td>0.0625 lb</td><td>28.35 g</td></tr>
-            <tr><td>1 quarter pound</td><td>4 oz</td><td>0.25 lb</td><td>113.4 g</td></tr>
-            <tr><td>1 half pound</td><td>8 oz</td><td>0.5 lb</td><td>226.8 g</td></tr>
-            <tr class="highlight-row"><td><strong>1 pound (lb)</strong></td><td><strong>16 oz</strong></td><td><strong>1 lb</strong></td><td><strong>453.6 g</strong></td></tr>
-            <tr><td>1 kilogram</td><td>35.27 oz</td><td>2.205 lb</td><td>1,000 g</td></tr>
-            <tr><td>1 stone</td><td>224 oz</td><td>14 lb</td><td>6,350 g</td></tr>
-            <tr><td>1 US ton</td><td>32,000 oz</td><td>2,000 lb</td><td>907,185 g</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- FAQ -->
-    <div class="content-card">
-      <h2>Frequently Asked Questions</h2>
-      <div class="faq-item">
-        <h3>How many ounces in a pound?</h3>
-        <p>There are exactly 16 ounces in 1 pound. This applies to US customary and Imperial weight. So 1 lb = 16 oz, 2 lbs = 32 oz, 5 lbs = 80 oz.</p>
-      </div>
-      <div class="faq-item">
-        <h3>How do you convert pounds to ounces?</h3>
-        <p>Multiply pounds by 16. Formula: oz = lbs × 16. Example: 3.5 lbs × 16 = 56 oz.</p>
-      </div>
-      <div class="faq-item">
-        <h3>How do you convert ounces to pounds?</h3>
-        <p>Divide ounces by 16. Formula: lbs = oz ÷ 16. Example: 40 oz ÷ 16 = 2.5 lbs.</p>
-      </div>
-      <div class="faq-item">
-        <h3>How many ounces in a half pound?</h3>
-        <p>8 ounces. Half a pound = 0.5 lb = 8 oz = 226.8 grams. A quarter pound = 4 oz, three-quarter pound = 12 oz.</p>
-      </div>
-      <div class="faq-item">
-        <h3>Is a fluid ounce the same as an ounce?</h3>
-        <p>No. Fluid ounces (fl oz) measure volume for liquids. Regular ounces (oz) measure weight/mass for solids. When converting to pounds, always use weight ounces (oz).</p>
-      </div>
-      <div class="faq-item">
-        <h3>How many ounces in a pound of gold?</h3>
-        <p>Gold uses Troy weight: 1 Troy pound = 12 Troy ounces. But for everyday use (cooking, shipping, body weight), 1 standard pound = 16 standard ounces always.</p>
-      </div>
-    </div>
-
-    <!-- Related Tools -->
-    <div class="content-card">
-      <h2>Related Converters</h2>
-      <div class="next-grid">
-        <a href="/kg-to-lbs" class="next-card">
-          <span class="next-tag">Weight</span>
-          <h3>kg to lbs</h3>
-          <p>Convert kilograms to pounds instantly.</p>
-        </a>
-        <a href="/oz-to-quarts" class="next-card">
-          <span class="next-tag">Volume</span>
-          <h3>Oz to Quarts</h3>
-          <p>Convert fluid ounces to quarts — 1 quart = 32 oz.</p>
-        </a>
-        <a href="/cm-to-inches" class="next-card">
-          <span class="next-tag">Length</span>
-          <h3>cm to Inches</h3>
-          <p>Convert centimeters to inches instantly.</p>
-        </a>
-        <a href="/celsius-to-fahrenheit" class="next-card">
-          <span class="next-tag">Temperature</span>
-          <h3>Celsius to °F</h3>
-          <p>Convert temperature between Celsius and Fahrenheit.</p>
-        </a>
-        <a href="/cups-to-tablespoons" class="next-card">
-          <span class="next-tag">Kitchen</span>
-          <h3>Cups to Tablespoons</h3>
-          <p>How many tablespoons in a cup — all fractions covered.</p>
-        </a>
-        <a href="/percent-off-calculator" class="next-card">
-          <span class="next-tag">Shopping</span>
-          <h3>Percent Off Calculator</h3>
-          <p>Calculate the final price after any discount.</p>
-        </a>
-      </div>
-    </div>
-
   </div>
+
+  <div class="content-card">
+    <h2>US Weight Units Reference</h2>
+    <div class="tip-box">
+      <span class="tip-icon">⚖️</span>
+      <p><strong>Formula:</strong> lbs → oz: multiply by 16 &nbsp;|&nbsp; oz → lbs: divide by 16</p>
+    </div>
+    <div style="overflow-x:auto">
+      <table class="ref-tbl">
+        <thead><tr><th>Unit</th><th>= Ounces</th><th>= Pounds</th><th>= Grams</th></tr></thead>
+        <tbody>
+          <tr><td>1 ounce (oz)</td><td>1 oz</td><td>0.0625 lb</td><td>28.35 g</td></tr>
+          <tr><td>1 quarter pound</td><td>4 oz</td><td>0.25 lb</td><td>113.4 g</td></tr>
+          <tr><td>1 half pound</td><td>8 oz</td><td>0.5 lb</td><td>226.8 g</td></tr>
+          <tr class="hi"><td><strong>1 pound (lb)</strong></td><td><strong>16 oz</strong></td><td><strong>1 lb</strong></td><td><strong>453.6 g</strong></td></tr>
+          <tr><td>1 kilogram</td><td>35.27 oz</td><td>2.205 lb</td><td>1,000 g</td></tr>
+          <tr><td>1 stone</td><td>224 oz</td><td>14 lb</td><td>6,350 g</td></tr>
+          <tr><td>1 US ton</td><td>32,000 oz</td><td>2,000 lb</td><td>907,185 g</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="content-card">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>How many ounces in a pound?</h3>
+      <p>There are exactly <strong>16 ounces</strong> in 1 pound. So 1 lb = 16 oz, 2 lbs = 32 oz, 5 lbs = 80 oz.</p>
+    </div>
+    <div class="faq-item">
+      <h3>How do you convert pounds to ounces?</h3>
+      <p>Multiply pounds by 16. Formula: oz = lbs × 16. Example: 3.5 lbs × 16 = <strong>56 oz</strong>.</p>
+    </div>
+    <div class="faq-item">
+      <h3>How do you convert ounces to pounds?</h3>
+      <p>Divide ounces by 16. Formula: lbs = oz ÷ 16. Example: 40 oz ÷ 16 = <strong>2.5 lbs</strong>.</p>
+    </div>
+    <div class="faq-item">
+      <h3>How many ounces in a half pound?</h3>
+      <p><strong>8 ounces</strong>. Half a pound = 0.5 lb = 8 oz = 226.8 grams. A quarter pound = 4 oz.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Is a fluid ounce the same as an ounce?</h3>
+      <p>No. Fluid ounces (fl oz) measure volume for liquids. Regular ounces (oz) measure weight. When converting to pounds, always use weight ounces (oz).</p>
+    </div>
+    <div class="faq-item">
+      <h3>How many ounces in a pound of gold?</h3>
+      <p>Gold uses Troy weight: <strong>1 Troy pound = 12 Troy ounces</strong>. For everyday use (cooking, shipping, body weight), 1 standard pound = 16 standard ounces always.</p>
+    </div>
+  </div>
+
+  <div class="content-card">
+    <h2>Related Converters</h2>
+    <div class="next-grid">
+      <a href="/kg-to-lbs" class="next-card">
+        <span class="next-tag">Weight</span>
+        <h3>kg to lbs</h3>
+        <p>Convert kilograms to pounds instantly.</p>
+      </a>
+      <a href="/oz-to-quarts" class="next-card">
+        <span class="next-tag">Volume</span>
+        <h3>Oz to Quarts</h3>
+        <p>Convert fluid ounces to quarts — 1 quart = 32 oz.</p>
+      </a>
+      <a href="/liters-to-gallons" class="next-card">
+        <span class="next-tag">Volume</span>
+        <h3>Liters to Gallons</h3>
+        <p>Convert liters to US or UK gallons.</p>
+      </a>
+      <a href="/cups-to-tablespoons" class="next-card">
+        <span class="next-tag">Kitchen</span>
+        <h3>Cups to Tablespoons</h3>
+        <p>How many tablespoons in a cup.</p>
+      </a>
+      <a href="/celsius-to-fahrenheit" class="next-card">
+        <span class="next-tag">Temperature</span>
+        <h3>Celsius to °F</h3>
+        <p>Convert temperature for cooking.</p>
+      </a>
+      <a href="/cm-to-inches" class="next-card">
+        <span class="next-tag">Length</span>
+        <h3>cm to Inches</h3>
+        <p>Convert centimeters to inches instantly.</p>
+      </a>
+    </div>
+  </div>
+
 </div>
 
 <script is:inline>
-var currentMode = 'lbs';
+  var mode = 'lbs';
 
-function setMode(mode) {
-  currentMode = mode;
-  document.getElementById('btn-lbs').classList.toggle('active', mode === 'lbs');
-  document.getElementById('btn-oz').classList.toggle('active', mode === 'oz');
-  document.getElementById('input-lbl').textContent = mode === 'lbs' ? 'Pounds (lb)' : 'Ounces (oz)';
-  document.getElementById('input-sfx').textContent = mode === 'lbs' ? 'lb' : 'oz';
-  document.getElementById('main-input').value = mode === 'lbs' ? '1' : '16';
+  document.getElementById('btn-lbs').addEventListener('click', function() { setMode('lbs'); });
+  document.getElementById('btn-oz').addEventListener('click', function() { setMode('oz'); });
+  document.getElementById('calc-btn').addEventListener('click', convert);
+  document.getElementById('amount').addEventListener('input', convert);
+  document.addEventListener('keydown', function(e) { if (e.key === 'Enter') convert(); });
+
+  document.getElementById('amount').value = 1;
   convert();
-}
 
-function fmt(n, dec) {
-  if (n === 0) return '0';
-  var fixed = parseFloat(n.toFixed(dec !== undefined ? dec : 4));
-  return fixed.toLocaleString('en-US');
-}
+  function fmt(v, d) { return parseFloat(v.toFixed(d !== undefined ? d : 4)).toLocaleString('en-US'); }
 
-function convert() {
-  var val = parseFloat(document.getElementById('main-input').value);
-  if (isNaN(val) || val < 0) return;
-
-  var lbs, oz;
-  if (currentMode === 'lbs') {
-    lbs = val;
-    oz  = val * 16;
-  } else {
-    oz  = val;
-    lbs = val / 16;
+  function setMode(m) {
+    mode = m;
+    var isLbs = m === 'lbs';
+    document.getElementById('btn-lbs').classList.toggle('active', isLbs);
+    document.getElementById('btn-oz').classList.toggle('active', !isLbs);
+    document.getElementById('inp-lbl').textContent = isLbs ? 'Pounds (lb)' : 'Ounces (oz)';
+    document.getElementById('inp-sfx').textContent = isLbs ? 'lb' : 'oz';
+    var presets = document.getElementById('preset-wrap');
+    presets.innerHTML = (isLbs ? [0.5,1,2,5,10] : [8,16,32,64,128])
+      .map(function(v){ return '<button class="preset-btn" onclick="setVal('+v+')">'+(v===0.5?'½ lb':v)+'</button>'; }).join('');
+    document.getElementById('amount').value = isLbs ? 1 : 16;
+    convert();
   }
 
-  var grams = lbs * 453.59237;
-  var kg    = lbs * 0.45359237;
-  var mg    = lbs * 453592.37;
-
-  if (currentMode === 'lbs') {
-    document.getElementById('r-label').textContent = 'Ounces';
-    document.getElementById('r-value').textContent = fmt(oz, 4);
-    document.getElementById('r-unit').textContent  = 'oz';
-    document.getElementById('r-sub').textContent   = val + ' lb = ' + fmt(oz, 4) + ' oz';
-    document.getElementById('r-alt-lbl').textContent = 'Pounds';
-    document.getElementById('r-alt').textContent   = fmt(lbs, 4);
-  } else {
-    document.getElementById('r-label').textContent = 'Pounds';
-    document.getElementById('r-value').textContent = fmt(lbs, 6);
-    document.getElementById('r-unit').textContent  = 'lb';
-    document.getElementById('r-sub').textContent   = val + ' oz = ' + fmt(lbs, 6) + ' lb';
-    document.getElementById('r-alt-lbl').textContent = 'Ounces';
-    document.getElementById('r-alt').textContent   = fmt(oz, 2);
+  function convert() {
+    var val = parseFloat(document.getElementById('amount').value);
+    if (isNaN(val) || val < 0) return;
+    var lbs, oz;
+    if (mode === 'lbs') {
+      lbs = val; oz = val * 16;
+      document.getElementById('ans-label').textContent = fmt(val, 2) + ' lb =';
+      document.getElementById('ans-value').textContent = fmt(oz, 4);
+      document.getElementById('ans-unit').textContent = 'ounces (oz)';
+      document.getElementById('ans-sub').textContent = fmt(val,2) + ' × 16 = ' + fmt(oz,4) + ' oz';
+      document.getElementById('s3-lbl').textContent = 'Pounds';
+      document.getElementById('s3-val').textContent = fmt(lbs, 4) + ' lb';
+    } else {
+      oz = val; lbs = val / 16;
+      document.getElementById('ans-label').textContent = fmt(val, 2) + ' oz =';
+      document.getElementById('ans-value').textContent = fmt(lbs, 6);
+      document.getElementById('ans-unit').textContent = 'pounds (lb)';
+      document.getElementById('ans-sub').textContent = fmt(val,2) + ' ÷ 16 = ' + fmt(lbs,6) + ' lb';
+      document.getElementById('s3-lbl').textContent = 'Ounces';
+      document.getElementById('s3-val').textContent = fmt(oz, 2) + ' oz';
+    }
+    var grams = lbs * 453.59237;
+    var kg = lbs * 0.45359237;
+    var mg = lbs * 453592.37;
+    document.getElementById('s1-val').textContent = fmt(grams, 2) + ' g';
+    document.getElementById('s2-val').textContent = fmt(kg, 4) + ' kg';
+    document.getElementById('s4-val').textContent = Math.round(mg).toLocaleString('en-US') + ' mg';
+    document.getElementById('answer').classList.add('show');
+    document.getElementById('stats').classList.add('show');
   }
 
-  document.getElementById('r-grams').textContent = fmt(grams, 2);
-  document.getElementById('r-kg').textContent    = fmt(kg, 4);
-  document.getElementById('r-mg').textContent    = Math.round(mg).toLocaleString('en-US');
-}
-
-convert();
+  function setVal(v) { document.getElementById('amount').value = v; convert(); }
 </script>
 </Layout>
