@@ -1,0 +1,76 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const allYards = [];
+for (let y = 1; y <= 100; y++) allYards.push(y);
+[110, 120, 150, 200, 250, 300, 400, 500, 1000].forEach(y => allYards.push(y));
+
+const groups = [
+  { label: '1–25 yards', vals: allYards.filter(y => y <= 25) },
+  { label: '26–50 yards', vals: allYards.filter(y => y >= 26 && y <= 50) },
+  { label: '51–100 yards', vals: allYards.filter(y => y >= 51 && y <= 100) },
+  { label: '100+ yards', vals: allYards.filter(y => y > 100) },
+];
+
+const schema = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
+    { "@type": "ListItem", "position": 2, "name": "Yards to Meters Pages", "item": "https://computezap.com/yards-pages" }
+  ]
+});
+---
+<Layout
+  title="Yards to Meters — All Pages (1–1000 yd) | ComputeZap"
+  description="Browse all yards to meters conversion pages. From 1 yard to 1000 yards — every value with instant meter, feet, and cm results."
+  canonical="/yards-pages"
+  schema={schema}
+>
+<style is:global>
+.pg-hero{text-align:center;padding:2rem 1rem 1.5rem}
+.pg-hero h1{font-size:1.85rem;font-weight:800;letter-spacing:-.03em;color:#111;margin:0 0 .4rem}
+.pg-hero p{color:#64748b;margin:0;font-size:1rem}
+.pg-wrap{max-width:900px;margin:0 auto;padding:0 1rem 3rem}
+.pg-section{margin-bottom:2rem}
+.pg-section h2{font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#64748b;margin:0 0 .75rem;padding-bottom:.5rem;border-bottom:1.5px solid #f1f5f9}
+.yd-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:.45rem}
+.yd-card{background:#fff;border:1px solid #e5e7eb;border-radius:9px;padding:.6rem .75rem;text-align:center;text-decoration:none;transition:all .15s;display:block}
+.yd-card:hover{border-color:var(--blue);background:#eff6ff;text-decoration:none}
+.yd-main{font-size:.9rem;font-weight:700;color:#111;display:block}
+.yd-sub{font-size:.72rem;color:#64748b;display:block;margin-top:.1rem}
+</style>
+
+<div class="pg-hero">
+  <nav style="font-size:.82rem;color:#94a3b8;margin-bottom:.75rem">
+    <a href="/" style="color:var(--blue);text-decoration:none">Home</a> › Yards to Meters Pages
+  </nav>
+  <h1>Yards to Meters — All Pages</h1>
+  <p>Browse all {allYards.length} yards-to-meters conversions. Click any value for full details.</p>
+</div>
+
+<div class="pg-wrap">
+  {groups.map(g => (
+    <div class="pg-section">
+      <h2>{g.label}</h2>
+      <div class="yd-grid">
+        {g.vals.map(y => {
+          const m = Math.round(y * 0.9144 * 100) / 100;
+          return (
+            <a href={`/${y}-yards-to-meters`} class="yd-card">
+              <span class="yd-main">{y} yd</span>
+              <span class="yd-sub">{m} m</span>
+            </a>
+          );
+        })}
+      </div>
+    </div>
+  ))}
+
+  <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;padding:1.25rem 1.5rem;margin-top:1rem">
+    <p style="margin:0;font-size:.9rem;color:#1e40af">
+      Want to convert a custom value? Use the <a href="/yards-to-meters" style="font-weight:700">Yards to Meters Calculator</a>.
+    </p>
+  </div>
+</div>
+</Layout>
