@@ -1,0 +1,360 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+export function getStaticPaths() {
+  const heights = [];
+  for (let ft = 4; ft <= 6; ft++) {
+    for (let inch = 0; inch <= 11; inch++) {
+      heights.push({ params: { feet: String(ft), inches: String(inch) } });
+    }
+  }
+  heights.push({ params: { feet: '7', inches: '0' } });
+  return heights;
+}
+
+const feet = parseInt(Astro.params.feet);
+const inches = parseInt(Astro.params.inches);
+const totalInches = feet * 12 + inches;
+const cm = Math.round(totalInches * 2.54 * 100) / 100;
+const meters = Math.round(cm / 100 * 100) / 100;
+const mm = Math.round(cm * 10);
+const totalInchesOnly = totalInches;
+
+const heightStr = inches === 0 ? `${feet}'0"` : `${feet}'${inches}"`;
+const heightFull = inches === 0 ? `${feet} feet` : `${feet} feet ${inches} inches`;
+const heightFull2 = inches === 0 ? `${feet} feet 0 inches` : `${feet} feet ${inches} inches`;
+
+// all heights for nearby cross-links
+const allHeights: {feet:number,inches:number,total:number}[] = [];
+for (let ft = 4; ft <= 6; ft++) {
+  for (let inch = 0; inch <= 11; inch++) {
+    allHeights.push({ feet: ft, inches: inch, total: ft*12+inch });
+  }
+}
+allHeights.push({ feet: 7, inches: 0, total: 84 });
+
+const nearby = allHeights
+  .filter(h => !(h.feet === feet && h.inches === inches))
+  .sort((a,b) => Math.abs(a.total - totalInches) - Math.abs(b.total - totalInches))
+  .slice(0, 8);
+
+function slug(ft: number, inch: number) {
+  return `/${ft}-feet-${inch}-inches-in-cm`;
+}
+
+function toCm(ft: number, inch: number) {
+  return Math.round((ft*12+inch) * 2.54 * 100) / 100;
+}
+
+function heightContext(total: number) {
+  if (total < 60) return 'Below average height for adults globally — shorter than most adult women';
+  if (total < 63) return 'Short range — below average height for adult women in most countries';
+  if (total < 65) return 'Average height for women in many countries (global avg female ≈ 5\'3")';
+  if (total < 67) return 'Slightly above average female height — around average for some Asian countries';
+  if (total < 69) return 'Average male height in many Asian and Latin American countries';
+  if (total < 71) return 'Average height for men in the US and many European countries (US avg male = 5\'9")';
+  if (total < 74) return 'Tall — above average for men in most countries worldwide';
+  if (total < 78) return 'Very tall — top 5–10% of height globally';
+  return 'Extremely tall — top 1% of height worldwide';
+}
+
+// reference table rows: current ±4 inches
+const tableRows: number[] = [];
+for (let d = -4; d <= 4; d++) {
+  const t = totalInches + d;
+  if (t >= 48 && t <= 84) tableRows.push(t);
+}
+
+const schema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": `${heightStr} in cm — ${cm} Centimeters | ComputeZap`,
+    "url": `https://computezap.com/${feet}-feet-${inches}-inches-in-cm`,
+    "description": `${heightStr} = ${cm} cm. Convert ${heightFull} to centimeters instantly. Also shows meters, millimeters, and total inches.`
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
+      { "@type": "ListItem", "position": 2, "name": "cm to Inches Converter", "item": "https://computezap.com/cm-to-inches" },
+      { "@type": "ListItem", "position": 3, "name": `${heightStr} in cm`, "item": `https://computezap.com/${feet}-feet-${inches}-inches-in-cm` }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": `How many cm is ${heightStr}?`,
+        "acceptedAnswer": { "@type": "Answer", "text": `${heightStr} (${heightFull2}) = ${cm} centimeters. To convert, multiply total inches by 2.54: (${feet}×12 + ${inches}) × 2.54 = ${totalInches} × 2.54 = ${cm} cm.` }
+      },
+      {
+        "@type": "Question",
+        "name": `What is ${heightStr} in meters?`,
+        "acceptedAnswer": { "@type": "Answer", "text": `${heightStr} = ${meters} meters (${cm} cm ÷ 100 = ${meters} m). In millimeters: ${mm} mm.` }
+      },
+      {
+        "@type": "Question",
+        "name": `Is ${heightStr} tall?`,
+        "acceptedAnswer": { "@type": "Answer", "text": `${heightContext(totalInches)}. Average US male height is 5'9" (175.3 cm) and average US female height is 5'4" (162.6 cm). At ${heightStr} (${cm} cm), you are ${cm > 175.3 ? `${Math.round((cm-175.3)*10)/10} cm above` : `${Math.round((175.3-cm)*10)/10} cm below`} the average US male height.` }
+      }
+    ]
+  }
+]);
+---
+<Layout
+  title={`${heightStr} in cm — How Many Centimeters is ${heightFull}? | ComputeZap`}
+  description={`${heightStr} = ${cm} cm. Convert ${heightFull} to centimeters instantly. Also shows meters, millimeters, and total inches. Free height converter.`}
+  canonical={`/${feet}-feet-${inches}-inches-in-cm`}
+  schema={schema}
+>
+<style is:global>
+.hero{text-align:center;padding:2rem 1rem 1.5rem}
+.hero h1{font-size:2rem;color:#111;margin:.5rem 0 .4rem;font-weight:800;letter-spacing:-.02em}
+.hero-sub{color:#64748b;margin:0;font-size:1.05rem}
+.breadcrumb{font-size:.82rem;color:#94a3b8;margin-bottom:.75rem}
+.breadcrumb a{color:var(--blue);text-decoration:none}
+.calc-wrap{display:grid;grid-template-columns:390px 1fr;gap:1.75rem;max-width:1120px;margin:0 auto;padding:0 1rem 3.5rem;align-items:start}
+.calc-left{position:sticky;top:1rem}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:1.5rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.card:last-child{margin-bottom:0}
+.card h2{font-size:1.05rem;font-weight:700;color:#111;margin:0 0 .9rem}
+.content-card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:1.5rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.content-card h2{font-size:1.05rem;font-weight:700;color:#111;margin:0 0 .8rem}
+.content-card p{color:#444;line-height:1.75;font-size:.93rem;margin:0 0 .7rem}
+.content-card p:last-child{margin-bottom:0}
+.answer-hero{background:linear-gradient(135deg,#1d4ed8 0%,#2563eb 60%,#3b82f6 100%);border-radius:14px;padding:1.75rem 1.5rem 1.5rem;text-align:center;margin-bottom:1rem;box-shadow:0 6px 24px rgba(37,99,235,.22)}
+.a-label{font-size:.68rem;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem;font-weight:700}
+.a-value{font-size:2.8rem;font-weight:900;color:#fff;line-height:1;letter-spacing:-.02em}
+.a-unit{font-size:1rem;font-weight:600;color:rgba(255,255,255,.8);margin-top:.3rem}
+.a-sub{font-size:.88rem;color:rgba(255,255,255,.7);margin-top:.4rem}
+.stats-row{display:grid;grid-template-columns:1fr 1fr;gap:.55rem}
+.stat-box{background:#f8fafc;border:1px solid #f1f5f9;border-radius:10px;padding:.85rem .75rem;text-align:center}
+.stat-lbl{display:block;font-size:.62rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.25rem;font-weight:700}
+.stat-val{display:block;font-size:.95rem;font-weight:800;color:#1e293b}
+.ctx-box{background:#f0fdf4;border:1.5px solid #86efac;border-radius:10px;padding:.75rem 1rem;margin-bottom:1rem;font-size:.82rem;color:#15803d;font-weight:600;text-align:center}
+.formula-box{background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:12px;padding:1rem 1.25rem;margin:.75rem 0;text-align:center}
+.formula-text{font-size:1rem;font-weight:800;color:#1e293b;font-family:monospace}
+.formula-sub{font-size:.8rem;color:#64748b;margin-top:.3rem}
+.tip-box{display:flex;gap:.75rem;background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:.9rem 1rem;margin:.85rem 0}
+.tip-icon{font-size:1.1rem;flex-shrink:0;margin-top:.05rem}
+.tip-box p{margin:0;font-size:.875rem;color:#1e40af;line-height:1.6}
+.ref-tbl{width:100%;border-collapse:collapse;font-size:.875rem}
+.ref-tbl th{background:#f8fafc;padding:.6rem .85rem;text-align:left;font-size:.68rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;border-bottom:2px solid #e2e8f0}
+.ref-tbl td{padding:.65rem .85rem;border-bottom:1px solid #f3f4f6;color:#374151}
+.ref-tbl tr:last-child td{border-bottom:none}
+.ref-tbl tbody tr:hover td{background:#f8faff}
+.ref-tbl .hl td{background:#eff6ff;font-weight:700;color:#1d4ed8}
+.ref-tbl .hl:hover td{background:#dbeafe}
+.ref-tbl a{color:var(--blue);text-decoration:none;font-weight:600}
+.ref-tbl a:hover{text-decoration:underline}
+.nearby-grid{display:flex;flex-wrap:wrap;gap:.4rem}
+.nearby-btn{padding:.35rem .75rem;font-size:.82rem;font-weight:700;background:#f1f5f9;border:1.5px solid #e2e8f0;border-radius:7px;color:var(--blue);text-decoration:none;transition:all .15s}
+.nearby-btn:hover{background:var(--blue);color:#fff;border-color:var(--blue);text-decoration:none}
+.faq-item{border-bottom:1px solid #f3f4f6;padding:.9rem 0}
+.faq-item:last-child{border-bottom:none;padding-bottom:0}
+.faq-item h3{font-size:.9rem;color:#111;margin:0 0 .35rem;font-weight:700}
+.faq-item p{color:#555;font-size:.865rem;margin:0;line-height:1.65}
+.next-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem}
+.next-card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:1rem;border-top:3px solid var(--blue);text-decoration:none;display:block}
+.next-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.08);text-decoration:none}
+.next-tag{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--blue);margin-bottom:.3rem;display:block}
+.next-card h3{font-size:.88rem;font-weight:700;color:#111;margin:0 0 .25rem}
+.next-card p{font-size:.78rem;color:#64748b;margin:0;line-height:1.5}
+@media(max-width:768px){
+  .calc-wrap{grid-template-columns:1fr}
+  .calc-left{position:static}
+  .hero h1{font-size:1.65rem}
+  .a-value{font-size:2.1rem}
+  .next-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:480px){.next-grid{grid-template-columns:1fr}}
+</style>
+
+<div class="hero">
+  <nav class="breadcrumb"><a href="/">Home</a> › <a href="/cm-to-inches">cm to Inches</a> › {heightStr} in cm</nav>
+  <h1>{heightStr} in cm</h1>
+  <p class="hero-sub">How many centimeters is {heightFull}? — instant answer with full breakdown</p>
+</div>
+
+<div class="calc-wrap">
+
+  <!-- LEFT -->
+  <div class="calc-left">
+
+    <div class="card">
+      <div class="answer-hero">
+        <div class="a-label">{heightStr} =</div>
+        <div class="a-value">{cm}</div>
+        <div class="a-unit">centimeters (cm)</div>
+        <div class="a-sub">({feet}×12 + {inches}) × 2.54 = {cm} cm</div>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-box">
+          <span class="stat-lbl">Meters</span>
+          <span class="stat-val">{meters} m</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-lbl">Millimeters</span>
+          <span class="stat-val">{mm} mm</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-lbl">Total Inches</span>
+          <span class="stat-val">{totalInchesOnly} in</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-lbl">Feet &amp; Inches</span>
+          <span class="stat-val">{feet}' {inches}"</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Nearby Heights</h2>
+      <div class="nearby-grid">
+        {nearby.map(h => (
+          <a href={slug(h.feet, h.inches)} class="nearby-btn">{h.feet}'{h.inches}"</a>
+        ))}
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RIGHT -->
+  <div class="calc-right">
+
+    <div class="content-card">
+      <h2>How to Convert {heightStr} to Centimeters</h2>
+      <div class="formula-box">
+        <div class="formula-text">({feet} × 12 + {inches}) × 2.54 = {cm} cm</div>
+        <div class="formula-sub">1 inch = 2.54 cm exactly &nbsp;|&nbsp; 1 foot = 30.48 cm</div>
+      </div>
+      <p><strong>Step 1:</strong> Convert to total inches → {feet} × 12 + {inches} = <strong>{totalInches} inches</strong></p>
+      <p><strong>Step 2:</strong> Multiply by 2.54 → {totalInches} × 2.54 = <strong>{cm} cm</strong></p>
+      <p><strong>In meters:</strong> {cm} ÷ 100 = <strong>{meters} m</strong></p>
+      <div class="tip-box">
+        <span class="tip-icon">📏</span>
+        <p><strong>Context:</strong> {heightContext(totalInches)}. Average US male = 5'9" (175.3 cm). Average US female = 5'4" (162.6 cm).</p>
+      </div>
+    </div>
+
+    <!-- Reference table -->
+    <div class="content-card">
+      <h2>Height Chart — Near {heightStr}</h2>
+      <div style="overflow-x:auto">
+        <table class="ref-tbl">
+          <thead>
+            <tr><th>Feet &amp; Inches</th><th>Centimeters</th><th>Meters</th><th>Total Inches</th></tr>
+          </thead>
+          <tbody>
+            {tableRows.map(t => {
+              const ft = Math.floor(t / 12);
+              const inch = t % 12;
+              const c = toCm(ft, inch);
+              const m = Math.round(c / 100 * 100) / 100;
+              const isCurrent = (ft === feet && inch === inches);
+              return (
+                <tr class={isCurrent ? 'hl' : ''}>
+                  <td>
+                    {isCurrent
+                      ? <strong>{ft}'{inch}" ←</strong>
+                      : <a href={slug(ft, inch)}>{ft}'{inch}"</a>
+                    }
+                  </td>
+                  <td>{isCurrent ? <strong>{c} cm</strong> : `${c} cm`}</td>
+                  <td>{m} m</td>
+                  <td>{t} in</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:.75rem;font-size:.82rem;color:#64748b">→ Use the full <a href="/cm-to-inches">cm to inches converter</a> for any value.</p>
+    </div>
+
+    <!-- Common heights table -->
+    <div class="content-card">
+      <h2>Common Heights — Feet to cm Reference</h2>
+      <div style="overflow-x:auto">
+        <table class="ref-tbl">
+          <thead>
+            <tr><th>Height</th><th>cm</th><th>Meters</th><th>Context</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><a href="/5-feet-0-inches-in-cm">5'0"</a></td><td>152.4 cm</td><td>1.52 m</td><td>Short adult</td></tr>
+            <tr><td><a href="/5-feet-2-inches-in-cm">5'2"</a></td><td>157.5 cm</td><td>1.58 m</td><td>Average female (many countries)</td></tr>
+            <tr><td><a href="/5-feet-4-inches-in-cm">5'4"</a></td><td>162.6 cm</td><td>1.63 m</td><td>Average US female</td></tr>
+            <tr><td><a href="/5-feet-6-inches-in-cm">5'6"</a></td><td>167.6 cm</td><td>1.68 m</td><td>Tall female / short male</td></tr>
+            <tr><td><a href="/5-feet-8-inches-in-cm">5'8"</a></td><td>172.7 cm</td><td>1.73 m</td><td>Average male (many countries)</td></tr>
+            <tr><td><a href="/5-feet-9-inches-in-cm">5'9"</a></td><td>175.3 cm</td><td>1.75 m</td><td>Average US male</td></tr>
+            <tr><td><a href="/5-feet-10-inches-in-cm">5'10"</a></td><td>177.8 cm</td><td>1.78 m</td><td>Tall male</td></tr>
+            <tr><td><a href="/6-feet-0-inches-in-cm">6'0"</a></td><td>182.9 cm</td><td>1.83 m</td><td>Very tall — top 15% of US males</td></tr>
+            <tr><td><a href="/6-feet-2-inches-in-cm">6'2"</a></td><td>188.0 cm</td><td>1.88 m</td><td>Very tall — top 5% globally</td></tr>
+            <tr><td><a href="/6-feet-4-inches-in-cm">6'4"</a></td><td>193.0 cm</td><td>1.93 m</td><td>Extremely tall</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="content-card">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>How many cm is {heightStr}?</h3>
+        <p><strong>{heightStr} = {cm} cm.</strong> Multiply total inches ({totalInches}) by 2.54 to get the exact centimeter value. Formula: ({feet} × 12 + {inches}) × 2.54 = {cm} cm.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What is {heightStr} in meters?</h3>
+        <p>{heightStr} = <strong>{meters} meters</strong> ({cm} cm ÷ 100). In millimeters: {mm} mm. The meter is the SI base unit of length — 1 meter = 100 cm = 3.28084 feet.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Is {heightStr} ({cm} cm) tall?</h3>
+        <p>{heightContext(totalInches)}. The global average male height is approximately 5'7" (171 cm) and the global average female height is approximately 5'3" (160 cm).</p>
+      </div>
+    </div>
+
+    <!-- Related -->
+    <div class="content-card">
+      <h2>Related Converters</h2>
+      <div class="next-grid">
+        <a href="/cm-to-inches" class="next-card">
+          <span class="next-tag">Length</span>
+          <h3>cm to Inches</h3>
+          <p>Convert any centimeter value to inches instantly</p>
+        </a>
+        <a href="/meters-to-feet" class="next-card">
+          <span class="next-tag">Length</span>
+          <h3>Meters to Feet</h3>
+          <p>Convert meters to feet and inches</p>
+        </a>
+        <a href="/kg-to-lbs" class="next-card">
+          <span class="next-tag">Weight</span>
+          <h3>kg to lbs</h3>
+          <p>Convert kilograms to pounds</p>
+        </a>
+        <a href="/celsius-to-fahrenheit" class="next-card">
+          <span class="next-tag">Temp</span>
+          <h3>Celsius to Fahrenheit</h3>
+          <p>Temperature converter — °C to °F</p>
+        </a>
+        <a href="/km-to-miles" class="next-card">
+          <span class="next-tag">Distance</span>
+          <h3>km to Miles</h3>
+          <p>Convert kilometers to miles</p>
+        </a>
+        <a href="/decimal-to-fraction" class="next-card">
+          <span class="next-tag">Math</span>
+          <h3>Decimal to Fraction</h3>
+          <p>Convert decimals to simplified fractions</p>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+</Layout>

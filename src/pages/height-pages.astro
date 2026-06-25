@@ -1,0 +1,95 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const groups = [
+  { label: "4 feet (4'0″ – 4'11″)", heights: Array.from({length:12},(_,i)=>({ft:4,inch:i})) },
+  { label: "5 feet (5'0″ – 5'11″)", heights: Array.from({length:12},(_,i)=>({ft:5,inch:i})) },
+  { label: "6 feet (6'0″ – 6'11″)", heights: Array.from({length:12},(_,i)=>({ft:6,inch:i})) },
+  { label: "7 feet (7'0″)", heights: [{ft:7,inch:0}] },
+];
+
+function toCm(ft: number, inch: number) {
+  return Math.round((ft*12+inch) * 2.54 * 100) / 100;
+}
+function toMeters(ft: number, inch: number) {
+  return Math.round(toCm(ft,inch) / 100 * 100) / 100;
+}
+
+const schema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "All Feet & Inches to cm Height Pages — ComputeZap",
+    "url": "https://computezap.com/height-pages",
+    "description": "Browse all 37 height conversion pages — 4ft 0in to 7ft 0in. Every page shows exact centimeters, meters, millimeters, and total inches.",
+    "isPartOf": { "@id": "https://computezap.com/#website" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
+      { "@type": "ListItem", "position": 2, "name": "cm to Inches Converter", "item": "https://computezap.com/cm-to-inches" },
+      { "@type": "ListItem", "position": 3, "name": "All Height Pages", "item": "https://computezap.com/height-pages" }
+    ]
+  }
+]);
+---
+<Layout
+  title={`All Feet & Inches to cm Height Pages — 4'0" to 7'0" | ComputeZap`}
+  description={`Browse all 37 height conversion pages — 4'0" to 7'0". Every page shows centimeters, meters, millimeters, and total inches. Free height converter.`}
+  canonical="/height-pages"
+  schema={schema}
+>
+<style is:global>
+.hp-hero{text-align:center;padding:2rem 1rem 1.5rem;border-bottom:1px solid #e5e7eb;margin-bottom:1.75rem}
+.hp-hero h1{font-size:1.85rem;font-weight:800;color:#111;margin:0 0 .4rem;letter-spacing:-.4px}
+.hp-hero p{color:#555;font-size:.95rem;margin:0 0 1rem}
+.hp-cta{display:inline-flex;align-items:center;gap:.4rem;background:var(--blue);color:#fff;padding:.55rem 1.25rem;border-radius:8px;font-size:.88rem;font-weight:700;text-decoration:none;transition:background .15s}
+.hp-cta:hover{background:#1d4ed8;text-decoration:none;color:#fff}
+
+.hp-stats{display:flex;flex-wrap:wrap;gap:.5rem 1.5rem;justify-content:center;font-size:.82rem;color:#64748b;font-weight:600;margin-bottom:1.75rem}
+.hp-stats span{display:flex;align-items:center;gap:.25rem}
+
+.ht-block{margin-bottom:2rem}
+.ht-title{font-size:.8rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#64748b;margin:0 0 .75rem;display:flex;align-items:center;gap:.5rem}
+.ht-title::after{content:'';flex:1;height:1px;background:#e5e7eb}
+.ht-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:.45rem}
+.ht-link{background:#f8fafc;border:1px solid #e5e7eb;border-radius:8px;padding:.6rem .85rem;text-decoration:none;display:flex;flex-direction:column;gap:.1rem;transition:border-color .12s,background .12s}
+.ht-link:hover{border-color:var(--blue);background:#eff6ff;text-decoration:none}
+.hl-label{font-size:.78rem;color:#64748b;font-weight:500}
+.hl-cm{font-size:.95rem;font-weight:800;color:#111}
+.hl-m{font-size:.72rem;color:#2563eb;font-weight:600}
+
+@media(max-width:480px){.ht-grid{grid-template-columns:repeat(auto-fill,minmax(135px,1fr))}.hp-hero h1{font-size:1.5rem}}
+</style>
+
+<div class="hp-hero">
+  <h1>All Height Conversion Pages</h1>
+  <p>37 specific heights — 4'0" to 7'0". Every page shows exact cm, meters, millimeters, and total inches.</p>
+  <a href="/cm-to-inches" class="hp-cta">📏 Any Height? Use the Converter →</a>
+</div>
+
+<div class="hp-stats">
+  <span>✓ 37 pages</span>
+  <span>✓ 4'0" – 7'0"</span>
+  <span>✓ cm, meters, mm</span>
+  <span>✓ 1 inch = 2.54 cm</span>
+</div>
+
+{groups.map(group => (
+  <div class="ht-block">
+    <p class="ht-title">📏 {group.label}</p>
+    <div class="ht-grid">
+      {group.heights.map(h => (
+        <a href={`/${h.ft}-feet-${h.inch}-inches-in-cm`} class="ht-link">
+          <span class="hl-label">{h.ft}'{h.inch}" in cm</span>
+          <span class="hl-cm">{toCm(h.ft, h.inch)} cm</span>
+          <span class="hl-m">{toMeters(h.ft, h.inch)} m</span>
+        </a>
+      ))}
+    </div>
+  </div>
+))}
+
+</Layout>
