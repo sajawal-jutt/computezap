@@ -89,7 +89,8 @@ const schema = JSON.stringify([
 .ref-tbl tr:last-child td{border-bottom:none}
 .ref-tbl tbody tr:hover td{background:#f8faff;cursor:pointer}
 .ref-tbl .acc{color:var(--blue);font-weight:700}
-.two-col{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem}
+.two-col{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(250px,100%),1fr));gap:1rem}
+.two-col>*{min-width:0}
 .faq-item{border-bottom:1px solid #f3f4f6;padding:.9rem 0}
 .faq-item:last-child{border-bottom:none;padding-bottom:0}
 .faq-item h3{font-size:.9rem;color:#111;margin:0 0 .35rem;font-weight:700}
