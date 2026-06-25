@@ -1,0 +1,347 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+export function getStaticPaths() {
+  const weights = [
+    40, 45, 50, 55, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69,
+    70, 71, 72, 73, 74, 75, 76, 77, 78, 79,
+    80, 81, 82, 83, 84, 85, 86, 87, 88, 89,
+    90, 91, 92, 93, 94, 95, 96, 97, 98, 99,
+    100, 105, 110, 115, 120, 125, 130, 135, 140, 150, 175, 200
+  ];
+  return weights.map(kg => ({ params: { kg: String(kg) } }));
+}
+
+const kg = parseInt(Astro.params.kg);
+const lbs = kg * 2.20462;
+const lbsRound = Math.round(lbs * 100) / 100;
+const lbsWhole = Math.floor(lbs);
+const oz = Math.round((lbs - lbsWhole) * 16);
+const stones = Math.floor(lbs / 14);
+const stoneRem = Math.round((lbs % 14) * 10) / 10;
+const grams = kg * 1000;
+
+// nearby weights for cross-links
+const allWeights = [40,45,50,55,60,65,70,75,80,85,90,95,100,105,110,115,120,125,130,135,140,150,175,200];
+const nearby = allWeights.filter(w => w !== kg).sort((a,b) => Math.abs(a-kg) - Math.abs(b-kg)).slice(0, 8);
+
+// context label
+function weightContext(kg) {
+  if (kg < 50) return 'Below average body weight for adults';
+  if (kg < 60) return 'Typical weight for lighter adults';
+  if (kg < 70) return 'Average weight range for women (global avg ≈ 70 kg)';
+  if (kg < 80) return 'Average weight range for men in many countries';
+  if (kg < 90) return 'Above average — common for athletic builds';
+  if (kg < 100) return 'Heavyweight range for most adults';
+  if (kg < 120) return 'Obese range (BMI > 30 for avg height)';
+  return 'Very heavy — bariatric or heavy-set range';
+}
+
+const schema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": `${kg} kg to lbs — ${lbsRound} Pounds | ComputeZap`,
+    "url": `https://computezap.com/${kg}-kg-to-lbs`,
+    "description": `${kg} kg = ${lbsRound} lbs. Convert ${kg} kilograms to pounds instantly. Also shows stones, grams, and ounces.`
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
+      { "@type": "ListItem", "position": 2, "name": "kg to lbs Converter", "item": "https://computezap.com/kg-to-lbs" },
+      { "@type": "ListItem", "position": 3, "name": `${kg} kg to lbs`, "item": `https://computezap.com/${kg}-kg-to-lbs` }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": `How many pounds is ${kg} kg?`,
+        "acceptedAnswer": { "@type": "Answer", "text": `${kg} kilograms equals ${lbsRound} pounds. To convert, multiply ${kg} × 2.20462 = ${lbsRound} lbs. In stones: ${stones} st ${stoneRem} lbs.` }
+      },
+      {
+        "@type": "Question",
+        "name": `What is ${kg} kg in stones and pounds?`,
+        "acceptedAnswer": { "@type": "Answer", "text": `${kg} kg = ${stones} stone and ${stoneRem} pounds (${lbsRound} lbs total). Stones are used mainly in the UK and Ireland for body weight. 1 stone = 14 pounds = 6.35029 kg.` }
+      },
+      {
+        "@type": "Question",
+        "name": `How do I convert ${kg} kg to lbs?`,
+        "acceptedAnswer": { "@type": "Answer", "text": `Multiply ${kg} by 2.20462. Formula: ${kg} × 2.20462 = ${lbsRound} lbs. Quick estimate: multiply by 2.2 for a close approximation (${kg} × 2.2 = ${Math.round(kg * 2.2 * 10)/10} lbs).` }
+      }
+    ]
+  }
+]);
+---
+<Layout
+  title={`${kg} kg to lbs — How Many Pounds is ${kg} Kilograms? | ComputeZap`}
+  description={`${kg} kg = ${lbsRound} lbs. Convert ${kg} kilograms to pounds instantly. Also shows stones and pounds, grams, and ounces. Free converter.`}
+  canonical={`/${kg}-kg-to-lbs`}
+  schema={schema}
+>
+<style is:global>
+.hero{text-align:center;padding:2rem 1rem 1.5rem}
+.hero h1{font-size:2rem;color:#111;margin:.5rem 0 .4rem;font-weight:800;letter-spacing:-.02em}
+.hero-sub{color:#64748b;margin:0;font-size:1.05rem}
+.breadcrumb{font-size:.82rem;color:#94a3b8;margin-bottom:.75rem}
+.breadcrumb a{color:var(--blue);text-decoration:none}
+.calc-wrap{display:grid;grid-template-columns:390px 1fr;gap:1.75rem;max-width:1120px;margin:0 auto;padding:0 1rem 3.5rem;align-items:start}
+.calc-left{position:sticky;top:1rem}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:1.5rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.card:last-child{margin-bottom:0}
+.card h2{font-size:1.05rem;font-weight:700;color:#111;margin:0 0 .9rem}
+.content-card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:1.5rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.content-card h2{font-size:1.05rem;font-weight:700;color:#111;margin:0 0 .8rem}
+.content-card p{color:#444;line-height:1.75;font-size:.93rem;margin:0 0 .7rem}
+.content-card p:last-child{margin-bottom:0}
+
+/* Answer box */
+.answer-hero{background:linear-gradient(135deg,#1d4ed8 0%,#2563eb 60%,#3b82f6 100%);border-radius:14px;padding:1.75rem 1.5rem 1.5rem;text-align:center;margin-bottom:1rem;box-shadow:0 6px 24px rgba(37,99,235,.22)}
+.a-label{font-size:.68rem;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem;font-weight:700}
+.a-value{font-size:2.8rem;font-weight:900;color:#fff;line-height:1;letter-spacing:-.02em}
+.a-unit{font-size:1rem;font-weight:600;color:rgba(255,255,255,.8);margin-top:.3rem}
+.a-sub{font-size:.88rem;color:rgba(255,255,255,.7);margin-top:.4rem}
+
+/* Stats */
+.stats-row{display:grid;grid-template-columns:1fr 1fr;gap:.55rem}
+.stat-box{background:#f8fafc;border:1px solid #f1f5f9;border-radius:10px;padding:.85rem .75rem;text-align:center}
+.stat-lbl{display:block;font-size:.62rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.25rem;font-weight:700}
+.stat-val{display:block;font-size:.95rem;font-weight:800;color:#1e293b}
+
+/* Context badge */
+.ctx-box{background:#f0fdf4;border:1.5px solid #86efac;border-radius:10px;padding:.75rem 1rem;margin-bottom:1rem;font-size:.82rem;color:#15803d;font-weight:600;text-align:center}
+
+/* Formula */
+.formula-box{background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:12px;padding:1rem 1.25rem;margin:.75rem 0;text-align:center}
+.formula-text{font-size:1rem;font-weight:800;color:#1e293b;font-family:monospace}
+.formula-sub{font-size:.8rem;color:#64748b;margin-top:.3rem}
+
+/* Tip */
+.tip-box{display:flex;gap:.75rem;background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:.9rem 1rem;margin:.85rem 0}
+.tip-icon{font-size:1.1rem;flex-shrink:0;margin-top:.05rem}
+.tip-box p{margin:0;font-size:.875rem;color:#1e40af;line-height:1.6}
+
+/* Table */
+.ref-tbl{width:100%;border-collapse:collapse;font-size:.875rem}
+.ref-tbl th{background:#f8fafc;padding:.6rem .85rem;text-align:left;font-size:.68rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;border-bottom:2px solid #e2e8f0}
+.ref-tbl td{padding:.65rem .85rem;border-bottom:1px solid #f3f4f6;color:#374151}
+.ref-tbl tr:last-child td{border-bottom:none}
+.ref-tbl tbody tr:hover td{background:#f8faff}
+.ref-tbl .hl td{background:#eff6ff;font-weight:700;color:#1d4ed8}
+.ref-tbl .hl:hover td{background:#dbeafe}
+.ref-tbl a{color:var(--blue);text-decoration:none;font-weight:600}
+.ref-tbl a:hover{text-decoration:underline}
+
+/* Nearby links */
+.nearby-grid{display:flex;flex-wrap:wrap;gap:.4rem}
+.nearby-btn{padding:.35rem .75rem;font-size:.82rem;font-weight:700;background:#f1f5f9;border:1.5px solid #e2e8f0;border-radius:7px;color:var(--blue);text-decoration:none;transition:all .15s}
+.nearby-btn:hover{background:var(--blue);color:#fff;border-color:var(--blue);text-decoration:none}
+
+/* FAQ */
+.faq-item{border-bottom:1px solid #f3f4f6;padding:.9rem 0}
+.faq-item:last-child{border-bottom:none;padding-bottom:0}
+.faq-item h3{font-size:.9rem;color:#111;margin:0 0 .35rem;font-weight:700}
+.faq-item p{color:#555;font-size:.865rem;margin:0;line-height:1.65}
+
+/* Related */
+.next-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem}
+.next-card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:1rem;border-top:3px solid var(--blue);text-decoration:none;display:block}
+.next-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.08);text-decoration:none}
+.next-tag{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--blue);margin-bottom:.3rem;display:block}
+.next-card h3{font-size:.88rem;font-weight:700;color:#111;margin:0 0 .25rem}
+.next-card p{font-size:.78rem;color:#64748b;margin:0;line-height:1.5}
+
+@media(max-width:768px){
+  .calc-wrap{grid-template-columns:1fr}
+  .calc-left{position:static}
+  .hero h1{font-size:1.65rem}
+  .a-value{font-size:2.1rem}
+  .next-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:480px){.next-grid{grid-template-columns:1fr}}
+</style>
+
+<div class="hero">
+  <nav class="breadcrumb"><a href="/">Home</a> › <a href="/kg-to-lbs">kg to lbs</a> › {kg} kg to lbs</nav>
+  <h1>{kg} kg to lbs</h1>
+  <p class="hero-sub">How many pounds is {kg} kilograms? — instant answer with full breakdown</p>
+</div>
+
+<div class="calc-wrap">
+
+  <!-- LEFT -->
+  <div class="calc-left">
+
+    <div class="card">
+      <div class="answer-hero">
+        <div class="a-label">{kg} Kilograms =</div>
+        <div class="a-value">{lbsRound}</div>
+        <div class="a-unit">pounds (lbs)</div>
+        <div class="a-sub">{kg} kg × 2.20462 = {lbsRound} lbs</div>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-box">
+          <span class="stat-lbl">Stones &amp; lbs</span>
+          <span class="stat-val">{stones} st {stoneRem} lb</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-lbl">Grams</span>
+          <span class="stat-val">{grams.toLocaleString('en-US')} g</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-lbl">Lbs &amp; oz</span>
+          <span class="stat-val">{lbsWhole} lb {oz} oz</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-lbl">Metric Tons</span>
+          <span class="stat-val">{(kg / 1000).toFixed(3)} t</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Other Nearby Values</h2>
+      <div class="nearby-grid">
+        {nearby.map(w => (
+          <a href={`/${w}-kg-to-lbs`} class="nearby-btn">{w} kg</a>
+        ))}
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RIGHT -->
+  <div class="calc-right">
+
+    <!-- Formula + context -->
+    <div class="content-card">
+      <h2>How to Convert {kg} kg to Pounds</h2>
+      <div class="formula-box">
+        <div class="formula-text">{kg} kg × 2.20462 = {lbsRound} lbs</div>
+        <div class="formula-sub">1 kilogram = 2.20462 pounds (exact: 1 kg = 2.2046226218 lbs)</div>
+      </div>
+      <p><strong>Quick estimate:</strong> Multiply by 2.2 → {kg} × 2.2 = {Math.round(kg * 2.2 * 10)/10} lbs (off by {Math.round(Math.abs(lbsRound - kg*2.2)*100)/100} lbs).</p>
+      <p><strong>In stones:</strong> {kg} kg ÷ 6.35029 = {Math.round(kg/6.35029*100)/100} stones = <strong>{stones} st {stoneRem} lb</strong>.</p>
+      <div class="tip-box">
+        <span class="tip-icon">⚖️</span>
+        <p><strong>Context:</strong> {weightContext(kg)}. Average US male weighs ~90 kg (198 lbs). Average US female weighs ~77 kg (170 lbs).</p>
+      </div>
+    </div>
+
+    <!-- Reference table around this value -->
+    <div class="content-card">
+      <h2>kg to lbs — Values Near {kg} kg</h2>
+      <div style="overflow-x:auto">
+        <table class="ref-tbl">
+          <thead>
+            <tr><th>Kilograms (kg)</th><th>Pounds (lbs)</th><th>Stones &amp; lbs</th><th>Grams</th></tr>
+          </thead>
+          <tbody>
+            {[kg-10, kg-5, kg-2, kg-1, kg, kg+1, kg+2, kg+5, kg+10]
+              .filter(w => w > 0)
+              .map(w => {
+                const wlbs = Math.round(w * 2.20462 * 100) / 100;
+                const wst  = Math.floor(w * 2.20462 / 14);
+                const wstR = Math.round((w * 2.20462 % 14) * 10) / 10;
+                return (
+                  <tr class={w === kg ? 'hl' : ''}>
+                    <td>{w === kg ? <strong>{w} kg ←</strong> : <a href={`/${w}-kg-to-lbs`}>{w} kg</a>}</td>
+                    <td>{w === kg ? <strong>{wlbs} lbs</strong> : `${wlbs} lbs`}</td>
+                    <td>{wst} st {wstR} lb</td>
+                    <td>{(w * 1000).toLocaleString('en-US')} g</td>
+                  </tr>
+                );
+              })
+            }
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:.75rem;font-size:.82rem;color:#64748b">→ Use the full <a href="/kg-to-lbs">kg to lbs converter</a> for any value.</p>
+    </div>
+
+    <!-- Common body weights table -->
+    <div class="content-card">
+      <h2>Common Body Weights — kg to lbs Reference</h2>
+      <div style="overflow-x:auto">
+        <table class="ref-tbl">
+          <thead>
+            <tr><th>kg</th><th>lbs</th><th>Stones</th><th>Context</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><a href="/50-kg-to-lbs">50 kg</a></td><td>110.2 lbs</td><td>7 st 12 lb</td><td>Light adult</td></tr>
+            <tr><td><a href="/55-kg-to-lbs">55 kg</a></td><td>121.3 lbs</td><td>8 st 9 lb</td><td>Slim adult</td></tr>
+            <tr><td><a href="/60-kg-to-lbs">60 kg</a></td><td>132.3 lbs</td><td>9 st 6 lb</td><td>Average woman (many countries)</td></tr>
+            <tr><td><a href="/65-kg-to-lbs">65 kg</a></td><td>143.3 lbs</td><td>10 st 3 lb</td><td>Avg global female weight</td></tr>
+            <tr><td><a href="/70-kg-to-lbs">70 kg</a></td><td>154.3 lbs</td><td>11 st 0 lb</td><td>Global avg woman / light man</td></tr>
+            <tr><td><a href="/75-kg-to-lbs">75 kg</a></td><td>165.3 lbs</td><td>11 st 11 lb</td><td>Average man (many countries)</td></tr>
+            <tr><td><a href="/80-kg-to-lbs">80 kg</a></td><td>176.4 lbs</td><td>12 st 8 lb</td><td>Average US/European man</td></tr>
+            <tr><td><a href="/85-kg-to-lbs">85 kg</a></td><td>187.4 lbs</td><td>13 st 5 lb</td><td>Athletic or heavy build</td></tr>
+            <tr><td><a href="/90-kg-to-lbs">90 kg</a></td><td>198.4 lbs</td><td>14 st 2 lb</td><td>Avg US male weight</td></tr>
+            <tr><td><a href="/100-kg-to-lbs">100 kg</a></td><td>220.5 lbs</td><td>15 st 10 lb</td><td>Heavyweight</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="content-card">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>How many pounds is {kg} kg?</h3>
+        <p><strong>{kg} kg = {lbsRound} lbs.</strong> Multiply {kg} by 2.20462 to get the exact pound value. In stones and pounds: {stones} stone {stoneRem} lbs.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What is {kg} kg in stones and pounds?</h3>
+        <p>{kg} kg = <strong>{stones} stone {stoneRem} pounds</strong>. To convert: {kg} kg ÷ 6.35029 = {Math.round(kg/6.35029*100)/100} stones. The whole number is stones; multiply the decimal by 14 to get the remaining pounds.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What is the quick way to convert {kg} kg to lbs?</h3>
+        <p>Quick estimate: multiply by 2.2 → {kg} × 2.2 = {Math.round(kg*2.2*10)/10} lbs. For the exact answer: {kg} × 2.20462 = <strong>{lbsRound} lbs</strong>. The quick method is off by only {Math.round(Math.abs(lbsRound - kg*2.2)*100)/100} lbs.</p>
+      </div>
+    </div>
+
+    <!-- Related -->
+    <div class="content-card">
+      <h2>Related Converters</h2>
+      <div class="next-grid">
+        <a href="/kg-to-lbs" class="next-card">
+          <span class="next-tag">Weight</span>
+          <h3>kg to lbs Converter</h3>
+          <p>Convert any weight from kilograms to pounds</p>
+        </a>
+        <a href="/cm-to-inches" class="next-card">
+          <span class="next-tag">Length</span>
+          <h3>cm to Inches</h3>
+          <p>Convert centimeters to inches instantly</p>
+        </a>
+        <a href="/meters-to-feet" class="next-card">
+          <span class="next-tag">Length</span>
+          <h3>Meters to Feet</h3>
+          <p>Convert meters to feet and inches</p>
+        </a>
+        <a href="/celsius-to-fahrenheit" class="next-card">
+          <span class="next-tag">Temp</span>
+          <h3>Celsius to Fahrenheit</h3>
+          <p>Temperature converter — °C to °F</p>
+        </a>
+        <a href="/percent-off-calculator" class="next-card">
+          <span class="next-tag">Math</span>
+          <h3>Percent Off Calculator</h3>
+          <p>Find sale price after any % discount</p>
+        </a>
+        <a href="/decimal-to-fraction" class="next-card">
+          <span class="next-tag">Math</span>
+          <h3>Decimal to Fraction</h3>
+          <p>Convert decimals to simplified fractions</p>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+</Layout>
