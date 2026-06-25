@@ -46,12 +46,20 @@ nav {
   height: 56px;
 }
 .logo {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--blue);
-  letter-spacing: -0.5px;
+  display: flex;
+  align-items: center;
+  gap: .35rem;
+  text-decoration: none;
 }
-.logo span { color: var(--gray-700); }
+.logo svg { flex-shrink: 0; display: block; margin-top: 1px; }
+.logo-text {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #1e293b;
+  letter-spacing: -0.4px;
+  line-height: 1;
+}
+.logo-text strong { color: var(--blue); font-weight: 800; }
 nav ul { display: flex; gap: 1.5rem; list-style: none; }
 nav ul a { color: var(--gray-700); font-size: .9rem; font-weight: 500; }
 nav ul a:hover { color: var(--blue); text-decoration: none; }
