@@ -1,0 +1,89 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const percents = [5, 10, 15, 20, 25, 30, 40, 50, 60, 70, 75];
+const prices   = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 60, 70, 75, 80, 90, 100, 110, 120, 125, 150, 175, 200, 250, 300, 400, 500, 750, 1000];
+
+function salePrice(pct: number, price: number) {
+  const s = price - (price * pct / 100);
+  return s % 1 === 0 ? '$' + s.toFixed(0) : '$' + s.toFixed(2);
+}
+
+const schema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "All Percent Off Discount Pages — ComputeZap",
+    "url": "https://computezap.com/discount-pages",
+    "description": "Browse all 308 specific discount calculator pages — 5% to 75% off prices from $5 to $1,000. Instant sale price answers, no math needed.",
+    "isPartOf": { "@id": "https://computezap.com/#website" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
+      { "@type": "ListItem", "position": 2, "name": "Percent Off Calculator", "item": "https://computezap.com/percent-off-calculator" },
+      { "@type": "ListItem", "position": 3, "name": "All Discount Pages", "item": "https://computezap.com/discount-pages" }
+    ]
+  }
+]);
+---
+<Layout
+  title="All Percent Off Discount Pages — 308 Instant Answers | ComputeZap"
+  description="Browse all 308 specific discount pages — 5% to 75% off prices from $5 to $1,000. Click any combination for the instant sale price and savings amount."
+  canonical="/discount-pages"
+  schema={schema}
+>
+<style is:global>
+.dp-hero{text-align:center;padding:2rem 1rem 1.5rem;border-bottom:1px solid #e5e7eb;margin-bottom:1.75rem}
+.dp-hero h1{font-size:1.85rem;font-weight:800;color:#111;margin:0 0 .4rem;letter-spacing:-.4px}
+.dp-hero p{color:#555;font-size:.95rem;margin:0 0 1rem}
+.dp-cta{display:inline-flex;align-items:center;gap:.4rem;background:var(--blue);color:#fff;padding:.55rem 1.25rem;border-radius:8px;font-size:.88rem;font-weight:700;text-decoration:none;transition:background .15s}
+.dp-cta:hover{background:#1d4ed8;text-decoration:none;color:#fff}
+
+.pct-block{margin-bottom:2rem}
+.pct-title{font-size:.8rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#64748b;margin:0 0 .75rem;display:flex;align-items:center;gap:.5rem}
+.pct-title::after{content:'';flex:1;height:1px;background:#e5e7eb}
+.price-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:.45rem}
+.price-link{background:#f8fafc;border:1px solid #e5e7eb;border-radius:8px;padding:.6rem .85rem;text-decoration:none;display:flex;flex-direction:column;gap:.1rem;transition:border-color .12s,background .12s}
+.price-link:hover{border-color:var(--blue);background:#eff6ff;text-decoration:none}
+.pl-orig{font-size:.78rem;color:#64748b;font-weight:500}
+.pl-sale{font-size:.92rem;font-weight:800;color:#111}
+.pl-save{font-size:.72rem;color:#16a34a;font-weight:600}
+
+.dp-stats{display:flex;flex-wrap:wrap;gap:.5rem 1.5rem;justify-content:center;font-size:.82rem;color:#64748b;font-weight:600;margin-bottom:1.75rem}
+.dp-stats span{display:flex;align-items:center;gap:.25rem}
+
+@media(max-width:480px){.price-grid{grid-template-columns:repeat(auto-fill,minmax(130px,1fr))}.dp-hero h1{font-size:1.5rem}}
+</style>
+
+<div class="dp-hero">
+  <h1>All Discount Calculator Pages</h1>
+  <p>308 specific combinations — click any to get the instant sale price and savings.</p>
+  <a href="/percent-off-calculator" class="dp-cta">🏷️ Custom Amount? Use the Calculator →</a>
+</div>
+
+<div class="dp-stats">
+  <span>✓ 308 pages</span>
+  <span>✓ 5% – 75% off</span>
+  <span>✓ $5 – $1,000 prices</span>
+  <span>✓ Instant answers</span>
+</div>
+
+{percents.map(pct => (
+  <div class="pct-block">
+    <p class="pct-title">🏷️ {pct}% Off — {prices.length} prices</p>
+    <div class="price-grid">
+      {prices.map(price => (
+        <a href={`/${pct}-percent-off-${price}`} class="price-link">
+          <span class="pl-orig">{pct}% off ${price}</span>
+          <span class="pl-sale">{salePrice(pct, price)}</span>
+          <span class="pl-save">save ${(price * pct / 100) % 1 === 0 ? (price * pct / 100).toFixed(0) : (price * pct / 100).toFixed(2)}</span>
+        </a>
+      ))}
+    </div>
+  </div>
+))}
+
+</Layout>
