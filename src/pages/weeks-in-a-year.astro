@@ -9,7 +9,7 @@ const schema = JSON.stringify([
     "url": "https://computezap.com/weeks-in-a-year",
     "applicationCategory": "UtilityApplication",
     "operatingSystem": "Web",
-    "description": "How many weeks in a year? A regular year has 52 weeks and 1 day. A leap year has 52 weeks and 2 days. Free calculator with work weeks, school weeks, and full reference table.",
+    "description": "How many weeks are in a year? A standard year has exactly 52 weeks and 1 day. A leap year has 52 weeks and 2 days. Includes payroll weeks, biweekly pay periods, and bi-weekly schedule.",
     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
   },
   {
@@ -24,323 +24,222 @@ const schema = JSON.stringify([
     "@context": "https://schema.org",
     "@type": "FAQPage",
     "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "How many weeks in a year?",
-        "acceptedAnswer": { "@type": "Answer", "text": "A regular year has 52 weeks and 1 day (365 days ÷ 7 = 52.142857 weeks). A leap year has 52 weeks and 2 days (366 ÷ 7 = 52.285714 weeks). For most purposes, the answer is simply 52 weeks." }
-      },
-      {
-        "@type": "Question",
-        "name": "How many work weeks in a year?",
-        "acceptedAnswer": { "@type": "Answer", "text": "A standard work year has 52 work weeks. With US federal holidays (10 days) and 2 weeks vacation (10 days), a full-time employee works about 50 weeks per year. Total work hours: 2,080 (52 weeks × 40 hours)." }
-      },
-      {
-        "@type": "Question",
-        "name": "How many weeks in a leap year?",
-        "acceptedAnswer": { "@type": "Answer", "text": "A leap year has 366 days, which equals 52 weeks and 2 extra days (52.285714 weeks). Leap years occur every 4 years: 2024, 2028, 2032, 2036, etc. The 2 extra days mean a leap year starts and ends on a different day of the week." }
-      },
-      {
-        "@type": "Question",
-        "name": "Is there ever 53 weeks in a year?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Technically no — there are always 52 full weeks plus 1 or 2 extra days. However, in the ISO week numbering system (used in Europe and business), some years have 53 numbered weeks because the partial week at the end gets counted as week 53. This happens in years where January 1 falls on a Thursday (regular year) or Wednesday/Thursday (leap year)." }
-      },
-      {
-        "@type": "Question",
-        "name": "How many biweekly pay periods are in a year?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Most years have 26 biweekly pay periods (52 weeks ÷ 2). However, some years have 27 biweekly pay periods if your pay schedule alignment creates an extra period — this happens roughly every 11 years for a given company's payroll cycle." }
-      },
-      {
-        "@type": "Question",
-        "name": "How many school weeks are in a year?",
-        "acceptedAnswer": { "@type": "Answer", "text": "A typical US school year has 36 weeks (180 school days ÷ 5 days/week). This runs from late August/early September to May/June. The remaining 16 weeks are summer, winter, and spring breaks." }
-      }
+      { "@type": "Question", "name": "How many weeks are in a year?", "acceptedAnswer": { "@type": "Answer", "text": "A standard year has 52 weeks and 1 extra day. In exact terms, 365 / 7 = 52.142857 weeks. A leap year has 52 weeks and 2 extra days (366 / 7 = 52.285714 weeks). For payroll purposes, most employers use exactly 52 weekly pay periods." } },
+      { "@type": "Question", "name": "How many biweekly pay periods are in a year?", "acceptedAnswer": { "@type": "Answer", "text": "There are 26 biweekly pay periods in a year. Calculation: 52 weeks / 2 = 26. However, some years with favorable calendar alignment may result in 27 biweekly pay periods, which occurs about every 11 years." } },
+      { "@type": "Question", "name": "Are there 52 or 53 weeks in a year?", "acceptedAnswer": { "@type": "Answer", "text": "Most years have 52 complete weeks plus 1 or 2 extra days. The ISO week numbering system recognizes 53 weeks in some years when the extra days form an additional week 53. This happens approximately 71 times per 400-year cycle." } },
+      { "@type": "Question", "name": "How many weeks are in a month?", "acceptedAnswer": { "@type": "Answer", "text": "The average month has 4.345 weeks (365 / 12 / 7 = 4.345). In practice, months have 4 or 5 weeks." } },
+      { "@type": "Question", "name": "How many work weeks are in a year?", "acceptedAnswer": { "@type": "Answer", "text": "A year has 52 work weeks. After subtracting typical US vacation (2 weeks) and federal holidays (about 2 weeks), the effective paid work weeks are approximately 48-50 weeks per year." } }
     ]
   }
 ]);
 ---
 <Layout
-  title="Weeks in a Year — How Many Weeks? | ComputeZap"
-  description="How many weeks in a year? Regular year: 52 weeks + 1 day. Leap year: 52 weeks + 2 days. Free calculator with work weeks, pay periods, school weeks, and full table."
+  title="Weeks in a Year — 52 Weeks | ComputeZap"
+  description="How many weeks are in a year? A standard year has exactly 52 weeks and 1 day (365 / 7 = 52.14). A leap year has 52 weeks and 2 days. Payroll, biweekly, and ISO weeks explained."
   canonical="/weeks-in-a-year"
   schema={schema}
 >
-<style is:global>
-.hero{text-align:center;padding:2rem 1rem 1.5rem}
-.hero h1{font-size:2rem;color:#111;margin:.5rem 0 .4rem;font-weight:800;letter-spacing:-.02em}
-.hero-sub{color:#64748b;margin:0;font-size:1.05rem}
-.breadcrumb{font-size:.82rem;color:#94a3b8;margin-bottom:.75rem}
-.breadcrumb a{color:var(--blue);text-decoration:none}
-.calc-wrap{display:grid;grid-template-columns:390px 1fr;gap:1.75rem;max-width:1120px;margin:0 auto;padding:0 1rem 3.5rem;align-items:start}
-.calc-left{position:sticky;top:1rem}
-.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:1.5rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(0,0,0,.04)}
-.card:last-child{margin-bottom:0}
-.card-header{display:flex;align-items:center;gap:.6rem;margin-bottom:1.1rem}
-.card-step{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;background:var(--blue);color:#fff;border-radius:50%;font-size:.7rem;font-weight:800;flex-shrink:0}
-.card-title{font-size:1rem;font-weight:700;color:#111;margin:0}
-.card h2{font-size:1.05rem;font-weight:700;color:#111;margin:0 0 .9rem}
-.content-card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:1.5rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(0,0,0,.04)}
-.content-card h2{font-size:1.05rem;font-weight:700;color:#111;margin:0 0 .8rem}
-.content-card p{color:#444;line-height:1.75;font-size:.93rem;margin:0 0 .7rem}
-.content-card p:last-child{margin-bottom:0}
-.field-group{margin-bottom:1rem}
-.field-group:last-child{margin-bottom:0}
-.field-lbl{display:block;font-size:.75rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem}
-.field-select{width:100%;font-size:1.1rem;font-weight:700;padding:.65rem .9rem;border:2px solid #e2e8f0;border-radius:10px;color:#111;box-sizing:border-box;font-family:inherit;background:#f8fafc;outline:none;cursor:pointer;transition:all .15s}
-.field-select:focus{border-color:#93c5fd;background:#fff;box-shadow:0 0 0 3px rgba(37,99,235,.07)}
-.quick-answer{background:#f0fdf4;border:1.5px solid #86efac;border-radius:12px;padding:1rem 1.25rem;margin-bottom:1rem;text-align:center}
-.qa-big{font-size:1.5rem;font-weight:900;color:#15803d;display:block;margin-bottom:.2rem}
-.qa-sub{font-size:.82rem;color:#166534}
-.answer-box{background:linear-gradient(135deg,#1d4ed8 0%,#2563eb 60%,#3b82f6 100%);border-radius:14px;padding:1.5rem 1.5rem 1.25rem;text-align:center;margin-bottom:1rem;box-shadow:0 6px 24px rgba(37,99,235,.22)}
-.a-label{font-size:.68rem;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.3rem;font-weight:700}
-.a-value{font-size:2.4rem;font-weight:900;color:#fff;line-height:1.1;letter-spacing:-.02em}
-.a-unit{font-size:1rem;font-weight:600;color:rgba(255,255,255,.8);margin-top:.2rem}
-.a-sub{font-size:.88rem;color:rgba(255,255,255,.7);margin-top:.3rem}
-.stats-row{display:grid;grid-template-columns:1fr 1fr;gap:.55rem}
-.stat-box{background:#f8fafc;border:1px solid #f1f5f9;border-radius:10px;padding:.85rem .75rem;text-align:center}
-.stat-lbl{display:block;font-size:.62rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.25rem;font-weight:700}
-.stat-val{display:block;font-size:.95rem;font-weight:800;color:#1e293b}
-.conv-table{width:100%;border-collapse:collapse;font-size:.875rem}
-.conv-table th{background:#f8fafc;padding:.65rem .85rem;text-align:left;font-size:.68rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;border-bottom:2px solid #e2e8f0}
-.conv-table td{padding:.7rem .85rem;border-bottom:1px solid #f3f4f6;color:#374151}
-.conv-table tr:last-child td{border-bottom:none}
-.conv-table tbody tr:hover td{background:#f8faff}
-.conv-table .hl td{background:#eff6ff;font-weight:700;color:#1d4ed8}
-.conv-table .hl:hover td{background:#dbeafe}
-.tip-box{display:flex;gap:.75rem;background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:.9rem 1rem;margin:.85rem 0}
-.tip-icon{font-size:1.1rem;flex-shrink:0;margin-top:.05rem}
-.tip-box p{margin:0;font-size:.875rem;color:#1e40af;line-height:1.6}
-.use-grid{display:grid;gap:.75rem}
-.use-card{background:#f8fafc;border-radius:10px;padding:1rem;border-left:3px solid var(--blue)}
-.use-title{font-size:.78rem;font-weight:700;text-transform:uppercase;color:var(--blue);margin-bottom:.3rem}
-.use-card p{font-size:.875rem;color:#374151;margin:0;line-height:1.65}
-.faq-item{border-bottom:1px solid #f3f4f6;padding:.9rem 0}
-.faq-item:last-child{border-bottom:none;padding-bottom:0}
-.faq-item h3{font-size:.9rem;color:#111;margin:0 0 .35rem;font-weight:700}
-.faq-item p{color:#555;font-size:.865rem;margin:0;line-height:1.65}
-.next-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem}
-.next-card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:1rem;border-top:3px solid var(--blue);text-decoration:none;display:block;transition:box-shadow .15s}
-.next-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.08);text-decoration:none}
-.next-tag{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--blue);margin-bottom:.3rem;display:block}
-.next-card h3{font-size:.88rem;font-weight:700;color:#111;margin:0 0 .25rem}
-.next-card p{font-size:.78rem;color:#64748b;margin:0;line-height:1.5}
-@media(max-width:768px){
-  .calc-wrap{grid-template-columns:1fr}
-  .calc-left{position:static}
-  .hero h1{font-size:1.65rem}
-  .a-value{font-size:1.9rem}
-  .next-grid{grid-template-columns:1fr 1fr}
-}
-@media(max-width:480px){.next-grid{grid-template-columns:1fr}}
-</style>
 
-<div class="hero">
-  <nav class="breadcrumb"><a href="/">Home</a> › Weeks in a Year</nav>
+<div class="page-hero">
+  <nav><a href="/">Home</a> › Weeks in a Year</nav>
   <h1>Weeks in a Year</h1>
-  <p class="hero-sub">How many weeks per year — regular year, leap year, work weeks &amp; school weeks</p>
+  <p>A standard year has 52 weeks — plus 1 or 2 extra days</p>
 </div>
 
-<div class="calc-wrap">
-  <div class="calc-left">
-    <div class="card">
-      <div class="quick-answer">
-        <span class="qa-big">52 weeks in a year</span>
-        <span class="qa-sub">Regular year: 52 weeks + 1 day · Leap year: 52 weeks + 2 days</span>
-      </div>
-      <div class="card-header">
-        <span class="card-step">1</span>
-        <h2 class="card-title">Select Year Type</h2>
-      </div>
-      <div class="field-group">
-        <label class="field-lbl" for="year-type">Year Type</label>
-        <select id="year-type" class="field-select" onchange="calc()">
-          <option value="365">Regular Year (365 days)</option>
-          <option value="366">Leap Year (366 days)</option>
+<div class="calc-center">
+  <div class="card">
+
+    <div class="quick-answer">
+      <span class="qa-big">52 weeks in a year</span>
+      <span class="qa-sub">365 days / 7 days/week = 52.14 weeks</span>
+    </div>
+
+    <div class="input-group">
+      <label for="year-type">Year Type</label>
+      <div class="input-wrap">
+        <select id="year-type" onchange="calc()" style="width:100%;padding:.65rem 1rem;border:1.5px solid #d1d5db;border-radius:8px;font-size:1rem;font-family:inherit;background:#fff;color:#111">
+          <option value="365" selected>Standard year (365 days)</option>
+          <option value="366">Leap year (366 days)</option>
         </select>
       </div>
     </div>
 
-    <div class="card">
-      <div class="card-header">
-        <span class="card-step">2</span>
-        <h2 class="card-title">Result</h2>
-      </div>
-      <div class="answer-box">
-        <div class="a-label">Weeks in Year</div>
-        <div class="a-value" id="r-weeks">52</div>
-        <div class="a-unit">weeks</div>
-        <div class="a-sub" id="r-sub">365 days ÷ 7 = 52 weeks + 1 day</div>
-      </div>
-      <div class="stats-row">
-        <div class="stat-box">
-          <span class="stat-lbl">Exact Weeks</span>
-          <span class="stat-val" id="r-exact">52.143</span>
-        </div>
-        <div class="stat-box">
-          <span class="stat-lbl">Extra Days</span>
-          <span class="stat-val" id="r-extra">1 day</span>
-        </div>
-        <div class="stat-box">
-          <span class="stat-lbl">Work Weeks (52)</span>
-          <span class="stat-val">52 weeks</span>
-        </div>
-        <div class="stat-box">
-          <span class="stat-lbl">Pay Periods (bi-wk)</span>
-          <span class="stat-val">26</span>
-        </div>
-      </div>
+    <div class="result-hero">
+      <div class="r-label">Weeks in This Year</div>
+      <div class="r-value"><span id="r-weeks">52</span></div>
+      <div class="r-sub" id="r-sub">365 days / 7 = 52 weeks + 1 day</div>
+    </div>
+
+    <div class="stats-row show">
+      <div class="stat-box"><span class="stat-lbl">Exact Weeks</span><span class="stat-val" id="r-exact">52.1429</span></div>
+      <div class="stat-box"><span class="stat-lbl">Extra Days</span><span class="stat-val" id="r-extra">1 day</span></div>
+      <div class="stat-box"><span class="stat-lbl">Biweekly Pays</span><span class="stat-val">26</span></div>
+      <div class="stat-box"><span class="stat-lbl">Semimonthly</span><span class="stat-val">24</span></div>
+    </div>
+
+  </div>
+</div>
+
+<div class="content-wrap">
+
+  <div class="card">
+    <h2>Why Does 365 Days Give 52 Weeks and 1 Day?</h2>
+    <div class="formula-box">365 / 7 = 52 remainder 1 — 52 weeks + 1 day</div>
+    <div class="formula-box">366 / 7 = 52 remainder 2 — 52 weeks + 2 days (leap year)</div>
+    <p>A week is exactly 7 days, and neither 365 nor 366 divide evenly by 7. This is why each year's days fall one (or two, in leap years) day later in the weekly cycle than the year before.</p>
+    <div class="tip-box">
+      <span class="tip-icon">📅</span>
+      <p><strong>Payroll note:</strong> Most employers use 52 weekly pay periods or 26 biweekly periods. Occasionally a calendar year contains 27 biweekly periods — approximately every 11 years.</p>
     </div>
   </div>
 
-  <div class="calc-right">
-
-    <div class="content-card">
-      <h2>Weeks in a Year — Full Breakdown</h2>
-      <div class="tip-box">
-        <span class="tip-icon">📅</span>
-        <p><strong>Key fact:</strong> 365 ÷ 7 = 52.142857 weeks. That extra 0.142857 of a week = 1 day. So every regular year has exactly <strong>52 weeks and 1 day</strong>. Leap years have <strong>52 weeks and 2 days</strong>.</p>
-      </div>
-      <div style="overflow-x:auto">
-        <table class="conv-table">
-          <thead>
-            <tr><th>Period</th><th>Days</th><th>Weeks</th><th>Exact</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>1 week</td><td>7</td><td>1</td><td>1.000</td></tr>
-            <tr><td>1 month (avg)</td><td>30.44</td><td>≈ 4.3</td><td>4.348</td></tr>
-            <tr><td>1 quarter (3 mo)</td><td>91.25</td><td>≈ 13</td><td>13.04</td></tr>
-            <tr><td>6 months</td><td>182.5</td><td>≈ 26</td><td>26.07</td></tr>
-            <tr class="hl"><td><strong>Regular year</strong></td><td><strong>365</strong></td><td><strong>52 + 1 day</strong></td><td><strong>52.143</strong></td></tr>
-            <tr class="hl"><td><strong>Leap year</strong></td><td><strong>366</strong></td><td><strong>52 + 2 days</strong></td><td><strong>52.286</strong></td></tr>
-            <tr><td>2 years</td><td>730</td><td>104 + 2 days</td><td>104.286</td></tr>
-            <tr><td>4 years (1 leap)</td><td>1,461</td><td>208 + 5 days</td><td>208.714</td></tr>
-            <tr><td>10 years</td><td>3,652</td><td>521 + 5 days</td><td>521.714</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="content-card">
-      <h2>Work Weeks, Pay Periods &amp; School Weeks</h2>
-      <div class="use-grid">
-        <div class="use-card">
-          <div class="use-title">Work Weeks</div>
-          <p>A full work year = 52 weeks × 40 hours = <strong>2,080 work hours</strong>. After 10 federal holidays + 10 vacation days (standard US), actual work weeks ≈ 50. Full-time salary ÷ 2,080 = exact hourly rate.</p>
-        </div>
-        <div class="use-card" style="border-left-color:#10b981">
-          <div class="use-title" style="color:#059669">Biweekly Pay Periods</div>
-          <p>52 weeks ÷ 2 = <strong>26 pay periods</strong> per year. Some years produce 27 biweekly periods depending on the payroll start date — this happens roughly every 11 years per company. Monthly pay = 12 periods/year.</p>
-        </div>
-        <div class="use-card" style="border-left-color:#f59e0b">
-          <div class="use-title" style="color:#d97706">School Weeks</div>
-          <p>US school year = <strong>36 weeks</strong> (180 days ÷ 5). Runs September → June. The remaining <strong>16 weeks</strong> are summer (≈10 wks), winter break (2 wks), spring break (1 wk), and other holidays.</p>
-        </div>
-        <div class="use-card" style="border-left-color:#8b5cf6">
-          <div class="use-title" style="color:#7c3aed">ISO Week Numbering</div>
-          <p>The ISO 8601 standard numbers weeks 1–52 (sometimes 53). Week 1 = the week containing the year's first Thursday. Some years get a "Week 53" when Jan 1 falls on a Thursday (regular year) or Wed/Thu (leap year).</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="content-card">
-      <h2>Upcoming Leap Years</h2>
-      <div style="overflow-x:auto">
-        <table class="conv-table">
-          <thead>
-            <tr><th>Year</th><th>Type</th><th>Weeks</th><th>Days</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>2025</td><td>Regular</td><td>52 + 1 day</td><td>365</td></tr>
-            <tr class="hl"><td><strong>2026</strong></td><td>Regular</td><td>52 + 1 day</td><td>365</td></tr>
-            <tr><td>2027</td><td>Regular</td><td>52 + 1 day</td><td>365</td></tr>
-            <tr><td>2028</td><td>Leap Year</td><td>52 + 2 days</td><td>366</td></tr>
-            <tr><td>2029</td><td>Regular</td><td>52 + 1 day</td><td>365</td></tr>
-            <tr><td>2030</td><td>Regular</td><td>52 + 1 day</td><td>365</td></tr>
-            <tr><td>2031</td><td>Regular</td><td>52 + 1 day</td><td>365</td></tr>
-            <tr><td>2032</td><td>Leap Year</td><td>52 + 2 days</td><td>366</td></tr>
-            <tr><td>2036</td><td>Leap Year</td><td>52 + 2 days</td><td>366</td></tr>
-            <tr><td>2040</td><td>Leap Year</td><td>52 + 2 days</td><td>366</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="content-card">
-      <h2>Frequently Asked Questions</h2>
-      <div class="faq-item">
-        <h3>How many weeks in a year?</h3>
-        <p>A regular year has <strong>52 weeks and 1 day</strong> (365 ÷ 7 = 52.142857). A leap year has <strong>52 weeks and 2 days</strong> (366 ÷ 7 = 52.286). For most practical purposes, the answer is 52 weeks.</p>
-      </div>
-      <div class="faq-item">
-        <h3>Is there 52 or 53 weeks in a year?</h3>
-        <p>There are always 52 full weeks. The extra 1–2 days don't form a full 53rd week. However, the ISO week numbering system can label up to 53 weeks — this happens when January 1 falls on a Thursday in a regular year.</p>
-      </div>
-      <div class="faq-item">
-        <h3>How many work weeks in a year?</h3>
-        <p>52 work weeks. After US holidays (10 days) and 2 weeks PTO, most employees work about 50 weeks = 2,000 hours. The official IRS/HR standard for full-time work is 2,080 hours/year (52 × 40).</p>
-      </div>
-      <div class="faq-item">
-        <h3>How many weeks in a leap year?</h3>
-        <p>52 weeks and 2 extra days (366 ÷ 7 = 52.286 weeks). Leap years: 2024, 2028, 2032, 2036. A year is a leap year if divisible by 4, except century years must also be divisible by 400.</p>
-      </div>
-      <div class="faq-item">
-        <h3>How many biweekly pay periods in a year?</h3>
-        <p>Usually <strong>26</strong> (52 ÷ 2). Some years have 27 biweekly periods depending on when January 1 falls in the pay cycle. Employers budget 26 pay periods annually but occasionally face a 27-period year.</p>
-      </div>
-      <div class="faq-item">
-        <h3>How many school weeks in a year?</h3>
-        <p><strong>36 weeks</strong> in a US school year (180 required school days ÷ 5 days/week). The remaining 16 weeks are vacation: summer (~10 weeks), winter (~2 weeks), spring (~1 week), and other breaks.</p>
-      </div>
-    </div>
-
-    <div class="content-card">
-      <h2>Related Time Tools</h2>
-      <div class="next-grid">
-        <a href="/hours-in-a-year" class="next-card">
-          <span class="next-tag">Time</span>
-          <h3>Hours in a Year</h3>
-          <p>8,760 hours in a regular year — work hours and breakdown</p>
-        </a>
-        <a href="/minutes-in-a-day" class="next-card">
-          <span class="next-tag">Time</span>
-          <h3>Minutes in a Day</h3>
-          <p>1,440 minutes per day — full time unit reference</p>
-        </a>
-        <a href="/seconds-in-a-year" class="next-card">
-          <span class="next-tag">Time</span>
-          <h3>Seconds in a Year</h3>
-          <p>31,536,000 seconds in a year — exactly calculated</p>
-        </a>
-        <a href="/hours-in-a-month" class="next-card">
-          <span class="next-tag">Time</span>
-          <h3>Hours in a Month</h3>
-          <p>730 average hours per month — every month covered</p>
-        </a>
-        <a href="/days-from-today" class="next-card">
-          <span class="next-tag">Date</span>
-          <h3>Days From Today</h3>
-          <p>Find the exact date any number of days from today</p>
-        </a>
-        <a href="/time-to-decimal-calculator" class="next-card">
-          <span class="next-tag">Time</span>
-          <h3>Time to Decimal</h3>
-          <p>Convert hours &amp; minutes to decimal for timesheets</p>
-        </a>
-      </div>
+  <div class="card">
+    <h2>Weeks in a Year — Quick Reference</h2>
+    <div style="overflow-x:auto">
+      <table class="conv-table">
+        <thead><tr><th>Year Type</th><th>Days</th><th>Complete Weeks</th><th>Extra Days</th><th>Exact Weeks</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Standard year</td><td>365</td>
+            <td style="color:var(--blue);font-weight:700">52</td>
+            <td>1 day</td><td>52.142857</td>
+          </tr>
+          <tr>
+            <td>Leap year</td><td>366</td>
+            <td style="color:var(--blue);font-weight:700">52</td>
+            <td>2 days</td><td>52.285714</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
+
+  <div class="card">
+    <h2>Pay Period Schedule Comparison</h2>
+    <div style="overflow-x:auto">
+      <table class="conv-table">
+        <thead><tr><th>Pay Frequency</th><th>Pay Periods/Year</th><th>Days Between Pays</th><th>Common For</th></tr></thead>
+        <tbody>
+          {[
+            ['Weekly','52','7 days','Hourly workers, blue collar'],
+            ['Biweekly','26','14 days','Most US salaried employees'],
+            ['Semimonthly','24','~15 days','Corporate professionals'],
+            ['Monthly','12','~30 days','Executives, consultants'],
+          ].map(([f, p, d, c]) => (
+            <tr>
+              <td>{f}</td>
+              <td style="color:var(--blue);font-weight:700">{p}</td>
+              <td>{d}</td>
+              <td>{c}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top:.75rem;font-size:.875rem;color:#64748b">Note: In biweekly payroll, <strong>two months per year</strong> have 3 paychecks instead of 2.</p>
+  </div>
+
+  <div class="card">
+    <h2>Weeks in Common Time Periods</h2>
+    <div style="overflow-x:auto">
+      <table class="conv-table">
+        <thead><tr><th>Time Period</th><th>Exact Weeks</th><th>Complete Weeks</th></tr></thead>
+        <tbody>
+          {[
+            ['1 month (28 days)','4.000','4 weeks exactly'],
+            ['1 month (30 days)','4.286','4 weeks + 2 days'],
+            ['1 month (31 days)','4.429','4 weeks + 3 days'],
+            ['1 quarter (91 days)','13.000','13 weeks exactly'],
+            ['6 months (182 days)','26.000','26 weeks exactly'],
+            ['1 year (365 days)','52.143','52 weeks + 1 day'],
+            ['1 year (366 days)','52.286','52 weeks + 2 days'],
+          ].map(([p, e, c]) => (
+            <tr>
+              <td>{p}</td>
+              <td style="color:var(--blue);font-weight:700">{e}</td>
+              <td>{c}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>How many weeks are in a year?</h3>
+      <p>A standard year has <strong>52 complete weeks</strong> plus 1 extra day. Exact value: 365 / 7 = 52.142857 weeks. A leap year has 52 weeks and 2 extra days.</p>
+    </div>
+    <div class="faq-item">
+      <h3>How many biweekly pay periods are in a year?</h3>
+      <p>There are <strong>26 biweekly pay periods</strong> in a standard year (52 / 2 = 26). Some years may have 27 biweekly periods depending on when the first payday falls.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Are there 52 or 53 weeks in a year?</h3>
+      <p>Most years have <strong>52 complete weeks</strong> plus 1-2 extra days. In the ISO week-numbering system, some years contain a "Week 53" — approximately 71 out of every 400 years.</p>
+    </div>
+    <div class="faq-item">
+      <h3>How many weeks are in a month?</h3>
+      <p>The average month has <strong>4.345 weeks</strong> (365 / 12 / 7). February (non-leap) has exactly 4 weeks. Months with 30 or 31 days have 4 weeks + 2 or 3 extra days.</p>
+    </div>
+    <div class="faq-item">
+      <h3>How many work weeks per year after vacation?</h3>
+      <p>With 2 weeks vacation and 10 US federal holidays, most full-time employees work approximately <strong>48-50 effective weeks</strong> per year.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Related Calculators</h2>
+    <div class="next-grid">
+      <a href="/hours-in-a-year" class="next-card">
+        <span class="next-tag">Time</span>
+        <h3>Hours in a Year</h3>
+        <p>8,760 hours in a year — work hours and salary.</p>
+      </a>
+      <a href="/days-from-today" class="next-card">
+        <span class="next-tag">Date</span>
+        <h3>Days From Today</h3>
+        <p>Find the exact future date any number of days from now.</p>
+      </a>
+      <a href="/hours-in-a-month" class="next-card">
+        <span class="next-tag">Time</span>
+        <h3>Hours in a Month</h3>
+        <p>730 average hours per month — all months covered.</p>
+      </a>
+      <a href="/seconds-in-a-year" class="next-card">
+        <span class="next-tag">Time</span>
+        <h3>Seconds in a Year</h3>
+        <p>31,536,000 seconds per year — full breakdown.</p>
+      </a>
+      <a href="/time-to-decimal-calculator" class="next-card">
+        <span class="next-tag">Time</span>
+        <h3>Time to Decimal</h3>
+        <p>Convert hours and minutes to decimal for payroll.</p>
+      </a>
+      <a href="/minutes-in-a-day" class="next-card">
+        <span class="next-tag">Time</span>
+        <h3>Minutes in a Day</h3>
+        <p>1,440 minutes in a 24-hour day.</p>
+      </a>
+    </div>
+  </div>
+
 </div>
 
 <script is:inline>
 function calc() {
-  var days = parseInt(document.getElementById('year-type').value);
-  var weeks = Math.floor(days / 7);
+  var days  = parseInt(document.getElementById('year-type').value) || 365;
+  var exact = (days / 7).toFixed(4);
+  var whole = Math.floor(days / 7);
   var extra = days % 7;
-  var exact = (days / 7).toFixed(3);
-  document.getElementById('r-weeks').textContent = weeks;
+
+  document.getElementById('r-weeks').textContent = whole;
+  document.getElementById('r-sub').textContent   = days + ' days / 7 = ' + whole + ' weeks + ' + extra + (extra === 1 ? ' day' : ' days');
   document.getElementById('r-exact').textContent = exact;
   document.getElementById('r-extra').textContent = extra + (extra === 1 ? ' day' : ' days');
-  document.getElementById('r-sub').textContent = days + ' days ÷ 7 = ' + weeks + ' weeks + ' + extra + (extra === 1 ? ' day' : ' days');
 }
+
 calc();
 </script>
 </Layout>

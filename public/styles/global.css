@@ -560,6 +560,19 @@ main {
 .steps-list li:last-child{border-bottom:none}
 .steps-list li::before{content:counter(step);display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;min-width:24px;background:var(--blue);color:#fff;border-radius:50%;font-size:.7rem;font-weight:800;margin-top:.05rem}
 
+/* Quick-answer banner (time/math pages) */
+.quick-answer{background:#f0fdf4;border:1.5px solid #86efac;border-radius:12px;padding:1rem 1.25rem;margin-bottom:1rem;text-align:center}
+.qa-big{font-size:1.5rem;font-weight:900;color:#15803d;display:block;margin-bottom:.2rem}
+.qa-sub{font-size:.82rem;color:#166534}
+/* Conversion/reference table (time/math pages) */
+.conv-table{width:100%;border-collapse:collapse;font-size:.875rem}
+.conv-table th{background:#f8fafc;padding:.6rem .85rem;text-align:left;font-size:.68rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;border-bottom:2px solid #e2e8f0}
+.conv-table td{padding:.65rem .85rem;border-bottom:1px solid #f3f4f6;color:#374151}
+.conv-table tr:last-child td{border-bottom:none}
+.conv-table tbody tr:hover td{background:#f8faff}
+.conv-table .hl td{background:#eff6ff;font-weight:700;color:#1d4ed8}
+.conv-table .hl:hover td{background:#dbeafe}
+
 /* v2 responsive */
 @media(max-width:768px){
   .page-hero h1{font-size:1.65rem}
