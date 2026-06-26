@@ -37,17 +37,17 @@ const schema = JSON.stringify([
       {
         "@type": "Question",
         "name": "Does my lender have to offer biweekly payments?",
-        "acceptedAnswer": { "@type": "Answer", "text": "No. You can achieve the same result yourself by dividing your monthly payment by 12 and adding that amount to your principal each month. For example, if your payment is $1,500/month, add $125 extra to principal each month. This equals one extra payment per year — the same as a true biweekly schedule." }
+        "acceptedAnswer": { "@type": "Answer", "text": "No. You can achieve the same result yourself by dividing your monthly payment by 12 and adding that amount to your principal each month. This equals one extra payment per year — the same as a true biweekly schedule." }
       },
       {
         "@type": "Question",
         "name": "What is the difference between biweekly and semi-monthly payments?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Semi-monthly means twice a month (24 payments per year) — this is the same total as monthly and saves nothing. Biweekly means every two weeks (26 payments per year). The extra 2 payments per year are what create the savings. Always confirm which one your lender offers." }
+        "acceptedAnswer": { "@type": "Answer", "text": "Semi-monthly means twice a month (24 payments per year) — this is the same total as monthly and saves nothing. Biweekly means every two weeks (26 payments per year). The extra 2 payments per year are what create the savings." }
       },
       {
         "@type": "Question",
         "name": "Are there fees for biweekly mortgage programs?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Many lenders and third-party servicers charge setup fees of $200–$400 plus $6–$10 per payment for biweekly programs. These fees can erase years of savings. You can get the same benefit for free by simply making one extra principal payment per year or adding 1/12 of your monthly payment to each monthly payment." }
+        "acceptedAnswer": { "@type": "Answer", "text": "Many lenders and third-party servicers charge setup fees of $200–$400 plus $6–$10 per payment. These fees can erase years of savings. You can get the same benefit for free by simply making one extra principal payment per year or adding 1/12 of your monthly payment to each monthly payment." }
       },
       {
         "@type": "Question",
@@ -64,396 +64,238 @@ const schema = JSON.stringify([
   canonical="/biweekly-mortgage-calculator"
   schema={schema}
 >
-<style is:global>
-/* ── Layout ─────────────────────────────────────── */
-.hero{text-align:center;padding:2rem 1rem 1.5rem}
-.hero h1{font-size:2rem;color:#111;margin:.5rem 0 .4rem;font-weight:800;letter-spacing:-.02em}
-.hero-sub{color:#64748b;margin:0;font-size:1.05rem}
-.breadcrumb{font-size:.82rem;color:#94a3b8;margin-bottom:.75rem}
-.breadcrumb a{color:var(--blue);text-decoration:none}
-.calc-wrap{display:grid;grid-template-columns:390px 1fr;gap:1.75rem;max-width:1120px;margin:0 auto;padding:0 1rem 3.5rem;align-items:start}
-.calc-left{position:sticky;top:1rem}
 
-/* ── Cards ──────────────────────────────────────── */
-.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:1.5rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(0,0,0,.04)}
-.card:last-child{margin-bottom:0}
-.card-header{display:flex;align-items:center;gap:.6rem;margin-bottom:1.1rem}
-.card-step{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;background:var(--blue);color:#fff;border-radius:50%;font-size:.7rem;font-weight:800;flex-shrink:0}
-.card-title{font-size:1rem;font-weight:700;color:#111;margin:0}
-.card h2{font-size:1.05rem;font-weight:700;color:#111;margin:0 0 .9rem}
-.card h3{font-size:.95rem;font-weight:700;color:#111;margin:.75rem 0 .4rem}
-.card p{color:#444;line-height:1.75;font-size:.93rem;margin:0 0 .7rem}
-.card p:last-child{margin-bottom:0}
-.card ul{color:#444;line-height:1.85;font-size:.93rem;padding-left:1.25rem;margin:.5rem 0 0}
-.content-card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:1.5rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(0,0,0,.04)}
-.content-card h2{font-size:1.05rem;font-weight:700;color:#111;margin:0 0 .8rem}
-.content-card ul{color:#444;line-height:1.85;font-size:.93rem;padding-left:1.25rem;margin:0}
-
-/* ── Input Fields ────────────────────────────────── */
-.field-group{margin-bottom:1rem}
-.field-group:last-child{margin-bottom:0}
-.field-lbl{display:block;font-size:.75rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem}
-.input-wrap{position:relative;display:flex;align-items:center}
-.input-pfx,.input-sfx{position:absolute;font-size:1rem;font-weight:700;color:#94a3b8;pointer-events:none}
-.input-pfx{left:.9rem}
-.input-sfx{right:.9rem}
-.field-input{width:100%;font-size:1.15rem;font-weight:800;padding:.65rem .9rem;border:2px solid #e2e8f0;border-radius:10px;color:#111;box-sizing:border-box;font-family:inherit;background:#f8fafc;outline:none;transition:all .15s}
-.field-input.has-pfx{padding-left:1.9rem}
-.field-input.has-sfx{padding-right:2.5rem}
-.field-input:focus{border-color:#93c5fd;background:#fff;box-shadow:0 0 0 3px rgba(37,99,235,.07)}
-.field-hint{font-size:.75rem;color:#94a3b8;margin-top:.3rem}
-
-/* ── Result Box ──────────────────────────────────── */
-.result-hero{background:linear-gradient(135deg,#1d4ed8 0%,#2563eb 60%,#3b82f6 100%);border-radius:14px;padding:1.5rem 1.5rem 1.25rem;text-align:center;margin-bottom:1rem;box-shadow:0 6px 24px rgba(37,99,235,.22)}
-.r-label{font-size:.68rem;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.3rem;font-weight:700}
-.r-value{font-size:2rem;font-weight:900;color:#fff;line-height:1.1;letter-spacing:-.02em}
-.r-sub{font-size:.88rem;color:rgba(255,255,255,.75);margin-top:.35rem}
-.result-divider{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:1rem}
-.result-half{background:#f0fdf4;border:1.5px solid #bbf7d0;border-radius:11px;padding:1rem;text-align:center}
-.result-half.warn{background:#fff7ed;border-color:#fed7aa}
-.rh-label{font-size:.62rem;font-weight:700;color:#166534;text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:.25rem}
-.result-half.warn .rh-label{color:#9a3412}
-.rh-value{font-size:1.3rem;font-weight:900;color:#15803d;display:block;line-height:1.1}
-.result-half.warn .rh-value{color:#c2410c}
-.rh-sub{font-size:.72rem;color:#166534;display:block;margin-top:.2rem}
-.result-half.warn .rh-sub{color:#9a3412}
-.stats-row{display:grid;grid-template-columns:1fr 1fr;gap:.55rem}
-.stat-box{background:#f8fafc;border:1px solid #f1f5f9;border-radius:10px;padding:.85rem .75rem;text-align:center}
-.stat-lbl{display:block;font-size:.62rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.25rem;font-weight:700}
-.stat-val{display:block;font-size:.95rem;font-weight:800;color:#1e293b}
-
-/* ── Compare ─────────────────────────────────────── */
-.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:.75rem 0}
-.compare-col{border-radius:12px;padding:1.1rem;border:1.5px solid #e2e8f0;background:#f8fafc}
-.compare-col.highlight{background:#f0fdf4;border-color:#86efac}
-.cmp-head{display:flex;align-items:center;gap:.5rem;margin-bottom:.75rem}
-.cmp-icon{font-size:1.2rem}
-.cmp-title{font-size:.82rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:#64748b}
-.compare-col.highlight .cmp-title{color:#166534}
-.cmp-row{display:flex;justify-content:space-between;align-items:center;font-size:.85rem;padding:.3rem 0;border-bottom:1px solid rgba(0,0,0,.05)}
-.cmp-row:last-child{border-bottom:none}
-.cmp-lbl{color:#64748b}
-.cmp-val{font-weight:700;color:#111}
-.compare-col.highlight .cmp-val{color:#15803d}
-.save-banner{background:linear-gradient(90deg,#166534,#15803d);border-radius:10px;padding:.9rem 1.1rem;display:flex;align-items:center;justify-content:space-between;margin-top:.75rem}
-.save-banner-lbl{color:rgba(255,255,255,.8);font-size:.78rem;font-weight:600}
-.save-banner-val{color:#fff;font-size:1.2rem;font-weight:900}
-
-/* ── Amortization Table ──────────────────────────── */
-.payoff-table{width:100%;border-collapse:collapse;font-size:.875rem}
-.payoff-table th{background:#f8fafc;padding:.65rem .85rem;text-align:left;font-size:.68rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;border-bottom:2px solid #e2e8f0}
-.payoff-table td{padding:.75rem .85rem;border-bottom:1px solid #f3f4f6;color:#374151;vertical-align:middle}
-.payoff-table tr:last-child td{border-bottom:none}
-.payoff-table tbody tr:hover td{background:#f8faff}
-.payoff-table .highlight-row td{background:#f0fdf4;font-weight:700;color:#166534}
-.payoff-table .highlight-row:hover td{background:#dcfce7}
-
-/* ── How it works ────────────────────────────────── */
-.steps-list{list-style:none;padding:0;margin:.5rem 0 0;counter-reset:step}
-.steps-list li{counter-increment:step;display:flex;gap:.8rem;padding:.6rem 0;border-bottom:1px solid #f3f4f6;font-size:.9rem;color:#444;align-items:flex-start}
-.steps-list li:last-child{border-bottom:none}
-.steps-list li::before{content:counter(step);display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;min-width:24px;background:var(--blue);color:#fff;border-radius:50%;font-size:.7rem;font-weight:800;margin-top:.05rem}
-.tip-box{display:flex;gap:.75rem;background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:.9rem 1rem;margin:.85rem 0}
-.tip-icon{font-size:1.1rem;flex-shrink:0;margin-top:.05rem}
-.tip-box p{margin:0;font-size:.875rem;color:#1e40af;line-height:1.6}
-
-/* ── FAQ ─────────────────────────────────────────── */
-.faq-item{border-bottom:1px solid #f3f4f6;padding:.9rem 0}
-.faq-item:last-child{border-bottom:none;padding-bottom:0}
-.faq-item h3{font-size:.9rem;color:#111;margin:0 0 .35rem;font-weight:700}
-.faq-item p{color:#555;font-size:.865rem;margin:0;line-height:1.65}
-
-/* ── Related Tools ───────────────────────────────── */
-.next-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem}
-.next-card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:1rem;border-top:3px solid var(--blue);text-decoration:none;display:block;transition:box-shadow .15s}
-.next-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.08)}
-.next-tag{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--blue);margin-bottom:.3rem;display:block}
-.next-card h3{font-size:.88rem;font-weight:700;color:#111;margin:0 0 .25rem}
-.next-card p{font-size:.78rem;color:#64748b;margin:0;line-height:1.5}
-
-/* ── Responsive ──────────────────────────────────── */
-@media(max-width:768px){
-  .calc-wrap{grid-template-columns:1fr}
-  .calc-left{position:static}
-  .hero h1{font-size:1.65rem}
-  .compare-grid{grid-template-columns:1fr}
-  .r-value{font-size:1.65rem}
-  .stats-row{grid-template-columns:1fr 1fr}
-  .next-grid{grid-template-columns:1fr}
-}
-</style>
-
-<div class="hero">
-  <nav class="breadcrumb"><a href="/">Home</a> › Biweekly Mortgage Calculator</nav>
+<div class="page-hero">
+  <nav><a href="/">Home</a> › Biweekly Mortgage Calculator</nav>
   <h1>Biweekly Mortgage Calculator</h1>
-  <p class="hero-sub">See how much you save — and how many years you cut — by paying every two weeks</p>
+  <p>See how much you save — and how many years you cut — by paying every two weeks</p>
 </div>
 
-<div class="calc-wrap">
+<div class="calc-center">
+  <div class="card">
 
-  <!-- ══ LEFT PANEL ══ -->
-  <div class="calc-left">
-
-    <!-- Loan Details -->
-    <div class="card">
-      <div class="card-header">
-        <span class="card-step">1</span>
-        <h2 class="card-title">Loan Details</h2>
-      </div>
-
-      <div class="field-group">
-        <label class="field-lbl" for="loan-amount">Loan Amount</label>
-        <div class="input-wrap">
-          <span class="input-pfx">$</span>
-          <input type="number" id="loan-amount" class="field-input has-pfx" value="300000" min="1000" step="1000" oninput="calculate()" />
-        </div>
-      </div>
-
-      <div class="field-group">
-        <label class="field-lbl" for="interest-rate">Annual Interest Rate</label>
-        <div class="input-wrap">
-          <input type="number" id="interest-rate" class="field-input has-sfx" value="7" min="0.1" max="30" step="0.1" oninput="calculate()" />
-          <span class="input-sfx">%</span>
-        </div>
-      </div>
-
-      <div class="field-group">
-        <label class="field-lbl" for="loan-term">Loan Term</label>
-        <div class="input-wrap">
-          <input type="number" id="loan-term" class="field-input has-sfx" value="30" min="1" max="50" step="1" oninput="calculate()" />
-          <span class="input-sfx">yrs</span>
-        </div>
-      </div>
-
-      <div class="field-group">
-        <label class="field-lbl" for="start-month">Loan Start Date</label>
-        <input type="month" id="start-month" class="field-input" oninput="calculate()" />
-        <p class="field-hint">Used to calculate your payoff dates</p>
+    <div class="input-group">
+      <label for="loan-amount">Loan Amount</label>
+      <div class="input-wrap">
+        <span class="input-pfx">$</span>
+        <input type="number" id="loan-amount" value="300000" min="1000" step="1000" style="padding-left:1.9rem;padding-right:.9rem" oninput="calculate()" />
       </div>
     </div>
 
-    <!-- Results -->
-    <div class="card">
-      <div class="card-header">
-        <span class="card-step">2</span>
-        <h2 class="card-title">Your Savings</h2>
-      </div>
-
-      <div class="result-hero">
-        <div class="r-label">Years Saved</div>
-        <div class="r-value" id="r-years-saved">—</div>
-        <div class="r-sub" id="r-payoff-compare">Enter your loan details above</div>
-      </div>
-
-      <div class="result-divider">
-        <div class="result-half">
-          <span class="rh-label">Interest Saved</span>
-          <span class="rh-value" id="r-interest-saved">—</span>
-          <span class="rh-sub">biweekly vs monthly</span>
-        </div>
-        <div class="result-half warn">
-          <span class="rh-label">Biweekly Payment</span>
-          <span class="rh-value" id="r-biweekly-payment">—</span>
-          <span class="rh-sub">every two weeks</span>
-        </div>
-      </div>
-
-      <div class="stats-row">
-        <div class="stat-box">
-          <span class="stat-lbl">Monthly Payment</span>
-          <span class="stat-val" id="r-monthly-payment">—</span>
-        </div>
-        <div class="stat-box">
-          <span class="stat-lbl">Months Saved</span>
-          <span class="stat-val" id="r-months-saved">—</span>
-        </div>
-        <div class="stat-box">
-          <span class="stat-lbl">Biweekly Payoff</span>
-          <span class="stat-val" id="r-biweekly-date">—</span>
-        </div>
-        <div class="stat-box">
-          <span class="stat-lbl">Monthly Payoff</span>
-          <span class="stat-val" id="r-monthly-date">—</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ══ RIGHT PANEL ══ -->
-  <div class="calc-right">
-
-    <!-- Monthly vs Biweekly Comparison -->
-    <div class="content-card">
-      <h2>Monthly vs Biweekly — Full Comparison</h2>
-      <div class="compare-grid">
-        <div class="compare-col">
-          <div class="cmp-head">
-            <span class="cmp-icon">📅</span>
-            <span class="cmp-title">Monthly Payments</span>
-          </div>
-          <div class="cmp-row"><span class="cmp-lbl">Payment</span><span class="cmp-val" id="cmp-monthly-pmt">—</span></div>
-          <div class="cmp-row"><span class="cmp-lbl">Payments/Year</span><span class="cmp-val">12</span></div>
-          <div class="cmp-row"><span class="cmp-lbl">Paid/Year</span><span class="cmp-val" id="cmp-monthly-yr">—</span></div>
-          <div class="cmp-row"><span class="cmp-lbl">Total Interest</span><span class="cmp-val" id="cmp-monthly-int">—</span></div>
-          <div class="cmp-row"><span class="cmp-lbl">Total Paid</span><span class="cmp-val" id="cmp-monthly-total">—</span></div>
-          <div class="cmp-row"><span class="cmp-lbl">Payoff Date</span><span class="cmp-val" id="cmp-monthly-date">—</span></div>
-          <div class="cmp-row"><span class="cmp-lbl">Loan Term</span><span class="cmp-val" id="cmp-monthly-term">—</span></div>
-        </div>
-        <div class="compare-col highlight">
-          <div class="cmp-head">
-            <span class="cmp-icon">🏠</span>
-            <span class="cmp-title">Biweekly Payments</span>
-          </div>
-          <div class="cmp-row"><span class="cmp-lbl">Payment</span><span class="cmp-val" id="cmp-bw-pmt">—</span></div>
-          <div class="cmp-row"><span class="cmp-lbl">Payments/Year</span><span class="cmp-val">26</span></div>
-          <div class="cmp-row"><span class="cmp-lbl">Paid/Year</span><span class="cmp-val" id="cmp-bw-yr">—</span></div>
-          <div class="cmp-row"><span class="cmp-lbl">Total Interest</span><span class="cmp-val" id="cmp-bw-int">—</span></div>
-          <div class="cmp-row"><span class="cmp-lbl">Total Paid</span><span class="cmp-val" id="cmp-bw-total">—</span></div>
-          <div class="cmp-row"><span class="cmp-lbl">Payoff Date</span><span class="cmp-val" id="cmp-bw-date">—</span></div>
-          <div class="cmp-row"><span class="cmp-lbl">Loan Term</span><span class="cmp-val" id="cmp-bw-term">—</span></div>
-        </div>
-      </div>
-      <div class="save-banner">
-        <span class="save-banner-lbl">Total Interest Savings (Biweekly vs Monthly)</span>
-        <span class="save-banner-val" id="save-banner-val">—</span>
+    <div class="input-group">
+      <label for="interest-rate">Annual Interest Rate</label>
+      <div class="input-wrap">
+        <input type="number" id="interest-rate" value="7" min="0.1" max="30" step="0.1" oninput="calculate()" />
+        <span class="input-sfx">%</span>
       </div>
     </div>
 
-    <!-- Year-by-Year Balance -->
-    <div class="content-card">
-      <h2>Year-by-Year Balance Comparison</h2>
-      <p style="font-size:.875rem;color:#64748b;margin:0 0 1rem">See how biweekly payments reduce your balance faster every year.</p>
-      <div style="overflow-x:auto">
-        <table class="payoff-table">
-          <thead>
-            <tr>
-              <th>Year</th>
-              <th>Monthly Balance</th>
-              <th>Biweekly Balance</th>
-              <th>Difference</th>
-            </tr>
-          </thead>
-          <tbody id="yearly-table">
-            <tr><td colspan="4" style="text-align:center;color:#94a3b8;padding:1.5rem">Enter loan details to see year-by-year breakdown</td></tr>
-          </tbody>
-        </table>
+    <div class="input-group">
+      <label for="loan-term">Loan Term</label>
+      <div class="input-wrap">
+        <input type="number" id="loan-term" value="30" min="1" max="50" step="1" style="padding-right:.9rem" oninput="calculate()" />
+        <span class="input-sfx">yrs</span>
       </div>
     </div>
 
-    <!-- How Biweekly Works -->
-    <div class="content-card">
-      <h2>How Biweekly Payments Work</h2>
-      <ul class="steps-list">
-        <li>Your current monthly payment is divided by 2 — that becomes your biweekly amount.</li>
-        <li>You make this half-payment every two weeks. Since there are 52 weeks in a year, that is 26 payments.</li>
-        <li>26 half-payments = 13 full monthly payments per year. You effectively make 1 extra full payment every year.</li>
-        <li>That extra payment goes straight to principal — reducing your balance faster and cutting interest.</li>
-        <li>As the balance drops faster, less interest accrues each period, creating a compounding speed-up effect.</li>
-      </ul>
-      <div class="tip-box">
-        <span class="tip-icon">💡</span>
-        <p><strong>DIY Biweekly:</strong> You don't need a special lender program. Just add 1/12 of your monthly payment to each monthly payment as extra principal. This equals exactly one extra payment per year — the same result as biweekly, with no fees.</p>
+    <div class="input-group">
+      <label for="start-month">Loan Start Date</label>
+      <div class="input-wrap">
+        <input type="month" id="start-month" style="padding-right:.9rem" oninput="calculate()" />
       </div>
     </div>
 
-    <!-- Is Biweekly Right For You -->
-    <div class="content-card">
-      <h2>Is Biweekly Right for You?</h2>
-      <p>Biweekly payments work best when:</p>
-      <ul>
-        <li>You get paid biweekly (every 2 weeks) — payments match your paycheck schedule</li>
-        <li>You have a long loan term remaining (30-year loan benefits most)</li>
-        <li>Your lender applies payments immediately to principal (not at month-end)</li>
-        <li>Your lender offers free biweekly enrollment (avoid fee-based programs)</li>
-      </ul>
-      <p>Skip biweekly if you plan to sell or refinance within 3 years — you won't recoup the interest savings.</p>
-      <h3>Free Alternative to Biweekly Programs</h3>
-      <p>Many lenders charge $200–$400 to enroll in a biweekly program. Do this for free instead: divide your monthly payment by 12 and add that amount to every monthly payment as "extra principal." For a $1,500 monthly payment, that's just $125 extra each month — same savings, zero fees.</p>
+    <div class="result-hero">
+      <div class="r-label">Years Saved</div>
+      <div class="r-value" id="r-years-saved">—</div>
+      <div class="r-sub" id="r-payoff-compare">Enter your loan details above</div>
     </div>
 
-    <!-- FAQ -->
-    <div class="content-card">
-      <h2>Frequently Asked Questions</h2>
-      <div class="faq-item">
-        <h3>What is a biweekly mortgage payment?</h3>
-        <p>A biweekly payment means paying half your monthly mortgage every two weeks. With 26 biweekly periods in a year, you make 13 full payments instead of 12 — one extra payment that goes to principal each year.</p>
+    <div class="result-divider">
+      <div class="result-half">
+        <span class="rh-label">Interest Saved</span>
+        <span class="rh-value" id="r-interest-saved">—</span>
+        <span class="rh-sub">biweekly vs monthly</span>
       </div>
-      <div class="faq-item">
-        <h3>How much can biweekly payments save me?</h3>
-        <p>On a $300,000 loan at 7% for 30 years, biweekly payments typically save over $60,000 in interest and cut about 5 years off the loan. Use the calculator above to see your exact savings.</p>
-      </div>
-      <div class="faq-item">
-        <h3>What is the difference between biweekly and semi-monthly?</h3>
-        <p>Semi-monthly = twice a month = 24 payments/year (same as monthly, zero savings). Biweekly = every 2 weeks = 26 payments/year. That extra 2 payments per year is what creates the savings. Make sure your lender uses true biweekly, not semi-monthly.</p>
-      </div>
-      <div class="faq-item">
-        <h3>Are there fees for biweekly programs?</h3>
-        <p>Many lenders charge $200–$400 setup plus $6–$10 per payment. These fees can erase years of savings. Instead, make one extra principal payment per year yourself — same result, no fees.</p>
-      </div>
-      <div class="faq-item">
-        <h3>Can I switch to biweekly at any time?</h3>
-        <p>Yes. You can start biweekly-equivalent payments any time during your loan. The earlier you start, the more you save — but even switching mid-loan saves meaningful money.</p>
-      </div>
-      <div class="faq-item">
-        <h3>Does biweekly work on a 15-year mortgage?</h3>
-        <p>Yes, but the savings are smaller because the loan is already short. On a 15-year mortgage, biweekly payments typically save 1–2 years. The biggest gains come from 30-year mortgages.</p>
+      <div class="result-half warn">
+        <span class="rh-label">Biweekly Payment</span>
+        <span class="rh-value" id="r-biweekly-payment">—</span>
+        <span class="rh-sub">every two weeks</span>
       </div>
     </div>
 
-    <!-- Related Tools -->
-    <div class="content-card">
-      <h2>Related Finance Calculators</h2>
-      <div class="next-grid">
-        <a href="/mortgage-payoff-calculator" class="next-card">
-          <span class="next-tag">Finance</span>
-          <h3>Mortgage Payoff Calculator</h3>
-          <p>See how extra payments shorten your loan term.</p>
-        </a>
-        <a href="/debt-snowball-calculator" class="next-card">
-          <span class="next-tag">Finance</span>
-          <h3>Debt Snowball Calculator</h3>
-          <p>Pay off all your debts — see your exact debt-free date.</p>
-        </a>
-        <a href="/cd-calculator" class="next-card">
-          <span class="next-tag">Finance</span>
-          <h3>CD Calculator</h3>
-          <p>Calculate Certificate of Deposit interest earnings.</p>
-        </a>
-        <a href="/reverse-sales-tax-calculator" class="next-card">
-          <span class="next-tag">Tax</span>
-          <h3>Reverse Sales Tax</h3>
-          <p>Find the original pre-tax price from any total.</p>
-        </a>
-        <a href="/percent-off-calculator" class="next-card">
-          <span class="next-tag">Shopping</span>
-          <h3>Percent Off Calculator</h3>
-          <p>Calculate the final price after any discount.</p>
-        </a>
-        <a href="/days-from-today" class="next-card">
-          <span class="next-tag">Date</span>
-          <h3>Days From Today</h3>
-          <p>Find the exact date any number of days from today.</p>
-        </a>
-      </div>
+    <div class="stats-row show">
+      <div class="stat-box"><span class="stat-lbl">Monthly Payment</span><span class="stat-val" id="r-monthly-payment">—</span></div>
+      <div class="stat-box"><span class="stat-lbl">Months Saved</span><span class="stat-val" id="r-months-saved">—</span></div>
+      <div class="stat-box"><span class="stat-lbl">Biweekly Payoff</span><span class="stat-val" id="r-biweekly-date">—</span></div>
+      <div class="stat-box"><span class="stat-lbl">Monthly Payoff</span><span class="stat-val" id="r-monthly-date">—</span></div>
     </div>
 
   </div>
+</div>
+
+<div class="content-wrap">
+
+  <div class="card">
+    <h2>Monthly vs Biweekly — Full Comparison</h2>
+    <div class="compare-grid">
+      <div class="compare-col">
+        <div class="cmp-head">
+          <span class="cmp-icon">📅</span>
+          <span class="cmp-title">Monthly Payments</span>
+        </div>
+        <div class="cmp-row"><span class="cmp-lbl">Payment</span><span class="cmp-val" id="cmp-monthly-pmt">—</span></div>
+        <div class="cmp-row"><span class="cmp-lbl">Payments/Year</span><span class="cmp-val">12</span></div>
+        <div class="cmp-row"><span class="cmp-lbl">Paid/Year</span><span class="cmp-val" id="cmp-monthly-yr">—</span></div>
+        <div class="cmp-row"><span class="cmp-lbl">Total Interest</span><span class="cmp-val" id="cmp-monthly-int">—</span></div>
+        <div class="cmp-row"><span class="cmp-lbl">Total Paid</span><span class="cmp-val" id="cmp-monthly-total">—</span></div>
+        <div class="cmp-row"><span class="cmp-lbl">Payoff Date</span><span class="cmp-val" id="cmp-monthly-date">—</span></div>
+        <div class="cmp-row"><span class="cmp-lbl">Loan Term</span><span class="cmp-val" id="cmp-monthly-term">—</span></div>
+      </div>
+      <div class="compare-col highlight">
+        <div class="cmp-head">
+          <span class="cmp-icon">🏠</span>
+          <span class="cmp-title">Biweekly Payments</span>
+        </div>
+        <div class="cmp-row"><span class="cmp-lbl">Payment</span><span class="cmp-val" id="cmp-bw-pmt">—</span></div>
+        <div class="cmp-row"><span class="cmp-lbl">Payments/Year</span><span class="cmp-val">26</span></div>
+        <div class="cmp-row"><span class="cmp-lbl">Paid/Year</span><span class="cmp-val" id="cmp-bw-yr">—</span></div>
+        <div class="cmp-row"><span class="cmp-lbl">Total Interest</span><span class="cmp-val" id="cmp-bw-int">—</span></div>
+        <div class="cmp-row"><span class="cmp-lbl">Total Paid</span><span class="cmp-val" id="cmp-bw-total">—</span></div>
+        <div class="cmp-row"><span class="cmp-lbl">Payoff Date</span><span class="cmp-val" id="cmp-bw-date">—</span></div>
+        <div class="cmp-row"><span class="cmp-lbl">Loan Term</span><span class="cmp-val" id="cmp-bw-term">—</span></div>
+      </div>
+    </div>
+    <div class="save-banner">
+      <span class="save-banner-lbl">Total Interest Savings (Biweekly vs Monthly)</span>
+      <span class="save-banner-val" id="save-banner-val">—</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Year-by-Year Balance Comparison</h2>
+    <p style="font-size:.875rem;color:#64748b;margin:0 0 1rem">See how biweekly payments reduce your balance faster every year.</p>
+    <div style="overflow-x:auto">
+      <table class="payoff-table">
+        <thead>
+          <tr>
+            <th>Year</th>
+            <th>Monthly Balance</th>
+            <th>Biweekly Balance</th>
+            <th>Difference</th>
+          </tr>
+        </thead>
+        <tbody id="yearly-table">
+          <tr><td colspan="4" style="text-align:center;color:#94a3b8;padding:1.5rem">Enter loan details to see year-by-year breakdown</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>How Biweekly Payments Work</h2>
+    <ol class="steps-list">
+      <li>Your current monthly payment is divided by 2 — that becomes your biweekly amount.</li>
+      <li>You make this half-payment every two weeks. Since there are 52 weeks in a year, that is 26 payments.</li>
+      <li>26 half-payments = 13 full monthly payments per year. You effectively make 1 extra full payment every year.</li>
+      <li>That extra payment goes straight to principal — reducing your balance faster and cutting interest.</li>
+      <li>As the balance drops faster, less interest accrues each period, creating a compounding speed-up effect.</li>
+    </ol>
+    <div class="tip-box">
+      <span class="tip-icon">💡</span>
+      <p><strong>DIY Biweekly:</strong> You don't need a special lender program. Just add 1/12 of your monthly payment to each monthly payment as extra principal. This equals exactly one extra payment per year — the same result as biweekly, with no fees.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Is Biweekly Right for You?</h2>
+    <p>Biweekly payments work best when:</p>
+    <ul>
+      <li>You get paid biweekly (every 2 weeks) — payments match your paycheck schedule</li>
+      <li>You have a long loan term remaining (30-year loan benefits most)</li>
+      <li>Your lender applies payments immediately to principal (not at month-end)</li>
+      <li>Your lender offers free biweekly enrollment (avoid fee-based programs)</li>
+    </ul>
+    <p>Skip biweekly if you plan to sell or refinance within 3 years — you won't recoup the interest savings.</p>
+    <h3>Free Alternative to Biweekly Programs</h3>
+    <p>Many lenders charge $200–$400 to enroll in a biweekly program. Do this for free: divide your monthly payment by 12 and add that to every monthly payment as "extra principal." For a $1,500 monthly payment, that's just $125 extra each month — same savings, zero fees.</p>
+  </div>
+
+  <div class="card">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>What is a biweekly mortgage payment?</h3>
+      <p>A biweekly payment means paying half your monthly mortgage every two weeks. With 26 biweekly periods in a year, you make 13 full payments instead of 12 — one extra payment that goes to principal each year.</p>
+    </div>
+    <div class="faq-item">
+      <h3>How much can biweekly payments save me?</h3>
+      <p>On a $300,000 loan at 7% for 30 years, biweekly payments typically save over $60,000 in interest and cut about 5 years off the loan. Use the calculator above to see your exact savings.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What is the difference between biweekly and semi-monthly?</h3>
+      <p>Semi-monthly = twice a month = 24 payments/year (same as monthly, zero savings). Biweekly = every 2 weeks = 26 payments/year. That extra 2 payments per year is what creates the savings.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Are there fees for biweekly programs?</h3>
+      <p>Many lenders charge $200–$400 setup plus $6–$10 per payment. These fees can erase years of savings. Instead, make one extra principal payment per year yourself — same result, no fees.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Can I switch to biweekly at any time?</h3>
+      <p>Yes. You can start biweekly-equivalent payments any time during your loan. The earlier you start, the more you save — but even switching mid-loan saves meaningful money.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Does biweekly work on a 15-year mortgage?</h3>
+      <p>Yes, but the savings are smaller because the loan is already short. On a 15-year mortgage, biweekly payments typically save 1–2 years. The biggest gains come from 30-year mortgages.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Related Finance Calculators</h2>
+    <div class="next-grid">
+      <a href="/mortgage-payoff-calculator" class="next-card">
+        <span class="next-tag">Finance</span>
+        <h3>Mortgage Payoff Calculator</h3>
+        <p>See how extra payments shorten your loan term.</p>
+      </a>
+      <a href="/debt-snowball-calculator" class="next-card">
+        <span class="next-tag">Finance</span>
+        <h3>Debt Snowball Calculator</h3>
+        <p>Pay off all your debts — see your exact debt-free date.</p>
+      </a>
+      <a href="/cd-calculator" class="next-card">
+        <span class="next-tag">Finance</span>
+        <h3>CD Calculator</h3>
+        <p>Calculate Certificate of Deposit interest earnings.</p>
+      </a>
+      <a href="/reverse-sales-tax-calculator" class="next-card">
+        <span class="next-tag">Tax</span>
+        <h3>Reverse Sales Tax</h3>
+        <p>Find the original pre-tax price from any total.</p>
+      </a>
+      <a href="/percent-off-calculator" class="next-card">
+        <span class="next-tag">Shopping</span>
+        <h3>Percent Off Calculator</h3>
+        <p>Calculate the final price after any discount.</p>
+      </a>
+      <a href="/days-from-today" class="next-card">
+        <span class="next-tag">Date</span>
+        <h3>Days From Today</h3>
+        <p>Find the exact date any number of days from today.</p>
+      </a>
+    </div>
+  </div>
+
 </div>
 
 <script is:inline>
 (function () {
-  // Set default start month to current month
   var now = new Date();
   var mm = String(now.getMonth() + 1).padStart(2, '0');
   var yyyy = now.getFullYear();
   document.getElementById('start-month').value = yyyy + '-' + mm;
 
-  function fmt(n) {
-    return '$' + Math.round(n).toLocaleString('en-US');
-  }
-  function fmtDec(n) {
-    return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  }
+  function fmt(n) { return '$' + Math.round(n).toLocaleString('en-US'); }
+  function fmtDec(n) { return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
 
   function calcMonthlyPayment(principal, annualRate, termMonths) {
     var r = annualRate / 100 / 12;
@@ -482,7 +324,6 @@ const schema = JSON.stringify([
     var totalInterest = 0;
     var months = 0;
     var yearlyBalances = {};
-
     while (balance > 0.01 && months < termMonths + 12) {
       var interest = balance * r;
       totalInterest += interest;
@@ -500,14 +341,12 @@ const schema = JSON.stringify([
 
   function simulateBiweekly(principal, annualRate) {
     var monthlyPmt = calcMonthlyPayment(principal, annualRate, 30 * 12);
-    // In biweekly: use monthly for standard term calc
     var bwPmt = monthlyPmt / 2;
-    var r = annualRate / 100 / 26; // rate per biweekly period
+    var r = annualRate / 100 / 26;
     var balance = principal;
     var totalInterest = 0;
     var periods = 0;
     var yearlyBalances = {};
-
     while (balance > 0.01 && periods < 26 * 100) {
       var interest = balance * r;
       totalInterest += interest;
@@ -515,7 +354,6 @@ const schema = JSON.stringify([
       if (principalPaid > balance) principalPaid = balance;
       balance -= principalPaid;
       periods++;
-      // Every 26 periods = 1 year
       var yr = Math.floor((periods - 1) / 26) + 1;
       if (periods % 26 === 0 || balance <= 0.01) {
         yearlyBalances[yr] = Math.max(0, balance);
@@ -529,7 +367,6 @@ const schema = JSON.stringify([
     var rate = parseFloat(document.getElementById('interest-rate').value) || 0;
     var term = parseInt(document.getElementById('loan-term').value) || 30;
     var startMonth = document.getElementById('start-month').value || (new Date().getFullYear() + '-' + String(new Date().getMonth() + 1).padStart(2, '0'));
-
     if (principal <= 0 || rate <= 0 || term <= 0) return;
 
     var termMonths = term * 12;
@@ -548,14 +385,12 @@ const schema = JSON.stringify([
 
     var bwPaidPerYear = bw.bwPayment * 26;
     var monthlyPaidPerYear = monthly.monthlyPayment * 12;
-
     var bwTotalPaid = bw.totalInterest + principal;
     var monthlyTotalPaid = monthly.totalInterest + principal;
 
     var bwDate = addBiweeklyPeriods(startMonth, bw.periods);
     var monthlyDate = addMonths(startMonth, monthly.months);
 
-    // Hero
     var ySaved = yearsSaved >= 1
       ? (Math.floor(yearsSaved) + ' yr' + (Math.floor(yearsSaved) !== 1 ? 's' : '') + (monthsSaved % 12 > 0 ? ' ' + (monthsSaved % 12) + ' mo' : ''))
       : (monthsSaved + ' months');
@@ -568,7 +403,6 @@ const schema = JSON.stringify([
     document.getElementById('r-biweekly-date').textContent = bwDate;
     document.getElementById('r-monthly-date').textContent = monthlyDate;
 
-    // Compare columns
     document.getElementById('cmp-monthly-pmt').textContent = fmtDec(monthly.monthlyPayment);
     document.getElementById('cmp-monthly-yr').textContent = fmt(monthlyPaidPerYear);
     document.getElementById('cmp-monthly-int').textContent = fmt(monthly.totalInterest);
@@ -585,14 +419,12 @@ const schema = JSON.stringify([
 
     document.getElementById('save-banner-val').textContent = fmt(interestSaved) + ' saved';
 
-    // Yearly table
     var tbody = document.getElementById('yearly-table');
     var maxYr = Math.max(
       Math.max.apply(null, Object.keys(monthly.yearlyBalances).map(Number)),
       Math.max.apply(null, Object.keys(bw.yearlyBalances).map(Number))
     );
     var rows = '';
-    var bwPayoffYr = Math.ceil(bw.periods / 26);
     for (var y = 1; y <= maxYr; y++) {
       var mBal = monthly.yearlyBalances[y] !== undefined ? monthly.yearlyBalances[y] : 0;
       var bBal = bw.yearlyBalances[y] !== undefined ? bw.yearlyBalances[y] : 0;
