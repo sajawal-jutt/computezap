@@ -291,10 +291,10 @@ Use this before marking a tool as done:
 | margin-calculator.astro | ✅ Done | 2026-06-26 |
 | markup-calculator.astro | ✅ Done | 2026-06-26 |
 | reverse-sales-tax-calculator.astro | ✅ Done | 2026-06-26 |
-| mortgage-payoff-calculator.astro | ⏳ Pending | — |
-| biweekly-mortgage-calculator.astro | ⏳ Pending | — |
-| cd-calculator.astro | ⏳ Pending | — |
-| debt-snowball-calculator.astro | ⏳ Pending | — |
+| mortgage-payoff-calculator.astro | ✅ Done | 2026-06-26 |
+| biweekly-mortgage-calculator.astro | ✅ Done | 2026-06-26 |
+| cd-calculator.astro | ✅ Done | 2026-06-26 |
+| debt-snowball-calculator.astro | ✅ Done | 2026-06-26 |
 | pythagorean-theorem-calculator.astro | ⏳ Pending | — |
 | decimal-to-fraction.astro | ⏳ Pending | — |
 | square-footage-calculator.astro | ⏳ Pending | — |
