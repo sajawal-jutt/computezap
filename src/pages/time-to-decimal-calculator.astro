@@ -1,4 +1,4 @@
-﻿---
+---
 import Layout from '../layouts/Layout.astro';
 
 const schema = JSON.stringify([
@@ -24,51 +24,12 @@ const schema = JSON.stringify([
     "@context": "https://schema.org",
     "@type": "FAQPage",
     "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "How do I convert hours and minutes to decimal?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Divide the minutes by 60 and add to the hours. Formula: Decimal Hours = Hours + (Minutes ÷ 60). Example: 7 hours 30 minutes = 7 + (30 ÷ 60) = 7.5 decimal hours." }
-      },
-      {
-        "@type": "Question",
-        "name": "What is 7 hours 45 minutes in decimal?",
-        "acceptedAnswer": { "@type": "Answer", "text": "7 hours 45 minutes in decimal is 7.75 hours. Calculation: 7 + (45 ÷ 60) = 7 + 0.75 = 7.75." }
-      },
-      {
-        "@type": "Question",
-        "name": "What is 8 hours 30 minutes in decimal?",
-        "acceptedAnswer": { "@type": "Answer", "text": "8 hours 30 minutes in decimal is 8.5 hours. Calculation: 8 + (30 ÷ 60) = 8 + 0.5 = 8.5." }
-      },
-      {
-        "@type": "Question",
-        "name": "Why do payroll systems use decimal time?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Payroll systems use decimal time because it makes math simpler — you can multiply decimal hours directly by the hourly rate. For example, 7.5 hours at $20/hr = $150. It's also required by most timesheet and invoicing software." }
-      },
-      {
-        "@type": "Question",
-        "name": "What is 7:30 in decimal hours?",
-        "acceptedAnswer": { "@type": "Answer", "text": "7:30 (7 hours 30 minutes) in decimal is 7.5 hours. Calculation: 7 + (30 ÷ 60) = 7.5. This is the most common work shift length for part-time employees." }
-      },
-      {
-        "@type": "Question",
-        "name": "What is 8:45 in decimal hours?",
-        "acceptedAnswer": { "@type": "Answer", "text": "8:45 (8 hours 45 minutes) in decimal is 8.75 hours. Calculation: 8 + (45 ÷ 60) = 8 + 0.75 = 8.75." }
-      },
-      {
-        "@type": "Question",
-        "name": "What is 6:15 in decimal hours?",
-        "acceptedAnswer": { "@type": "Answer", "text": "6:15 (6 hours 15 minutes) in decimal is 6.25 hours. Calculation: 6 + (15 ÷ 60) = 6 + 0.25 = 6.25." }
-      },
-      {
-        "@type": "Question",
-        "name": "What is 30 minutes in decimal hours?",
-        "acceptedAnswer": { "@type": "Answer", "text": "30 minutes in decimal hours is 0.5 hours. Calculation: 30 ÷ 60 = 0.5. Other common values: 15 min = 0.25, 45 min = 0.75, 20 min = 0.333." }
-      },
-      {
-        "@type": "Question",
-        "name": "What is 15 minutes in decimal hours?",
-        "acceptedAnswer": { "@type": "Answer", "text": "15 minutes in decimal hours is 0.25 hours (one quarter hour). Calculation: 15 ÷ 60 = 0.25. So 8 hours 15 minutes = 8.25 decimal hours." }
-      }
+      { "@type": "Question", "name": "How do I convert hours and minutes to decimal?", "acceptedAnswer": { "@type": "Answer", "text": "Divide the minutes by 60 and add to the hours. Formula: Decimal Hours = Hours + (Minutes ÷ 60). Example: 7 hours 30 minutes = 7 + (30 ÷ 60) = 7.5 decimal hours." } },
+      { "@type": "Question", "name": "What is 7 hours 45 minutes in decimal?", "acceptedAnswer": { "@type": "Answer", "text": "7 hours 45 minutes in decimal is 7.75 hours. Calculation: 7 + (45 ÷ 60) = 7 + 0.75 = 7.75." } },
+      { "@type": "Question", "name": "What is 8 hours 30 minutes in decimal?", "acceptedAnswer": { "@type": "Answer", "text": "8 hours 30 minutes in decimal is 8.5 hours. Calculation: 8 + (30 ÷ 60) = 8 + 0.5 = 8.5." } },
+      { "@type": "Question", "name": "Why do payroll systems use decimal time?", "acceptedAnswer": { "@type": "Answer", "text": "Payroll systems use decimal time because it makes math simpler — you can multiply decimal hours directly by the hourly rate. For example, 7.5 hours at $20/hr = $150." } },
+      { "@type": "Question", "name": "What is 7:30 in decimal hours?", "acceptedAnswer": { "@type": "Answer", "text": "7:30 (7 hours 30 minutes) in decimal is 7.5 hours. Calculation: 7 + (30 ÷ 60) = 7.5." } },
+      { "@type": "Question", "name": "What is 30 minutes in decimal hours?", "acceptedAnswer": { "@type": "Answer", "text": "30 minutes in decimal hours is 0.5 hours. Calculation: 30 ÷ 60 = 0.5. Other common values: 15 min = 0.25, 45 min = 0.75, 20 min = 0.333." } }
     ]
   }
 ]);
@@ -80,321 +41,211 @@ const schema = JSON.stringify([
   schema={schema}
 >
 <style is:global>
-.hero { text-align:center; padding:2rem 1rem 1.25rem; }
-.hero h1 { font-size:2rem; color:#111; margin:.5rem 0 .35rem; font-weight:800; }
-.hero-sub { color:#555; margin:0; font-size:1rem; }
-.breadcrumb { font-size:.85rem; color:#888; margin-bottom:.75rem; }
-.breadcrumb a { color:var(--blue); text-decoration:none; }
-
-.calc-wrap { display:grid; grid-template-columns:360px 1fr; gap:1.5rem; max-width:1100px; margin:0 auto; padding:0 1rem 3rem; align-items:start; }
-.calc-left { position:sticky; top:1rem; }
-.card { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:1.5rem; margin-bottom:1rem; }
-.card:last-child { margin-bottom:0; }
-
-.clock-display { background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:10px; padding:.75rem; text-align:center; font-size:2.2rem; font-weight:800; font-family:monospace; color:var(--blue); margin-bottom:1.25rem; letter-spacing:4px; }
-
-.result-box { background:var(--blue); border-radius:14px; padding:1.75rem 1.5rem; text-align:center; margin-bottom:1.25rem; box-shadow:0 4px 20px rgba(37,99,235,.18); }
-.res-lbl { font-size:.72rem; color:rgba(255,255,255,.7); text-transform:uppercase; letter-spacing:.09em; margin-bottom:.5rem; }
-.res-val { font-size:2.1rem; font-weight:800; color:#fff; line-height:1.2; }
-.res-unit { font-size:1rem; font-weight:400; color:rgba(255,255,255,.8); }
-.res-sub { font-size:.9rem; color:rgba(255,255,255,.75); margin-top:.3rem; }
-
-.stats-grid { display:grid; grid-template-columns:1fr 1fr; gap:.6rem; margin-bottom:1rem; }
-.stat-item { background:#f8fafc; border:1px solid #f1f5f9; border-radius:10px; padding:.9rem .75rem; text-align:center; }
-.stat-lbl { display:block; font-size:.68rem; color:#94a3b8; text-transform:uppercase; letter-spacing:.06em; margin-bottom:.3rem; font-weight:600; }
-.stat-val { display:block; font-size:1rem; font-weight:800; color:#1e293b; }
-.stat-val.green { color:#16a34a; }
-
-.payroll-box { background:#f0fdf4; border:1px solid #bbf7d0; border-radius:10px; padding:1rem; }
-.pay-row { display:flex; justify-content:space-between; align-items:center; padding:.4rem 0; border-bottom:1px solid #dcfce7; font-size:.875rem; }
-.pay-row:last-child { border-bottom:none; font-weight:800; color:#14532d; }
-.pay-lbl { color:#166534; }
-.pay-val { font-weight:700; color:#166534; }
-
-.fld-lbl { display:block; font-size:.8rem; font-weight:700; color:#374151; margin-bottom:.4rem; text-transform:uppercase; letter-spacing:.04em; }
-.fld-wrap { position:relative; margin-bottom:1rem; }
-.fld-pfx { position:absolute; left:.9rem; top:50%; transform:translateY(-50%); color:#94a3b8; font-weight:600; pointer-events:none; }
-.txt-input { width:100%; font-size:1rem; padding:.65rem 1rem; border:1.5px solid #e2e8f0; border-radius:8px; color:#111; box-sizing:border-box; }
-.txt-input:focus { outline:none; border-color:var(--blue); box-shadow:0 0 0 3px rgba(37,99,235,.1); }
-.txt-pfx { padding-left:1.75rem; }
-
-.min-lbl { font-size:.7rem; font-weight:700; color:#94a3b8; text-transform:uppercase; letter-spacing:.05em; margin-bottom:.5rem; display:block; }
-.min-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:.35rem; margin-bottom:1rem; }
-.min-btn { padding:.4rem .2rem; border:1.5px solid #dbeafe; border-radius:8px; background:#fff; font-size:.82rem; font-weight:700; cursor:pointer; color:var(--blue); text-align:center; transition:all .15s; }
-.min-btn:hover, .min-btn.active { background:var(--blue); color:#fff; border-color:var(--blue); }
-
-.rate-row { display:flex; align-items:center; gap:.5rem; }
-.rate-row .fld-lbl { margin-bottom:0; white-space:nowrap; min-width:fit-content; }
-.rate-row .fld-wrap { flex:1; margin-bottom:0; }
-
-.card h2 { font-size:1.1rem; font-weight:700; color:#111; margin:0 0 .8rem; }
-.card p { color:#444; line-height:1.75; font-size:.95rem; margin:0 0 .7rem; }
-.card p:last-child { margin-bottom:0; }
-.card ul { color:#444; line-height:1.85; font-size:.95rem; padding-left:1.25rem; margin:0 0 .7rem; }
-.formula-box { background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:.75rem 1rem; font-family:monospace; font-size:.88rem; color:#1e293b; margin:.6rem 0; }
-.tip-box { display:flex; gap:.75rem; background:#eff6ff; border:1px solid #bfdbfe; border-radius:10px; padding:.9rem 1rem; margin:.75rem 0; }
-.tip-icon { font-size:1.1rem; flex-shrink:0; margin-top:.1rem; }
-.tip-box p { margin:0; font-size:.875rem; color:#1e40af; }
-
-.ref-tbl { width:100%; border-collapse:collapse; font-size:.85rem; }
-.ref-tbl th { background:#f8fafc; padding:.4rem .6rem; text-align:left; font-size:.72rem; color:#64748b; font-weight:700; text-transform:uppercase; letter-spacing:.04em; border-bottom:1px solid #e5e7eb; }
-.ref-tbl td { padding:.4rem .6rem; border-bottom:1px solid #f3f4f6; color:#444; }
-.ref-tbl tr:last-child td { border-bottom:none; }
-.ref-tbl .hl { color:var(--blue); font-weight:700; }
-
-.faq-item { border-bottom:1px solid #f3f4f6; padding:.85rem 0; }
-.faq-item:last-child { border-bottom:none; padding-bottom:0; }
-.faq-item h3 { font-size:.92rem; color:#111; margin:0 0 .35rem; font-weight:600; }
-.faq-item p { color:#555; font-size:.875rem; margin:0; line-height:1.65; }
-
-.next-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:.75rem; }
-.next-card { background:#fff; border:1px solid #e5e7eb; border-radius:10px; padding:1rem; border-top:3px solid var(--blue); text-decoration:none; display:block; transition:box-shadow .15s; }
-.next-card:hover { box-shadow:0 4px 12px rgba(0,0,0,.08); }
-.next-tag { font-size:.68rem; font-weight:700; text-transform:uppercase; letter-spacing:.07em; color:var(--blue); margin-bottom:.3rem; display:block; }
-.next-card h3 { font-size:.88rem; font-weight:700; color:#111; margin:0 0 .25rem; }
-.next-card p { font-size:.78rem; color:#64748b; margin:0; line-height:1.5; }
-
-@media (max-width:768px) {
-  .calc-wrap { grid-template-columns:1fr; }
-  .calc-left { position:static; }
-  .next-grid { grid-template-columns:1fr; }
-  .hero h1 { font-size:1.65rem; }
-  .res-val { font-size:1.6rem; }
-}
+.clock-display{background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:10px;padding:.75rem;text-align:center;font-size:2rem;font-weight:800;font-family:monospace;color:var(--blue);margin-bottom:1rem;letter-spacing:4px}
+.min-lbl{font-size:.7rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.5rem;display:block}
+.min-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:.35rem;margin-bottom:1rem}
+.min-btn{padding:.4rem .2rem;border:1.5px solid #dbeafe;border-radius:8px;background:#fff;font-size:.82rem;font-weight:700;cursor:pointer;color:var(--blue);text-align:center;transition:all .15s;font-family:inherit}
+.min-btn:hover,.min-btn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.payroll-box{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:1rem;margin-top:.75rem}
+.pay-row{display:flex;justify-content:space-between;align-items:center;padding:.4rem 0;border-bottom:1px solid #dcfce7;font-size:.875rem}
+.pay-row:last-child{border-bottom:none;font-weight:800;color:#14532d}
+.pay-lbl{color:#166534}
+.pay-val{font-weight:700;color:#166534}
 </style>
 
-<div class="hero">
-  <nav class="breadcrumb"><a href="/">Home</a> › Time to Decimal Calculator</nav>
+<div class="page-hero">
+  <nav><a href="/">Home</a> › Time to Decimal Calculator</nav>
   <h1>Time to Decimal Calculator</h1>
-  <p class="hero-sub">Convert hours & minutes to decimal — instant payroll calculation</p>
+  <p>Convert hours & minutes to decimal — instant payroll calculation</p>
 </div>
 
-<div class="calc-wrap">
-  <!-- LEFT: Inputs + Result -->
-  <div class="calc-left">
-    <div class="card">
-      <div class="clock-display" id="time-display">07:30</div>
+<div class="calc-center">
+  <div class="card">
 
-      <label class="fld-lbl" for="hours">Hours</label>
-      <div class="fld-wrap">
-        <input type="number" id="hours" class="txt-input" value="7" min="0" max="99" step="1" oninput="calcTime()" />
-      </div>
+    <div class="clock-display" id="time-display">07:30</div>
 
-      <label class="fld-lbl" for="minutes">Minutes</label>
-      <div class="fld-wrap">
-        <input type="number" id="minutes" class="txt-input" value="30" min="0" max="59" step="1" oninput="calcTime()" />
-      </div>
-
-      <span class="min-lbl">Quick Minutes</span>
-      <div class="min-grid">
-        {[0,5,10,15,20,25,30,35,40,45,50,55].map(m => (
-          <button class="min-btn" id={`mb-${m}`} onclick={`setMinutes(${m})`}>{m}</button>
-        ))}
+    <div class="input-group">
+      <label for="hours">Hours</label>
+      <div class="input-wrap">
+        <input type="number" id="hours" value="7" min="0" max="99" step="1" oninput="calcTime()" />
       </div>
     </div>
 
-    <div class="card">
-      <div class="result-box">
-        <div class="res-lbl">Decimal Hours</div>
-        <div class="res-val"><span id="r-decimal">7.5</span> <span class="res-unit">hrs</span></div>
-        <div class="res-sub" id="r-fmt-sub">07:30 → 7.5 decimal</div>
-      </div>
-
-      <div class="stats-grid">
-        <div class="stat-item">
-          <span class="stat-lbl">Decimal</span>
-          <span class="stat-val"><span id="r-decimal2">7.5</span> hrs</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-lbl">Time Format</span>
-          <span class="stat-val" id="r-fmt">07:30</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-lbl">Total Minutes</span>
-          <span class="stat-val" id="r-mins">450</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-lbl">Total Seconds</span>
-          <span class="stat-val" id="r-secs">27,000</span>
-        </div>
+    <div class="input-group">
+      <label for="minutes">Minutes</label>
+      <div class="input-wrap">
+        <input type="number" id="minutes" value="30" min="0" max="59" step="1" oninput="calcTime()" />
       </div>
     </div>
 
-    <div class="card">
-      <label class="fld-lbl">Payroll Calculator</label>
-      <div class="rate-row">
-        <span class="fld-lbl">$</span>
-        <div class="fld-wrap">
-          <input type="number" id="hourly" class="txt-input" value="25" min="0" step="0.5" oninput="calcTime()" placeholder="Hourly rate" />
-        </div>
-        <span class="fld-lbl">/hr</span>
-      </div>
-      <div class="payroll-box">
-        <div class="pay-row">
-          <span class="pay-lbl">Hours worked</span>
-          <span class="pay-val" id="pay-hrs">7.5 hrs</span>
-        </div>
-        <div class="pay-row">
-          <span class="pay-lbl">Hourly rate</span>
-          <span class="pay-val" id="pay-rate">$25.00/hr</span>
-        </div>
-        <div class="pay-row">
-          <span class="pay-lbl">Total pay</span>
-          <span class="pay-val" id="pay-total">$187.50</span>
-        </div>
+    <span class="min-lbl">Quick Minutes</span>
+    <div class="min-grid">
+      {[0,5,10,15,20,25,30,35,40,45,50,55].map(m => (
+        <button class="min-btn" id={`mb-${m}`} onclick={`setMinutes(${m})`}>{m}</button>
+      ))}
+    </div>
+
+    <div class="result-hero">
+      <div class="r-label">Decimal Hours</div>
+      <div class="r-value"><span id="r-decimal">7.5</span> hrs</div>
+      <div class="r-sub" id="r-fmt-sub">07:30 → 7.5 decimal</div>
+    </div>
+
+    <div class="stats-row show">
+      <div class="stat-box"><span class="stat-lbl">Decimal</span><span class="stat-val"><span id="r-decimal2">7.5</span> hrs</span></div>
+      <div class="stat-box"><span class="stat-lbl">Time Format</span><span class="stat-val" id="r-fmt">07:30</span></div>
+      <div class="stat-box"><span class="stat-lbl">Total Minutes</span><span class="stat-val" id="r-mins">450</span></div>
+      <div class="stat-box"><span class="stat-lbl">Total Seconds</span><span class="stat-val" id="r-secs">27,000</span></div>
+    </div>
+
+    <div class="input-group" style="margin-top:1rem">
+      <label for="hourly">Hourly Rate (payroll)</label>
+      <div class="input-wrap">
+        <span class="input-pfx">$</span>
+        <input type="number" id="hourly" value="25" min="0" step="0.5" oninput="calcTime()" placeholder="Hourly rate" style="padding-left:1.9rem;padding-right:.9rem" />
+        <span class="input-sfx">/hr</span>
       </div>
     </div>
+    <div class="payroll-box">
+      <div class="pay-row"><span class="pay-lbl">Hours worked</span><span class="pay-val" id="pay-hrs">7.5 hrs</span></div>
+      <div class="pay-row"><span class="pay-lbl">Hourly rate</span><span class="pay-val" id="pay-rate">$25.00/hr</span></div>
+      <div class="pay-row"><span class="pay-lbl">Total pay</span><span class="pay-val" id="pay-total">$187.50</span></div>
+    </div>
+
+  </div>
+</div>
+
+<div class="content-wrap">
+
+  <div class="card">
+    <h2>How to Convert Time to Decimal</h2>
+    <p>Enter the hours and minutes in the fields above. The decimal result appears instantly — ready to enter into payroll systems, invoices, or spreadsheets.</p>
+    <div class="formula-box">Decimal Hours = Hours + (Minutes ÷ 60)</div>
+    <div class="tip-box">
+      <span class="tip-icon">⏱️</span>
+      <p><strong>Example:</strong> Worked 9:00 AM to 4:45 PM = 7 hours 45 minutes → 7 + (45 ÷ 60) = <strong>7.75 hours</strong>. At $30/hr = $232.50.</p>
+    </div>
+    <h3>Formula examples:</h3>
+    <ul>
+      <li>7 hrs 30 min → 7 + (30 ÷ 60) = <strong>7.5 hours</strong></li>
+      <li>8 hrs 15 min → 8 + (15 ÷ 60) = <strong>8.25 hours</strong></li>
+      <li>0 hrs 45 min → 0 + (45 ÷ 60) = <strong>0.75 hours</strong></li>
+      <li>10 hrs 20 min → 10 + (20 ÷ 60) = <strong>10.333 hours</strong></li>
+    </ul>
   </div>
 
-  <!-- RIGHT: Content -->
-  <div class="calc-right">
-    <div class="card">
-      <h2>How to Convert Time to Decimal</h2>
-      <p>Enter the hours and minutes in the fields on the left. The decimal result appears instantly — ready to enter into payroll systems, invoices, or spreadsheets.</p>
-      <div class="formula-box">Decimal Hours = Hours + (Minutes ÷ 60)</div>
-      <div class="tip-box">
-        <span class="tip-icon">⏱️</span>
-        <p><strong>Example:</strong> Worked 9:00 AM to 4:45 PM = 7 hours 45 minutes → 7 + (45 ÷ 60) = <strong>7.75 hours</strong>. At $30/hr = $232.50.</p>
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>Common Conversions</h2>
-      <div style="overflow-x:auto">
-      <table class="ref-tbl">
+  <div class="card">
+    <h2>Common Time to Decimal Conversions</h2>
+    <div style="overflow-x:auto">
+      <table class="conv-table">
         <thead><tr><th>Time</th><th>Decimal</th><th>Time</th><th>Decimal</th></tr></thead>
         <tbody>
-          {[
-            [0,15,30,45],[1,15,30,45],[2,15,30,45],[3,15,30,45],
-            [4,15,30,45],[5,15,30,45],[6,15,30,45],[7,15,30,45],
-          ].map(([h,...mins]) => (
+          {[0,1,2,3,4,5,6,7].map(h => (
             <tr>
-              <td>{h}h 15m</td><td class="hl">{(h + 0.25).toFixed(2)}</td>
-              <td>{h}h 30m</td><td class="hl">{(h + 0.5).toFixed(2)}</td>
+              <td>{h}h 15m</td><td style="color:var(--blue);font-weight:700">{(h + 0.25).toFixed(2)}</td>
+              <td>{h}h 30m</td><td style="color:var(--blue);font-weight:700">{(h + 0.5).toFixed(2)}</td>
             </tr>
           ))}
         </tbody>
       </table>
-      </div>
     </div>
+  </div>
 
-    <div class="card">
-      <h2>Minutes to Decimal Reference</h2>
-      <div style="overflow-x:auto">
-      <table class="ref-tbl">
+  <div class="card">
+    <h2>Minutes to Decimal Reference</h2>
+    <div style="overflow-x:auto">
+      <table class="conv-table">
         <thead><tr><th>Minutes</th><th>Decimal</th><th>Minutes</th><th>Decimal</th><th>Minutes</th><th>Decimal</th></tr></thead>
         <tbody id="ref-tbody"></tbody>
       </table>
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>Formula Examples</h2>
-      <ul>
-        <li>7 hrs 30 min → 7 + (30 ÷ 60) = 7 + 0.5 = <strong>7.5 hours</strong></li>
-        <li>8 hrs 15 min → 8 + (15 ÷ 60) = 8 + 0.25 = <strong>8.25 hours</strong></li>
-        <li>0 hrs 45 min → 0 + (45 ÷ 60) = <strong>0.75 hours</strong></li>
-        <li>10 hrs 20 min → 10 + (20 ÷ 60) = <strong>10.333 hours</strong></li>
-      </ul>
-    </div>
-
-    <div class="card">
-      <h2>Why Use Decimal Time?</h2>
-      <ul>
-        <li><strong>Payroll systems</strong> require decimal hours for accurate salary calculations.</li>
-        <li><strong>Freelancers and consultants</strong> invoice clients by decimal hours.</li>
-        <li><strong>Project management tools</strong> like Jira and Asana use decimal time tracking.</li>
-        <li><strong>Spreadsheet math</strong> is easier — multiply decimal hours by rate directly.</li>
-        <li><strong>Time tracking apps</strong> export in decimal format for reporting.</li>
-      </ul>
-    </div>
-
-    <div class="card">
-  <h2>Common Time to Decimal Conversion Mistakes</h2>
-  <ul>
-    <li><strong>Treating minutes as decimal hours directly</strong> — 30 minutes is NOT 0.30 hours. It is 0.50 hours (30 ÷ 60). This is the single most common payroll error.</li>
-    <li><strong>Using wrong reference: 7:15 ≠ 7.15</strong> — 15 minutes = 0.25 decimal hours. So 7:15 = 7.25, NOT 7.15.</li>
-    <li><strong>Not separating break time</strong> — if you track 8:00–17:00 but take a 30-minute unpaid lunch, your billable time is 8.5 hours, not 9 hours.</li>
-    <li><strong>Rounding errors on timesheets</strong> — rounding each entry separately accumulates errors. Always calculate each time block precisely and sum them.</li>
-  </ul>
-</div>
-
-    <div class="card">
-  <h2>Why Time to Decimal Conversion Matters</h2>
-  <ul>
-    <li><strong>Payroll accuracy</strong> — HR and payroll systems calculate wages on decimal hours. One minute difference per day compounds to hours per year.</li>
-    <li><strong>Freelancer invoicing</strong> — billing clients requires precise time tracking. 2:45 billed at $100/hr = $275 — not $245.</li>
-    <li><strong>Timesheet submissions</strong> — many companies require time in decimal format (e.g., 7.5 hours, not 7:30) for their attendance systems.</li>
-    <li><strong>Overtime calculations</strong> — overtime kicks in at exactly 40 hours per week. Precise decimal tracking ensures compliance.</li>
-  </ul>
-</div>
-
-    <div class="card">
-      <h2>Frequently Asked Questions</h2>
-      <div class="faq-item">
-        <h3>What is 7 hours 45 minutes in decimal?</h3>
-        <p>7 hours 45 minutes = <strong>7.75 decimal hours</strong>. Calculation: 7 + (45 ÷ 60) = 7 + 0.75 = 7.75.</p>
-      </div>
-      <div class="faq-item">
-        <h3>What is 8 hours 30 minutes in decimal?</h3>
-        <p>8 hours 30 minutes = <strong>8.5 decimal hours</strong>. Calculation: 8 + (30 ÷ 60) = 8.5.</p>
-      </div>
-      <div class="faq-item">
-        <h3>What is 1 hour 20 minutes in decimal?</h3>
-        <p>1 hour 20 minutes = <strong>1.333 decimal hours</strong>. Calculation: 1 + (20 ÷ 60) = 1.3333.</p>
-      </div>
-      <div class="faq-item">
-        <h3>How do I use decimal time for payroll?</h3>
-        <p>Multiply decimal hours by your hourly rate. Example: 7.5 hours × $20/hr = <strong>$150.00</strong>. Use the payroll calculator on the left for automatic calculation.</p>
-      </div>
-      <div class="faq-item">
-        <h3>What is 7:30 in decimal hours?</h3>
-        <p>7:30 (7 hours 30 minutes) in decimal is <strong>7.5 hours</strong>. Calculation: 7 + (30 ÷ 60) = 7 + 0.5 = 7.5. This is the most common work shift — 7.5 hours at $20/hr = $150.</p>
-      </div>
-      <div class="faq-item">
-        <h3>What is 8:45 in decimal hours?</h3>
-        <p>8:45 (8 hours 45 minutes) in decimal is <strong>8.75 hours</strong>. Calculation: 8 + (45 ÷ 60) = 8 + 0.75 = 8.75.</p>
-      </div>
-      <div class="faq-item">
-        <h3>What is 6:15 in decimal hours?</h3>
-        <p>6:15 (6 hours 15 minutes) in decimal is <strong>6.25 hours</strong>. Calculation: 6 + (15 ÷ 60) = 6 + 0.25 = 6.25.</p>
-      </div>
-      <div class="faq-item">
-        <h3>What is 30 minutes in decimal hours?</h3>
-        <p>30 minutes in decimal hours is <strong>0.5 hours</strong>. Calculation: 30 ÷ 60 = 0.5. Similarly: 15 min = 0.25, 45 min = 0.75, 20 min = 0.333.</p>
-      </div>
-      <div class="faq-item">
-        <h3>What is 15 minutes in decimal hours?</h3>
-        <p>15 minutes in decimal hours is <strong>0.25 hours</strong> (one quarter of an hour). Calculation: 15 ÷ 60 = 0.25. So 8 hours 15 minutes = 8.25 decimal hours.</p>
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>Related Calculators</h2>
-      <div class="next-grid">
-        <a href="/days-from-today" class="next-card">
-          <span class="next-tag">Date</span>
-          <h3>Days From Today</h3>
-          <p>Calculate project deadlines and delivery dates.</p>
-        </a>
-        <a href="/percent-off-calculator" class="next-card">
-          <span class="next-tag">Math</span>
-          <h3>Percent Off</h3>
-          <p>Calculate discounts for client pricing or deals.</p>
-        </a>
-        <a href="/reverse-sales-tax-calculator" class="next-card">
-          <span class="next-tag">Tax</span>
-          <h3>Reverse Sales Tax</h3>
-          <p>Find pre-tax amounts for expense reports.</p>
-        </a>
-        <a href="/cd-calculator" class="next-card">
-          <span class="next-tag">Finance</span>
-          <h3>CD Calculator</h3>
-          <p>Grow your freelance savings with high-yield CDs.</p>
-        </a>
-      </div>
     </div>
   </div>
+
+  <div class="card">
+    <h2>Why Use Decimal Time?</h2>
+    <ul>
+      <li><strong>Payroll systems</strong> require decimal hours for accurate salary calculations.</li>
+      <li><strong>Freelancers and consultants</strong> invoice clients by decimal hours.</li>
+      <li><strong>Project management tools</strong> like Jira and Asana use decimal time tracking.</li>
+      <li><strong>Spreadsheet math</strong> is easier — multiply decimal hours by rate directly.</li>
+      <li><strong>Time tracking apps</strong> export in decimal format for reporting.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Common Time to Decimal Mistakes</h2>
+    <ul>
+      <li><strong>Treating minutes as decimal hours directly</strong> — 30 minutes is NOT 0.30 hours. It is 0.50 hours (30 ÷ 60).</li>
+      <li><strong>7:15 ≠ 7.15</strong> — 15 minutes = 0.25 decimal hours. So 7:15 = 7.25, NOT 7.15.</li>
+      <li><strong>Not separating break time</strong> — if you track 8:00–17:00 with a 30-minute unpaid lunch, billable time is 8.5 hours, not 9 hours.</li>
+      <li><strong>Rounding errors on timesheets</strong> — rounding each entry separately accumulates errors. Calculate each time block precisely then sum.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>What is 7 hours 45 minutes in decimal?</h3>
+      <p>7 hours 45 minutes = <strong>7.75 decimal hours</strong>. Calculation: 7 + (45 ÷ 60) = 7.75.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What is 8 hours 30 minutes in decimal?</h3>
+      <p>8 hours 30 minutes = <strong>8.5 decimal hours</strong>. Calculation: 8 + (30 ÷ 60) = 8.5.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What is 7:30 in decimal hours?</h3>
+      <p>7:30 (7 hours 30 minutes) in decimal is <strong>7.5 hours</strong>. Calculation: 7 + (30 ÷ 60) = 7.5. At $20/hr = $150.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What is 30 minutes in decimal hours?</h3>
+      <p>30 minutes in decimal hours is <strong>0.5 hours</strong>. Calculation: 30 ÷ 60 = 0.5. Similarly: 15 min = 0.25, 45 min = 0.75, 20 min = 0.333.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What is 15 minutes in decimal hours?</h3>
+      <p>15 minutes in decimal hours is <strong>0.25 hours</strong> (one quarter of an hour). So 8 hours 15 minutes = 8.25 decimal hours.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What is 8:45 in decimal hours?</h3>
+      <p>8:45 in decimal is <strong>8.75 hours</strong>. Calculation: 8 + (45 ÷ 60) = 8.75.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Related Calculators</h2>
+    <div class="next-grid">
+      <a href="/days-from-today" class="next-card">
+        <span class="next-tag">Date</span>
+        <h3>Days From Today</h3>
+        <p>Calculate project deadlines and delivery dates.</p>
+      </a>
+      <a href="/hours-in-a-year" class="next-card">
+        <span class="next-tag">Time</span>
+        <h3>Hours in a Year</h3>
+        <p>8,760 hours/year — work hours and salary to hourly.</p>
+      </a>
+      <a href="/reverse-sales-tax-calculator" class="next-card">
+        <span class="next-tag">Tax</span>
+        <h3>Reverse Sales Tax</h3>
+        <p>Find pre-tax amounts for expense reports.</p>
+      </a>
+      <a href="/percent-off-calculator" class="next-card">
+        <span class="next-tag">Math</span>
+        <h3>Percent Off</h3>
+        <p>Calculate discounts for client pricing.</p>
+      </a>
+      <a href="/hours-in-a-month" class="next-card">
+        <span class="next-tag">Time</span>
+        <h3>Hours in a Month</h3>
+        <p>730 average hours per month — all months covered.</p>
+      </a>
+      <a href="/cd-calculator" class="next-card">
+        <span class="next-tag">Finance</span>
+        <h3>CD Calculator</h3>
+        <p>Grow your savings with a Certificate of Deposit.</p>
+      </a>
+    </div>
+  </div>
+
 </div>
 
 <script is:inline>
@@ -445,7 +296,7 @@ function buildTable() {
     [m1, m2, m3].forEach(function(m) {
       if (m <= 59) {
         var dec = (m / 60).toFixed(4).replace(/0+$/,'') || '0';
-        cells += '<td>' + m + ' min</td><td class="hl">' + dec + '</td>';
+        cells += '<td>' + m + ' min</td><td style="color:var(--blue);font-weight:700">' + dec + '</td>';
       } else { cells += '<td colspan="2"></td>'; }
     });
     rows.push('<tr>' + cells + '</tr>');
@@ -455,5 +306,4 @@ function buildTable() {
 
 window.addEventListener('load', function() { calcTime(); buildTable(); });
 </script>
-
 </Layout>
