@@ -1,12 +1,14 @@
 # ComputeZap — Progress Tracker
 
 **Goal:** $10,000/month via Google AdSense
-**Stack:** Astro + Cloudflare Pages (~$15/year total)
-**Domain:** computezap.com (buy on Namecheap — coupon NEWCOM679, ~$6.79 first year)
+**Stack:** Astro + Vercel (free tier)
+**Domain:** computezap.com — Namecheap, expires June 23 2027
+**GitHub:** https://github.com/Sajawaljutt14/computezap
+**GA4:** G-HKNEP4FGVH
 
 ---
 
-## Site Status
+## Site Status (June 26, 2026)
 
 | Item | Status |
 |---|---|
@@ -14,248 +16,194 @@
 | Global CSS design system | ✅ Done |
 | Layout component | ✅ Done |
 | Homepage (index.astro) | ✅ Done |
-| Dev server running | ✅ Done |
-| Build (38 pages) | ✅ Zero errors |
-| Domain purchase | ⏳ Pending |
-| Cloudflare Pages deploy | ⏳ Pending |
-| Google AdSense apply | ⏳ Pending |
+| Domain purchase | ✅ Done |
+| Vercel deploy | ✅ Done (auto-deploy on main push) |
+| Google AdSense apply | ⏳ Pending (target: Oct 2026) |
+| Design Standard v2 rollout | ✅ Done (35/35 pages) |
 
 ---
 
-## Pages Built
+## Pages Live — 426 Total
 
-### Calculator Pages
-
-| Page | URL | Status | Layout Updated |
-|---|---|---|---|
-| Homepage | `/` | ✅ Done | ✅ |
-| Percent Off Calculator | `/percent-off-calculator` | ✅ Done | ✅ New layout |
-| Reverse Sales Tax Calculator | `/reverse-sales-tax-calculator` | ✅ Done | ✅ New layout |
-| Square Footage Calculator | `/square-footage-calculator` | ✅ Done | ✅ New layout |
-| Time to Decimal Calculator | `/time-to-decimal-calculator` | ✅ Done | ✅ New layout |
-| CD Calculator | `/cd-calculator` | ✅ Done | ✅ New layout |
-| Days From Today | `/days-from-today` | ✅ Done | ✅ New layout |
-
-### Programmatic Pages (Auto-generated)
-
-| File | Pages Generated | Status |
+### Tool Pages (45)
+| Page | URL | Status |
 |---|---|---|
-| `[n]-days-from-today.astro` | 31 pages (1,2,3...365 days) | ✅ Done |
+| Homepage | `/` | ✅ |
+| cm to Inches | `/cm-to-inches` | ✅ |
+| kg to lbs | `/kg-to-lbs` | ✅ |
+| km to Miles | `/km-to-miles` | ✅ |
+| Meters to Feet | `/meters-to-feet` | ✅ |
+| Yards to Meters | `/yards-to-meters` | ✅ |
+| Celsius to Fahrenheit | `/celsius-to-fahrenheit` | ✅ |
+| Fahrenheit to Celsius | `/fahrenheit-to-celsius` | ✅ |
+| Liters to Gallons | `/liters-to-gallons` | ✅ |
+| Oz to Quarts | `/oz-to-quarts` | ✅ |
+| Cups to Tablespoons | `/cups-to-tablespoons` | ✅ |
+| Cups to Gallons | `/cups-to-gallons` | ✅ |
+| Knots to MPH | `/knots-to-mph` | ✅ |
+| Ounces in a Pound | `/ounces-in-a-pound` | ✅ |
+| MB to GB | `/mb-to-gb` | ✅ |
+| Percentage Calculator | `/percentage-calculator` | ✅ |
+| Percent Off Calculator | `/percent-off-calculator` | ✅ |
+| Percentage Increase | `/percentage-increase-calculator` | ✅ |
+| Percentage Decrease | `/percentage-decrease-calculator` | ✅ |
+| Margin Calculator | `/margin-calculator` | ✅ |
+| Markup Calculator | `/markup-calculator` | ✅ |
+| Reverse Sales Tax | `/reverse-sales-tax-calculator` | ✅ |
+| Mortgage Payoff | `/mortgage-payoff-calculator` | ✅ |
+| Biweekly Mortgage | `/biweekly-mortgage-calculator` | ✅ |
+| CD Calculator | `/cd-calculator` | ✅ |
+| Debt Snowball | `/debt-snowball-calculator` | ✅ |
+| Pythagorean Theorem | `/pythagorean-theorem-calculator` | ✅ |
+| Decimal to Fraction | `/decimal-to-fraction` | ✅ |
+| Square Footage | `/square-footage-calculator` | ✅ |
+| Time to Decimal | `/time-to-decimal-calculator` | ✅ |
+| Days From Today | `/days-from-today` | ✅ |
+| Hours in a Month | `/hours-in-a-month` | ✅ |
+| Hours in a Year | `/hours-in-a-year` | ✅ |
+| Minutes in a Day | `/minutes-in-a-day` | ✅ |
+| Seconds in a Year | `/seconds-in-a-year` | ✅ |
+| Weeks in a Year | `/weeks-in-a-year` | ✅ |
 
-**31 programmatic URLs:**
-`/1-days-from-today` through `/365-days-from-today`
-Values: 1,2,3,4,5,6,7,8,9,10,12,14,15,20,21,25,28,30,45,56,60,75,84,90,100,120,150,180,200,270,365
-
----
-
-## Layout Pattern (All Pages)
-
-All pages now use the same consistent two-column layout:
-
-```
-LEFT (sticky, 360px)          RIGHT (content)
-─────────────────────         ─────────────────────
-• Input fields                • How it works card
-• Blue result box             • Formula card
-• 2×2 stats grid              • Reference table
-• Optional visual             • FAQ (4-8 questions)
-  (chart/canvas/bars)         • More calculators
-```
-
-**CSS Classes used across all pages:**
-`.calc-wrap`, `.calc-left`, `.card`, `.result-box`, `.stats-grid`, `.stat-item`,
-`.fld-lbl`, `.fld-wrap`, `.txt-input`, `.fld-pfx`, `.fld-sfx`, `.formula-box`,
-`.tip-box`, `.faq-item`, `.ref-tbl`, `.next-grid`, `.next-card`
-
----
-
-## SEO Done
-
-### Global
-- Canonical URLs on every page
-- JSON-LD schema on every page (WebApplication + BreadcrumbList + FAQPage)
-- Meta title + description optimized per page
-- `text-decoration:none` on logo (navbar)
-
-### Per Page SEO
-| Page | Schema Types | FAQ Questions |
+### Programmatic Pages (381 auto-generated)
+| File | Pages | Status |
 |---|---|---|
-| Homepage | WebSite + ItemList | — |
-| Percent Off | WebApplication + BreadcrumbList + FAQPage | 5 |
-| Reverse Sales Tax | WebApplication + BreadcrumbList + FAQPage | 8 |
-| Square Footage | WebApplication + BreadcrumbList + FAQPage | 4 |
-| Time to Decimal | WebApplication + BreadcrumbList + FAQPage | 4 |
-| CD Calculator | WebApplication + BreadcrumbList + FAQPage | 5 |
-| Days From Today | WebApplication + BreadcrumbList + FAQPage | 4 |
-| [n]-days-from-today | WebApplication + 3-level BreadcrumbList + FAQPage | 4 per page |
+| `[n]-days-from-today.astro` | 31 pages | ✅ |
+| `[x]-percent-off-[y].astro` | 308 pages | ✅ |
+| `[kg]-kg-to-lbs.astro` | 56 pages | ✅ |
+| `[feet]-feet-[inches]-inches-in-cm.astro` | ~many | ✅ |
+| `[yards]-yards-to-meters.astro` | ~many | ✅ |
+| `[mb]-mb-to-gb.astro` | ~many | ✅ |
 
-### Keyword Research
-- Analyzed 8 competitor CSVs (15,000+ rows)
-- Competitors: inchcalculator.com, coolconversion.com + 6 others
-- Full analysis saved in: `keyword-research.md`
-
----
-
-## Features Per Page
-
-### Percent Off Calculator (`/percent-off-calculator`)
-- $ prefix input (original price)
-- % suffix input (discount)
-- Preset pills: 5%, 10%, 15%, 20%, 25%, 30%, 40%, 50%, 60%, 70%
-- Blue result box: Sale Price + You Save
-- 2×2 stats: You Save (green), Discount %, Original Price, % Paid
-- Visual stacked bar (blue=pay portion, green=save portion)
-- Clickable examples table
-- 5 FAQ questions
-
-### Reverse Sales Tax Calculator (`/reverse-sales-tax-calculator`)
-- $ prefix total input
-- % suffix tax rate input
-- **30 state pills** (CA, TX, NY, FL, WA, IL, PA, OH, GA, NC, NJ, VA, AZ, TN, CO, MI, IN, MO, MN, NV, SC, AL, LA, MA, KY, WI + OR, NH, MT, DE = 0%)
-- Blue result box: Pre-Tax Price + Tax paid
-- 2×2 stats: Pre-Tax Price, Tax Amount (red), Tax Rate, Total Paid
-- Receipt-style breakdown
-- **All 50 US states table** (collapsible — Show All ▼ / Hide ▲)
-- 8 FAQ questions (state-specific: TX, TN, WA, LA, no-tax states, VAT)
-
-### Square Footage Calculator (`/square-footage-calculator`)
-- 4 shape tabs: Rectangle, Triangle, Circle, L-Shape
-- Shape-specific inputs with `ft` suffix
-- Blue result box: Total Area (ft²)
-- 2×2 stats: Sq Feet, Sq Meters, Sq Yards, Sq Inches
-- Live canvas shape diagram
-- Formulas by shape (4 formula boxes)
-- Common room sizes table
-
-### Time to Decimal Calculator (`/time-to-decimal-calculator`)
-- Live clock display (monospace, blue, HH:MM format)
-- Hours + Minutes inputs
-- Quick minutes grid (0, 5, 10...55 — 4 columns)
-- Blue result box: Decimal Hours
-- 2×2 stats: Decimal, Time Format, Total Minutes, Total Seconds
-- Payroll section: hourly rate → green payroll box (hours × rate = total)
-- JS-populated minutes reference table (0-59)
-
-### CD Calculator (`/cd-calculator`)
-- Initial Deposit ($ prefix)
-- APY % input
-- Term (number + months/years select)
-- Compounding frequency select (Daily/Monthly/Quarterly/Semi/Annual)
-- Blue result box: Total at Maturity + Interest earned
-- 2×2 stats: Interest Earned (green), Effective APY, Principal, Total Return %
-- Compact canvas chart (balance growth over time)
-- vs National Average comparison bars (blue vs gray)
-- Current CD Rates 2026 table (7 term lengths)
-- 5 FAQ questions
-
-### Days From Today (`/days-from-today`)
-- Number input for days
-- Blue result box: Date + Day name
-- 3-column meta: Weeks, Months, Business Days
-- Popular day links (7, 14, 21, 30, 60, 90, 180, 365)
-- Common day reference table with links
-- 4 FAQ questions
-
-### [n] Days From Today (31 programmatic pages)
-- Each page pre-calculates for specific n (e.g. 30-days-from-today)
-- Unique H1, title, description, contextual paragraph per page
-- 2×2 stats: Calendar Days, Weeks, Business Days, Months
-- Today's date row
-- Pill-shaped related links
-- "Try Another Number" compact card with navigate input
-- 3-level BreadcrumbList: Home → Days From Today → {n} Days From Today
-- FAQPage with 4 {n}-specific questions
-- Unique context paragraphs for: 7,14,21,28,30,45,56,60,75,84,90,100,120,150,180,200,270,365
-
----
-
-## Bugs Fixed
-
-| Bug | Fix |
+### Directory Pages
+| Page | Status |
 |---|---|
-| Double `>` after `<Layout schema={schema}>` | Removed extra `>` in all pages |
-| 3-column meta label wrapping (CALENDAR DAYS) | Switched to 2×2 `.stats-grid` |
-| Logo underline in navbar | Added `text-decoration:none` to `.logo` and `.logo:hover` in global.css |
-| `define:vars` not working with `is:inline` | Used hidden `<div data-n={n}>` as data bridge |
-| Redundant green biz-box in programmatic pages | Replaced with `.today-row` showing today's date |
+| `/discount-pages` | ✅ |
+| `/kg-pages` | ✅ |
+| `/height-pages` | ✅ |
+| `/yards-pages` | ✅ |
+| `/mb-pages` | ✅ |
 
 ---
 
-## Technical Patterns Learned
+## Roadmap — Next Phases
 
-### Passing Astro variables to inline JS
-```html
-<!-- In Astro template -->
-<div id="__data__" data-n={n} style="display:none"></div>
-
-<!-- In <script is:inline> -->
-var n = parseInt(document.getElementById('__data__').getAttribute('data-n'), 10);
-```
-
-### Programmatic pages
-```javascript
-// [n]-days-from-today.astro
-export function getStaticPaths() {
-  return [1,2,3,...,365].map(n => ({ params: { n: String(n) } }));
-}
-const { n } = Astro.params;
-```
-
-### All JS uses window.addEventListener('load', fn) — no TypeScript
+### ✅ Phase 1 — DONE (Batches 1–6)
+Design Standard v2 rollout — 35 pages rewritten. All tool pages live.
 
 ---
 
-## Next Tasks (Priority Order)
+### 🔄 Phase 2 — Batch 7 (Next Up)
+**Simple converters — 7 pages, same architecture, 1 session**
 
-### HIGH PRIORITY — Build Now
-| Tool | KD | Volume | CPC | Reason |
-|---|---|---|---|---|
-| Cups to Tablespoons | 15 | 301K | $1.2 | KD 15 + 301K = build immediately |
-| Liter to Gallon | 19 | 301K | $1.1 | Same tier |
-| Decimal to Fraction | 15 | 200K+ | $0.9 | Very low KD |
-| Programmatic % off pages | — | 90K+ | $1.5 | `/30-percent-off-100` etc. |
+| Tool | URL | Volume | KD | Status |
+|------|-----|--------|----|--------|
+| Oz to Pint | `/oz-to-pint` | 110K | 19 | ⏳ |
+| Gallons to Liters | `/gallons-to-liters` | 90K | 20 | ⏳ |
+| Quart to Gallon | `/quart-to-gallon` | 110K | 21 | ⏳ |
+| Bar to PSI | `/bar-to-psi` | 40K | 19 | ⏳ |
+| ATM to Bar | `/atm-to-bar` | 2.4K | 19 | ⏳ |
+| MPH to Knots | `/mph-to-knots` | 8.1K | 23 | ⏳ |
+| Hours in a Week | `/hours-in-a-week` | 135K | 20 | ⏳ |
 
-### MEDIUM PRIORITY
-| Tool | KD | Volume | CPC |
-|---|---|---|---|
-| Debt Snowball Calculator | 29 | 40K | $4-8 |
-| Biweekly Mortgage Calculator | 22 | 60K | $5-10 |
-| Oz to Quarts | 20 | 301K | $1.0 |
-| Height converter programmatic pages | — | 90K each | $0.8 |
-
-### DEPLOYMENT
-1. Buy domain: computezap.com on Namecheap (coupon: NEWCOM679, ~$6.79)
-2. Push to GitHub
-3. Connect Cloudflare Pages (free)
-4. Add custom domain in Cloudflare
-5. Apply for Google AdSense (need 20-30 pages minimum — already have 38 ✅)
+**Why:** Low KD, same pattern as existing converters, fast to build, fills volume/pressure/speed/time clusters.
 
 ---
 
-## File Structure
+### ⏳ Phase 3 — Batch 8
+**Unique tools — separate session (custom logic needed)**
 
-```
-computezap/
-├── src/
-│   ├── layouts/
-│   │   └── Layout.astro          ← Nav + Footer + SEO head
-│   └── pages/
-│       ├── index.astro            ← Homepage
-│       ├── percent-off-calculator.astro
-│       ├── reverse-sales-tax-calculator.astro
-│       ├── square-footage-calculator.astro
-│       ├── time-to-decimal-calculator.astro
-│       ├── cd-calculator.astro
-│       ├── days-from-today.astro
-│       └── [n]-days-from-today.astro  ← 31 programmatic pages
-├── public/
-│   └── styles/
-│       └── global.css             ← Design system (CSS variables + shared classes)
-├── progress.md                    ← This file
-├── keyword-research.md            ← Keyword analysis (15,000+ rows)
-└── astro.config.mjs
-```
+| Tool | URL | Volume | KD | Status |
+|------|-----|--------|----|--------|
+| Binary to Text Translator | `/binary-to-text` | 135K | 29 | ⏳ |
+| Military Time Converter | `/military-time-converter` | 9.9K | 20 | ⏳ |
+
+**Why:** Different logic from simple converters. Binary needs encoding/decoding + validation. Military time needs multiple input formats.
 
 ---
 
-*Last updated: June 2026 | Total pages: 38 | Build: ✅ Zero errors*
+### ⏳ Phase 4 — Programmatic Expansion
+**Scale existing tools with individual value pages**
+
+| Expansion | Example Pages | Volume Each |
+|-----------|--------------|-------------|
+| Days from Today | `/14-days-from-today`, `/21-days-from-today`, `/28-days-from-today`, `/45-days-from-today`, `/60-days-from-today` | 90K–246K |
+| kg to lbs | `/70-kg-to-lbs`, `/80-kg-to-lbs`, `/90-kg-to-lbs`, `/100-kg-to-lbs` | 110K–165K |
+| Height | More `/5ft-Xin-to-cm` variations | 90K each |
+
+**Why:** Long-tail traffic, easy to rank, builds on already-indexed base pages.
+
+---
+
+### ⏳ Phase 5 — High-CPC Finance Expansion
+**Higher difficulty but highest AdSense revenue**
+
+| Tool | Volume | KD | Est. CPC |
+|------|--------|----|----------|
+| APR Calculator | 27.1K | 42 | $2–4 |
+| Car Payoff Calculator | 14.8K | 45 | $2–4 |
+| Roth IRA Calculator | 135K | 44 | $4–8 |
+| 401K Calculator | 165K | 50 | $3–6 |
+| Savings Calculator | 60.5K | 49 | $2–5 |
+| Amortization Calculator | 301K | 44 | $3–7 |
+| Cost of Living Calculator | 60.5K | 28 | $1–3 |
+
+---
+
+### ⏳ Phase 6 — Hard KD / High Volume
+**Build authority first, then tackle these**
+
+| Tool | Volume | KD |
+|------|--------|----|
+| Concrete Calculator | 550K | 40 |
+| Fraction Calculator | 301K | 43 |
+| BAC Calculator | 201K | 43 |
+| BMI Calculator | 2.74M | 74 |
+| GPA Calculator | 823K | 64 |
+| Compound Interest | 673K | 61 |
+
+---
+
+## Revenue Projection
+
+| Time | Traffic | RPM Mix | Est. Monthly Revenue |
+|------|---------|---------|---------------------|
+| 6 months | 1K–10K/mo | — | Pre-AdSense |
+| 12 months | 20K–100K/mo | $8–12 avg | $160–$1,200 |
+| 18 months | 100K–500K/mo | $15–20 avg | $1,500–$10,000 |
+
+**Target:** 500K monthly visitors @ $20 avg RPM = **$10,000/month**
+
+**Best combo:** Unit Converters (volume) + Financial Calculators (CPC)
+
+---
+
+## SEO Scores (June 2026 estimate)
+
+| Signal | Score |
+|--------|-------|
+| Content quality | 9/10 |
+| Technical SEO | 9.5/10 |
+| Keyword targeting | 9/10 |
+| Programmatic SEO | 8.5/10 |
+| Domain authority | 2/10 (new domain — normal) |
+| Brand signals | 6/10 (brand search #1 ✅) |
+
+---
+
+## Design Standard v2 — Layout Pattern
+
+```
+.page-hero          → breadcrumb + H1 + subtitle
+.calc-center        → max-width:620px — calculator card
+  .card             → mode toggle + inputs + presets + result-hero + stats-row
+.content-wrap       → max-width:900px — content cards
+  .card             → formula, reference table, FAQ, related tools
+```
+
+**CSS Rule:** All shared classes go in `global.css`. Only truly unique CSS in `<style is:global>`.
+**JS Rule:** Always `<script is:inline>` — regular script is module-scoped in Astro.
+
+---
+
+*Last updated: June 26, 2026 | Total pages: 426 | Build: ✅ Zero errors*
