@@ -7,9 +7,9 @@ const schema = JSON.stringify([
     "@type": "WebApplication",
     "name": "Percentage Calculator",
     "url": "https://computezap.com/percentage-calculator",
-    "description": "Free percentage calculator — find what is X% of Y, what percent is X of Y, and X is Y% of what. Three calculators in one.",
+    "description": "Free percentage calculator. Find what % of a number is, what percent one number is of another, or what number equals X percent. Three calculators in one.",
     "applicationCategory": "UtilityApplication",
-    "operatingSystem": "Any",
+    "operatingSystem": "Web",
     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
   },
   {
@@ -26,347 +26,354 @@ const schema = JSON.stringify([
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "What is 20% of 150?",
-        "acceptedAnswer": { "@type": "Answer", "text": "20% of 150 = 30. Formula: (20 ÷ 100) × 150 = 0.20 × 150 = 30." }
+        "name": "What is 15% of 200?",
+        "acceptedAnswer": { "@type": "Answer", "text": "15% of 200 = (15 ÷ 100) × 200 = 30. Use the percentage calculator above — enter 15 in the % field and 200 in the number field." }
+      },
+      {
+        "@type": "Question",
+        "name": "30 is what percent of 200?",
+        "acceptedAnswer": { "@type": "Answer", "text": "30 is 15% of 200. Formula: (30 ÷ 200) × 100 = 15%." }
+      },
+      {
+        "@type": "Question",
+        "name": "30 is 15% of what number?",
+        "acceptedAnswer": { "@type": "Answer", "text": "30 is 15% of 200. Formula: 30 ÷ (15 ÷ 100) = 30 ÷ 0.15 = 200." }
       },
       {
         "@type": "Question",
         "name": "How do I calculate percentage?",
-        "acceptedAnswer": { "@type": "Answer", "text": "To find X% of Y: multiply Y by X and divide by 100. To find what percent X is of Y: divide X by Y and multiply by 100. To find the whole when you know a part and percent: divide the part by the percent and multiply by 100." }
+        "acceptedAnswer": { "@type": "Answer", "text": "To find X% of Y: multiply Y by X/100. To find what % X is of Y: divide X by Y and multiply by 100. To find a total when you know a part and its percentage: divide the part by the percentage/100." }
       },
       {
         "@type": "Question",
-        "name": "What percent is 45 of 180?",
-        "acceptedAnswer": { "@type": "Answer", "text": "45 is 25% of 180. Formula: (45 ÷ 180) × 100 = 0.25 × 100 = 25%." }
+        "name": "What is 20% of $150?",
+        "acceptedAnswer": { "@type": "Answer", "text": "20% of $150 = (20 ÷ 100) × 150 = $30. This is commonly used to calculate tips, discounts, and tax amounts." }
       }
     ]
   }
 ]);
 ---
 <Layout
-  title="Percentage Calculator — What is X% of Y? | ComputeZap"
-  description="Free percentage calculator. Find what is X% of Y, what percent is X of Y, and X is Y% of what. Three calculators in one — instant results."
+  title="Percentage Calculator — Find X% of Y, What % is X of Y | ComputeZap"
+  description="Free percentage calculator. Find what % of a number is, what percent one number is of another, or find the total from a percent. Three calculators in one."
   canonical="/percentage-calculator"
   schema={schema}
 >
-<style is:global>
-.hero{text-align:center;padding:2rem 1rem 1.5rem}
-.hero h1{font-size:2rem;color:#111;margin:.5rem 0 .4rem;font-weight:800;letter-spacing:-.02em}
-.hero-sub{color:#64748b;margin:0;font-size:1.05rem}
-.breadcrumb{font-size:.82rem;color:#94a3b8;margin-bottom:.75rem}
-.breadcrumb a{color:var(--blue);text-decoration:none}
-.calc-wrap{display:grid;grid-template-columns:420px 1fr;gap:1.75rem;max-width:1120px;margin:0 auto;padding:0 1rem 3.5rem;align-items:start}
-.calc-left{position:sticky;top:1rem;display:flex;flex-direction:column;gap:1rem}
-.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:1.5rem;box-shadow:0 1px 4px rgba(0,0,0,.04)}
-.card h2{font-size:1rem;font-weight:700;color:#111;margin:0 0 1rem;padding-bottom:.65rem;border-bottom:1px solid #f3f4f6}
-.content-card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:1.5rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(0,0,0,.04)}
-.content-card h2{font-size:1.05rem;font-weight:700;color:#111;margin:0 0 .8rem}
-.content-card p{color:#444;line-height:1.75;font-size:.93rem;margin:0 0 .7rem}
-.content-card p:last-child{margin-bottom:0}
 
-/* Input rows */
-.input-row{display:flex;align-items:center;gap:.5rem;margin-bottom:.65rem;flex-wrap:wrap}
-.input-row label{font-size:.8rem;font-weight:600;color:#64748b;white-space:nowrap}
-.pct-input{width:90px;padding:.5rem .65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-size:.95rem;font-weight:700;color:#111;text-align:center;font-family:inherit}
-.pct-input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
-.pct-input.wide{width:110px}
-.input-sep{font-size:.85rem;color:#64748b;font-weight:500}
-.calc-btn{width:100%;padding:.65rem;background:var(--blue);color:#fff;border:none;border-radius:9px;font-size:.95rem;font-weight:700;cursor:pointer;font-family:inherit;transition:background .15s;margin-top:.35rem}
-.calc-btn:hover{background:#1d4ed8}
-
-/* Answer box */
-.answer-hero{background:linear-gradient(135deg,#1d4ed8 0%,#2563eb 60%,#3b82f6 100%);border-radius:12px;padding:1.25rem 1.5rem;text-align:center;display:none}
-.answer-hero.show{display:block}
-.a-label{font-size:.68rem;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.3rem;font-weight:700}
-.a-value{font-size:2.4rem;font-weight:900;color:#fff;line-height:1;letter-spacing:-.02em}
-.a-unit{font-size:.9rem;font-weight:600;color:rgba(255,255,255,.8);margin-top:.25rem}
-.a-formula{font-size:.78rem;color:rgba(255,255,255,.65);margin-top:.3rem}
-
-.tip-box{display:flex;gap:.75rem;background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:.9rem 1rem;margin:.85rem 0}
-.tip-icon{font-size:1.1rem;flex-shrink:0}
-.tip-box p{margin:0;font-size:.875rem;color:#1e40af;line-height:1.6}
-
-.formula-box{background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:12px;padding:1rem 1.25rem;margin:.75rem 0;text-align:center}
-.formula-text{font-size:1rem;font-weight:800;color:#1e293b;font-family:monospace}
-.formula-sub{font-size:.8rem;color:#64748b;margin-top:.3rem}
-
-.ex-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-top:.75rem}
-.ex-card{background:#f8fafc;border:1px solid #e5e7eb;border-radius:8px;padding:.65rem .85rem}
-.ex-q{font-size:.78rem;color:#64748b;margin-bottom:.2rem}
-.ex-a{font-size:.9rem;font-weight:800;color:#1e293b}
-
-.ref-tbl{width:100%;border-collapse:collapse;font-size:.875rem}
-.ref-tbl th{background:#f8fafc;padding:.6rem .85rem;text-align:left;font-size:.68rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;border-bottom:2px solid #e2e8f0}
-.ref-tbl td{padding:.6rem .85rem;border-bottom:1px solid #f3f4f6;color:#374151}
-.ref-tbl tr:last-child td{border-bottom:none}
-.ref-tbl tbody tr:hover td{background:#f8faff}
-
-.faq-item{border-bottom:1px solid #f3f4f6;padding:.9rem 0}
-.faq-item:last-child{border-bottom:none;padding-bottom:0}
-.faq-item h3{font-size:.9rem;color:#111;margin:0 0 .35rem;font-weight:700}
-.faq-item p{color:#555;font-size:.865rem;margin:0;line-height:1.65}
-
-.next-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem}
-.next-card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:1rem;border-top:3px solid var(--blue);text-decoration:none;display:block}
-.next-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.08);text-decoration:none}
-.next-tag{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--blue);margin-bottom:.3rem;display:block}
-.next-card h3{font-size:.88rem;font-weight:700;color:#111;margin:0 0 .25rem}
-.next-card p{font-size:.78rem;color:#64748b;margin:0;line-height:1.5}
-
-@media(max-width:768px){
-  .calc-wrap{grid-template-columns:1fr}
-  .calc-left{position:static}
-  .hero h1{font-size:1.65rem}
-  .a-value{font-size:1.9rem}
-  .next-grid{grid-template-columns:1fr 1fr}
-  .ex-grid{grid-template-columns:1fr}
-}
-@media(max-width:480px){.next-grid{grid-template-columns:1fr}}
-</style>
-
-<div class="hero">
-  <nav class="breadcrumb"><a href="/">Home</a> › Percentage Calculator</nav>
+<div class="page-hero">
+  <nav><a href="/">Home</a> › Percentage Calculator</nav>
   <h1>Percentage Calculator</h1>
-  <p class="hero-sub">Three percentage calculators in one — instant results</p>
+  <p>Three percentage calculators in one — find amount, find percent, or find total</p>
 </div>
 
-<div class="calc-wrap">
-
-  <!-- LEFT: 3 calculators -->
-  <div class="calc-left">
-
-    <!-- Calculator 1 -->
-    <div class="card">
-      <h2>What is <span style="color:var(--blue)">X%</span> of <span style="color:var(--blue)">Y</span>?</h2>
-      <div class="input-row">
-        <label>What is</label>
-        <input type="number" id="c1-pct" class="pct-input" placeholder="20" min="0" />
-        <label>% of</label>
-        <input type="number" id="c1-val" class="pct-input wide" placeholder="150" />
-        <label>?</label>
-      </div>
-      <button class="calc-btn" onclick="calc1()">Calculate →</button>
-      <div id="res1" class="answer-hero" style="margin-top:.75rem">
-        <div class="a-label">Answer</div>
-        <div class="a-value" id="res1-val">—</div>
-        <div class="a-unit" id="res1-unit"></div>
-        <div class="a-formula" id="res1-formula"></div>
-      </div>
+<div class="calc-center">
+  <div class="card">
+    <div class="mode-wrap" style="grid-template-columns:repeat(3,1fr)">
+      <button class="mode-btn active" id="btn-m1">Find Amount</button>
+      <button class="mode-btn" id="btn-m2">Find Percent</button>
+      <button class="mode-btn" id="btn-m3">Find Total</button>
     </div>
 
-    <!-- Calculator 2 -->
-    <div class="card">
-      <h2><span style="color:var(--blue)">X</span> is what % of <span style="color:var(--blue)">Y</span>?</h2>
-      <div class="input-row">
-        <input type="number" id="c2-part" class="pct-input wide" placeholder="45" min="0" />
-        <label>is what % of</label>
-        <input type="number" id="c2-whole" class="pct-input wide" placeholder="180" min="0" />
-        <label>?</label>
+    <!-- Mode 1: What is X% of Y? -->
+    <div id="inputs-1">
+      <div class="input-group">
+        <label id="lbl1a">Percentage</label>
+        <div class="input-wrap">
+          <input type="number" id="m1-pct" placeholder="15" min="0" step="any" />
+          <span class="input-sfx">%</span>
+        </div>
       </div>
-      <button class="calc-btn" onclick="calc2()">Calculate →</button>
-      <div id="res2" class="answer-hero" style="margin-top:.75rem">
-        <div class="a-label">Answer</div>
-        <div class="a-value" id="res2-val">—</div>
-        <div class="a-unit" id="res2-unit"></div>
-        <div class="a-formula" id="res2-formula"></div>
+      <div class="input-group">
+        <label>of Number</label>
+        <div class="input-wrap">
+          <input type="number" id="m1-num" placeholder="200" step="any" style="padding-right:.9rem" />
+        </div>
       </div>
+      <p style="font-size:.82rem;color:#94a3b8;margin:-.5rem 0 .75rem;text-align:center">What is <strong>X%</strong> of <strong>Y</strong>?</p>
     </div>
 
-    <!-- Calculator 3 -->
-    <div class="card">
-      <h2><span style="color:var(--blue)">X</span> is <span style="color:var(--blue)">Y%</span> of what?</h2>
-      <div class="input-row">
-        <input type="number" id="c3-part" class="pct-input wide" placeholder="30" min="0" />
-        <label>is</label>
-        <input type="number" id="c3-pct" class="pct-input" placeholder="25" min="0" />
-        <label>% of what?</label>
+    <!-- Mode 2: X is what % of Y? -->
+    <div id="inputs-2" style="display:none">
+      <div class="input-group">
+        <label>Value (X)</label>
+        <div class="input-wrap">
+          <input type="number" id="m2-x" placeholder="30" step="any" style="padding-right:.9rem" />
+        </div>
       </div>
-      <button class="calc-btn" onclick="calc3()">Calculate →</button>
-      <div id="res3" class="answer-hero" style="margin-top:.75rem">
-        <div class="a-label">Answer</div>
-        <div class="a-value" id="res3-val">—</div>
-        <div class="a-unit" id="res3-unit"></div>
-        <div class="a-formula" id="res3-formula"></div>
+      <div class="input-group">
+        <label>Total (Y)</label>
+        <div class="input-wrap">
+          <input type="number" id="m2-y" placeholder="200" min="0.001" step="any" style="padding-right:.9rem" />
+        </div>
       </div>
+      <p style="font-size:.82rem;color:#94a3b8;margin:-.5rem 0 .75rem;text-align:center"><strong>X</strong> is what <strong>%</strong> of <strong>Y</strong>?</p>
     </div>
 
+    <!-- Mode 3: X is Y% of what? -->
+    <div id="inputs-3" style="display:none">
+      <div class="input-group">
+        <label>Value (X)</label>
+        <div class="input-wrap">
+          <input type="number" id="m3-x" placeholder="30" step="any" style="padding-right:.9rem" />
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Percentage (Y%)</label>
+        <div class="input-wrap">
+          <input type="number" id="m3-pct" placeholder="15" min="0.001" step="any" />
+          <span class="input-sfx">%</span>
+        </div>
+      </div>
+      <p style="font-size:.82rem;color:#94a3b8;margin:-.5rem 0 .75rem;text-align:center"><strong>X</strong> is <strong>Y%</strong> of what number?</p>
+    </div>
+
+    <button class="calc-btn" id="calc-btn">Calculate</button>
+
+    <div class="answer-hero" id="answer">
+      <div class="a-label" id="ans-label">Result</div>
+      <div class="a-value" id="ans-value">—</div>
+      <div class="a-unit" id="ans-unit"></div>
+      <div class="a-sub" id="ans-sub"></div>
+    </div>
+
+    <div class="stats-row" id="stats">
+      <div class="stat-box"><span class="stat-lbl" id="s1-lbl">Value</span><span class="stat-val" id="s1-val">—</span></div>
+      <div class="stat-box"><span class="stat-lbl" id="s2-lbl">Remaining</span><span class="stat-val" id="s2-val">—</span></div>
+      <div class="stat-box"><span class="stat-lbl" id="s3-lbl">Decimal</span><span class="stat-val" id="s3-val">—</span></div>
+      <div class="stat-box"><span class="stat-lbl" id="s4-lbl">Double %</span><span class="stat-val" id="s4-val">—</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="content-wrap">
+
+  <div class="card">
+    <h2>Percentage Formulas Explained</h2>
+    <div class="formula-box">
+      <div class="formula-text">Find Amount: Result = (X% ÷ 100) × Y</div>
+      <div class="formula-sub">Example: 15% of 200 = (15 ÷ 100) × 200 = <strong>30</strong></div>
+    </div>
+    <div class="formula-box">
+      <div class="formula-text">Find Percent: Result = (X ÷ Y) × 100</div>
+      <div class="formula-sub">Example: 30 is what % of 200 = (30 ÷ 200) × 100 = <strong>15%</strong></div>
+    </div>
+    <div class="formula-box">
+      <div class="formula-text">Find Total: Result = X ÷ (Y% ÷ 100)</div>
+      <div class="formula-sub">Example: 30 is 15% of what = 30 ÷ 0.15 = <strong>200</strong></div>
+    </div>
+    <div class="tip-box">
+      <span class="tip-icon">💡</span>
+      <p><strong>Mental math shortcut:</strong> To find 10% of any number, just move the decimal left one place. $350 → 10% = $35. Then multiply: 20% = $70, 5% = $17.50, 15% = $52.50.</p>
+    </div>
   </div>
 
-  <!-- RIGHT: content -->
-  <div class="calc-right">
-
-    <div class="content-card">
-      <h2>How to Calculate Percentage</h2>
-      <p>There are three common percentage problems. Each has its own formula:</p>
-
-      <div class="formula-box">
-        <div class="formula-text">X% of Y = (X ÷ 100) × Y</div>
-        <div class="formula-sub">Example: 20% of 150 = (20 ÷ 100) × 150 = 30</div>
-      </div>
-      <div class="formula-box">
-        <div class="formula-text">X is ?% of Y = (X ÷ Y) × 100</div>
-        <div class="formula-sub">Example: 45 is ?% of 180 = (45 ÷ 180) × 100 = 25%</div>
-      </div>
-      <div class="formula-box">
-        <div class="formula-text">X is Y% of ? = X ÷ (Y ÷ 100)</div>
-        <div class="formula-sub">Example: 30 is 25% of ? = 30 ÷ 0.25 = 120</div>
-      </div>
-
-      <div class="tip-box">
-        <span class="tip-icon">💡</span>
-        <p><strong>Quick trick:</strong> To find 10% of any number, just move the decimal one place left. 10% of 350 = 35. Then double it for 20%, halve it for 5%.</p>
-      </div>
+  <div class="card">
+    <h2>Common Percentage Quick Reference</h2>
+    <div style="overflow-x:auto">
+      <table class="ref-tbl">
+        <thead><tr><th>Calculation</th><th>On $50</th><th>On $100</th><th>On $200</th><th>On $1,000</th></tr></thead>
+        <tbody>
+          {[
+            ['5%', '$2.50', '$5', '$10', '$50'],
+            ['10%', '$5', '$10', '$20', '$100'],
+            ['15%', '$7.50', '$15', '$30', '$150'],
+            ['20%', '$10', '$20', '$40', '$200'],
+            ['25%', '$12.50', '$25', '$50', '$250'],
+            ['30%', '$15', '$30', '$60', '$300'],
+            ['40%', '$20', '$40', '$80', '$400'],
+            ['50%', '$25', '$50', '$100', '$500'],
+            ['75%', '$37.50', '$75', '$150', '$750'],
+          ].map(([pct, v50, v100, v200, v1k]) => (
+            <tr>
+              <td class="acc">{pct}</td>
+              <td>{v50}</td>
+              <td>{v100}</td>
+              <td>{v200}</td>
+              <td>{v1k}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
-
-    <!-- Quick examples -->
-    <div class="content-card">
-      <h2>Common Percentage Examples</h2>
-      <div class="ex-grid">
-        <div class="ex-card"><div class="ex-q">What is 10% of 200?</div><div class="ex-a">20</div></div>
-        <div class="ex-card"><div class="ex-q">What is 15% of 80?</div><div class="ex-a">12</div></div>
-        <div class="ex-card"><div class="ex-q">What is 25% of 400?</div><div class="ex-a">100</div></div>
-        <div class="ex-card"><div class="ex-q">What is 50% of 90?</div><div class="ex-a">45</div></div>
-        <div class="ex-card"><div class="ex-q">30 is what % of 120?</div><div class="ex-a">25%</div></div>
-        <div class="ex-card"><div class="ex-q">75 is what % of 300?</div><div class="ex-a">25%</div></div>
-        <div class="ex-card"><div class="ex-q">18 is what % of 72?</div><div class="ex-a">25%</div></div>
-        <div class="ex-card"><div class="ex-q">50 is 20% of what?</div><div class="ex-a">250</div></div>
-      </div>
-    </div>
-
-    <!-- Reference table -->
-    <div class="content-card">
-      <h2>Percentage Reference Table</h2>
-      <div style="overflow-x:auto">
-        <table class="ref-tbl">
-          <thead>
-            <tr><th>Percent</th><th>of 100</th><th>of 200</th><th>of 500</th><th>of 1,000</th></tr>
-          </thead>
-          <tbody>
-            <tr><td><strong>1%</strong></td><td>1</td><td>2</td><td>5</td><td>10</td></tr>
-            <tr><td><strong>5%</strong></td><td>5</td><td>10</td><td>25</td><td>50</td></tr>
-            <tr><td><strong>10%</strong></td><td>10</td><td>20</td><td>50</td><td>100</td></tr>
-            <tr><td><strong>15%</strong></td><td>15</td><td>30</td><td>75</td><td>150</td></tr>
-            <tr><td><strong>20%</strong></td><td>20</td><td>40</td><td>100</td><td>200</td></tr>
-            <tr><td><strong>25%</strong></td><td>25</td><td>50</td><td>125</td><td>250</td></tr>
-            <tr><td><strong>30%</strong></td><td>30</td><td>60</td><td>150</td><td>300</td></tr>
-            <tr><td><strong>40%</strong></td><td>40</td><td>80</td><td>200</td><td>400</td></tr>
-            <tr><td><strong>50%</strong></td><td>50</td><td>100</td><td>250</td><td>500</td></tr>
-            <tr><td><strong>75%</strong></td><td>75</td><td>150</td><td>375</td><td>750</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- FAQ -->
-    <div class="content-card">
-      <h2>Frequently Asked Questions</h2>
-      <div class="faq-item">
-        <h3>What is 20% of 150?</h3>
-        <p><strong>20% of 150 = 30.</strong> Formula: (20 ÷ 100) × 150 = 0.20 × 150 = 30. You can verify: 10% of 150 is 15, so 20% is 15 × 2 = 30.</p>
-      </div>
-      <div class="faq-item">
-        <h3>What percent is 45 of 180?</h3>
-        <p><strong>45 is 25% of 180.</strong> Formula: (45 ÷ 180) × 100 = 0.25 × 100 = 25%. Check: 25% of 180 = 45 ✓</p>
-      </div>
-      <div class="faq-item">
-        <h3>How do I calculate percentage on a calculator?</h3>
-        <p>For X% of Y: type Y × X ÷ 100 = (or Y × X%). For what percent X is of Y: type X ÷ Y × 100 =. Most phone calculators have a % button that automatically divides by 100.</p>
-      </div>
-      <div class="faq-item">
-        <h3>What is the difference between percentage and percent?</h3>
-        <p><strong>Percent</strong> means "per hundred" and refers to a specific value (e.g., 25%). <strong>Percentage</strong> refers to a portion or share expressed as a ratio. They're used interchangeably in everyday math.</p>
-      </div>
-    </div>
-
-    <!-- Related -->
-    <div class="content-card">
-      <h2>Related Calculators</h2>
-      <div class="next-grid">
-        <a href="/percentage-increase-calculator" class="next-card">
-          <span class="next-tag">Percentage</span>
-          <h3>% Increase Calculator</h3>
-          <p>Calculate percentage increase between two values</p>
-        </a>
-        <a href="/percentage-decrease-calculator" class="next-card">
-          <span class="next-tag">Percentage</span>
-          <h3>% Decrease Calculator</h3>
-          <p>Calculate percentage decrease between two values</p>
-        </a>
-        <a href="/markup-calculator" class="next-card">
-          <span class="next-tag">Business</span>
-          <h3>Markup Calculator</h3>
-          <p>Calculate selling price from cost and markup %</p>
-        </a>
-        <a href="/margin-calculator" class="next-card">
-          <span class="next-tag">Business</span>
-          <h3>Margin Calculator</h3>
-          <p>Calculate profit margin from revenue and cost</p>
-        </a>
-        <a href="/percent-off-calculator" class="next-card">
-          <span class="next-tag">Discount</span>
-          <h3>Percent Off Calculator</h3>
-          <p>Find sale price after a percentage discount</p>
-        </a>
-        <a href="/decimal-to-fraction" class="next-card">
-          <span class="next-tag">Math</span>
-          <h3>Decimal to Fraction</h3>
-          <p>Convert decimals to simplified fractions</p>
-        </a>
-      </div>
-    </div>
-
   </div>
+
+  <div class="card">
+    <h2>Everyday Percentage Examples</h2>
+    <div class="answer-box">
+      <div class="answer-row"><span class="answer-lbl">15% tip on $60 dinner</span><span class="answer-val">$9.00</span></div>
+      <div class="answer-row"><span class="answer-lbl">20% tip on $85 restaurant bill</span><span class="answer-val">$17.00</span></div>
+      <div class="answer-row"><span class="answer-lbl">8.5% sales tax on $120 purchase</span><span class="answer-val">$10.20</span></div>
+      <div class="answer-row"><span class="answer-lbl">30% off a $79.99 item</span><span class="answer-val">$24.00 savings</span></div>
+      <div class="answer-row"><span class="answer-lbl">5% annual raise on $55,000 salary</span><span class="answer-val">$2,750 more/year</span></div>
+      <div class="answer-row"><span class="answer-lbl">401k contribution: 6% of $80,000</span><span class="answer-val">$4,800/year</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>What is 15% of 200?</h3>
+      <p>15% of 200 = (15 ÷ 100) × 200 = <strong>30</strong>. Quick method: 10% of 200 = 20, 5% of 200 = 10, so 15% = 20 + 10 = 30.</p>
+    </div>
+    <div class="faq-item">
+      <h3>30 is what percent of 200?</h3>
+      <p>(30 ÷ 200) × 100 = <strong>15%</strong>. Use the "Find Percent" mode above — enter 30 as X and 200 as Y.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What is 20% of $150?</h3>
+      <p>(20 ÷ 100) × 150 = <strong>$30</strong>. Commonly used for tips, discounts, and tax calculations.</p>
+    </div>
+    <div class="faq-item">
+      <h3>How do I calculate a percentage tip?</h3>
+      <p>Multiply the bill by the tip percentage divided by 100. For a 20% tip on $75: 0.20 × $75 = <strong>$15</strong>. For 15%: 0.15 × $75 = $11.25.</p>
+    </div>
+    <div class="faq-item">
+      <h3>How do I calculate sales tax?</h3>
+      <p>Multiply the price by the tax rate divided by 100. For 8% tax on $50: 0.08 × $50 = <strong>$4</strong> tax → total = $54.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What does "percent" mean?</h3>
+      <p>"Percent" means "per hundred." 25% means 25 out of every 100, or 0.25 as a decimal. To convert a decimal to a percent, multiply by 100. To convert a percent to a decimal, divide by 100.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Related Calculators</h2>
+    <div class="next-grid">
+      <a href="/percent-off-calculator" class="next-card">
+        <span class="next-tag">Shopping</span>
+        <h3>Percent Off Calculator</h3>
+        <p>Calculate sale price after any discount percentage</p>
+      </a>
+      <a href="/percentage-increase-calculator" class="next-card">
+        <span class="next-tag">Percentage</span>
+        <h3>% Increase Calculator</h3>
+        <p>Find the percentage increase between two values</p>
+      </a>
+      <a href="/percentage-decrease-calculator" class="next-card">
+        <span class="next-tag">Percentage</span>
+        <h3>% Decrease Calculator</h3>
+        <p>Find the percentage decrease between two values</p>
+      </a>
+      <a href="/margin-calculator" class="next-card">
+        <span class="next-tag">Business</span>
+        <h3>Margin Calculator</h3>
+        <p>Calculate profit margin % from revenue and cost</p>
+      </a>
+      <a href="/markup-calculator" class="next-card">
+        <span class="next-tag">Business</span>
+        <h3>Markup Calculator</h3>
+        <p>Find selling price from cost and markup %</p>
+      </a>
+      <a href="/reverse-sales-tax-calculator" class="next-card">
+        <span class="next-tag">Finance</span>
+        <h3>Reverse Sales Tax</h3>
+        <p>Find original price before tax was added</p>
+      </a>
+    </div>
+  </div>
+
 </div>
 
 <script is:inline>
+var mode = 1;
+
+document.getElementById('btn-m1').addEventListener('click', function() { setMode(1); });
+document.getElementById('btn-m2').addEventListener('click', function() { setMode(2); });
+document.getElementById('btn-m3').addEventListener('click', function() { setMode(3); });
+document.getElementById('calc-btn').addEventListener('click', calculate);
+
+['m1-pct','m1-num','m2-x','m2-y','m3-x','m3-pct'].forEach(function(id) {
+  document.getElementById(id).addEventListener('input', calculate);
+});
+document.addEventListener('keydown', function(e) { if (e.key === 'Enter') calculate(); });
+
 function fmt(n) {
-  if (n === Math.floor(n)) return n.toLocaleString();
-  return parseFloat(n.toFixed(4)).toLocaleString();
+  var r = parseFloat(n.toFixed(6));
+  return r % 1 === 0 ? r.toLocaleString() : parseFloat(r.toFixed(4)).toLocaleString();
+}
+
+function setMode(m) {
+  mode = m;
+  [1,2,3].forEach(function(i) {
+    document.getElementById('btn-m' + i).classList.toggle('active', m === i);
+    document.getElementById('inputs-' + i).style.display = m === i ? 'block' : 'none';
+  });
+  document.getElementById('answer').classList.remove('show');
+  document.getElementById('stats').classList.remove('show');
+}
+
+function calculate() {
+  if (mode === 1) calc1();
+  else if (mode === 2) calc2();
+  else calc3();
 }
 
 function calc1() {
-  var pct = parseFloat(document.getElementById('c1-pct').value);
-  var val = parseFloat(document.getElementById('c1-val').value);
-  var res = document.getElementById('res1');
-  if (isNaN(pct) || isNaN(val)) { res.classList.remove('show'); return; }
-  var ans = (pct / 100) * val;
-  document.getElementById('res1-val').textContent = fmt(ans);
-  document.getElementById('res1-unit').textContent = pct + '% of ' + fmt(val) + ' = ' + fmt(ans);
-  document.getElementById('res1-formula').textContent = '(' + pct + ' ÷ 100) × ' + fmt(val) + ' = ' + fmt(ans);
-  res.classList.add('show');
+  var pct = parseFloat(document.getElementById('m1-pct').value);
+  var num = parseFloat(document.getElementById('m1-num').value);
+  if (isNaN(pct) || isNaN(num)) return;
+  var result = (pct / 100) * num;
+  var remaining = num - result;
+  document.getElementById('ans-label').textContent = 'Result';
+  document.getElementById('ans-value').textContent = fmt(result);
+  document.getElementById('ans-unit').textContent = pct + '% of ' + fmt(num) + ' = ' + fmt(result);
+  document.getElementById('ans-sub').textContent = '(' + pct + ' ÷ 100) × ' + fmt(num);
+  document.getElementById('s1-lbl').textContent = 'Result';
+  document.getElementById('s1-val').textContent = fmt(result);
+  document.getElementById('s2-lbl').textContent = 'Remaining';
+  document.getElementById('s2-val').textContent = fmt(remaining);
+  document.getElementById('s3-lbl').textContent = 'As Decimal';
+  document.getElementById('s3-val').textContent = parseFloat((pct/100).toFixed(4));
+  document.getElementById('s4-lbl').textContent = 'Double (' + (pct*2) + '%)';
+  document.getElementById('s4-val').textContent = fmt(result * 2);
+  document.getElementById('answer').classList.add('show');
+  document.getElementById('stats').classList.add('show');
 }
 
 function calc2() {
-  var part = parseFloat(document.getElementById('c2-part').value);
-  var whole = parseFloat(document.getElementById('c2-whole').value);
-  var res = document.getElementById('res2');
-  if (isNaN(part) || isNaN(whole) || whole === 0) { res.classList.remove('show'); return; }
-  var ans = (part / whole) * 100;
-  document.getElementById('res2-val').textContent = fmt(ans) + '%';
-  document.getElementById('res2-unit').textContent = fmt(part) + ' is ' + fmt(ans) + '% of ' + fmt(whole);
-  document.getElementById('res2-formula').textContent = '(' + fmt(part) + ' ÷ ' + fmt(whole) + ') × 100 = ' + fmt(ans) + '%';
-  res.classList.add('show');
+  var x = parseFloat(document.getElementById('m2-x').value);
+  var y = parseFloat(document.getElementById('m2-y').value);
+  if (isNaN(x) || isNaN(y) || y === 0) return;
+  var pct = (x / y) * 100;
+  var remaining = y - x;
+  var complement = 100 - pct;
+  document.getElementById('ans-label').textContent = 'Percentage';
+  document.getElementById('ans-value').textContent = parseFloat(pct.toFixed(4)) + '%';
+  document.getElementById('ans-unit').textContent = fmt(x) + ' is ' + parseFloat(pct.toFixed(2)) + '% of ' + fmt(y);
+  document.getElementById('ans-sub').textContent = '(' + fmt(x) + ' ÷ ' + fmt(y) + ') × 100';
+  document.getElementById('s1-lbl').textContent = 'Value (X)';
+  document.getElementById('s1-val').textContent = fmt(x);
+  document.getElementById('s2-lbl').textContent = 'Total (Y)';
+  document.getElementById('s2-val').textContent = fmt(y);
+  document.getElementById('s3-lbl').textContent = 'Remaining';
+  document.getElementById('s3-val').textContent = fmt(remaining);
+  document.getElementById('s4-lbl').textContent = 'Complement';
+  document.getElementById('s4-val').textContent = parseFloat(complement.toFixed(2)) + '%';
+  document.getElementById('answer').classList.add('show');
+  document.getElementById('stats').classList.add('show');
 }
 
 function calc3() {
-  var part = parseFloat(document.getElementById('c3-part').value);
-  var pct = parseFloat(document.getElementById('c3-pct').value);
-  var res = document.getElementById('res3');
-  if (isNaN(part) || isNaN(pct) || pct === 0) { res.classList.remove('show'); return; }
-  var ans = part / (pct / 100);
-  document.getElementById('res3-val').textContent = fmt(ans);
-  document.getElementById('res3-unit').textContent = fmt(part) + ' is ' + pct + '% of ' + fmt(ans);
-  document.getElementById('res3-formula').textContent = fmt(part) + ' ÷ ' + pct + '% = ' + fmt(ans);
-  res.classList.add('show');
+  var x = parseFloat(document.getElementById('m3-x').value);
+  var pct = parseFloat(document.getElementById('m3-pct').value);
+  if (isNaN(x) || isNaN(pct) || pct === 0) return;
+  var total = x / (pct / 100);
+  var other = total - x;
+  document.getElementById('ans-label').textContent = 'Total Number';
+  document.getElementById('ans-value').textContent = fmt(total);
+  document.getElementById('ans-unit').textContent = fmt(x) + ' is ' + pct + '% of ' + fmt(total);
+  document.getElementById('ans-sub').textContent = fmt(x) + ' ÷ ' + (pct/100) + ' = ' + fmt(total);
+  document.getElementById('s1-lbl').textContent = 'Value (X)';
+  document.getElementById('s1-val').textContent = fmt(x);
+  document.getElementById('s2-lbl').textContent = 'Percentage';
+  document.getElementById('s2-val').textContent = pct + '%';
+  document.getElementById('s3-lbl').textContent = 'Total';
+  document.getElementById('s3-val').textContent = fmt(total);
+  document.getElementById('s4-lbl').textContent = 'Remaining';
+  document.getElementById('s4-val').textContent = fmt(other);
+  document.getElementById('answer').classList.add('show');
+  document.getElementById('stats').classList.add('show');
 }
-
-// Enter key support
-document.addEventListener('keydown', function(e) {
-  if (e.key !== 'Enter') return;
-  var t = e.target;
-  if (t.id === 'c1-pct' || t.id === 'c1-val') calc1();
-  if (t.id === 'c2-part' || t.id === 'c2-whole') calc2();
-  if (t.id === 'c3-part' || t.id === 'c3-pct') calc3();
-});
 </script>
 </Layout>

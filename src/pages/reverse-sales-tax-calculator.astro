@@ -1,4 +1,4 @@
-﻿---
+---
 import Layout from '../layouts/Layout.astro';
 
 const schema = JSON.stringify([
@@ -32,7 +32,7 @@ const schema = JSON.stringify([
       {
         "@type": "Question",
         "name": "What is reverse sales tax?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Reverse sales tax (also called backwards tax calculation) is the process of finding the original price before tax was added, given the final total price. It's used in accounting, expense reports, and VAT reclaims." }
+        "acceptedAnswer": { "@type": "Answer", "text": "Reverse sales tax (also called backwards tax calculation) is the process of finding the original price before tax was added, given the final total price. It is used in accounting, expense reports, and VAT reclaims." }
       },
       {
         "@type": "Question",
@@ -75,365 +75,263 @@ const schema = JSON.stringify([
   schema={schema}
 >
 <style is:global>
-.hero { text-align:center; padding:2rem 1rem 1.25rem; }
-.hero h1 { font-size:2rem; color:#111; margin:.5rem 0 .35rem; font-weight:800; }
-.hero-sub { color:#555; margin:0; font-size:1rem; }
-.breadcrumb { font-size:.85rem; color:#888; margin-bottom:.75rem; }
-.breadcrumb a { color:var(--blue); text-decoration:none; }
-
-.calc-wrap { display:grid; grid-template-columns:360px 1fr; gap:1.5rem; max-width:1100px; margin:0 auto; padding:0 1rem 3rem; align-items:start; }
-.calc-left { position:sticky; top:1rem; }
-.card { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:1.5rem; margin-bottom:1rem; }
-.card:last-child { margin-bottom:0; }
-
-.result-box { background:var(--blue); border-radius:14px; padding:1.75rem 1.5rem; text-align:center; margin-bottom:1.25rem; box-shadow:0 4px 20px rgba(37,99,235,.18); }
-.res-lbl { font-size:.72rem; color:rgba(255,255,255,.7); text-transform:uppercase; letter-spacing:.09em; margin-bottom:.5rem; }
-.res-val { font-size:2.1rem; font-weight:800; color:#fff; line-height:1.2; }
-.res-sub { font-size:.95rem; color:rgba(255,255,255,.8); margin-top:.3rem; }
-
-.stats-grid { display:grid; grid-template-columns:1fr 1fr; gap:.6rem; margin-bottom:1rem; }
-.stat-item { background:#f8fafc; border:1px solid #f1f5f9; border-radius:10px; padding:.9rem .75rem; text-align:center; }
-.stat-lbl { display:block; font-size:.68rem; color:#94a3b8; text-transform:uppercase; letter-spacing:.06em; margin-bottom:.3rem; font-weight:600; }
-.stat-val { display:block; font-size:1.1rem; font-weight:800; color:#1e293b; }
-.stat-val.red { color:#dc2626; }
-
-.receipt-box { background:#f8fafc; border:1px solid #f1f5f9; border-radius:10px; padding:1rem; }
-.rec-row { display:flex; justify-content:space-between; padding:.45rem 0; border-bottom:1px solid #f3f4f6; font-size:.875rem; color:#444; }
-.rec-row:last-child { border-bottom:none; border-top:2px solid #e5e7eb; margin-top:.25rem; padding-top:.6rem; font-weight:800; color:#111; }
-.rec-row .rec-val { font-weight:600; }
-.rec-row .rec-val.red { color:#dc2626; }
-
-.fld-lbl { display:block; font-size:.8rem; font-weight:700; color:#374151; margin-bottom:.4rem; text-transform:uppercase; letter-spacing:.04em; }
-.fld-wrap { position:relative; margin-bottom:1rem; }
-.fld-pfx { position:absolute; left:.9rem; top:50%; transform:translateY(-50%); color:#94a3b8; font-weight:600; pointer-events:none; }
-.fld-sfx { position:absolute; right:.9rem; top:50%; transform:translateY(-50%); color:#94a3b8; font-weight:600; pointer-events:none; }
-.txt-input { width:100%; font-size:1rem; padding:.65rem 1rem; border:1.5px solid #e2e8f0; border-radius:8px; color:#111; box-sizing:border-box; }
-.txt-input:focus { outline:none; border-color:var(--blue); box-shadow:0 0 0 3px rgba(37,99,235,.1); }
-.txt-pfx { padding-left:1.75rem; }
-.txt-sfx { padding-right:2rem; }
-
-.state-lbl { font-size:.7rem; font-weight:700; color:#94a3b8; text-transform:uppercase; letter-spacing:.05em; margin-bottom:.5rem; display:block; }
-.state-wrap { display:flex; flex-wrap:wrap; gap:.4rem; }
-.state-btn { background:#fff; color:var(--blue); border:1.5px solid #dbeafe; border-radius:20px; padding:.28rem .7rem; font-size:.8rem; font-weight:700; cursor:pointer; transition:all .15s; }
-.state-btn:hover, .state-btn.active { background:var(--blue); color:#fff; border-color:var(--blue); }
-
-.card h2 { font-size:1.1rem; font-weight:700; color:#111; margin:0 0 .8rem; }
-.card h3 { font-size:.95rem; font-weight:700; color:#111; margin:0 0 .4rem; }
-.card p { color:#444; line-height:1.75; font-size:.95rem; margin:0 0 .7rem; }
-.card p:last-child { margin-bottom:0; }
-.card ul { color:#444; line-height:1.85; font-size:.95rem; padding-left:1.25rem; margin:0 0 .7rem; }
-.formula-box { background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:.75rem 1rem; font-family:monospace; font-size:.88rem; color:#1e293b; margin:.6rem 0; }
-.tip-box { display:flex; gap:.75rem; background:#eff6ff; border:1px solid #bfdbfe; border-radius:10px; padding:.9rem 1rem; margin:.75rem 0; }
-.tip-icon { font-size:1.1rem; flex-shrink:0; margin-top:.1rem; }
-.tip-box p { margin:0; font-size:.875rem; color:#1e40af; }
-
-.ref-tbl { width:100%; border-collapse:collapse; font-size:.875rem; }
-.ref-tbl th { background:#f8fafc; padding:.45rem .75rem; text-align:left; font-size:.72rem; color:#64748b; font-weight:700; text-transform:uppercase; letter-spacing:.04em; border-bottom:1px solid #e5e7eb; }
-.ref-tbl td { padding:.45rem .75rem; border-bottom:1px solid #f3f4f6; color:#444; }
-.ref-tbl tr:last-child td { border-bottom:none; }
-.ref-tbl tr:hover td { background:#f8fafc; cursor:pointer; }
-.ref-tbl .acc { color:var(--blue); font-weight:700; }
-
-.faq-item { border-bottom:1px solid #f3f4f6; padding:.85rem 0; }
-.faq-item:last-child { border-bottom:none; padding-bottom:0; }
-.faq-item h3 { font-size:.92rem; color:#111; margin:0 0 .35rem; font-weight:600; }
-.faq-item p { color:#555; font-size:.875rem; margin:0; line-height:1.65; }
-
-.next-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:.75rem; }
-.next-card { background:#fff; border:1px solid #e5e7eb; border-radius:10px; padding:1rem; border-top:3px solid var(--blue); text-decoration:none; display:block; transition:box-shadow .15s; }
-.next-card:hover { box-shadow:0 4px 12px rgba(0,0,0,.08); }
-.next-tag { font-size:.68rem; font-weight:700; text-transform:uppercase; letter-spacing:.07em; color:var(--blue); margin-bottom:.3rem; display:block; }
-.next-card h3 { font-size:.88rem; font-weight:700; color:#111; margin:0 0 .25rem; }
-.next-card p { font-size:.78rem; color:#64748b; margin:0; line-height:1.5; }
-
-@media (max-width:768px) {
-  .calc-wrap { grid-template-columns:1fr; }
-  .calc-left { position:static; }
-  .next-grid { grid-template-columns:1fr; }
-  .hero h1 { font-size:1.65rem; }
-  .res-val { font-size:1.6rem; }
-}
+.receipt-box{background:#f8fafc;border:1px solid #e5e7eb;border-radius:10px;padding:1rem;margin-top:.75rem}
+.rec-row{display:flex;justify-content:space-between;padding:.45rem 0;border-bottom:1px solid #f3f4f6;font-size:.875rem;color:#444}
+.rec-row:last-child{border-bottom:none;border-top:2px solid #e2e8f0;margin-top:.25rem;padding-top:.6rem;font-weight:800;color:#111}
+.rec-val{font-weight:600}
+.rec-val.red{color:#dc2626}
 </style>
 
-<div class="hero">
-  <nav class="breadcrumb"><a href="/">Home</a> › Reverse Sales Tax Calculator</nav>
+<div class="page-hero">
+  <nav><a href="/">Home</a> › Reverse Sales Tax Calculator</nav>
   <h1>Reverse Sales Tax Calculator</h1>
-  <p class="hero-sub">Find the original pre-tax price from any total — all 50 US states included</p>
+  <p>Find the original pre-tax price from any total — all 50 US states included</p>
 </div>
 
-<div class="calc-wrap">
-  <!-- LEFT: Inputs + Result -->
-  <div class="calc-left">
-    <div class="card">
-      <label class="fld-lbl" for="total">Total Price Paid (with tax)</label>
-      <div class="fld-wrap">
-        <span class="fld-pfx">$</span>
-        <input type="number" id="total" class="txt-input txt-pfx" value="107.50" min="0" step="0.01" oninput="calcTax()" />
+<div class="calc-center">
+  <div class="card">
+    <div class="input-group">
+      <label>Total Price Paid (with tax)</label>
+      <div class="input-wrap">
+        <input type="number" id="total" placeholder="107.50" value="107.50" min="0" step="0.01" style="padding-right:.9rem" />
       </div>
-
-      <label class="fld-lbl" for="taxrate">Sales Tax Rate</label>
-      <div class="fld-wrap">
-        <input type="number" id="taxrate" class="txt-input txt-sfx" value="7.5" min="0" max="30" step="0.01" oninput="calcTax()" />
-        <span class="fld-sfx">%</span>
-      </div>
-
-      <span class="state-lbl">Select Your State</span>
-      <div class="state-wrap">
-        {[
-          ['CA','8.68'],['TX','8.19'],['NY','8.52'],['FL','7.08'],
-          ['WA','10.25'],['IL','8.82'],['PA','6.34'],['OH','7.22'],
-          ['GA','7.35'],['NC','6.98'],['NJ','6.60'],['VA','5.73'],
-          ['AZ','8.37'],['TN','9.55'],['CO','7.81'],['MI','6.00'],
-          ['IN','7.00'],['MO','8.29'],['MN','7.49'],['NV','8.23'],
-          ['SC','7.43'],['AL','9.24'],['LA','9.55'],['MA','6.25'],
-          ['KY','6.00'],['WI','5.43'],['OR','0.00'],['NH','0.00'],
-          ['MT','0.00'],['DE','0.00']
-        ].map(([s,r]) => (
-          <button class="state-btn" id={`sb-${s}`} onclick={`setState('${s}',${r})`}>{s}</button>
-        ))}
+    </div>
+    <div class="input-group">
+      <label>Sales Tax Rate</label>
+      <div class="input-wrap">
+        <input type="number" id="taxrate" placeholder="7.5" value="7.5" min="0" max="30" step="0.01" />
+        <span class="input-sfx">%</span>
       </div>
     </div>
 
-    <div class="card">
-      <div class="result-box">
-        <div class="res-lbl">Pre-Tax Price</div>
-        <div class="res-val">$<span id="r-pretax">100.00</span></div>
-        <div class="res-sub">Tax paid: $<span id="r-taxamt-sub">7.50</span></div>
-      </div>
+    <span class="preset-lbl">Select Your State</span>
+    <div class="preset-wrap">
+      {[
+        ['CA','8.68'],['TX','8.19'],['NY','8.52'],['FL','7.08'],
+        ['WA','10.25'],['IL','8.82'],['PA','6.34'],['OH','7.22'],
+        ['GA','7.35'],['NC','6.98'],['NJ','6.60'],['VA','5.73'],
+        ['AZ','8.37'],['TN','9.55'],['CO','7.81'],['MI','6.00'],
+        ['IN','7.00'],['MO','8.29'],['MN','7.49'],['NV','8.23'],
+        ['SC','7.43'],['AL','9.24'],['LA','9.55'],['MA','6.25'],
+        ['KY','6.00'],['WI','5.43'],['OR','0.00'],['NH','0.00'],
+        ['MT','0.00'],['DE','0.00']
+      ].map(([s,r]) => (
+        <button class="preset-btn" id={`sb-${s}`} onclick={`setState('${s}',${r})`}>{s}</button>
+      ))}
+    </div>
 
-      <div class="stats-grid">
-        <div class="stat-item">
-          <span class="stat-lbl">Pre-Tax Price</span>
-          <span class="stat-val">$<span id="r-pretax2">100.00</span></span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-lbl">Tax Amount</span>
-          <span class="stat-val red" id="r-taxamt">$7.50</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-lbl">Tax Rate</span>
-          <span class="stat-val" id="r-rate">7.50%</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-lbl">Total Paid</span>
-          <span class="stat-val" id="r-total">$107.50</span>
-        </div>
-      </div>
+    <button class="calc-btn" id="calc-btn">Calculate</button>
 
-      <div class="receipt-box">
-        <div class="rec-row">
-          <span>Pre-tax price</span>
-          <span class="rec-val">$<span id="rec-pretax">100.00</span></span>
-        </div>
-        <div class="rec-row">
-          <span>Sales tax (<span id="rec-rate">7.50%</span>)</span>
-          <span class="rec-val red" id="rec-tax">+ $7.50</span>
-        </div>
-        <div class="rec-row">
-          <span>Total paid</span>
-          <span class="rec-val" id="rec-total">$107.50</span>
-        </div>
-      </div>
+    <div class="answer-hero" id="answer">
+      <div class="a-label">Pre-Tax Price</div>
+      <div class="a-value">$<span id="r-pretax">100.00</span></div>
+      <div class="a-unit">Tax paid: $<span id="r-taxamt-sub">7.50</span></div>
+    </div>
+
+    <div class="stats-row" id="stats">
+      <div class="stat-box"><span class="stat-lbl">Pre-Tax Price</span><span class="stat-val">$<span id="r-pretax2">100.00</span></span></div>
+      <div class="stat-box"><span class="stat-lbl">Tax Amount</span><span class="stat-val" id="r-taxamt">$7.50</span></div>
+      <div class="stat-box"><span class="stat-lbl">Tax Rate</span><span class="stat-val" id="r-rate">7.50%</span></div>
+      <div class="stat-box"><span class="stat-lbl">Total Paid</span><span class="stat-val" id="r-total">$107.50</span></div>
+    </div>
+
+    <div class="receipt-box" id="receipt" style="display:none">
+      <div class="rec-row"><span>Pre-tax price</span><span class="rec-val">$<span id="rec-pretax">100.00</span></span></div>
+      <div class="rec-row"><span>Sales tax (<span id="rec-rate">7.50%</span>)</span><span class="rec-val red" id="rec-tax">+ $7.50</span></div>
+      <div class="rec-row"><span>Total paid</span><span class="rec-val" id="rec-total">$107.50</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="content-wrap">
+
+  <div class="card">
+    <h2>What Is Reverse Sales Tax?</h2>
+    <p>Reverse sales tax (also called backwards tax calculation) finds the <strong>original price before tax</strong> when you only know the final total you paid.</p>
+    <div class="formula-box">
+      <div class="formula-text">Pre-Tax Price = Total ÷ (1 + Tax Rate ÷ 100)</div>
+      <div class="formula-sub">Example: Paid $107.50 with 7.5% tax → $107.50 ÷ 1.075 = <strong>$100.00 pre-tax</strong></div>
+    </div>
+    <div class="formula-box">
+      <div class="formula-text">Tax Amount = Total − Pre-Tax Price</div>
+      <div class="formula-sub">Example: $107.50 − $100.00 = <strong>$7.50 tax paid</strong></div>
+    </div>
+    <div class="tip-box">
+      <span class="tip-icon">🧾</span>
+      <p><strong>Common mistake:</strong> Don't use "Total × (1 − rate)" — this is wrong. Always divide by (1 + rate). Example: $107.50 ÷ 1.075 = $100, not $107.50 × 0.925 = $99.44.</p>
     </div>
   </div>
 
-  <!-- RIGHT: Content -->
-  <div class="calc-right">
-    <div class="card">
-      <h2>What Is Reverse Sales Tax?</h2>
-      <p>Reverse sales tax (also called backwards tax calculation) finds the <strong>original price before tax</strong> when you only know the final total you paid.</p>
-      <div class="formula-box">Pre-Tax Price = Total ÷ (1 + Tax Rate ÷ 100)</div>
-      <div class="formula-box">Tax Amount = Total − Pre-Tax Price</div>
-      <div class="tip-box">
-        <span class="tip-icon">🧾</span>
-        <p><strong>Example:</strong> Paid $107.50 with 7.5% tax → $107.50 ÷ 1.075 = <strong>$100.00</strong> pre-tax. Tax = $7.50.</p>
-      </div>
+  <div class="card">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem">
+      <h2 style="margin:0">Sales Tax Rates — All 50 States (2026)</h2>
+      <button id="states-toggle" onclick="toggleStates()" style="background:var(--blue);color:#fff;border:none;border-radius:8px;padding:.35rem .85rem;font-size:.8rem;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;margin-left:.5rem">Show All ▼</button>
     </div>
-
-    <div class="card">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem;">
-        <h2 style="margin:0">Sales Tax Rates by State — All 50 States (2026)</h2>
-        <button id="states-toggle" onclick="toggleStates()" style="background:var(--blue);color:#fff;border:none;border-radius:8px;padding:.35rem .85rem;font-size:.8rem;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;">Show All ▼</button>
-      </div>
-      <p style="font-size:.85rem;color:#64748b;margin-bottom:.75rem;">Click any state to auto-fill the tax rate above. Rates include state + average local taxes.</p>
-      <div id="states-table-wrap" style="display:none">
+    <p style="font-size:.85rem;color:#64748b;margin:0 0 .75rem">Click any row to auto-fill the tax rate above. Rates include state + average local taxes.</p>
+    <div id="states-table-wrap" style="display:none">
       <div style="overflow-x:auto">
-      <table class="ref-tbl">
-        <thead><tr><th>State</th><th>Combined Avg</th><th>State Rate</th></tr></thead>
-        <tbody>
-          {[
-            ['Alabama','9.24%','4.00%','AL'],
-            ['Alaska','1.76%','0.00%','AK'],
-            ['Arizona','8.37%','5.60%','AZ'],
-            ['Arkansas','9.47%','6.50%','AR'],
-            ['California','8.68%','7.25%','CA'],
-            ['Colorado','7.81%','2.90%','CO'],
-            ['Connecticut','6.35%','6.35%','CT'],
-            ['Delaware','0.00%','0.00%','DE'],
-            ['Florida','7.08%','6.00%','FL'],
-            ['Georgia','7.35%','4.00%','GA'],
-            ['Hawaii','4.44%','4.00%','HI'],
-            ['Idaho','6.03%','6.00%','ID'],
-            ['Illinois','8.82%','6.25%','IL'],
-            ['Indiana','7.00%','7.00%','IN'],
-            ['Iowa','6.94%','6.00%','IA'],
-            ['Kansas','8.70%','6.50%','KS'],
-            ['Kentucky','6.00%','6.00%','KY'],
-            ['Louisiana','9.55%','4.45%','LA'],
-            ['Maine','5.50%','5.50%','ME'],
-            ['Maryland','6.00%','6.00%','MD'],
-            ['Massachusetts','6.25%','6.25%','MA'],
-            ['Michigan','6.00%','6.00%','MI'],
-            ['Minnesota','7.49%','6.875%','MN'],
-            ['Mississippi','7.07%','7.00%','MS'],
-            ['Missouri','8.29%','4.225%','MO'],
-            ['Montana','0.00%','0.00%','MT'],
-            ['Nebraska','6.94%','5.50%','NE'],
-            ['Nevada','8.23%','6.85%','NV'],
-            ['New Hampshire','0.00%','0.00%','NH'],
-            ['New Jersey','6.60%','6.625%','NJ'],
-            ['New Mexico','7.83%','5.00%','NM'],
-            ['New York','8.52%','4.00%','NY'],
-            ['North Carolina','6.98%','4.75%','NC'],
-            ['North Dakota','5.96%','5.00%','ND'],
-            ['Ohio','7.22%','5.75%','OH'],
-            ['Oklahoma','8.99%','4.50%','OK'],
-            ['Oregon','0.00%','0.00%','OR'],
-            ['Pennsylvania','6.34%','6.00%','PA'],
-            ['Rhode Island','7.00%','7.00%','RI'],
-            ['South Carolina','7.43%','6.00%','SC'],
-            ['South Dakota','6.40%','4.50%','SD'],
-            ['Tennessee','9.55%','7.00%','TN'],
-            ['Texas','8.19%','6.25%','TX'],
-            ['Utah','7.19%','4.85%','UT'],
-            ['Vermont','6.24%','6.00%','VT'],
-            ['Virginia','5.73%','4.30%','VA'],
-            ['Washington','10.25%','6.50%','WA'],
-            ['West Virginia','6.50%','6.00%','WV'],
-            ['Wisconsin','5.43%','5.00%','WI'],
-            ['Wyoming','5.44%','4.00%','WY'],
-          ].map(([state, combined, stateRate, abbr]) => (
-            <tr onclick={`setState('${abbr}',${parseFloat(combined)})`} style="cursor:pointer">
-              <td><strong>{abbr}</strong> — {state}</td>
-              <td class="acc">{combined}</td>
-              <td>{stateRate}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      </div>
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>When to Use This Calculator</h2>
-      <ul>
-        <li><strong>Expense reports</strong> — separate tax from the total for accounting records.</li>
-        <li><strong>Business bookkeeping</strong> — record the net purchase amount excluding tax.</li>
-        <li><strong>VAT refunds</strong> — calculate the taxable base amount when claiming a refund.</li>
-        <li><strong>Price verification</strong> — confirm the correct tax rate was applied to your purchase.</li>
-        <li><strong>Receipt analysis</strong> — when the pre-tax price is not printed on your receipt.</li>
-        <li><strong>Cross-state shopping</strong> — compare real costs when buying in high-tax vs. low-tax states.</li>
-        <li><strong>Online sales</strong> — verify destination-state tax was correctly applied to your order.</li>
-      </ul>
-      <div class="tip-box" style="margin-top:.75rem">
-        <span class="tip-icon">💡</span>
-        <p><strong>No-tax states:</strong> Oregon, Montana, New Hampshire, Delaware, and Alaska have 0% state sales tax. Shopping in these states? Enter 0% or use the OR / MT / NH / DE buttons above.</p>
-      </div>
-    </div>
-
-    <div class="card">
-  <h2>Common Reverse Sales Tax Mistakes</h2>
-  <ul>
-    <li><strong>Using state rate only</strong> — most areas have state + local/county taxes combined. Always use the combined tax rate shown on your receipt.</li>
-    <li><strong>Using wrong formula</strong> — the correct formula is: pre-tax = total ÷ (1 + rate). A common error is: total × (1 − rate), which underestimates the pre-tax amount.</li>
-    <li><strong>Applying tax to tip in restaurants</strong> — in most states, tax applies before the tip. Calculate pre-tax on the food subtotal only.</li>
-    <li><strong>Using outdated tax rates</strong> — sales tax rates change. Always verify your state's current combined rate before calculating for official reports.</li>
-  </ul>
-</div>
-
-    <div class="card">
-  <h2>Why Reverse Sales Tax Calculations Matter</h2>
-  <ul>
-    <li><strong>Expense reimbursement</strong> — employers often reimburse pre-tax costs. Knowing the exact pre-tax amount ensures accurate claims.</li>
-    <li><strong>Price comparison</strong> — comparing prices across states or countries requires knowing the pre-tax base price.</li>
-    <li><strong>Accounting and bookkeeping</strong> — businesses must separate tax collected from revenue for accurate financial records.</li>
-    <li><strong>International VAT recovery</strong> — travelers can reclaim VAT paid in foreign countries — but only on the pre-tax amount.</li>
-  </ul>
-</div>
-
-    <div class="card">
-      <h2>Frequently Asked Questions</h2>
-      <div class="faq-item">
-        <h3>What is the formula for reverse sales tax?</h3>
-        <p>Pre-Tax Price = Total Paid ÷ (1 + Tax Rate ÷ 100). For a $215 total with 7.75% tax: $215 ÷ 1.0775 = <strong>$199.54</strong> pre-tax.</p>
-      </div>
-      <div class="faq-item">
-        <h3>Which US states have no sales tax?</h3>
-        <p>Five states have no statewide sales tax: <strong>Oregon, Montana, New Hampshire, Delaware, and Alaska</strong>. Alaska allows local taxes so some cities do charge sales tax. Enter 0% in the calculator for these states.</p>
-      </div>
-      <div class="faq-item">
-        <h3>What is the sales tax rate in Texas?</h3>
-        <p>Texas has a 6.25% state rate with a combined average of <strong>8.19%</strong>. Cities like Houston, Dallas, Austin, and San Antonio typically charge the maximum 8.25% combined rate.</p>
-      </div>
-      <div class="faq-item">
-        <h3>What is the sales tax rate in Tennessee?</h3>
-        <p>Tennessee has a 7% state rate and a combined average of <strong>9.55%</strong> — one of the highest in the US. Groceries are taxed at a reduced 4% rate statewide.</p>
-      </div>
-      <div class="faq-item">
-        <h3>What is the sales tax in Washington state?</h3>
-        <p>Washington's state rate is 6.5% with a combined average of <strong>10.25%</strong> — among the highest in the country. Seattle's combined rate is 10.25%, including a 3.75% local rate.</p>
-      </div>
-      <div class="faq-item">
-        <h3>What is the sales tax in Louisiana?</h3>
-        <p>Louisiana has a 4.45% state rate but high local taxes bring the combined average to <strong>9.55%</strong>, tied with Tennessee for highest in the US. New Orleans can reach 9.45–10.45% combined.</p>
-      </div>
-      <div class="faq-item">
-        <h3>Is the combined rate or state rate used on receipts?</h3>
-        <p>Receipts use the <strong>combined rate</strong> — both the state rate plus local/county taxes. Always use the combined rate in this calculator for accurate pre-tax results.</p>
-      </div>
-      <div class="faq-item">
-        <h3>Can I use this for VAT (Value Added Tax)?</h3>
-        <p>Yes — reverse VAT uses the same formula. Enter the VAT-inclusive price and the VAT rate (e.g., 20% UK, 19% Germany, 10% Australia GST) to find the pre-tax price.</p>
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>Related Calculators</h2>
-      <div class="next-grid">
-        <a href="/percent-off-calculator" class="next-card">
-          <span class="next-tag">Shopping</span>
-          <h3>Percent Off</h3>
-          <p>Calculate exact savings from any discount percentage.</p>
-        </a>
-        <a href="/cd-calculator" class="next-card">
-          <span class="next-tag">Finance</span>
-          <h3>CD Calculator</h3>
-          <p>Grow your savings with Certificate of Deposit rates.</p>
-        </a>
-        <a href="/mortgage-payoff-calculator" class="next-card">
-          <span class="next-tag">Finance</span>
-          <h3>Mortgage Payoff</h3>
-          <p>See how extra payments save on interest costs.</p>
-        </a>
-        <a href="/biweekly-mortgage-calculator" class="next-card">
-          <span class="next-tag">Finance</span>
-          <h3>Biweekly Mortgage</h3>
-          <p>Save years and thousands by paying every two weeks.</p>
-        </a>
-        <a href="/debt-snowball-calculator" class="next-card">
-          <span class="next-tag">Finance</span>
-          <h3>Debt Snowball</h3>
-          <p>Pay off all your debts — see your exact debt-free date.</p>
-        </a>
-        <a href="/time-to-decimal-calculator" class="next-card">
-          <span class="next-tag">Time</span>
-          <h3>Time to Decimal</h3>
-          <p>Convert hours and minutes for payroll and billing.</p>
-        </a>
+        <table class="ref-tbl">
+          <thead><tr><th>State</th><th>Combined Avg</th><th>State Rate</th></tr></thead>
+          <tbody>
+            {[
+              ['Alabama','9.24%','4.00%','AL'],
+              ['Alaska','1.76%','0.00%','AK'],
+              ['Arizona','8.37%','5.60%','AZ'],
+              ['Arkansas','9.47%','6.50%','AR'],
+              ['California','8.68%','7.25%','CA'],
+              ['Colorado','7.81%','2.90%','CO'],
+              ['Connecticut','6.35%','6.35%','CT'],
+              ['Delaware','0.00%','0.00%','DE'],
+              ['Florida','7.08%','6.00%','FL'],
+              ['Georgia','7.35%','4.00%','GA'],
+              ['Hawaii','4.44%','4.00%','HI'],
+              ['Idaho','6.03%','6.00%','ID'],
+              ['Illinois','8.82%','6.25%','IL'],
+              ['Indiana','7.00%','7.00%','IN'],
+              ['Iowa','6.94%','6.00%','IA'],
+              ['Kansas','8.70%','6.50%','KS'],
+              ['Kentucky','6.00%','6.00%','KY'],
+              ['Louisiana','9.55%','4.45%','LA'],
+              ['Maine','5.50%','5.50%','ME'],
+              ['Maryland','6.00%','6.00%','MD'],
+              ['Massachusetts','6.25%','6.25%','MA'],
+              ['Michigan','6.00%','6.00%','MI'],
+              ['Minnesota','7.49%','6.875%','MN'],
+              ['Mississippi','7.07%','7.00%','MS'],
+              ['Missouri','8.29%','4.225%','MO'],
+              ['Montana','0.00%','0.00%','MT'],
+              ['Nebraska','6.94%','5.50%','NE'],
+              ['Nevada','8.23%','6.85%','NV'],
+              ['New Hampshire','0.00%','0.00%','NH'],
+              ['New Jersey','6.60%','6.625%','NJ'],
+              ['New Mexico','7.83%','5.00%','NM'],
+              ['New York','8.52%','4.00%','NY'],
+              ['North Carolina','6.98%','4.75%','NC'],
+              ['North Dakota','5.96%','5.00%','ND'],
+              ['Ohio','7.22%','5.75%','OH'],
+              ['Oklahoma','8.99%','4.50%','OK'],
+              ['Oregon','0.00%','0.00%','OR'],
+              ['Pennsylvania','6.34%','6.00%','PA'],
+              ['Rhode Island','7.00%','7.00%','RI'],
+              ['South Carolina','7.43%','6.00%','SC'],
+              ['South Dakota','6.40%','4.50%','SD'],
+              ['Tennessee','9.55%','7.00%','TN'],
+              ['Texas','8.19%','6.25%','TX'],
+              ['Utah','7.19%','4.85%','UT'],
+              ['Vermont','6.24%','6.00%','VT'],
+              ['Virginia','5.73%','4.30%','VA'],
+              ['Washington','10.25%','6.50%','WA'],
+              ['West Virginia','6.50%','6.00%','WV'],
+              ['Wisconsin','5.43%','5.00%','WI'],
+              ['Wyoming','5.44%','4.00%','WY'],
+            ].map(([state, combined, stateRate, abbr]) => (
+              <tr onclick={`setState('${abbr}',${parseFloat(combined)})`} style="cursor:pointer">
+                <td><strong>{abbr}</strong> — {state}</td>
+                <td class="acc">{combined}</td>
+                <td>{stateRate}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
+
+  <div class="card">
+    <h2>When to Use This Calculator</h2>
+    <ul>
+      <li><strong>Expense reports</strong> — separate tax from the total for accounting records.</li>
+      <li><strong>Business bookkeeping</strong> — record the net purchase amount excluding tax.</li>
+      <li><strong>VAT refunds</strong> — calculate the taxable base amount when claiming a refund.</li>
+      <li><strong>Price verification</strong> — confirm the correct tax rate was applied to your purchase.</li>
+      <li><strong>Receipt analysis</strong> — when the pre-tax price is not printed on your receipt.</li>
+      <li><strong>Cross-state shopping</strong> — compare real costs when buying in high-tax vs. low-tax states.</li>
+      <li><strong>Online sales</strong> — verify destination-state tax was correctly applied to your order.</li>
+    </ul>
+    <div class="tip-box" style="margin-top:.75rem">
+      <span class="tip-icon">💡</span>
+      <p><strong>No-tax states:</strong> Oregon, Montana, New Hampshire, Delaware, and Alaska have 0% state sales tax. Shopping in these states? Enter 0% or click OR / MT / NH / DE buttons above.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Common Reverse Sales Tax Mistakes</h2>
+    <ul>
+      <li><strong>Using state rate only</strong> — most areas have state + local/county taxes combined. Always use the combined rate shown on your receipt.</li>
+      <li><strong>Using wrong formula</strong> — the correct formula is: pre-tax = total ÷ (1 + rate). A common error is: total × (1 − rate), which underestimates the pre-tax amount.</li>
+      <li><strong>Applying tax to tip in restaurants</strong> — in most states, tax applies before the tip. Calculate pre-tax on the food subtotal only.</li>
+      <li><strong>Using outdated tax rates</strong> — sales tax rates change. Always verify your state's current combined rate before calculating for official reports.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>What is the formula for reverse sales tax?</h3>
+      <p>Pre-Tax Price = Total Paid ÷ (1 + Tax Rate ÷ 100). For a $215 total with 7.75% tax: $215 ÷ 1.0775 = <strong>$199.54</strong> pre-tax.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Which US states have no sales tax?</h3>
+      <p>Five states have no statewide sales tax: <strong>Oregon, Montana, New Hampshire, Delaware, and Alaska</strong>. Alaska allows local taxes so some cities do charge sales tax. Enter 0% in the calculator for these states.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What is the sales tax rate in Texas?</h3>
+      <p>Texas has a 6.25% state rate with a combined average of <strong>8.19%</strong>. Cities like Houston, Dallas, Austin, and San Antonio typically charge the maximum 8.25% combined rate.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What is the sales tax rate in California?</h3>
+      <p>California's combined average rate is <strong>8.68%</strong> (7.25% state + local). Los Angeles is 10.25%, San Jose is 9.375%, San Francisco is 8.625%.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What is the sales tax in Washington state?</h3>
+      <p>Washington's state rate is 6.5% with a combined average of <strong>10.25%</strong> — among the highest in the country. Seattle's combined rate is 10.25%.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Can I use this for VAT (Value Added Tax)?</h3>
+      <p>Yes — reverse VAT uses the same formula. Enter the VAT-inclusive price and the VAT rate (e.g., 20% UK, 19% Germany, 10% Australia GST) to find the pre-tax price.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Is the combined rate or state rate used on receipts?</h3>
+      <p>Receipts use the <strong>combined rate</strong> — both the state rate plus local/county taxes. Always use the combined rate in this calculator for accurate pre-tax results.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Related Calculators</h2>
+    <div class="next-grid">
+      <a href="/percent-off-calculator" class="next-card">
+        <span class="next-tag">Shopping</span>
+        <h3>Percent Off Calculator</h3>
+        <p>Calculate exact savings from any discount percentage.</p>
+      </a>
+      <a href="/percentage-calculator" class="next-card">
+        <span class="next-tag">Percentage</span>
+        <h3>Percentage Calculator</h3>
+        <p>Find X% of Y — three calculators in one.</p>
+      </a>
+      <a href="/cd-calculator" class="next-card">
+        <span class="next-tag">Finance</span>
+        <h3>CD Calculator</h3>
+        <p>Grow your savings with Certificate of Deposit rates.</p>
+      </a>
+      <a href="/mortgage-payoff-calculator" class="next-card">
+        <span class="next-tag">Finance</span>
+        <h3>Mortgage Payoff</h3>
+        <p>See how extra payments save on interest costs.</p>
+      </a>
+      <a href="/debt-snowball-calculator" class="next-card">
+        <span class="next-tag">Finance</span>
+        <h3>Debt Snowball</h3>
+        <p>Pay off all your debts — see your exact debt-free date.</p>
+      </a>
+      <a href="/margin-calculator" class="next-card">
+        <span class="next-tag">Business</span>
+        <h3>Margin Calculator</h3>
+        <p>Calculate profit margin % from revenue and cost.</p>
+      </a>
+    </div>
+  </div>
+
 </div>
 
 <script is:inline>
@@ -457,6 +355,10 @@ function calcTax() {
   document.getElementById('rec-rate').textContent     = rate.toFixed(2) + '%';
   document.getElementById('rec-tax').textContent      = '+ $' + fmt(taxAmt);
   document.getElementById('rec-total').textContent    = '$' + fmt(total);
+
+  document.getElementById('answer').classList.add('show');
+  document.getElementById('stats').classList.add('show');
+  document.getElementById('receipt').style.display = 'block';
 }
 
 function toggleStates() {
@@ -469,13 +371,20 @@ function toggleStates() {
 
 function setState(state, rate) {
   document.getElementById('taxrate').value = rate;
-  document.querySelectorAll('.state-btn').forEach(function(b) { b.classList.remove('active'); });
+  document.querySelectorAll('.preset-btn').forEach(function(b) { b.classList.remove('active'); });
   var btn = document.getElementById('sb-' + state);
   if (btn) btn.classList.add('active');
   calcTax();
 }
 
+document.getElementById('total').addEventListener('input', calcTax);
+document.getElementById('taxrate').addEventListener('input', function() {
+  document.querySelectorAll('.preset-btn').forEach(function(b) { b.classList.remove('active'); });
+  calcTax();
+});
+document.getElementById('calc-btn').addEventListener('click', calcTax);
+document.addEventListener('keydown', function(e) { if (e.key === 'Enter') calcTax(); });
+
 window.addEventListener('load', calcTax);
 </script>
-
 </Layout>

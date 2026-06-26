@@ -7,9 +7,9 @@ const schema = JSON.stringify([
     "@type": "WebApplication",
     "name": "Percentage Increase Calculator",
     "url": "https://computezap.com/percentage-increase-calculator",
-    "description": "Calculate percentage increase between two values instantly. Also find new value after a % increase. Free percentage increase calculator.",
+    "description": "Free percentage increase calculator. Find the percentage increase between two numbers, or calculate the new value after a percentage increase. Instant results.",
     "applicationCategory": "UtilityApplication",
-    "operatingSystem": "Any",
+    "operatingSystem": "Web",
     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
   },
   {
@@ -28,269 +28,308 @@ const schema = JSON.stringify([
       {
         "@type": "Question",
         "name": "How do I calculate percentage increase?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Percentage increase = ((New Value - Old Value) ÷ Old Value) × 100. Example: from 80 to 100 = ((100 - 80) ÷ 80) × 100 = 25% increase." }
+        "acceptedAnswer": { "@type": "Answer", "text": "Percentage Increase = ((New Value - Old Value) ÷ Old Value) × 100. Example: from 80 to 100 → ((100 - 80) ÷ 80) × 100 = 25% increase." }
       },
       {
         "@type": "Question",
-        "name": "What is a 20% increase of 150?",
-        "acceptedAnswer": { "@type": "Answer", "text": "A 20% increase of 150 = 150 × (1 + 20/100) = 150 × 1.20 = 180." }
+        "name": "What is a 10% increase on $500?",
+        "acceptedAnswer": { "@type": "Answer", "text": "$500 × 1.10 = $550. The increase amount is $50. Use the Find New Value mode and enter 500 as the original value and 10 as the percentage." }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I find the new value after a percentage increase?",
+        "acceptedAnswer": { "@type": "Answer", "text": "New Value = Old Value × (1 + Percentage ÷ 100). Example: 500 with a 30% increase → 500 × 1.30 = 650." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between percentage increase and percentage points?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A percentage increase is relative — going from 50% to 60% is a 20% relative increase ((60-50)/50×100 = 20%). A percentage point change is absolute — going from 50% to 60% is 10 percentage points. These are often confused." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is a 100% increase?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A 100% increase means the value doubled. If something costs $50 and increases by 100%, the new price is $100. A 200% increase means the value tripled." }
       }
     ]
   }
 ]);
 ---
 <Layout
-  title="Percentage Increase Calculator — % Increase Formula | ComputeZap"
-  description="Calculate percentage increase between two numbers instantly. Also find the new value after a % increase. Formula: ((New - Old) ÷ Old) × 100."
+  title="Percentage Increase Calculator — % Growth Between Two Numbers | ComputeZap"
+  description="Free percentage increase calculator. Find the percentage increase between two numbers, or calculate the new value after a percentage increase. Instant results."
   canonical="/percentage-increase-calculator"
   schema={schema}
 >
-<style is:global>
-.hero{text-align:center;padding:2rem 1rem 1.5rem}
-.hero h1{font-size:2rem;color:#111;margin:.5rem 0 .4rem;font-weight:800;letter-spacing:-.02em}
-.hero-sub{color:#64748b;margin:0;font-size:1.05rem}
-.breadcrumb{font-size:.82rem;color:#94a3b8;margin-bottom:.75rem}
-.breadcrumb a{color:var(--blue);text-decoration:none}
-.calc-wrap{display:grid;grid-template-columns:400px 1fr;gap:1.75rem;max-width:1120px;margin:0 auto;padding:0 1rem 3.5rem;align-items:start}
-.calc-left{position:sticky;top:1rem;display:flex;flex-direction:column;gap:1rem}
-.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:1.5rem;box-shadow:0 1px 4px rgba(0,0,0,.04)}
-.card h2{font-size:1rem;font-weight:700;color:#111;margin:0 0 1rem;padding-bottom:.65rem;border-bottom:1px solid #f3f4f6}
-.content-card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:1.5rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(0,0,0,.04)}
-.content-card h2{font-size:1.05rem;font-weight:700;color:#111;margin:0 0 .8rem}
-.content-card p{color:#444;line-height:1.75;font-size:.93rem;margin:0 0 .7rem}
-.content-card p:last-child{margin-bottom:0}
-.field-group{margin-bottom:.75rem}
-.field-group label{display:block;font-size:.8rem;font-weight:600;color:#64748b;margin-bottom:.35rem}
-.field-group input{width:100%;padding:.55rem .85rem;border:1.5px solid #e2e8f0;border-radius:8px;font-size:1rem;font-weight:700;color:#111;font-family:inherit;box-sizing:border-box}
-.field-group input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
-.calc-btn{width:100%;padding:.65rem;background:var(--blue);color:#fff;border:none;border-radius:9px;font-size:.95rem;font-weight:700;cursor:pointer;font-family:inherit;transition:background .15s;margin-top:.2rem}
-.calc-btn:hover{background:#1d4ed8}
-.answer-hero{background:linear-gradient(135deg,#1d4ed8 0%,#2563eb 60%,#3b82f6 100%);border-radius:12px;padding:1.25rem 1.5rem;text-align:center;display:none;margin-top:.75rem}
-.answer-hero.show{display:block}
-.a-label{font-size:.68rem;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.3rem;font-weight:700}
-.a-value{font-size:2.4rem;font-weight:900;color:#fff;line-height:1}
-.a-unit{font-size:.9rem;color:rgba(255,255,255,.8);margin-top:.25rem;font-weight:600}
-.a-formula{font-size:.78rem;color:rgba(255,255,255,.65);margin-top:.3rem}
-.stats-row{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-top:.65rem}
-.stat-box{background:#f8fafc;border:1px solid #f1f5f9;border-radius:9px;padding:.75rem;text-align:center}
-.stat-lbl{display:block;font-size:.62rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.2rem;font-weight:700}
-.stat-val{display:block;font-size:.95rem;font-weight:800;color:#1e293b}
-.formula-box{background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:12px;padding:1rem 1.25rem;margin:.75rem 0;text-align:center}
-.formula-text{font-size:.95rem;font-weight:800;color:#1e293b;font-family:monospace}
-.formula-sub{font-size:.8rem;color:#64748b;margin-top:.3rem}
-.tip-box{display:flex;gap:.75rem;background:#f0fdf4;border:1px solid #86efac;border-radius:10px;padding:.9rem 1rem;margin:.85rem 0}
-.tip-icon{font-size:1.1rem;flex-shrink:0}
-.tip-box p{margin:0;font-size:.875rem;color:#15803d;line-height:1.6}
-.ref-tbl{width:100%;border-collapse:collapse;font-size:.875rem}
-.ref-tbl th{background:#f8fafc;padding:.6rem .85rem;text-align:left;font-size:.68rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;border-bottom:2px solid #e2e8f0}
-.ref-tbl td{padding:.6rem .85rem;border-bottom:1px solid #f3f4f6;color:#374151}
-.ref-tbl tr:last-child td{border-bottom:none}
-.ref-tbl tbody tr:hover td{background:#f8faff}
-.faq-item{border-bottom:1px solid #f3f4f6;padding:.9rem 0}
-.faq-item:last-child{border-bottom:none;padding-bottom:0}
-.faq-item h3{font-size:.9rem;color:#111;margin:0 0 .35rem;font-weight:700}
-.faq-item p{color:#555;font-size:.865rem;margin:0;line-height:1.65}
-.next-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem}
-.next-card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:1rem;border-top:3px solid var(--blue);text-decoration:none;display:block}
-.next-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.08);text-decoration:none}
-.next-tag{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--blue);margin-bottom:.3rem;display:block}
-.next-card h3{font-size:.88rem;font-weight:700;color:#111;margin:0 0 .25rem}
-.next-card p{font-size:.78rem;color:#64748b;margin:0;line-height:1.5}
-@media(max-width:768px){.calc-wrap{grid-template-columns:1fr}.calc-left{position:static}.hero h1{font-size:1.65rem}.a-value{font-size:1.9rem}.next-grid{grid-template-columns:1fr 1fr}}
-@media(max-width:480px){.next-grid{grid-template-columns:1fr}}
-</style>
 
-<div class="hero">
-  <nav class="breadcrumb"><a href="/">Home</a> › <a href="/percentage-calculator">Percentage Calculator</a> › Percentage Increase</nav>
+<div class="page-hero">
+  <nav><a href="/">Home</a> › <a href="/percentage-calculator">Percentage</a> › Percentage Increase Calculator</nav>
   <h1>Percentage Increase Calculator</h1>
-  <p class="hero-sub">Find % increase between two values — or find the new value after an increase</p>
+  <p>Find the % increase between two numbers, or calculate the new value after a % increase</p>
 </div>
 
-<div class="calc-wrap">
-  <div class="calc-left">
-
-    <!-- Calc 1: find % increase -->
-    <div class="card">
-      <h2>Find Percentage Increase</h2>
-      <div class="field-group">
-        <label>Original (Old) Value</label>
-        <input type="number" id="old1" placeholder="80" min="0" />
-      </div>
-      <div class="field-group">
-        <label>New Value</label>
-        <input type="number" id="new1" placeholder="100" min="0" />
-      </div>
-      <button class="calc-btn" onclick="calcIncrease()">Calculate % Increase →</button>
-      <div id="res1" class="answer-hero">
-        <div class="a-label">Percentage Increase</div>
-        <div class="a-value" id="res1-val">—</div>
-        <div class="a-unit" id="res1-unit"></div>
-        <div class="a-formula" id="res1-formula"></div>
-      </div>
-      <div id="stats1" class="stats-row" style="display:none">
-        <div class="stat-box"><span class="stat-lbl">Old Value</span><span class="stat-val" id="s1-old"></span></div>
-        <div class="stat-box"><span class="stat-lbl">New Value</span><span class="stat-val" id="s1-new"></span></div>
-        <div class="stat-box"><span class="stat-lbl">Change</span><span class="stat-val" id="s1-change"></span></div>
-        <div class="stat-box"><span class="stat-lbl">% Increase</span><span class="stat-val" id="s1-pct"></span></div>
-      </div>
+<div class="calc-center">
+  <div class="card">
+    <div class="mode-wrap">
+      <button class="mode-btn active" id="btn-m1">Find % Increase</button>
+      <button class="mode-btn" id="btn-m2">Find New Value</button>
     </div>
 
-    <!-- Calc 2: find new value -->
-    <div class="card">
-      <h2>Find New Value After % Increase</h2>
-      <div class="field-group">
+    <div id="inputs-1">
+      <div class="input-group">
         <label>Original Value</label>
-        <input type="number" id="orig2" placeholder="150" min="0" />
+        <div class="input-wrap">
+          <input type="number" id="old1" placeholder="80" min="0" step="any" style="padding-right:.9rem" />
+        </div>
       </div>
-      <div class="field-group">
-        <label>Percentage Increase (%)</label>
-        <input type="number" id="pct2" placeholder="20" min="0" />
-      </div>
-      <button class="calc-btn" onclick="calcNewVal()">Calculate New Value →</button>
-      <div id="res2" class="answer-hero">
-        <div class="a-label">New Value</div>
-        <div class="a-value" id="res2-val">—</div>
-        <div class="a-unit" id="res2-unit"></div>
-        <div class="a-formula" id="res2-formula"></div>
+      <div class="input-group">
+        <label>New Value</label>
+        <div class="input-wrap">
+          <input type="number" id="new1" placeholder="100" min="0" step="any" style="padding-right:.9rem" />
+        </div>
       </div>
     </div>
 
-  </div>
-
-  <div class="calc-right">
-    <div class="content-card">
-      <h2>Percentage Increase Formula</h2>
-      <div class="formula-box">
-        <div class="formula-text">% Increase = ((New − Old) ÷ Old) × 100</div>
-        <div class="formula-sub">Example: 80 to 100 → ((100 − 80) ÷ 80) × 100 = 25%</div>
+    <div id="inputs-2" style="display:none">
+      <div class="input-group">
+        <label>Original Value</label>
+        <div class="input-wrap">
+          <input type="number" id="old2" placeholder="80" min="0" step="any" style="padding-right:.9rem" />
+        </div>
       </div>
-      <div class="formula-box">
-        <div class="formula-text">New Value = Old × (1 + % ÷ 100)</div>
-        <div class="formula-sub">Example: 150 with 20% increase → 150 × 1.20 = 180</div>
-      </div>
-      <p><strong>Step-by-step for 80 → 100:</strong></p>
-      <p>1. Find the change: 100 − 80 = <strong>20</strong></p>
-      <p>2. Divide by original: 20 ÷ 80 = <strong>0.25</strong></p>
-      <p>3. Multiply by 100: 0.25 × 100 = <strong>25%</strong></p>
-      <div class="tip-box">
-        <span class="tip-icon">📈</span>
-        <p><strong>Real-world use:</strong> Salary raise from $50,000 to $55,000 = ((55,000 − 50,000) ÷ 50,000) × 100 = <strong>10% increase</strong>.</p>
+      <div class="input-group">
+        <label>Percentage Increase</label>
+        <div class="input-wrap">
+          <input type="number" id="pct2" placeholder="25" min="0" step="any" />
+          <span class="input-sfx">%</span>
+        </div>
       </div>
     </div>
 
-    <div class="content-card">
-      <h2>Percentage Increase Reference Table</h2>
-      <div style="overflow-x:auto">
-        <table class="ref-tbl">
-          <thead><tr><th>From</th><th>To</th><th>% Increase</th></tr></thead>
-          <tbody>
-            <tr><td>100</td><td>110</td><td><strong>10%</strong></td></tr>
-            <tr><td>100</td><td>125</td><td><strong>25%</strong></td></tr>
-            <tr><td>100</td><td>150</td><td><strong>50%</strong></td></tr>
-            <tr><td>100</td><td>200</td><td><strong>100%</strong></td></tr>
-            <tr><td>50</td><td>75</td><td><strong>50%</strong></td></tr>
-            <tr><td>200</td><td>250</td><td><strong>25%</strong></td></tr>
-            <tr><td>1,000</td><td>1,200</td><td><strong>20%</strong></td></tr>
-            <tr><td>500</td><td>600</td><td><strong>20%</strong></td></tr>
-          </tbody>
-        </table>
-      </div>
+    <button class="calc-btn" id="calc-btn">Calculate</button>
+
+    <div class="answer-hero" id="answer">
+      <div class="a-label" id="ans-label">Percentage Increase</div>
+      <div class="a-value" id="ans-value">—</div>
+      <div class="a-unit" id="ans-unit"></div>
+      <div class="a-sub" id="ans-sub"></div>
     </div>
 
-    <div class="content-card">
-      <h2>Frequently Asked Questions</h2>
-      <div class="faq-item">
-        <h3>How do I calculate percentage increase?</h3>
-        <p>Formula: <strong>((New − Old) ÷ Old) × 100</strong>. Subtract the old value from the new, divide by the old value, then multiply by 100 to get the percentage.</p>
-      </div>
-      <div class="faq-item">
-        <h3>What is a 20% increase of 150?</h3>
-        <p><strong>180.</strong> Formula: 150 × (1 + 20/100) = 150 × 1.20 = 180. The increase amount is 30.</p>
-      </div>
-      <div class="faq-item">
-        <h3>What is the difference between percentage increase and percentage point increase?</h3>
-        <p>If a rate goes from 10% to 15%, that is a <strong>5 percentage point increase</strong> but a <strong>50% percentage increase</strong> (because 5 ÷ 10 × 100 = 50%).</p>
-      </div>
-    </div>
-
-    <div class="content-card">
-      <h2>Related Calculators</h2>
-      <div class="next-grid">
-        <a href="/percentage-calculator" class="next-card">
-          <span class="next-tag">Percentage</span>
-          <h3>Percentage Calculator</h3>
-          <p>What is X% of Y? Three calculators in one</p>
-        </a>
-        <a href="/percentage-decrease-calculator" class="next-card">
-          <span class="next-tag">Percentage</span>
-          <h3>% Decrease Calculator</h3>
-          <p>Calculate percentage decrease between two values</p>
-        </a>
-        <a href="/markup-calculator" class="next-card">
-          <span class="next-tag">Business</span>
-          <h3>Markup Calculator</h3>
-          <p>Calculate selling price from cost and markup %</p>
-        </a>
-        <a href="/margin-calculator" class="next-card">
-          <span class="next-tag">Business</span>
-          <h3>Margin Calculator</h3>
-          <p>Calculate profit margin from revenue and cost</p>
-        </a>
-        <a href="/percent-off-calculator" class="next-card">
-          <span class="next-tag">Discount</span>
-          <h3>Percent Off Calculator</h3>
-          <p>Find sale price after a percentage discount</p>
-        </a>
-        <a href="/cd-calculator" class="next-card">
-          <span class="next-tag">Finance</span>
-          <h3>CD Calculator</h3>
-          <p>Calculate certificate of deposit earnings</p>
-        </a>
-      </div>
+    <div class="stats-row" id="stats">
+      <div class="stat-box"><span class="stat-lbl" id="s1-lbl">Original</span><span class="stat-val" id="s1-val">—</span></div>
+      <div class="stat-box"><span class="stat-lbl" id="s2-lbl">New Value</span><span class="stat-val" id="s2-val">—</span></div>
+      <div class="stat-box"><span class="stat-lbl">Change Amount</span><span class="stat-val" id="s3-val">—</span></div>
+      <div class="stat-box"><span class="stat-lbl" id="s4-lbl">Multiplier</span><span class="stat-val" id="s4-val">—</span></div>
     </div>
   </div>
+</div>
+
+<div class="content-wrap">
+
+  <div class="card">
+    <h2>Percentage Increase Formula</h2>
+    <div class="formula-box">
+      <div class="formula-text">% Increase = ((New − Old) ÷ Old) × 100</div>
+      <div class="formula-sub">Example: 80 → 100 = ((100 − 80) ÷ 80) × 100 = <strong>25% increase</strong></div>
+    </div>
+    <div class="formula-box">
+      <div class="formula-text">New Value = Old × (1 + % ÷ 100)</div>
+      <div class="formula-sub">Example: 80 with 25% increase = 80 × 1.25 = <strong>100</strong></div>
+    </div>
+    <div class="tip-box">
+      <span class="tip-icon">💡</span>
+      <p><strong>Quick rule:</strong> A 100% increase = doubling. A 50% increase = multiplying by 1.5. A 200% increase = tripling. A 10% increase = multiplying by 1.10.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Percentage Increase Reference Table</h2>
+    <div style="overflow-x:auto">
+      <table class="ref-tbl">
+        <thead><tr><th>% Increase</th><th>On 100</th><th>On 500</th><th>On 1,000</th><th>On 10,000</th></tr></thead>
+        <tbody>
+          {[
+            ['5%', '105', '525', '1,050', '10,500'],
+            ['10%', '110', '550', '1,100', '11,000'],
+            ['15%', '115', '575', '1,150', '11,500'],
+            ['20%', '120', '600', '1,200', '12,000'],
+            ['25%', '125', '625', '1,250', '12,500'],
+            ['30%', '130', '650', '1,300', '13,000'],
+            ['40%', '140', '700', '1,400', '14,000'],
+            ['50%', '150', '750', '1,500', '15,000'],
+            ['75%', '175', '875', '1,750', '17,500'],
+            ['100%', '200', '1,000', '2,000', '20,000'],
+            ['150%', '250', '1,250', '2,500', '25,000'],
+            ['200%', '300', '1,500', '3,000', '30,000'],
+          ].map(([pct, v100, v500, v1k, v10k]) => (
+            <tr>
+              <td class="acc">{pct}</td>
+              <td>{v100}</td>
+              <td>{v500}</td>
+              <td>{v1k}</td>
+              <td>{v10k}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Real-World Percentage Increase Examples</h2>
+    <div style="overflow-x:auto">
+      <table class="ref-tbl">
+        <thead><tr><th>Scenario</th><th>Old Value</th><th>New Value</th><th>% Increase</th></tr></thead>
+        <tbody>
+          <tr><td>Salary raise</td><td>$60,000</td><td>$66,000</td><td class="acc">10%</td></tr>
+          <tr><td>Stock gain</td><td>$50</td><td>$75</td><td class="acc">50%</td></tr>
+          <tr><td>Rent increase</td><td>$1,200/mo</td><td>$1,380/mo</td><td class="acc">15%</td></tr>
+          <tr><td>Website traffic</td><td>10,000/mo</td><td>13,500/mo</td><td class="acc">35%</td></tr>
+          <tr><td>Gas price</td><td>$3.00/gal</td><td>$3.60/gal</td><td class="acc">20%</td></tr>
+          <tr><td>Revenue growth</td><td>$200,000</td><td>$300,000</td><td class="acc">50%</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>How do I calculate percentage increase?</h3>
+      <p>Use the formula: <strong>((New − Old) ÷ Old) × 100</strong>. For example, if a price went from $80 to $100: ((100 − 80) ÷ 80) × 100 = <strong>25% increase</strong>.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What is a 10% increase on $500?</h3>
+      <p>$500 × 1.10 = <strong>$550</strong>. The increase amount is $50. Use "Find New Value" mode, enter 500 as original and 10 as the percentage.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What is the difference between percentage increase and percentage points?</h3>
+      <p>A <strong>percentage increase</strong> is relative — going from 50% to 60% is a 20% relative increase ((60−50)÷50×100). A <strong>percentage point</strong> change is absolute — going from 50% to 60% is 10 percentage points. These are frequently confused in finance and news.</p>
+    </div>
+    <div class="faq-item">
+      <h3>How do I reverse a percentage increase to find the original value?</h3>
+      <p>Original = New Value ÷ (1 + % ÷ 100). If a price is $120 after a 20% increase: $120 ÷ 1.20 = <strong>$100</strong> original price.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What is a 100% increase?</h3>
+      <p>A 100% increase means the value doubled. If something costs $50 and increases by 100%, the new price is $100. A 200% increase means it tripled to $150.</p>
+    </div>
+    <div class="faq-item">
+      <h3>How is percentage increase different from percentage decrease?</h3>
+      <p>Both use the same base formula but in opposite directions. An increase means the new value is higher than the original. A decrease means the new value is lower. The formula differs only in which value is subtracted from which.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Related Calculators</h2>
+    <div class="next-grid">
+      <a href="/percentage-decrease-calculator" class="next-card">
+        <span class="next-tag">Percentage</span>
+        <h3>% Decrease Calculator</h3>
+        <p>Find the percentage decrease between two values</p>
+      </a>
+      <a href="/percentage-calculator" class="next-card">
+        <span class="next-tag">Percentage</span>
+        <h3>Percentage Calculator</h3>
+        <p>Find X% of Y, what % X is of Y, and more</p>
+      </a>
+      <a href="/percent-off-calculator" class="next-card">
+        <span class="next-tag">Shopping</span>
+        <h3>Percent Off Calculator</h3>
+        <p>Calculate the sale price after a discount</p>
+      </a>
+      <a href="/margin-calculator" class="next-card">
+        <span class="next-tag">Business</span>
+        <h3>Margin Calculator</h3>
+        <p>Calculate profit margin % from revenue and cost</p>
+      </a>
+      <a href="/markup-calculator" class="next-card">
+        <span class="next-tag">Business</span>
+        <h3>Markup Calculator</h3>
+        <p>Find selling price from cost and markup %</p>
+      </a>
+      <a href="/reverse-sales-tax-calculator" class="next-card">
+        <span class="next-tag">Finance</span>
+        <h3>Reverse Sales Tax</h3>
+        <p>Find original price before tax was added</p>
+      </a>
+    </div>
+  </div>
+
 </div>
 
 <script is:inline>
+var mode = 1;
+
+document.getElementById('btn-m1').addEventListener('click', function() { setMode(1); });
+document.getElementById('btn-m2').addEventListener('click', function() { setMode(2); });
+document.getElementById('calc-btn').addEventListener('click', calculate);
+document.getElementById('old1').addEventListener('input', calculate);
+document.getElementById('new1').addEventListener('input', calculate);
+document.getElementById('old2').addEventListener('input', calculate);
+document.getElementById('pct2').addEventListener('input', calculate);
+document.addEventListener('keydown', function(e) { if (e.key === 'Enter') calculate(); });
+
 function fmt(n) {
-  if (n === Math.floor(n)) return n.toLocaleString();
-  return parseFloat(n.toFixed(2)).toLocaleString();
+  return parseFloat(n.toFixed(4)).toLocaleString();
 }
+function fmtP(n) { return parseFloat(n.toFixed(2)) + '%'; }
+
+function setMode(m) {
+  mode = m;
+  document.getElementById('btn-m1').classList.toggle('active', m === 1);
+  document.getElementById('btn-m2').classList.toggle('active', m === 2);
+  document.getElementById('inputs-1').style.display = m === 1 ? 'block' : 'none';
+  document.getElementById('inputs-2').style.display = m === 2 ? 'block' : 'none';
+  document.getElementById('answer').classList.remove('show');
+  document.getElementById('stats').classList.remove('show');
+}
+
+function calculate() {
+  if (mode === 1) calcIncrease();
+  else calcNewVal();
+}
+
 function calcIncrease() {
   var oldV = parseFloat(document.getElementById('old1').value);
   var newV = parseFloat(document.getElementById('new1').value);
-  var res = document.getElementById('res1');
-  var stats = document.getElementById('stats1');
-  if (isNaN(oldV) || isNaN(newV) || oldV === 0) { res.classList.remove('show'); stats.style.display='none'; return; }
+  if (isNaN(oldV) || isNaN(newV) || oldV === 0) return;
   var pct = ((newV - oldV) / oldV) * 100;
   var change = newV - oldV;
-  document.getElementById('res1-val').textContent = fmt(Math.abs(pct)) + '%';
-  document.getElementById('res1-unit').textContent = (pct >= 0 ? 'Increase' : 'Decrease') + ' from ' + fmt(oldV) + ' to ' + fmt(newV);
-  document.getElementById('res1-formula').textContent = '((' + fmt(newV) + ' − ' + fmt(oldV) + ') ÷ ' + fmt(oldV) + ') × 100';
-  res.classList.add('show');
-  document.getElementById('s1-old').textContent = fmt(oldV);
-  document.getElementById('s1-new').textContent = fmt(newV);
-  document.getElementById('s1-change').textContent = (change >= 0 ? '+' : '') + fmt(change);
-  document.getElementById('s1-pct').textContent = (pct >= 0 ? '+' : '') + fmt(pct) + '%';
-  stats.style.display = 'grid';
+  var mult = newV / oldV;
+  document.getElementById('ans-label').textContent = pct >= 0 ? 'Percentage Increase' : 'Percentage Decrease';
+  document.getElementById('ans-value').textContent = fmtP(Math.abs(pct));
+  document.getElementById('ans-unit').textContent = fmt(oldV) + ' → ' + fmt(newV);
+  document.getElementById('ans-sub').textContent = (change >= 0 ? 'Increased by +' : 'Decreased by ') + fmt(Math.abs(change));
+  document.getElementById('s1-lbl').textContent = 'Original';
+  document.getElementById('s1-val').textContent = fmt(oldV);
+  document.getElementById('s2-lbl').textContent = 'New Value';
+  document.getElementById('s2-val').textContent = fmt(newV);
+  document.getElementById('s3-val').textContent = (change >= 0 ? '+' : '') + fmt(change);
+  document.getElementById('s4-lbl').textContent = 'Multiplier';
+  document.getElementById('s4-val').textContent = parseFloat(mult.toFixed(4)) + '×';
+  document.getElementById('answer').classList.add('show');
+  document.getElementById('stats').classList.add('show');
 }
+
 function calcNewVal() {
-  var orig = parseFloat(document.getElementById('orig2').value);
+  var oldV = parseFloat(document.getElementById('old2').value);
   var pct = parseFloat(document.getElementById('pct2').value);
-  var res = document.getElementById('res2');
-  if (isNaN(orig) || isNaN(pct)) { res.classList.remove('show'); return; }
-  var newVal = orig * (1 + pct / 100);
-  var increase = newVal - orig;
-  document.getElementById('res2-val').textContent = fmt(newVal);
-  document.getElementById('res2-unit').textContent = fmt(orig) + ' + ' + pct + '% = ' + fmt(newVal);
-  document.getElementById('res2-formula').textContent = fmt(orig) + ' × ' + (1 + pct/100).toFixed(2) + ' = ' + fmt(newVal) + ' (increase: +' + fmt(increase) + ')';
-  res.classList.add('show');
+  if (isNaN(oldV) || isNaN(pct)) return;
+  var newV = oldV * (1 + pct / 100);
+  var change = newV - oldV;
+  document.getElementById('ans-label').textContent = 'New Value After ' + fmtP(pct) + ' Increase';
+  document.getElementById('ans-value').textContent = fmt(newV);
+  document.getElementById('ans-unit').textContent = fmt(oldV) + ' + ' + fmtP(pct) + ' = ' + fmt(newV);
+  document.getElementById('ans-sub').textContent = 'Increase amount: +' + fmt(change);
+  document.getElementById('s1-lbl').textContent = 'Original';
+  document.getElementById('s1-val').textContent = fmt(oldV);
+  document.getElementById('s2-lbl').textContent = '% Increase';
+  document.getElementById('s2-val').textContent = fmtP(pct);
+  document.getElementById('s3-val').textContent = '+' + fmt(change);
+  document.getElementById('s4-lbl').textContent = 'New Value';
+  document.getElementById('s4-val').textContent = fmt(newV);
+  document.getElementById('answer').classList.add('show');
+  document.getElementById('stats').classList.add('show');
 }
-document.addEventListener('keydown', function(e) {
-  if (e.key !== 'Enter') return;
-  var t = e.target;
-  if (t.id === 'old1' || t.id === 'new1') calcIncrease();
-  if (t.id === 'orig2' || t.id === 'pct2') calcNewVal();
-});
 </script>
 </Layout>

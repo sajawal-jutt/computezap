@@ -433,6 +433,7 @@ main {
 .preset-wrap{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1rem}
 .preset-btn{background:#fff;color:var(--blue);border:1.5px solid #dbeafe;border-radius:20px;padding:.28rem .75rem;font-size:.82rem;font-weight:700;cursor:pointer;font-family:inherit}
 .preset-btn:hover{background:var(--blue);color:#fff;border-color:var(--blue)}
+.preset-btn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
 
 /* Convert button */
 .calc-btn{width:100%;padding:.8rem;background:var(--blue);color:#fff;border:none;border-radius:8px;font-size:1rem;font-weight:700;cursor:pointer;transition:background .15s;margin-bottom:1rem;font-family:inherit}
@@ -459,6 +460,17 @@ main {
 .answer-row:last-child{border-bottom:none}
 .answer-lbl{color:#64748b;font-weight:600}
 .answer-val{color:#2563eb;font-weight:800}
+
+/* Formula box */
+.formula-box{background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:12px;padding:1rem 1.25rem;margin:.75rem 0;text-align:center}
+.formula-text{font-size:.93rem;font-weight:800;color:#1e293b;font-family:monospace;line-height:1.5}
+.formula-sub{font-size:.82rem;color:#64748b;margin-top:.4rem}
+
+/* Compare grid */
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-top:.75rem}
+.compare-card{background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:10px;padding:.85rem 1rem}
+.compare-card h3{font-size:.82rem;font-weight:800;color:#1e293b;margin:0 0 .4rem;text-transform:uppercase;letter-spacing:.05em}
+.compare-card p{font-size:.8rem;color:#555;margin:0;line-height:1.6}
 
 /* Tip box */
 .tip-box{display:flex;gap:.75rem;background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:.9rem 1rem;margin:.75rem 0}
