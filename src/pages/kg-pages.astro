@@ -88,7 +88,7 @@ const schema = JSON.stringify([
     <p class="kg-title">⚖️ {group.label}</p>
     <div class="kg-grid">
       {group.weights.map(kg => (
-        <a href={`/${kg}-kg-to-lbs`} class="kg-link">
+        <a href={`/kg-to-lbs/${kg}-kg-to-lbs`} class="kg-link">
           <span class="kl-label">{kg} kg to lbs</span>
           <span class="kl-lbs">{toLbs(kg)} lbs</span>
           <span class="kl-stones">{toStones(kg)}</span>

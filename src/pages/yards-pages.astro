@@ -57,7 +57,7 @@ const schema = JSON.stringify({
         {g.vals.map(y => {
           const m = Math.round(y * 0.9144 * 100) / 100;
           return (
-            <a href={`/${y}-yards-to-meters`} class="yd-card">
+            <a href={`/yards-to-meters/${y}-yards-to-meters`} class="yd-card">
               <span class="yd-main">{y} yd</span>
               <span class="yd-sub">{m} m</span>
             </a>

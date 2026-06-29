@@ -76,7 +76,7 @@ const schema = JSON.stringify([
     <p class="pct-title">🏷️ {pct}% Off — {prices.length} prices</p>
     <div class="price-grid">
       {prices.map(price => (
-        <a href={`/${pct}-percent-off-${price}`} class="price-link">
+        <a href={`/percent-off/${pct}-percent-off-${price}`} class="price-link">
           <span class="pl-orig">{pct}% off ${price}</span>
           <span class="pl-sale">{salePrice(pct, price)}</span>
           <span class="pl-save">save ${(price * pct / 100) % 1 === 0 ? (price * pct / 100).toFixed(0) : (price * pct / 100).toFixed(2)}</span>

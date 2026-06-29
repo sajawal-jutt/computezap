@@ -1,1 +1,10 @@
-{}
+{
+  "redirects": [
+    { "source": "/:slug(\\d+-kg-to-lbs)", "destination": "/kg-to-lbs/:slug", "permanent": true },
+    { "source": "/:slug(\\d+-mb-to-gb)", "destination": "/mb-to-gb/:slug", "permanent": true },
+    { "source": "/:slug(\\d+-yards-to-meters)", "destination": "/yards-to-meters/:slug", "permanent": true },
+    { "source": "/:slug(\\d+-feet-\\d+-inches-in-cm)", "destination": "/height/:slug", "permanent": true },
+    { "source": "/:slug(\\d+-percent-off-\\d+)", "destination": "/percent-off/:slug", "permanent": true },
+    { "source": "/:slug(\\d+-days-from-today)", "destination": "/days-from-today/:slug", "permanent": true }
+  ]
+}

@@ -1,0 +1,217 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+export function getStaticPaths() {
+  const vals = [
+    1,2,3,4,5,6,7,8,9,10,
+    15,20,25,30,40,50,60,70,80,90,
+    100,128,150,200,250,256,300,400,500,512,
+    600,700,800,900,1000,1024,1500,2000,2048,
+    3000,4000,4096,5000,6000,8000,8192,10000,
+    16000,20000,32000,50000,100000
+  ];
+  return vals.map(mb => ({ params: { mb: String(mb) } }));
+}
+
+const mb = parseInt(Astro.params.mb);
+const gbBinary = Math.round(mb / 1024 * 100000) / 100000;
+const gbDecimal = Math.round(mb / 1000 * 100000) / 100000;
+const kb = mb * 1024;
+const bytes = mb * 1048576;
+const tbBinary = Math.round(mb / (1024 * 1024) * 1000000) / 1000000;
+
+function mbContext(mb: number) {
+  if (mb <= 5)    return 'Typical small document or low-res photo size';
+  if (mb <= 20)   return 'Average photo or short audio file';
+  if (mb <= 100)  return 'Small app, high-res photo, or short video clip';
+  if (mb <= 500)  return 'Typical app download or short HD video';
+  if (mb <= 1024) return 'About 1 GB — full movie download or large app';
+  if (mb <= 4096) return 'Typical smartphone RAM (2–4 GB range)';
+  if (mb <= 16384) return 'Typical laptop RAM (8–16 GB range)';
+  return 'Large storage — server RAM, SSD, or external drive range';
+}
+
+const allVals = [1,2,3,5,10,20,25,50,100,128,150,200,256,300,400,500,512,600,700,800,900,1000,1024,1500,2000,2048,3000,4000,4096,5000,8000,8192,10000,16000,20000,32000,50000,100000];
+const nearby = allVals.filter(v => v !== mb).sort((a,b) => Math.abs(a-mb)-Math.abs(b-mb)).slice(0,8);
+const tableRows = [1,2,5,10,20,50,100,128,200,256,500,512,1000,1024,2000,2048,4096,5000,8192,10000];
+
+const schema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": `${mb} MB to GB — ${gbBinary} GB | ComputeZap`,
+    "url": `https://computezap.com/mb-to-gb/${mb}-mb-to-gb`,
+    "description": `${mb} MB = ${gbBinary} GB (binary). Convert ${mb} megabytes to gigabytes instantly. Also shows KB, bytes, and decimal GB.`
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
+      { "@type": "ListItem", "position": 2, "name": "MB to GB Converter", "item": "https://computezap.com/mb-to-gb" },
+      { "@type": "ListItem", "position": 3, "name": `${mb} MB to GB`, "item": `https://computezap.com/mb-to-gb/${mb}-mb-to-gb` }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": `How many GB is ${mb} MB?`,
+        "acceptedAnswer": { "@type": "Answer", "text": `${mb} MB = ${gbBinary} GB (binary). Divide ${mb} by 1024 to convert megabytes to gigabytes. In decimal (SI): ${mb} ÷ 1000 = ${gbDecimal} GB.` }
+      },
+      {
+        "@type": "Question",
+        "name": `Is ${mb} MB a lot of storage?`,
+        "acceptedAnswer": { "@type": "Answer", "text": `${mb} MB = ${gbBinary} GB. ${mbContext(mb)}. For context: 1 GB = 1024 MB, so ${mb} MB is ${Math.round(mb/1024*100)/100} of a gigabyte.` }
+      },
+      {
+        "@type": "Question",
+        "name": `How do I convert ${mb} MB to GB?`,
+        "acceptedAnswer": { "@type": "Answer", "text": `Divide ${mb} by 1024 to get GB (binary): ${mb} ÷ 1024 = ${gbBinary} GB. Computers use binary (1 GB = 1024 MB). Storage manufacturers use decimal (1 GB = 1000 MB), giving ${gbDecimal} GB.` }
+      }
+    ]
+  }
+]);
+---
+<Layout
+  title={`${mb} MB to GB — How Many Gigabytes is ${mb} Megabytes? | ComputeZap`}
+  description={`${mb} MB = ${gbBinary} GB. Convert ${mb} megabytes to gigabytes instantly. Shows binary GB, decimal GB, KB, and bytes. Free converter.`}
+  canonical={`/mb-to-gb/${mb}-mb-to-gb`}
+  schema={schema}
+>
+
+<div class="page-hero">
+  <nav class="breadcrumb"><a href="/">Home</a> › <a href="/mb-to-gb">MB to GB</a> › {mb} MB to GB</nav>
+  <h1>{mb} MB to GB</h1>
+  <p>{mb} megabytes = <strong>{gbBinary} GB</strong> (binary)</p>
+</div>
+
+<div class="calc-center">
+  <div class="card">
+    <div class="answer-hero show">
+      <div class="a-label">{mb} Megabytes =</div>
+      <div class="a-value">{gbBinary}</div>
+      <div class="a-unit">gigabytes (GB)</div>
+      <div class="a-sub">{mb} MB ÷ 1024 = {gbBinary} GB</div>
+    </div>
+    <div class="stats-row show">
+      <div class="stat-box">
+        <span class="stat-lbl">Decimal GB</span>
+        <span class="stat-val">{gbDecimal} GB</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">Kilobytes</span>
+        <span class="stat-val">{kb.toLocaleString('en-US')} KB</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">Bytes</span>
+        <span class="stat-val">{bytes.toLocaleString('en-US')}</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">Terabytes</span>
+        <span class="stat-val">{tbBinary} TB</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="preset-lbl">Other nearby values</span>
+    <div class="preset-wrap">
+      {nearby.map(v => (
+        <a href={`/mb-to-gb/${v}-mb-to-gb`} class="preset-btn">{v} MB</a>
+      ))}
+    </div>
+  </div>
+</div>
+
+<div class="content-wrap">
+
+  <div class="card">
+    <h2>How to Convert {mb} MB to GB</h2>
+    <div class="formula-box">
+      <div class="formula-text">{mb} MB ÷ 1024 = {gbBinary} GB (binary)</div>
+      <div class="formula-sub">Computers use binary: 1 GB = 1,024 MB</div>
+    </div>
+    <div class="formula-box">
+      <div class="formula-text">{mb} MB ÷ 1000 = {gbDecimal} GB (decimal)</div>
+      <div class="formula-sub">Storage manufacturers use decimal: 1 GB = 1,000 MB</div>
+    </div>
+    <div class="answer-box">
+      <div class="answer-row"><span class="answer-lbl">{mb} MB in GB (binary)</span><span class="answer-val">{gbBinary} GB</span></div>
+      <div class="answer-row"><span class="answer-lbl">{mb} MB in GB (decimal)</span><span class="answer-val">{gbDecimal} GB</span></div>
+      <div class="answer-row"><span class="answer-lbl">{mb} MB in KB</span><span class="answer-val">{kb.toLocaleString('en-US')} KB</span></div>
+      <div class="answer-row"><span class="answer-lbl">{mb} MB in bytes</span><span class="answer-val">{bytes.toLocaleString('en-US')}</span></div>
+    </div>
+    <div class="tip-box">
+      <span class="tip-icon">💡</span>
+      <p><strong>Why two different GB values?</strong> Your OS reports storage in binary (1 GB = 1,024 MB) while hard drive manufacturers use decimal (1 GB = 1,000 MB). That's why a "1 TB" drive shows as ~931 GB on your computer.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>MB to GB Reference Table</h2>
+    <table class="conv-table">
+      <thead>
+        <tr><th>Megabytes (MB)</th><th>GB (Binary)</th><th>GB (Decimal)</th></tr>
+      </thead>
+      <tbody>
+        {tableRows.map(v => {
+          const gb = Math.round(v / 1024 * 100000) / 100000;
+          const gbd = Math.round(v / 1000 * 100000) / 100000;
+          return (
+            <tr class={v === mb ? 'hl' : ''}>
+              <td><a href={`/mb-to-gb/${v}-mb-to-gb`}>{v} MB</a></td>
+              <td>{gb} GB</td>
+              <td>{gbd} GB</td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>How many GB is {mb} MB?</h3>
+      <p>{mb} MB = {gbBinary} GB in binary (used by computers and operating systems). In decimal: {gbDecimal} GB (used by storage manufacturers).</p>
+    </div>
+    <div class="faq-item">
+      <h3>Is {mb} MB a lot?</h3>
+      <p>{mbContext(mb)}. {mb} MB = {gbBinary} GB binary or {gbDecimal} GB decimal.</p>
+    </div>
+    <div class="faq-item">
+      <h3>How do I convert MB to GB?</h3>
+      <p>Divide the MB value by 1024 for binary GB (used by computers). Divide by 1000 for decimal GB (used by manufacturers). For {mb} MB: {mb} ÷ 1024 = {gbBinary} GB.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Why does my computer show less storage than advertised?</h3>
+      <p>Manufacturers use decimal (1 GB = 1,000 MB) but operating systems use binary (1 GB = 1,024 MB). A 1 TB drive appears as ~931 GB on your computer because of this difference.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Related Converters</h2>
+    <div class="next-grid">
+      <a href="/mb-to-gb" class="next-card">
+        <span class="next-tag">Storage</span>
+        <h3>MB to GB Calculator</h3>
+        <p>Convert any MB value to gigabytes</p>
+      </a>
+      <a href="/kg-to-lbs" class="next-card">
+        <span class="next-tag">Weight</span>
+        <h3>kg to lbs</h3>
+        <p>Convert kilograms to pounds</p>
+      </a>
+      <a href="/cm-to-inches" class="next-card">
+        <span class="next-tag">Length</span>
+        <h3>cm to Inches</h3>
+        <p>Convert centimeters to inches</p>
+      </a>
+    </div>
+  </div>
+
+</div>
+</Layout>

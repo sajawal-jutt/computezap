@@ -1,0 +1,252 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// 1 atm = 1.01325 bar (exact)
+const barPerAtm = 1.01325;
+const psiPerAtm = 14.696;
+const kpaPerAtm = 101.325;
+
+const tableRows = [
+  {atm: 0.5, bar: 0.507},
+  {atm: 1, bar: 1.013},
+  {atm: 1.5, bar: 1.520},
+  {atm: 2, bar: 2.027},
+  {atm: 2.5, bar: 2.533},
+  {atm: 3, bar: 3.040},
+  {atm: 4, bar: 4.053},
+  {atm: 5, bar: 5.066},
+  {atm: 6, bar: 6.080},
+  {atm: 7, bar: 7.093},
+  {atm: 8, bar: 8.106},
+  {atm: 9, bar: 9.119},
+  {atm: 10, bar: 10.133},
+  {atm: 15, bar: 15.199},
+  {atm: 20, bar: 20.265},
+  {atm: 30, bar: 30.398},
+  {atm: 50, bar: 50.663},
+  {atm: 100, bar: 101.325},
+];
+
+const schema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "atm to Bar Converter — Atmospheres to Bar | ComputeZap",
+    "url": "https://computezap.com/atm-to-bar",
+    "description": "Convert atmospheres to bar instantly. 1 atm = 1.01325 bar. Enter any atm value and get bar, PSI, and kPa. Full reference table included."
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
+      { "@type": "ListItem", "position": 2, "name": "atm to Bar", "item": "https://computezap.com/atm-to-bar" }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do I convert atm to bar?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Multiply atm by 1.01325 to get bar. Example: 2 atm × 1.01325 = 2.0265 bar. To convert bar to atm: divide by 1.01325." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many bar is 1 atm?",
+        "acceptedAnswer": { "@type": "Answer", "text": "1 atm = 1.01325 bar. 1 atm is standard atmospheric pressure at sea level = 101.325 kPa = 14.696 psi = 1.01325 bar." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between atm and bar?",
+        "acceptedAnswer": { "@type": "Answer", "text": "1 atm (standard atmosphere) = 1.01325 bar. They are very close but not equal. Bar is a metric unit defined as exactly 100,000 Pa. Atm is based on average atmospheric pressure at sea level." }
+      }
+    ]
+  }
+]);
+---
+<Layout
+  title="atm to Bar Converter — Atmospheres to Bar | ComputeZap"
+  description="Convert atm to bar instantly. 1 atm = 1.01325 bar. Enter any atmosphere value for bar, PSI, and kPa conversion. Free pressure converter."
+  canonical="/atm-to-bar"
+  schema={schema}
+>
+
+<div class="page-hero">
+  <nav class="breadcrumb"><a href="/">Home</a> › atm to Bar Converter</nav>
+  <h1>atm to Bar Converter</h1>
+  <p>1 atm = <strong>1.01325 bar</strong></p>
+</div>
+
+<div class="calc-center">
+  <div class="card">
+    <div class="answer-hero show">
+      <div class="a-label">1 atm =</div>
+      <div class="a-value">1.01325</div>
+      <div class="a-unit">bar</div>
+      <div class="a-sub">1 atm = 101.325 kPa = 14.696 psi</div>
+    </div>
+    <div class="stats-row show">
+      <div class="stat-box">
+        <span class="stat-lbl">In kPa</span>
+        <span class="stat-val">101.325 kPa</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">In PSI</span>
+        <span class="stat-val">14.696 psi</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">In Pa</span>
+        <span class="stat-val">101,325 Pa</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">1 bar in atm</span>
+        <span class="stat-val">0.986923 atm</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <label style="font-size:.85rem;color:var(--muted);display:block;margin-bottom:.5rem">Enter atmospheres:</label>
+    <div style="display:flex;gap:.5rem;align-items:center">
+      <input type="number" id="atm-in" min="0" step="any" placeholder="e.g. 3" style="flex:1;padding:.5rem .75rem;border:1px solid var(--border);border-radius:8px;font-size:1rem;background:var(--bg);color:var(--text)" oninput="calcAtmBar()" />
+      <span style="font-size:.9rem;color:var(--muted)">atm =</span>
+      <input type="number" id="bar-out" step="any" placeholder="bar" readonly style="flex:1;padding:.5rem .75rem;border:1px solid var(--border);border-radius:8px;font-size:1rem;background:var(--surface);color:var(--text)" />
+      <span style="font-size:.9rem;color:var(--muted)">bar</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="preset-lbl">Common values</span>
+    <div class="preset-wrap">
+      <a href="#" onclick="setAtm(1);return false" class="preset-btn">1 atm</a>
+      <a href="#" onclick="setAtm(2);return false" class="preset-btn">2 atm</a>
+      <a href="#" onclick="setAtm(3);return false" class="preset-btn">3 atm</a>
+      <a href="#" onclick="setAtm(5);return false" class="preset-btn">5 atm</a>
+      <a href="#" onclick="setAtm(10);return false" class="preset-btn">10 atm</a>
+      <a href="#" onclick="setAtm(20);return false" class="preset-btn">20 atm</a>
+      <a href="#" onclick="setAtm(50);return false" class="preset-btn">50 atm</a>
+      <a href="#" onclick="setAtm(100);return false" class="preset-btn">100 atm</a>
+    </div>
+  </div>
+</div>
+
+<div class="content-wrap">
+
+  <div class="card">
+    <h2>How to Convert atm to Bar</h2>
+    <div class="formula-box">
+      <div class="formula-text">Bar = atm × 1.01325</div>
+      <div class="formula-sub">1 standard atmosphere = 1.01325 bar exactly</div>
+    </div>
+    <div class="formula-box">
+      <div class="formula-text">atm = Bar ÷ 1.01325</div>
+      <div class="formula-sub">To convert bar back to atmospheres</div>
+    </div>
+    <div class="answer-box">
+      <div class="answer-row"><span class="answer-lbl">1 atm in bar</span><span class="answer-val">1.01325 bar</span></div>
+      <div class="answer-row"><span class="answer-lbl">1 atm in kPa</span><span class="answer-val">101.325 kPa</span></div>
+      <div class="answer-row"><span class="answer-lbl">1 atm in PSI</span><span class="answer-val">14.696 psi</span></div>
+      <div class="answer-row"><span class="answer-lbl">1 bar in atm</span><span class="answer-val">0.986923 atm</span></div>
+    </div>
+    <div class="tip-box">
+      <span class="tip-icon">💡</span>
+      <p><strong>atm vs bar:</strong> 1 atm and 1 bar are almost equal (only 1.3% difference). Bar is easier to use in calculations since 1 bar = 100,000 Pa exactly. Atm is based on real-world atmospheric pressure at sea level.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>atm to Bar Reference Table</h2>
+    <table class="conv-table">
+      <thead>
+        <tr><th>atm</th><th>Bar</th><th>PSI</th><th>kPa</th></tr>
+      </thead>
+      <tbody>
+        {tableRows.map(r => (
+          <tr class={r.atm === 1 ? 'hl' : ''}>
+            <td>{r.atm} atm</td>
+            <td>{r.bar} bar</td>
+            <td>{Math.round(r.atm * 14.696 * 100) / 100} psi</td>
+            <td>{Math.round(r.atm * 101.325 * 10) / 10} kPa</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>Pressure Units Comparison</h2>
+    <table class="conv-table">
+      <thead>
+        <tr><th>Unit</th><th>= 1 atm</th><th>Definition</th></tr>
+      </thead>
+      <tbody>
+        <tr class="hl"><td>atm</td><td>1 atm</td><td>Standard atmosphere (sea level)</td></tr>
+        <tr><td>bar</td><td>1.01325 bar</td><td>Metric: 100,000 Pa exactly</td></tr>
+        <tr><td>kPa</td><td>101.325 kPa</td><td>Kilopascals (SI unit)</td></tr>
+        <tr><td>Pa</td><td>101,325 Pa</td><td>Pascals (N/m²)</td></tr>
+        <tr><td>PSI</td><td>14.696 psi</td><td>Pounds per square inch (US)</td></tr>
+        <tr><td>mmHg (Torr)</td><td>760 mmHg</td><td>Millimeters of mercury</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>How many bar is 1 atm?</h3>
+      <p>1 atm = 1.01325 bar exactly. Standard atmosphere (atm) is defined as the pressure at sea level = 101,325 Pa = 1.01325 bar.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What is the difference between atm and bar?</h3>
+      <p>1 bar = 100,000 Pa exactly. 1 atm = 101,325 Pa. They differ by about 1.3%. Bar is the preferred metric unit; atm is used in chemistry and gas laws.</p>
+    </div>
+    <div class="faq-item">
+      <h3>How many atm is 10 bar?</h3>
+      <p>10 bar = 9.869 atm. Divide 10 by 1.01325 = 9.869 atm. Common in diving: 10 bar water pressure = ~100 meters depth.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What is STP in atm and bar?</h3>
+      <p>Standard Temperature and Pressure (STP) in chemistry: 1 atm and 0°C (old definition) or 1 bar and 0°C (IUPAC 1982 definition). Always check which standard is being used.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Related Converters</h2>
+    <div class="next-grid">
+      <a href="/bar-to-psi" class="next-card">
+        <span class="next-tag">Pressure</span>
+        <h3>Bar to PSI</h3>
+        <p>Convert bar to pounds per square inch</p>
+      </a>
+      <a href="/mph-to-knots" class="next-card">
+        <span class="next-tag">Speed</span>
+        <h3>mph to Knots</h3>
+        <p>Convert miles per hour to knots</p>
+      </a>
+      <a href="/celsius-to-fahrenheit" class="next-card">
+        <span class="next-tag">Temperature</span>
+        <h3>Celsius to Fahrenheit</h3>
+        <p>Convert temperature between scales</p>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function calcAtmBar() {
+  var atm = parseFloat(document.getElementById('atm-in').value);
+  if (!isNaN(atm) && atm >= 0) {
+    document.getElementById('bar-out').value = Math.round(atm * 1.01325 * 100000) / 100000;
+  } else {
+    document.getElementById('bar-out').value = '';
+  }
+}
+function setAtm(n) {
+  document.getElementById('atm-in').value = n;
+  calcAtmBar();
+}
+</script>
+</Layout>

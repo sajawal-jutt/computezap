@@ -1,0 +1,214 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+export function getStaticPaths() {
+  const percents = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 60, 70, 75, 80, 90];
+  const prices = [10, 15, 20, 25, 30, 40, 50, 60, 75, 100, 120, 150, 200, 250, 300, 400, 500, 750, 1000];
+  const combos: { x: number; y: number }[] = [];
+  percents.forEach(x => prices.forEach(y => combos.push({ x, y })));
+  return combos.map(({ x, y }) => ({ params: { x: String(x), y: String(y) } }));
+}
+
+const x = parseInt(Astro.params.x);
+const y = parseInt(Astro.params.y);
+const savings = Math.round(y * x / 100 * 100) / 100;
+const salePrice = Math.round((y - savings) * 100) / 100;
+const multiplier = Math.round((1 - x / 100) * 1000) / 1000;
+
+const percents = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 60, 70, 75, 80, 90];
+const prices = [10, 15, 20, 25, 30, 40, 50, 60, 75, 100, 120, 150, 200, 250, 300, 400, 500, 750, 1000];
+
+const nearbyPrices = prices.filter(p => p !== y).sort((a, b) => Math.abs(a - y) - Math.abs(b - y)).slice(0, 6);
+const nearbyPercents = percents.filter(p => p !== x).sort((a, b) => Math.abs(a - x) - Math.abs(b - x)).slice(0, 6);
+
+const tableRows = percents;
+
+const schema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": `${x}% Off ${y} — Save $${savings} | ComputeZap`,
+    "url": `https://computezap.com/percent-off/${x}-percent-off-${y}`,
+    "description": `${x}% off $${y} = $${salePrice}. You save $${savings}. Calculate any percent discount instantly.`
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
+      { "@type": "ListItem", "position": 2, "name": "Percent Off Calculator", "item": "https://computezap.com/percent-off" },
+      { "@type": "ListItem", "position": 3, "name": `${x}% Off ${y}`, "item": `https://computezap.com/percent-off/${x}-percent-off-${y}` }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": `What is ${x}% off ${y}?`,
+        "acceptedAnswer": { "@type": "Answer", "text": `${x}% off $${y} = $${salePrice}. You save $${savings}. To calculate: ${y} × (${x}/100) = ${savings} savings. Sale price = ${y} - ${savings} = $${salePrice}.` }
+      },
+      {
+        "@type": "Question",
+        "name": `How much do I save with ${x}% off $${y}?`,
+        "acceptedAnswer": { "@type": "Answer", "text": `You save $${savings} with ${x}% off $${y}. The sale price is $${salePrice}. Formula: ${y} × 0.${String(x).padStart(2,'0')} = ${savings}.` }
+      },
+      {
+        "@type": "Question",
+        "name": `How do I calculate ${x}% off?`,
+        "acceptedAnswer": { "@type": "Answer", "text": `Multiply the original price by ${multiplier} (which is 1 - ${x}/100). For $${y}: ${y} × ${multiplier} = $${salePrice}. Or: find ${x}% of ${y} ($${savings}) and subtract from original.` }
+      }
+    ]
+  }
+]);
+---
+<Layout
+  title={`${x}% Off ${y} — Sale Price $${salePrice}, Save $${savings} | ComputeZap`}
+  description={`${x}% off $${y} = $${salePrice}. You save $${savings}. Instant percent off calculator — see discount, savings, and final price.`}
+  canonical={`/percent-off/${x}-percent-off-${y}`}
+  schema={schema}
+>
+
+<div class="page-hero">
+  <nav class="breadcrumb"><a href="/">Home</a> › <a href="/percent-off">Percent Off</a> › {x}% Off {y}</nav>
+  <h1>{x}% Off {y}</h1>
+  <p>{x}% off $<strong>{y}</strong> = $<strong>{salePrice}</strong></p>
+</div>
+
+<div class="calc-center">
+  <div class="card">
+    <div class="answer-hero show">
+      <div class="a-label">{x}% off ${y} =</div>
+      <div class="a-value">${salePrice}</div>
+      <div class="a-unit">final sale price</div>
+      <div class="a-sub">You save ${savings} ({x}% of ${y})</div>
+    </div>
+    <div class="stats-row show">
+      <div class="stat-box">
+        <span class="stat-lbl">Original Price</span>
+        <span class="stat-val">${y}</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">You Save</span>
+        <span class="stat-val">${savings}</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">Sale Price</span>
+        <span class="stat-val">${salePrice}</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">Multiplier</span>
+        <span class="stat-val">{multiplier}×</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="preset-lbl">Same {x}% off — other prices</span>
+    <div class="preset-wrap">
+      {nearbyPrices.map(p => (
+        <a href={`/percent-off/${x}-percent-off-${p}`} class="preset-btn">${p}</a>
+      ))}
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="preset-lbl">Off ${y} — other discounts</span>
+    <div class="preset-wrap">
+      {nearbyPercents.map(p => (
+        <a href={`/percent-off/${p}-percent-off-${y}`} class="preset-btn">{p}%</a>
+      ))}
+    </div>
+  </div>
+</div>
+
+<div class="content-wrap">
+
+  <div class="card">
+    <h2>How to Calculate {x}% Off {y}</h2>
+    <div class="formula-box">
+      <div class="formula-text">${y} × {multiplier} = ${salePrice}</div>
+      <div class="formula-sub">Multiply original price by (1 - discount/100)</div>
+    </div>
+    <div class="formula-box">
+      <div class="formula-text">${y} × {x}/100 = ${savings} saved</div>
+      <div class="formula-sub">Then: ${y} - ${savings} = ${salePrice} sale price</div>
+    </div>
+    <div class="answer-box">
+      <div class="answer-row"><span class="answer-lbl">Original price</span><span class="answer-val">${y}</span></div>
+      <div class="answer-row"><span class="answer-lbl">Discount amount</span><span class="answer-val">${savings}</span></div>
+      <div class="answer-row"><span class="answer-lbl">Final price</span><span class="answer-val">${salePrice}</span></div>
+      <div class="answer-row"><span class="answer-lbl">You save</span><span class="answer-val">{x}%</span></div>
+    </div>
+    <div class="tip-box">
+      <span class="tip-icon">💡</span>
+      <p><strong>Quick mental math:</strong> For {x}% off, multiply ${y} by {multiplier}. Or: find 10% (${Math.round(y*0.1*100)/100}), then adjust for {x}%.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Percent Off ${y} — Reference Table</h2>
+    <table class="conv-table">
+      <thead>
+        <tr><th>Discount</th><th>You Save</th><th>Sale Price</th></tr>
+      </thead>
+      <tbody>
+        {tableRows.map(p => {
+          const sav = Math.round(y * p / 100 * 100) / 100;
+          const sale = Math.round((y - sav) * 100) / 100;
+          return (
+            <tr class={p === x ? 'hl' : ''}>
+              <td><a href={`/percent-off/${p}-percent-off-${y}`}>{p}% off</a></td>
+              <td>${sav}</td>
+              <td>${sale}</td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>What is {x}% off {y}?</h3>
+      <p>{x}% off ${y} = ${salePrice}. You save ${savings}. The discount is {x}% of ${y}.</p>
+    </div>
+    <div class="faq-item">
+      <h3>How much do I save with {x}% off ${y}?</h3>
+      <p>You save ${savings}. The final sale price is ${salePrice} after applying {x}% discount to ${y}.</p>
+    </div>
+    <div class="faq-item">
+      <h3>How do I calculate {x}% off any price?</h3>
+      <p>Multiply the original price by {multiplier} (1 - {x}/100). Example: $200 × {multiplier} = ${Math.round(200 * multiplier * 100) / 100}.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What is {x}% of ${y}?</h3>
+      <p>{x}% of ${y} = ${savings}. This is your discount amount. The sale price is ${y} - ${savings} = ${salePrice}.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Related Calculators</h2>
+    <div class="next-grid">
+      <a href="/percent-off" class="next-card">
+        <span class="next-tag">Calculator</span>
+        <h3>Percent Off Calculator</h3>
+        <p>Calculate any percent discount instantly</p>
+      </a>
+      <a href="/percentage-calculator" class="next-card">
+        <span class="next-tag">Math</span>
+        <h3>Percentage Calculator</h3>
+        <p>Find percentages, increases, and decreases</p>
+      </a>
+      <a href="/tip-calculator" class="next-card">
+        <span class="next-tag">Finance</span>
+        <h3>Tip Calculator</h3>
+        <p>Calculate tips and split bills</p>
+      </a>
+    </div>
+  </div>
+
+</div>
+</Layout>

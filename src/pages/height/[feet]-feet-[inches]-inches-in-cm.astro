@@ -1,0 +1,234 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+export function getStaticPaths() {
+  const combos: { feet: number; inches: number }[] = [];
+  for (let f = 4; f <= 7; f++) {
+    for (let i = 0; i <= 11; i++) {
+      combos.push({ feet: f, inches: i });
+    }
+  }
+  return combos.map(({ feet, inches }) => ({
+    params: { feet: String(feet), inches: String(inches) }
+  }));
+}
+
+const feet = parseInt(Astro.params.feet);
+const inches = parseInt(Astro.params.inches);
+const totalInches = feet * 12 + inches;
+const cm = Math.round(totalInches * 2.54 * 100) / 100;
+const meters = Math.round(cm / 100 * 1000) / 1000;
+const mm = Math.round(cm * 10);
+
+function slug(ft: number, inch: number) {
+  return `/height/${ft}-feet-${inch}-inches-in-cm`;
+}
+
+const nearby: { feet: number; inches: number }[] = [];
+for (let f = 4; f <= 7; f++) {
+  for (let i = 0; i <= 11; i++) {
+    if (f !== feet || i !== inches) nearby.push({ feet: f, inches: i });
+  }
+}
+const closestNearby = nearby
+  .sort((a, b) => Math.abs((a.feet * 12 + a.inches) - totalInches) - Math.abs((b.feet * 12 + b.inches) - totalInches))
+  .slice(0, 8);
+
+const sameFootNearby = [];
+for (let i = 0; i <= 11; i++) {
+  if (i !== inches) sameFootNearby.push({ feet, inches: i });
+}
+
+function heightContext(totalIn: number) {
+  if (totalIn < 60) return 'Below average height for adults worldwide';
+  if (totalIn < 64) return 'Average female height in many Asian countries';
+  if (totalIn < 66) return 'Average height for women globally';
+  if (totalIn < 68) return 'Slightly above average for women, below average for men';
+  if (totalIn < 70) return 'Average height for men in many countries';
+  if (totalIn < 72) return 'Slightly above average height for men';
+  if (totalIn < 74) return 'Tall — top 20% for male height in most countries';
+  if (totalIn < 76) return 'Very tall — top 5% globally';
+  return 'Extremely tall — NBA / professional sports height range';
+}
+
+const tableRows: { feet: number; inches: number }[] = [];
+for (let f = 4; f <= 7; f++) {
+  for (let i = 0; i <= 11; i++) {
+    tableRows.push({ feet: f, inches: i });
+  }
+}
+
+const schema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": `${feet} Feet ${inches} Inches in cm — ${cm} cm | ComputeZap`,
+    "url": `https://computezap.com/height/${feet}-feet-${inches}-inches-in-cm`,
+    "description": `${feet} feet ${inches} inches = ${cm} cm. Convert ${feet}′${inches}″ to centimeters, meters, and millimeters instantly.`
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
+      { "@type": "ListItem", "position": 2, "name": "Height Converter", "item": "https://computezap.com/height" },
+      { "@type": "ListItem", "position": 3, "name": `${feet} ft ${inches} in to cm`, "item": `https://computezap.com/height/${feet}-feet-${inches}-inches-in-cm` }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": `How many cm is ${feet} feet ${inches} inches?`,
+        "acceptedAnswer": { "@type": "Answer", "text": `${feet} feet ${inches} inches = ${cm} cm. Convert by multiplying total inches (${totalInches}) by 2.54. Formula: (${feet}×12 + ${inches}) × 2.54 = ${cm} cm.` }
+      },
+      {
+        "@type": "Question",
+        "name": `What is ${feet} feet ${inches} inches in meters?`,
+        "acceptedAnswer": { "@type": "Answer", "text": `${feet} feet ${inches} inches = ${meters} meters. First convert to cm (${cm} cm), then divide by 100.` }
+      },
+      {
+        "@type": "Question",
+        "name": `Is ${feet}′${inches}″ tall?`,
+        "acceptedAnswer": { "@type": "Answer", "text": `${feet} feet ${inches} inches (${cm} cm): ${heightContext(totalInches)}.` }
+      }
+    ]
+  }
+]);
+---
+<Layout
+  title={`${feet} Feet ${inches} Inches in cm — ${cm} Centimeters | ComputeZap`}
+  description={`${feet} feet ${inches} inches = ${cm} cm. Convert ${feet}′${inches}″ to centimeters, meters, and millimeters. Free height converter.`}
+  canonical={`/height/${feet}-feet-${inches}-inches-in-cm`}
+  schema={schema}
+>
+
+<div class="page-hero">
+  <nav class="breadcrumb"><a href="/">Home</a> › <a href="/height">Height Converter</a> › {feet} Feet {inches} Inches in cm</nav>
+  <h1>{feet} Feet {inches} Inches in cm</h1>
+  <p>{feet}′{inches}″ = <strong>{cm} centimeters</strong></p>
+</div>
+
+<div class="calc-center">
+  <div class="card">
+    <div class="answer-hero show">
+      <div class="a-label">{feet}′{inches}″ =</div>
+      <div class="a-value">{cm}</div>
+      <div class="a-unit">centimeters (cm)</div>
+      <div class="a-sub">({feet}×12 + {inches}) × 2.54 = {cm} cm</div>
+    </div>
+    <div class="stats-row show">
+      <div class="stat-box">
+        <span class="stat-lbl">Meters</span>
+        <span class="stat-val">{meters} m</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">Total Inches</span>
+        <span class="stat-val">{totalInches} in</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">Millimeters</span>
+        <span class="stat-val">{mm} mm</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">Height Context</span>
+        <span class="stat-val" style="font-size:.72rem">{heightContext(totalInches)}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="preset-lbl">Other {feet} feet heights</span>
+    <div class="preset-wrap">
+      {sameFootNearby.map(h => (
+        <a href={slug(h.feet, h.inches)} class="preset-btn">{h.feet}′{h.inches}″</a>
+      ))}
+    </div>
+  </div>
+</div>
+
+<div class="content-wrap">
+
+  <div class="card">
+    <h2>How to Convert {feet} Feet {inches} Inches to cm</h2>
+    <div class="formula-box">
+      <div class="formula-text">({feet} × 12 + {inches}) × 2.54 = {cm} cm</div>
+      <div class="formula-sub">1 inch = 2.54 cm exactly | 1 foot = 30.48 cm</div>
+    </div>
+    <div class="answer-box">
+      <div class="answer-row"><span class="answer-lbl">{feet} ft {inches} in in cm</span><span class="answer-val">{cm} cm</span></div>
+      <div class="answer-row"><span class="answer-lbl">{feet} ft {inches} in in meters</span><span class="answer-val">{meters} m</span></div>
+      <div class="answer-row"><span class="answer-lbl">{feet} ft {inches} in in mm</span><span class="answer-val">{mm} mm</span></div>
+      <div class="answer-row"><span class="answer-lbl">Total inches</span><span class="answer-val">{totalInches} inches</span></div>
+    </div>
+    <p>{heightContext(totalInches)}.</p>
+  </div>
+
+  <div class="card">
+    <h2>Height Reference Table — {feet} Feet</h2>
+    <table class="conv-table">
+      <thead>
+        <tr><th>Height</th><th>Centimeters</th><th>Meters</th></tr>
+      </thead>
+      <tbody>
+        {sameFootNearby.concat([{feet, inches}]).sort((a,b) => a.inches - b.inches).map(h => {
+          const hIn = h.feet * 12 + h.inches;
+          const hcm = Math.round(hIn * 2.54 * 100) / 100;
+          const hm = Math.round(hcm / 100 * 1000) / 1000;
+          return (
+            <tr class={h.feet === feet && h.inches === inches ? 'hl' : ''}>
+              <td><a href={slug(h.feet, h.inches)}>{h.feet}′{h.inches}″</a></td>
+              <td>{hcm} cm</td>
+              <td>{hm} m</td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>How many cm is {feet} feet {inches} inches?</h3>
+      <p>{feet} feet {inches} inches = {cm} cm. Multiply total inches ({totalInches}) by 2.54 to get centimeters.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What is {feet}′{inches}″ in meters?</h3>
+      <p>{feet} feet {inches} inches = {meters} meters. Divide {cm} cm by 100.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Is {feet} feet {inches} inches tall?</h3>
+      <p>{heightContext(totalInches)}. For reference: average US male is 5′9″ (175.3 cm), average US female is 5′4″ (162.6 cm).</p>
+    </div>
+    <div class="faq-item">
+      <h3>How do I convert feet and inches to cm?</h3>
+      <p>Step 1: Convert feet to inches (multiply by 12). Step 2: Add the remaining inches. Step 3: Multiply the total by 2.54. For {feet}′{inches}″: ({feet}×12 + {inches}) × 2.54 = {cm} cm.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Related Converters</h2>
+    <div class="next-grid">
+      <a href="/height" class="next-card">
+        <span class="next-tag">Height</span>
+        <h3>Height Converter</h3>
+        <p>Convert any height from feet/inches to cm</p>
+      </a>
+      <a href="/cm-to-inches" class="next-card">
+        <span class="next-tag">Length</span>
+        <h3>cm to Inches</h3>
+        <p>Convert centimeters to inches</p>
+      </a>
+      <a href="/kg-to-lbs" class="next-card">
+        <span class="next-tag">Weight</span>
+        <h3>kg to lbs</h3>
+        <p>Convert kilograms to pounds</p>
+      </a>
+    </div>
+  </div>
+
+</div>
+</Layout>

@@ -1,0 +1,216 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+export function getStaticPaths() {
+  const weights = [
+    40, 45, 50, 55, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69,
+    70, 71, 72, 73, 74, 75, 76, 77, 78, 79,
+    80, 81, 82, 83, 84, 85, 86, 87, 88, 89,
+    90, 91, 92, 93, 94, 95, 96, 97, 98, 99,
+    100, 105, 110, 115, 120, 125, 130, 135, 140, 150, 175, 200
+  ];
+  return weights.map(kg => ({ params: { kg: String(kg) } }));
+}
+
+const kg = parseInt(Astro.params.kg);
+const lbs = kg * 2.20462;
+const lbsRound = Math.round(lbs * 100) / 100;
+const lbsWhole = Math.floor(lbs);
+const oz = Math.round((lbs - lbsWhole) * 16);
+const stones = Math.floor(lbs / 14);
+const stoneRem = Math.round((lbs % 14) * 10) / 10;
+const grams = kg * 1000;
+
+const allWeights = [40,45,50,55,60,65,70,75,80,85,90,95,100,105,110,115,120,125,130,135,140,150,175,200];
+const nearby = allWeights.filter(w => w !== kg).sort((a,b) => Math.abs(a-kg) - Math.abs(b-kg)).slice(0, 8);
+
+function weightContext(kg: number) {
+  if (kg < 50) return 'Below average body weight for adults';
+  if (kg < 60) return 'Typical weight for lighter adults';
+  if (kg < 70) return 'Average weight range for women';
+  if (kg < 80) return 'Average weight range for men';
+  if (kg < 90) return 'Above average — common for athletic builds';
+  if (kg < 100) return 'Heavyweight range for most adults';
+  if (kg < 120) return 'Obese range (BMI > 30 for avg height)';
+  return 'Very heavy — bariatric range';
+}
+
+const tableRows = allWeights;
+
+const schema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": `${kg} kg to lbs — ${lbsRound} Pounds | ComputeZap`,
+    "url": `https://computezap.com/kg-to-lbs/${kg}-kg-to-lbs`,
+    "description": `${kg} kg = ${lbsRound} lbs. Convert ${kg} kilograms to pounds instantly. Also shows stones, grams, and ounces.`
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
+      { "@type": "ListItem", "position": 2, "name": "kg to lbs Converter", "item": "https://computezap.com/kg-to-lbs" },
+      { "@type": "ListItem", "position": 3, "name": `${kg} kg to lbs`, "item": `https://computezap.com/kg-to-lbs/${kg}-kg-to-lbs` }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": `How many pounds is ${kg} kg?`,
+        "acceptedAnswer": { "@type": "Answer", "text": `${kg} kilograms equals ${lbsRound} pounds. To convert, multiply ${kg} × 2.20462 = ${lbsRound} lbs. In stones: ${stones} st ${stoneRem} lbs.` }
+      },
+      {
+        "@type": "Question",
+        "name": `What is ${kg} kg in stones and pounds?`,
+        "acceptedAnswer": { "@type": "Answer", "text": `${kg} kg = ${stones} stone and ${stoneRem} pounds (${lbsRound} lbs total). Stones are used mainly in the UK and Ireland for body weight. 1 stone = 14 pounds = 6.35029 kg.` }
+      },
+      {
+        "@type": "Question",
+        "name": `How do I convert ${kg} kg to lbs?`,
+        "acceptedAnswer": { "@type": "Answer", "text": `Multiply ${kg} by 2.20462. Formula: ${kg} × 2.20462 = ${lbsRound} lbs. Quick estimate: multiply by 2.2 for a close approximation (${kg} × 2.2 = ${Math.round(kg * 2.2 * 10)/10} lbs).` }
+      }
+    ]
+  }
+]);
+---
+<Layout
+  title={`${kg} kg to lbs — How Many Pounds is ${kg} Kilograms? | ComputeZap`}
+  description={`${kg} kg = ${lbsRound} lbs. Convert ${kg} kilograms to pounds instantly. Also shows stones and pounds, grams, and ounces. Free converter.`}
+  canonical={`/kg-to-lbs/${kg}-kg-to-lbs`}
+  schema={schema}
+>
+
+<div class="page-hero">
+  <nav class="breadcrumb"><a href="/">Home</a> › <a href="/kg-to-lbs">kg to lbs</a> › {kg} kg to lbs</nav>
+  <h1>{kg} kg to lbs</h1>
+  <p>{kg} kilograms = <strong>{lbsRound} pounds</strong></p>
+</div>
+
+<div class="calc-center">
+  <div class="card">
+    <div class="answer-hero show">
+      <div class="a-label">{kg} Kilograms =</div>
+      <div class="a-value">{lbsRound}</div>
+      <div class="a-unit">pounds (lbs)</div>
+      <div class="a-sub">{kg} kg × 2.20462 = {lbsRound} lbs</div>
+    </div>
+    <div class="stats-row show">
+      <div class="stat-box">
+        <span class="stat-lbl">Stones &amp; lbs</span>
+        <span class="stat-val">{stones} st {stoneRem} lb</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">Grams</span>
+        <span class="stat-val">{grams.toLocaleString('en-US')} g</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">Lbs &amp; oz</span>
+        <span class="stat-val">{lbsWhole} lb {oz} oz</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">Context</span>
+        <span class="stat-val" style="font-size:.72rem">{weightContext(kg)}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="preset-lbl">Other nearby values</span>
+    <div class="preset-wrap">
+      {nearby.map(w => (
+        <a href={`/kg-to-lbs/${w}-kg-to-lbs`} class="preset-btn">{w} kg</a>
+      ))}
+    </div>
+  </div>
+</div>
+
+<div class="content-wrap">
+
+  <div class="card">
+    <h2>How to Convert {kg} kg to Pounds</h2>
+    <div class="formula-box">
+      <div class="formula-text">{kg} × 2.20462 = {lbsRound} lbs</div>
+      <div class="formula-sub">1 kilogram = 2.20462 pounds (exact international definition)</div>
+    </div>
+    <div class="answer-box">
+      <div class="answer-row"><span class="answer-lbl">{kg} kg in lbs</span><span class="answer-val">{lbsRound} lbs</span></div>
+      <div class="answer-row"><span class="answer-lbl">{kg} kg in stones</span><span class="answer-val">{stones} st {stoneRem} lb</span></div>
+      <div class="answer-row"><span class="answer-lbl">{kg} kg in grams</span><span class="answer-val">{grams.toLocaleString('en-US')} g</span></div>
+      <div class="answer-row"><span class="answer-lbl">{kg} kg in oz</span><span class="answer-val">{lbsWhole} lb {oz} oz</span></div>
+    </div>
+    <div class="tip-box">
+      <span class="tip-icon">💡</span>
+      <p><strong>Quick estimate:</strong> Multiply kg by 2.2 for a fast approximation. {kg} × 2.2 = {Math.round(kg * 2.2 * 10)/10} lbs (exact: {lbsRound} lbs).</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>kg to lbs Reference Table</h2>
+    <table class="conv-table">
+      <thead>
+        <tr><th>Kilograms</th><th>Pounds (lbs)</th><th>Stones &amp; lbs</th></tr>
+      </thead>
+      <tbody>
+        {tableRows.map(w => {
+          const wlbs = Math.round(w * 2.20462 * 100) / 100;
+          const wst = Math.floor(w * 2.20462 / 14);
+          const wrem = Math.round(((w * 2.20462) % 14) * 10) / 10;
+          return (
+            <tr class={w === kg ? 'hl' : ''}>
+              <td><a href={`/kg-to-lbs/${w}-kg-to-lbs`}>{w} kg</a></td>
+              <td>{wlbs} lbs</td>
+              <td>{wst} st {wrem} lb</td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>How many pounds is {kg} kg?</h3>
+      <p>{kg} kilograms equals {lbsRound} pounds. Multiply {kg} by 2.20462 to get the exact result.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What is {kg} kg in stones and pounds?</h3>
+      <p>{kg} kg = {stones} stone and {stoneRem} pounds. Stones are used mainly in the UK and Ireland for measuring body weight. 1 stone = 14 pounds.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Is {kg} kg heavy?</h3>
+      <p>{weightContext(kg)}. At {kg} kg ({lbsRound} lbs), the average US male is 89.8 kg (198 lbs) and the average US female is 77.4 kg (170.6 lbs).</p>
+    </div>
+    <div class="faq-item">
+      <h3>How do I convert {kg} kg to lbs without a calculator?</h3>
+      <p>Multiply {kg} by 2.2 for a quick estimate: {kg} × 2.2 = {Math.round(kg * 2.2 * 10)/10} lbs. The precise answer is {lbsRound} lbs (using the exact factor 2.20462).</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Related Converters</h2>
+    <div class="next-grid">
+      <a href="/kg-to-lbs" class="next-card">
+        <span class="next-tag">Converter</span>
+        <h3>kg to lbs Calculator</h3>
+        <p>Convert any weight from kilograms to pounds</p>
+      </a>
+      <a href="/cm-to-inches" class="next-card">
+        <span class="next-tag">Length</span>
+        <h3>cm to Inches</h3>
+        <p>Convert centimeters to inches</p>
+      </a>
+      <a href="/meters-to-feet" class="next-card">
+        <span class="next-tag">Length</span>
+        <h3>Meters to Feet</h3>
+        <p>Convert meters to feet and inches</p>
+      </a>
+    </div>
+  </div>
+
+</div>
+</Layout>

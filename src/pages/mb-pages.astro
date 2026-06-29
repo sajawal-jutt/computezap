@@ -63,7 +63,7 @@ const schema = JSON.stringify({
         {g.vals.map(v => {
           const gb = Math.round(v / 1024 * 10000) / 10000;
           return (
-            <a href={`/${v}-mb-to-gb`} class="mb-card">
+            <a href={`/mb-to-gb/${v}-mb-to-gb`} class="mb-card">
               <span class="mb-main">{v} MB</span>
               <span class="mb-sub">{gb} GB</span>
             </a>

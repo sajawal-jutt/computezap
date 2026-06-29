@@ -1,0 +1,247 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// 1 US gallon = 4 US quarts
+const quartsPerGallon = 4;
+
+const tableRows = [
+  {qt: 0.25, gal: 0.0625},
+  {qt: 0.5, gal: 0.125},
+  {qt: 1, gal: 0.25},
+  {qt: 2, gal: 0.5},
+  {qt: 3, gal: 0.75},
+  {qt: 4, gal: 1},
+  {qt: 5, gal: 1.25},
+  {qt: 6, gal: 1.5},
+  {qt: 7, gal: 1.75},
+  {qt: 8, gal: 2},
+  {qt: 10, gal: 2.5},
+  {qt: 12, gal: 3},
+  {qt: 16, gal: 4},
+  {qt: 20, gal: 5},
+  {qt: 24, gal: 6},
+  {qt: 32, gal: 8},
+  {qt: 40, gal: 10},
+];
+
+const schema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Quart to Gallon Converter — qt to gal | ComputeZap",
+    "url": "https://computezap.com/quart-to-gallon",
+    "description": "Convert quarts to gallons instantly. 1 US gallon = 4 quarts. Enter any quart value and get gallons, plus a full reference table."
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
+      { "@type": "ListItem", "position": 2, "name": "Quart to Gallon", "item": "https://computezap.com/quart-to-gallon" }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How many quarts are in a gallon?",
+        "acceptedAnswer": { "@type": "Answer", "text": "There are exactly 4 US quarts in 1 US gallon. Formula: gallons = quarts ÷ 4. So 8 quarts = 2 gallons, 12 quarts = 3 gallons." }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I convert quarts to gallons?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Divide the number of quarts by 4 to get US gallons. Example: 6 quarts ÷ 4 = 1.5 gallons. To go the other way, multiply gallons × 4 to get quarts." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many quarts in a half gallon?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A half gallon = 2 quarts. Since 1 gallon = 4 quarts, half a gallon = 2 quarts = 64 fluid ounces." }
+      }
+    ]
+  }
+]);
+---
+<Layout
+  title="Quart to Gallon Converter — qt to gal | ComputeZap"
+  description="Convert quarts to gallons instantly. 1 US gallon = 4 quarts. Enter any quart value for the exact gallon conversion. Includes full reference table."
+  canonical="/quart-to-gallon"
+  schema={schema}
+>
+
+<div class="page-hero">
+  <nav class="breadcrumb"><a href="/">Home</a> › Quart to Gallon Converter</nav>
+  <h1>Quart to Gallon Converter</h1>
+  <p>1 US gallon = <strong>4 quarts</strong></p>
+</div>
+
+<div class="calc-center">
+  <div class="card">
+    <div class="answer-hero show">
+      <div class="a-label">1 Gallon =</div>
+      <div class="a-value">4</div>
+      <div class="a-unit">quarts (qt)</div>
+      <div class="a-sub">Divide quarts by 4 to get gallons</div>
+    </div>
+    <div class="stats-row show">
+      <div class="stat-box">
+        <span class="stat-lbl">1 qt</span>
+        <span class="stat-val">0.25 gal</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">2 qt</span>
+        <span class="stat-val">0.5 gal</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">4 qt</span>
+        <span class="stat-val">1 gal</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">8 qt</span>
+        <span class="stat-val">2 gal</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <label style="font-size:.85rem;color:var(--muted);display:block;margin-bottom:.5rem">Enter quarts:</label>
+    <div style="display:flex;gap:.5rem;align-items:center">
+      <input type="number" id="qt-in" min="0" step="any" placeholder="e.g. 8" style="flex:1;padding:.5rem .75rem;border:1px solid var(--border);border-radius:8px;font-size:1rem;background:var(--bg);color:var(--text)" oninput="calcQtGal()" />
+      <span style="font-size:.9rem;color:var(--muted)">qt =</span>
+      <input type="number" id="gal-out" step="any" placeholder="gallons" readonly style="flex:1;padding:.5rem .75rem;border:1px solid var(--border);border-radius:8px;font-size:1rem;background:var(--surface);color:var(--text)" />
+      <span style="font-size:.9rem;color:var(--muted)">gal</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="preset-lbl">Quick conversions</span>
+    <div class="preset-wrap">
+      <a href="#" onclick="setQt(1);return false" class="preset-btn">1 qt</a>
+      <a href="#" onclick="setQt(2);return false" class="preset-btn">2 qt</a>
+      <a href="#" onclick="setQt(4);return false" class="preset-btn">4 qt</a>
+      <a href="#" onclick="setQt(6);return false" class="preset-btn">6 qt</a>
+      <a href="#" onclick="setQt(8);return false" class="preset-btn">8 qt</a>
+      <a href="#" onclick="setQt(12);return false" class="preset-btn">12 qt</a>
+      <a href="#" onclick="setQt(16);return false" class="preset-btn">16 qt</a>
+      <a href="#" onclick="setQt(20);return false" class="preset-btn">20 qt</a>
+    </div>
+  </div>
+</div>
+
+<div class="content-wrap">
+
+  <div class="card">
+    <h2>How to Convert Quarts to Gallons</h2>
+    <div class="formula-box">
+      <div class="formula-text">Gallons = Quarts ÷ 4</div>
+      <div class="formula-sub">US: 1 gallon = 4 quarts exactly</div>
+    </div>
+    <div class="formula-box">
+      <div class="formula-text">Quarts = Gallons × 4</div>
+      <div class="formula-sub">To convert back: multiply gallons by 4</div>
+    </div>
+    <div class="answer-box">
+      <div class="answer-row"><span class="answer-lbl">4 quarts in gallons</span><span class="answer-val">1 gallon</span></div>
+      <div class="answer-row"><span class="answer-lbl">8 quarts in gallons</span><span class="answer-val">2 gallons</span></div>
+      <div class="answer-row"><span class="answer-lbl">16 quarts in gallons</span><span class="answer-val">4 gallons</span></div>
+      <div class="answer-row"><span class="answer-lbl">20 quarts in gallons</span><span class="answer-val">5 gallons</span></div>
+    </div>
+    <div class="tip-box">
+      <span class="tip-icon">💡</span>
+      <p><strong>Easy memory trick:</strong> Think "quart" = "quarter gallon." 1 quart is literally one quarter (¼) of a gallon. So 4 quarts = 1 full gallon.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Quarts to Gallons Reference Table</h2>
+    <table class="conv-table">
+      <thead>
+        <tr><th>Quarts (qt)</th><th>Gallons (gal)</th><th>Fluid Ounces</th></tr>
+      </thead>
+      <tbody>
+        {tableRows.map(r => (
+          <tr class={r.qt === 4 ? 'hl' : ''}>
+            <td>{r.qt} qt</td>
+            <td>{r.gal} gal</td>
+            <td>{r.qt * 32} fl oz</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>US Liquid Volume Hierarchy</h2>
+    <table class="conv-table">
+      <thead>
+        <tr><th>Unit</th><th>fl oz</th><th>Quarts</th><th>Gallons</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1 fl oz</td><td>1</td><td>0.03125</td><td>0.0078</td></tr>
+        <tr><td>1 cup</td><td>8</td><td>0.25</td><td>0.0625</td></tr>
+        <tr><td>1 pint</td><td>16</td><td>0.5</td><td>0.125</td></tr>
+        <tr class="hl"><td>1 quart</td><td>32</td><td>1</td><td>0.25</td></tr>
+        <tr><td>1 gallon</td><td>128</td><td>4</td><td>1</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>How many quarts in a gallon?</h3>
+      <p>There are exactly 4 US quarts in 1 US gallon. 1 quart = ¼ gallon. This is why "quart" means "quarter" — it's one-fourth of a gallon.</p>
+    </div>
+    <div class="faq-item">
+      <h3>How many quarts in half a gallon?</h3>
+      <p>Half a gallon = 2 quarts = 64 fluid ounces. A standard half-gallon milk jug holds 2 quarts.</p>
+    </div>
+    <div class="faq-item">
+      <h3>How many quarts is 5 gallons?</h3>
+      <p>5 gallons = 20 quarts. Multiply gallons × 4: 5 × 4 = 20 quarts. A 5-gallon water cooler jug holds 20 quarts.</p>
+    </div>
+    <div class="faq-item">
+      <h3>How many gallons is 6 quarts?</h3>
+      <p>6 quarts = 1.5 gallons. Divide by 4: 6 ÷ 4 = 1.5 gallons = 1 gallon and 2 quarts.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Related Converters</h2>
+    <div class="next-grid">
+      <a href="/gallons-to-liters" class="next-card">
+        <span class="next-tag">Volume</span>
+        <h3>Gallons to Liters</h3>
+        <p>1 gallon = 3.78541 liters</p>
+      </a>
+      <a href="/oz-to-pint" class="next-card">
+        <span class="next-tag">Volume</span>
+        <h3>oz to Pint</h3>
+        <p>1 pint = 16 fluid ounces</p>
+      </a>
+      <a href="/cups-to-gallons" class="next-card">
+        <span class="next-tag">Volume</span>
+        <h3>Cups to Gallons</h3>
+        <p>Convert cups to gallons</p>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function calcQtGal() {
+  var qt = parseFloat(document.getElementById('qt-in').value);
+  if (!isNaN(qt) && qt >= 0) {
+    document.getElementById('gal-out').value = Math.round(qt / 4 * 10000) / 10000;
+  } else {
+    document.getElementById('gal-out').value = '';
+  }
+}
+function setQt(n) {
+  document.getElementById('qt-in').value = n;
+  calcQtGal();
+}
+</script>
+</Layout>
