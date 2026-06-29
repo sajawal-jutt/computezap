@@ -98,7 +98,7 @@ const schema = JSON.stringify([
     <span class="preset-lbl" style="margin-top:1rem;display:block">Popular Lookups</span>
     <div class="day-grid">
       {popularDays.map(d => (
-        <a href={`/${d}-days-from-today`} class="day-btn">{d} days</a>
+        <a href={`/days-from-today/${d}-days-from-today`} class="day-btn">{d} days</a>
       ))}
     </div>
 
@@ -141,7 +141,7 @@ const schema = JSON.stringify([
             [365, '1 year', 'Annual renewals'],
           ].map(([d, eq, use]) => (
             <tr>
-              <td><a href={`/${d}-days-from-today`} style="color:var(--blue);font-weight:700;text-decoration:none">{d} days</a></td>
+              <td><a href={`/days-from-today/${d}-days-from-today`} style="color:var(--blue);font-weight:700;text-decoration:none">{d} days</a></td>
               <td>{eq}</td>
               <td>{use}</td>
             </tr>
@@ -165,15 +165,15 @@ const schema = JSON.stringify([
     <h2>Frequently Asked Questions</h2>
     <div class="faq-item">
       <h3>What is 30 days from today?</h3>
-      <p>30 days from today is 4 weeks and 2 days into the future. This is the standard "Net 30" business payment deadline. Enter 30 above or go directly to <a href="/30-days-from-today">30 days from today</a>.</p>
+      <p>30 days from today is 4 weeks and 2 days into the future. This is the standard "Net 30" business payment deadline. Enter 30 above or go directly to <a href="/days-from-today/30-days-from-today">30 days from today</a>.</p>
     </div>
     <div class="faq-item">
       <h3>What is 60 days from today?</h3>
-      <p>60 days from today is approximately 8 weeks and 4 days, or about 2 months. See <a href="/60-days-from-today">60 days from today</a> for the exact date.</p>
+      <p>60 days from today is approximately 8 weeks and 4 days, or about 2 months. See <a href="/days-from-today/60-days-from-today">60 days from today</a> for the exact date.</p>
     </div>
     <div class="faq-item">
       <h3>What is 90 days from today?</h3>
-      <p>90 days from today is one calendar quarter — approximately 3 months. See <a href="/90-days-from-today">90 days from today</a>.</p>
+      <p>90 days from today is one calendar quarter — approximately 3 months. See <a href="/days-from-today/90-days-from-today">90 days from today</a>.</p>
     </div>
     <div class="faq-item">
       <h3>Does the calculator include weekends?</h3>
@@ -181,23 +181,23 @@ const schema = JSON.stringify([
     </div>
     <div class="faq-item">
       <h3>What is 180 days from today?</h3>
-      <p>180 days from today equals approximately 6 months. Commonly used for visa validity periods. See <a href="/180-days-from-today">180 days from today</a>.</p>
+      <p>180 days from today equals approximately 6 months. Commonly used for visa validity periods. See <a href="/days-from-today/180-days-from-today">180 days from today</a>.</p>
     </div>
     <div class="faq-item">
       <h3>What is 365 days from today?</h3>
-      <p>365 days from today is exactly 1 year from today's date — useful for annual renewal reminders. See <a href="/365-days-from-today">365 days from today</a>.</p>
+      <p>365 days from today is exactly 1 year from today's date — useful for annual renewal reminders. See <a href="/days-from-today/365-days-from-today">365 days from today</a>.</p>
     </div>
   </div>
 
   <div class="card">
     <h2>Related Calculators</h2>
     <div class="next-grid">
-      <a href="/30-days-from-today" class="next-card">
+      <a href="/days-from-today/30-days-from-today" class="next-card">
         <span class="next-tag">Date</span>
         <h3>30 Days From Today</h3>
         <p>Net 30 payment deadline — exact date instantly.</p>
       </a>
-      <a href="/90-days-from-today" class="next-card">
+      <a href="/days-from-today/90-days-from-today" class="next-card">
         <span class="next-tag">Date</span>
         <h3>90 Days From Today</h3>
         <p>One quarter from today — find the exact date.</p>
