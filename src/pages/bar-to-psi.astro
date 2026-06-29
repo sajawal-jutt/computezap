@@ -235,7 +235,7 @@ const schema = JSON.stringify([
 
 </div>
 
-<script>
+<script is:inline>
 function calcBarPsi() {
   var bar = parseFloat(document.getElementById('bar-in').value);
   if (!isNaN(bar) && bar >= 0) {
