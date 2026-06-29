@@ -1,0 +1,252 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// 1 bar = 14.5037738 psi (exact)
+const psiPerBar = 14.5037738;
+const barPerPsi = 1 / 14.5037738;
+
+const tableRows = [
+  {bar: 0.5, psi: 7.252},
+  {bar: 1, psi: 14.504},
+  {bar: 1.5, psi: 21.756},
+  {bar: 2, psi: 29.008},
+  {bar: 2.5, psi: 36.259},
+  {bar: 3, psi: 43.511},
+  {bar: 3.5, psi: 50.763},
+  {bar: 4, psi: 58.015},
+  {bar: 4.5, psi: 65.267},
+  {bar: 5, psi: 72.519},
+  {bar: 6, psi: 87.023},
+  {bar: 7, psi: 101.526},
+  {bar: 8, psi: 116.030},
+  {bar: 9, psi: 130.534},
+  {bar: 10, psi: 145.038},
+  {bar: 15, psi: 217.557},
+  {bar: 20, psi: 290.075},
+  {bar: 30, psi: 435.113},
+  {bar: 50, psi: 725.189},
+  {bar: 100, psi: 1450.377},
+];
+
+const schema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Bar to PSI Converter — Pressure Conversion | ComputeZap",
+    "url": "https://computezap.com/bar-to-psi",
+    "description": "Convert bar to PSI instantly. 1 bar = 14.504 psi. Enter any bar value and get PSI, plus a full reference table."
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
+      { "@type": "ListItem", "position": 2, "name": "Bar to PSI", "item": "https://computezap.com/bar-to-psi" }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do I convert bar to PSI?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Multiply bar by 14.5038 to get PSI. Example: 2 bar × 14.5038 = 29.008 psi. To convert PSI to bar: divide by 14.5038." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many PSI is 1 bar?",
+        "acceptedAnswer": { "@type": "Answer", "text": "1 bar = 14.5038 psi (pounds per square inch). Atmospheric pressure at sea level = 1.01325 bar = 14.696 psi." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between bar and PSI?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Bar is a metric unit (used worldwide), PSI (pounds per square inch) is used in the US. 1 bar ≈ 14.5 psi. Tire pressure in Europe uses bar; US uses PSI." }
+      }
+    ]
+  }
+]);
+---
+<Layout
+  title="Bar to PSI Converter — Pressure Conversion | ComputeZap"
+  description="Convert bar to PSI instantly. 1 bar = 14.504 psi. Enter any pressure value for the exact conversion. Includes tire pressure guide and reference table."
+  canonical="/bar-to-psi"
+  schema={schema}
+>
+
+<div class="page-hero">
+  <nav class="breadcrumb"><a href="/">Home</a> › Bar to PSI Converter</nav>
+  <h1>Bar to PSI Converter</h1>
+  <p>1 bar = <strong>14.504 PSI</strong></p>
+</div>
+
+<div class="calc-center">
+  <div class="card">
+    <div class="answer-hero show">
+      <div class="a-label">1 Bar =</div>
+      <div class="a-value">14.504</div>
+      <div class="a-unit">PSI (pounds per square inch)</div>
+      <div class="a-sub">Exact: 1 bar = 14.5037738 psi</div>
+    </div>
+    <div class="stats-row show">
+      <div class="stat-box">
+        <span class="stat-lbl">2 bar</span>
+        <span class="stat-val">29.01 psi</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">3 bar</span>
+        <span class="stat-val">43.51 psi</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">2.5 bar</span>
+        <span class="stat-val">36.26 psi</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">Atm pressure</span>
+        <span class="stat-val">1.01325 bar</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <label style="font-size:.85rem;color:var(--muted);display:block;margin-bottom:.5rem">Enter bar:</label>
+    <div style="display:flex;gap:.5rem;align-items:center">
+      <input type="number" id="bar-in" min="0" step="any" placeholder="e.g. 2.5" style="flex:1;padding:.5rem .75rem;border:1px solid var(--border);border-radius:8px;font-size:1rem;background:var(--bg);color:var(--text)" oninput="calcBarPsi()" />
+      <span style="font-size:.9rem;color:var(--muted)">bar =</span>
+      <input type="number" id="psi-out" step="any" placeholder="psi" readonly style="flex:1;padding:.5rem .75rem;border:1px solid var(--border);border-radius:8px;font-size:1rem;background:var(--surface);color:var(--text)" />
+      <span style="font-size:.9rem;color:var(--muted)">psi</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="preset-lbl">Common tire pressures</span>
+    <div class="preset-wrap">
+      <a href="#" onclick="setBar(1.8);return false" class="preset-btn">1.8 bar</a>
+      <a href="#" onclick="setBar(2.0);return false" class="preset-btn">2.0 bar</a>
+      <a href="#" onclick="setBar(2.2);return false" class="preset-btn">2.2 bar</a>
+      <a href="#" onclick="setBar(2.4);return false" class="preset-btn">2.4 bar</a>
+      <a href="#" onclick="setBar(2.5);return false" class="preset-btn">2.5 bar</a>
+      <a href="#" onclick="setBar(2.7);return false" class="preset-btn">2.7 bar</a>
+      <a href="#" onclick="setBar(3.0);return false" class="preset-btn">3.0 bar</a>
+      <a href="#" onclick="setBar(3.5);return false" class="preset-btn">3.5 bar</a>
+    </div>
+  </div>
+</div>
+
+<div class="content-wrap">
+
+  <div class="card">
+    <h2>How to Convert Bar to PSI</h2>
+    <div class="formula-box">
+      <div class="formula-text">PSI = Bar × 14.5038</div>
+      <div class="formula-sub">1 bar = 14.5037738 psi (exact international definition)</div>
+    </div>
+    <div class="formula-box">
+      <div class="formula-text">Bar = PSI ÷ 14.5038</div>
+      <div class="formula-sub">To convert PSI back to bar, divide by 14.5038</div>
+    </div>
+    <div class="answer-box">
+      <div class="answer-row"><span class="answer-lbl">1 bar in psi</span><span class="answer-val">14.504 psi</span></div>
+      <div class="answer-row"><span class="answer-lbl">2 bar in psi</span><span class="answer-val">29.008 psi</span></div>
+      <div class="answer-row"><span class="answer-lbl">2.5 bar in psi</span><span class="answer-val">36.259 psi</span></div>
+      <div class="answer-row"><span class="answer-lbl">32 psi in bar</span><span class="answer-val">2.206 bar</span></div>
+    </div>
+    <div class="tip-box">
+      <span class="tip-icon">💡</span>
+      <p><strong>Tire pressure conversion:</strong> Typical car tire pressure is 2.2–2.5 bar (32–36 psi). Most gas stations in Europe show bar; US stations show PSI.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Bar to PSI Reference Table</h2>
+    <table class="conv-table">
+      <thead>
+        <tr><th>Bar</th><th>PSI</th><th>kPa</th></tr>
+      </thead>
+      <tbody>
+        {tableRows.map(r => (
+          <tr class={r.bar === 1 ? 'hl' : ''}>
+            <td>{r.bar} bar</td>
+            <td>{r.psi} psi</td>
+            <td>{Math.round(r.bar * 100)} kPa</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>Common Pressure References</h2>
+    <table class="conv-table">
+      <thead>
+        <tr><th>Context</th><th>Bar</th><th>PSI</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Atmosphere (sea level)</td><td>1.01325 bar</td><td>14.696 psi</td></tr>
+        <tr><td>Car tire (typical)</td><td>2.2–2.5 bar</td><td>32–36 psi</td></tr>
+        <tr><td>Bicycle tire (road)</td><td>6–9 bar</td><td>87–130 psi</td></tr>
+        <tr><td>Mountain bike tire</td><td>2.5–4 bar</td><td>36–58 psi</td></tr>
+        <tr><td>Blood pressure (systolic)</td><td>~0.016 bar</td><td>~120 mmHg</td></tr>
+        <tr><td>Water pipe (typical)</td><td>3–5 bar</td><td>43–73 psi</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>How many PSI is 1 bar?</h3>
+      <p>1 bar = 14.5038 psi. Atmospheric pressure = 1.01325 bar = 14.696 psi.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What is 2.5 bar in psi?</h3>
+      <p>2.5 bar = 36.26 psi. Common tire pressure for passenger cars is 2.2–2.5 bar (32–36 psi).</p>
+    </div>
+    <div class="faq-item">
+      <h3>How do I convert PSI to bar?</h3>
+      <p>Divide PSI by 14.5038 to get bar. Example: 32 psi ÷ 14.5038 = 2.206 bar.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What's the difference between bar and psi?</h3>
+      <p>Bar is a metric unit used in most of the world. PSI (pounds per square inch) is used mainly in the US. 1 bar ≈ 14.5 psi. Both measure pressure but with different scales.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Related Converters</h2>
+    <div class="next-grid">
+      <a href="/atm-to-bar" class="next-card">
+        <span class="next-tag">Pressure</span>
+        <h3>atm to Bar</h3>
+        <p>1 atm = 1.01325 bar</p>
+      </a>
+      <a href="/mph-to-knots" class="next-card">
+        <span class="next-tag">Speed</span>
+        <h3>mph to Knots</h3>
+        <p>Convert miles per hour to knots</p>
+      </a>
+      <a href="/km-to-miles" class="next-card">
+        <span class="next-tag">Distance</span>
+        <h3>km to Miles</h3>
+        <p>Convert kilometers to miles</p>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function calcBarPsi() {
+  var bar = parseFloat(document.getElementById('bar-in').value);
+  if (!isNaN(bar) && bar >= 0) {
+    document.getElementById('psi-out').value = Math.round(bar * 14.5037738 * 10000) / 10000;
+  } else {
+    document.getElementById('psi-out').value = '';
+  }
+}
+function setBar(n) {
+  document.getElementById('bar-in').value = n;
+  calcBarPsi();
+}
+</script>
+</Layout>

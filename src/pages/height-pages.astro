@@ -82,7 +82,7 @@ const schema = JSON.stringify([
     <p class="ht-title">📏 {group.label}</p>
     <div class="ht-grid">
       {group.heights.map(h => (
-        <a href={`/${h.ft}-feet-${h.inch}-inches-in-cm`} class="ht-link">
+        <a href={`/height/${h.ft}-feet-${h.inch}-inches-in-cm`} class="ht-link">
           <span class="hl-label">{h.ft}'{h.inch}" in cm</span>
           <span class="hl-cm">{toCm(h.ft, h.inch)} cm</span>
           <span class="hl-m">{toMeters(h.ft, h.inch)} m</span>

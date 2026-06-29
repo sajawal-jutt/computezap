@@ -1,0 +1,207 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const hoursTotal = 168;
+const hoursWork = 40;
+const hoursWeekend = 48;
+const hoursWeekdays = 120;
+const minutesTotal = hoursTotal * 60;
+const secondsTotal = hoursTotal * 3600;
+const daysEquiv = 7;
+
+const schema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "How Many Hours in a Week? — 168 Hours | ComputeZap",
+    "url": "https://computezap.com/hours-in-a-week",
+    "description": "There are exactly 168 hours in a week. A standard work week has 40 hours. Weekend = 48 hours. Full breakdown: hours, minutes, and seconds."
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
+      { "@type": "ListItem", "position": 2, "name": "Hours in a Week", "item": "https://computezap.com/hours-in-a-week" }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How many hours are in a week?",
+        "acceptedAnswer": { "@type": "Answer", "text": "There are exactly 168 hours in a week. A week has 7 days × 24 hours = 168 hours total. A standard work week is 40 hours (8 hours × 5 weekdays)." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many hours in a work week?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A standard work week is 40 hours (8 hours per day × 5 weekdays). The remaining 128 hours are non-working time. A 40-hour work week = 23.8% of total weekly hours." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many minutes are in a week?",
+        "acceptedAnswer": { "@type": "Answer", "text": "There are 10,080 minutes in a week. Calculation: 168 hours × 60 minutes = 10,080 minutes. In seconds: 168 × 3,600 = 604,800 seconds." }
+      }
+    ]
+  }
+]);
+---
+<Layout
+  title="How Many Hours in a Week? — 168 Hours Explained | ComputeZap"
+  description="There are exactly 168 hours in a week (7 × 24). A work week = 40 hours. Weekend = 48 hours. See full breakdown: minutes, seconds, work vs. free time."
+  canonical="/hours-in-a-week"
+  schema={schema}
+>
+
+<div class="page-hero">
+  <nav class="breadcrumb"><a href="/">Home</a> › Hours in a Week</nav>
+  <h1>How Many Hours in a Week?</h1>
+  <p>A week has exactly <strong>168 hours</strong> — 7 days × 24 hours.</p>
+</div>
+
+<div class="calc-center">
+  <div class="card">
+    <div class="answer-hero show">
+      <div class="a-label">Hours in a Week =</div>
+      <div class="a-value">168</div>
+      <div class="a-unit">hours per week</div>
+      <div class="a-sub">7 days × 24 hours = 168 hours</div>
+    </div>
+    <div class="stats-row show">
+      <div class="stat-box">
+        <span class="stat-lbl">Work Week</span>
+        <span class="stat-val">40 hours</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">Weekend</span>
+        <span class="stat-val">48 hours</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">Minutes/Week</span>
+        <span class="stat-val">10,080</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">Seconds/Week</span>
+        <span class="stat-val">604,800</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="quick-answer">
+      <div class="qa-big">168 hours = 1 week</div>
+      <div class="qa-sub">7 days × 24 hours/day = 168 hours exactly</div>
+    </div>
+  </div>
+</div>
+
+<div class="content-wrap">
+
+  <div class="card">
+    <h2>Hours in a Week — Full Breakdown</h2>
+    <div class="formula-box">
+      <div class="formula-text">7 days × 24 hours = 168 hours</div>
+      <div class="formula-sub">One week = exactly 168 hours, every time — no exceptions</div>
+    </div>
+    <table class="conv-table">
+      <thead>
+        <tr><th>Time Segment</th><th>Hours</th><th>Minutes</th></tr>
+      </thead>
+      <tbody>
+        <tr class="hl"><td>Full week (7 days)</td><td>168 hrs</td><td>10,080 min</td></tr>
+        <tr><td>Weekdays only (Mon–Fri)</td><td>120 hrs</td><td>7,200 min</td></tr>
+        <tr><td>Weekend (Sat–Sun)</td><td>48 hrs</td><td>2,880 min</td></tr>
+        <tr><td>Standard work week</td><td>40 hrs</td><td>2,400 min</td></tr>
+        <tr><td>Single day</td><td>24 hrs</td><td>1,440 min</td></tr>
+        <tr><td>Work day (8 hrs)</td><td>8 hrs</td><td>480 min</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>Weekly Hours — Common Schedules</h2>
+    <table class="conv-table">
+      <thead>
+        <tr><th>Schedule</th><th>Hours/Week</th><th>% of 168 hrs</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Full-time job (40 hrs)</td><td>40 hrs</td><td>23.8%</td></tr>
+        <tr><td>Part-time (20 hrs)</td><td>20 hrs</td><td>11.9%</td></tr>
+        <tr><td>Sleep (8 hrs/night)</td><td>56 hrs</td><td>33.3%</td></tr>
+        <tr><td>Sleep (7 hrs/night)</td><td>49 hrs</td><td>29.2%</td></tr>
+        <tr><td>Free time (168 – work – sleep)</td><td>~72 hrs</td><td>~42.9%</td></tr>
+      </tbody>
+    </table>
+    <div class="tip-box">
+      <span class="tip-icon">💡</span>
+      <p><strong>168 hours allocation:</strong> If you work 40 hours and sleep 56 hours (8 hrs/night), you have 72 hours left — that's 3 full days for everything else.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Hours to Other Time Units</h2>
+    <table class="conv-table">
+      <thead>
+        <tr><th>Unit</th><th>Value</th><th>Calculation</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Hours in 1 week</td><td>168 hours</td><td>7 × 24</td></tr>
+        <tr><td>Minutes in 1 week</td><td>10,080 minutes</td><td>168 × 60</td></tr>
+        <tr><td>Seconds in 1 week</td><td>604,800 seconds</td><td>168 × 3,600</td></tr>
+        <tr><td>Hours in 2 weeks</td><td>336 hours</td><td>168 × 2</td></tr>
+        <tr><td>Hours in 4 weeks</td><td>672 hours</td><td>168 × 4</td></tr>
+        <tr><td>Hours in a month (~4.33 wks)</td><td>~730 hours</td><td>168 × 4.33</td></tr>
+        <tr><td>Hours in a year (52 wks)</td><td>8,736 hours</td><td>168 × 52</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>How many hours are in a week?</h3>
+      <p>There are exactly 168 hours in a week. Every week, without exception: 7 days × 24 hours = 168 hours.</p>
+    </div>
+    <div class="faq-item">
+      <h3>How many hours in a work week?</h3>
+      <p>A standard US work week is 40 hours (8 hrs/day × 5 weekdays). That's 23.8% of the total 168 weekly hours. Overtime begins after 40 hours under the US Fair Labor Standards Act.</p>
+    </div>
+    <div class="faq-item">
+      <h3>How many minutes are in a week?</h3>
+      <p>There are 10,080 minutes in a week. Formula: 168 hours × 60 = 10,080 minutes. In seconds: 604,800 seconds per week.</p>
+    </div>
+    <div class="faq-item">
+      <h3>How many hours are in a year?</h3>
+      <p>There are 8,736 hours in a year (52 weeks × 168 hours). A leap year has 8,784 hours (366 days × 24).</p>
+    </div>
+    <div class="faq-item">
+      <h3>How many hours are in a month?</h3>
+      <p>Approximately 730 hours per month (365 days ÷ 12 months × 24 hours). Calendar months vary: 28-day months have 672 hours; 31-day months have 744 hours.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Related Calculators</h2>
+    <div class="next-grid">
+      <a href="/hours-in-a-year" class="next-card">
+        <span class="next-tag">Time</span>
+        <h3>Hours in a Year</h3>
+        <p>8,736 hours in a standard year</p>
+      </a>
+      <a href="/hours-in-a-month" class="next-card">
+        <span class="next-tag">Time</span>
+        <h3>Hours in a Month</h3>
+        <p>~730 hours per month</p>
+      </a>
+      <a href="/minutes-in-a-day" class="next-card">
+        <span class="next-tag">Time</span>
+        <h3>Minutes in a Day</h3>
+        <p>1,440 minutes per day</p>
+      </a>
+    </div>
+  </div>
+
+</div>
+</Layout>

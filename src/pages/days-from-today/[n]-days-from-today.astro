@@ -1,0 +1,266 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+export function getStaticPaths() {
+  const nums = [1,2,3,4,5,6,7,8,9,10,12,14,15,20,21,25,28,30,45,56,60,75,84,90,100,120,150,180,200,270,365];
+  return nums.map(n => ({ params: { n: String(n) } }));
+}
+
+const n = parseInt(Astro.params.n);
+
+const nearbyNums = [1,2,3,4,5,6,7,8,9,10,12,14,15,20,21,25,28,30,45,56,60,75,84,90,100,120,150,180,200,270,365];
+const nearby = nearbyNums.filter(d => d !== n).sort((a, b) => Math.abs(a - n) - Math.abs(b - n)).slice(0, 8);
+
+function nContext(n: number) {
+  if (n === 7)  return '1 week';
+  if (n === 14) return '2 weeks';
+  if (n === 21) return '3 weeks';
+  if (n === 28) return '4 weeks';
+  if (n === 30) return 'approximately 1 month';
+  if (n === 60) return 'approximately 2 months';
+  if (n === 90) return 'approximately 3 months (one quarter)';
+  if (n === 120) return 'approximately 4 months';
+  if (n === 180) return 'approximately 6 months (half a year)';
+  if (n === 270) return 'approximately 9 months';
+  if (n === 365) return 'exactly 1 year';
+  if (n < 7)   return `${n} day${n > 1 ? 's' : ''}`;
+  if (n < 30)  return `${n} days (${Math.floor(n/7)} week${Math.floor(n/7)>1?'s':''} ${n%7 > 0 ? `and ${n%7} day${n%7>1?'s':''}` : ''})`.trim();
+  return `${n} days (about ${Math.round(n/30.44)} month${Math.round(n/30.44)>1?'s':''})`;
+}
+
+const schema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": `${n} Days From Today — What Date? | ComputeZap`,
+    "url": `https://computezap.com/days-from-today/${n}-days-from-today`,
+    "description": `What date is ${n} days from today? Find the exact date, count business days, and see the weekday. Updates live based on today's date.`
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
+      { "@type": "ListItem", "position": 2, "name": "Days From Today", "item": "https://computezap.com/days-from-today" },
+      { "@type": "ListItem", "position": 3, "name": `${n} Days From Today`, "item": `https://computezap.com/days-from-today/${n}-days-from-today` }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": `What date is ${n} days from today?`,
+        "acceptedAnswer": { "@type": "Answer", "text": `${n} days from today is calculated by adding ${n} calendar days to the current date. The exact date depends on today — use the calculator above for the live answer.` }
+      },
+      {
+        "@type": "Question",
+        "name": `How many business days is ${n} days?`,
+        "acceptedAnswer": { "@type": "Answer", "text": `${n} calendar days includes approximately ${Math.floor(n * 5/7)} business days (weekdays), depending on which day of the week you start. The exact count is shown above based on today's date.` }
+      },
+      {
+        "@type": "Question",
+        "name": `What is ${n} days from today in weeks?`,
+        "acceptedAnswer": { "@type": "Answer", "text": `${n} days = ${nContext(n)}. This is equivalent to ${Math.round(n/7 * 10) / 10} weeks.` }
+      }
+    ]
+  }
+]);
+---
+<Layout
+  title={`${n} Days From Today — What Date is ${n} Days From Now? | ComputeZap`}
+  description={`What date is ${n} days from today? See the exact date, day of the week, business days count, and more. Live calculator updates for today's date.`}
+  canonical={`/days-from-today/${n}-days-from-today`}
+  schema={schema}
+>
+
+<div id="__dft__" data-n={n} style="display:none"></div>
+
+<div class="page-hero">
+  <nav class="breadcrumb"><a href="/">Home</a> › <a href="/days-from-today">Days From Today</a> › {n} Days From Today</nav>
+  <h1>{n} Days From Today</h1>
+  <p id="dft-hero-sub">Calculating date from today…</p>
+</div>
+
+<div class="calc-center">
+  <div class="card">
+    <div class="answer-hero show" id="dft-answer">
+      <div class="a-label">{n} Days From Today =</div>
+      <div class="a-value" id="dft-date">—</div>
+      <div class="a-unit" id="dft-weekday">Loading…</div>
+      <div class="a-sub" id="dft-sub">&nbsp;</div>
+    </div>
+    <div class="stats-row show" id="dft-stats">
+      <div class="stat-box">
+        <span class="stat-lbl">Today</span>
+        <span class="stat-val" id="dft-today">—</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">Business Days</span>
+        <span class="stat-val" id="dft-biz">—</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">Weeks</span>
+        <span class="stat-val" id="dft-weeks">—</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">= In Time</span>
+        <span class="stat-val">{nContext(n)}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <label style="font-size:.85rem;color:var(--muted);display:block;margin-bottom:.5rem">Enter custom days:</label>
+    <div style="display:flex;gap:.5rem">
+      <input type="number" id="dft-custom" min="1" max="3650" placeholder="{n}" style="flex:1;padding:.5rem .75rem;border:1px solid var(--border);border-radius:8px;font-size:1rem;background:var(--bg);color:var(--text)" />
+      <button onclick="goDays()" style="padding:.5rem 1.25rem;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:1rem;cursor:pointer">Go</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="preset-lbl">Common timeframes</span>
+    <div class="preset-wrap">
+      {nearby.map(d => (
+        <a href={`/days-from-today/${d}-days-from-today`} class="preset-btn">{d} days</a>
+      ))}
+    </div>
+  </div>
+</div>
+
+<div class="content-wrap">
+
+  <div class="card">
+    <h2>About {n} Days From Today</h2>
+    <div class="formula-box">
+      <div class="formula-text">Today + {n} days = Target Date</div>
+      <div class="formula-sub">{n} calendar days = {nContext(n)} = approx. {Math.floor(n * 5/7)} business days</div>
+    </div>
+    <div class="answer-box">
+      <div class="answer-row"><span class="answer-lbl">Calendar days</span><span class="answer-val">{n}</span></div>
+      <div class="answer-row"><span class="answer-lbl">Approx. business days</span><span class="answer-val">~{Math.floor(n * 5/7)}</span></div>
+      <div class="answer-row"><span class="answer-lbl">Weeks</span><span class="answer-val">{Math.round(n/7 * 10)/10}</span></div>
+      <div class="answer-row"><span class="answer-lbl">Months (approx.)</span><span class="answer-val">~{Math.round(n/30.44 * 10)/10}</span></div>
+    </div>
+    <div class="tip-box">
+      <span class="tip-icon">💡</span>
+      <p><strong>Business days note:</strong> Business days exclude weekends (Saturday &amp; Sunday). {n} calendar days = approximately {Math.floor(n * 5/7)} business days, but the exact count depends on which day today falls on.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Days From Today — Reference Table</h2>
+    <table class="conv-table">
+      <thead>
+        <tr><th>Days</th><th>Business Days (approx.)</th><th>Weeks</th></tr>
+      </thead>
+      <tbody>
+        {nearbyNums.map(d => (
+          <tr class={d === n ? 'hl' : ''}>
+            <td><a href={`/days-from-today/${d}-days-from-today`}>{d} days</a></td>
+            <td>~{Math.floor(d * 5/7)} business days</td>
+            <td>{Math.round(d/7 * 10)/10} weeks</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>What date is {n} days from today?</h3>
+      <p>The exact date is calculated live above based on your device's current date. {n} days = {nContext(n)} from today.</p>
+    </div>
+    <div class="faq-item">
+      <h3>How many business days is {n} days?</h3>
+      <p>Approximately {Math.floor(n * 5/7)} business days. This excludes weekends. The exact number depends on today's day of the week and any holidays.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What is {n} days from today in weeks and months?</h3>
+      <p>{n} days = {Math.round(n/7 * 10)/10} weeks = approximately {Math.round(n/30.44 * 10)/10} months.</p>
+    </div>
+    <div class="faq-item">
+      <h3>How do I calculate {n} days from a specific date?</h3>
+      <p>Add {n} to your start date. Months have 28–31 days, so count carefully. Use our calculator above for any starting date.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Related Calculators</h2>
+    <div class="next-grid">
+      <a href="/days-from-today" class="next-card">
+        <span class="next-tag">Date</span>
+        <h3>Days From Today</h3>
+        <p>Calculate any number of days from today</p>
+      </a>
+      <a href="/date-calculator" class="next-card">
+        <span class="next-tag">Date</span>
+        <h3>Date Calculator</h3>
+        <p>Add or subtract days from any date</p>
+      </a>
+      <a href="/age-calculator" class="next-card">
+        <span class="next-tag">Date</span>
+        <h3>Age Calculator</h3>
+        <p>Calculate exact age from birthdate</p>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function() {
+  var el = document.getElementById('__dft__');
+  var n = parseInt(el.dataset.n);
+
+  var today = new Date();
+  var target = new Date(today);
+  target.setDate(today.getDate() + n);
+
+  var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+  var dayName = days[target.getDay()];
+  var month = months[target.getMonth()];
+  var date = target.getDate();
+  var year = target.getFullYear();
+
+  function ordinal(d) {
+    if (d > 3 && d < 21) return d + 'th';
+    switch (d % 10) { case 1: return d+'st'; case 2: return d+'nd'; case 3: return d+'rd'; default: return d+'th'; }
+  }
+
+  var formatted = dayName + ', ' + month + ' ' + ordinal(date) + ', ' + year;
+
+  var todayFmt = days[today.getDay()] + ', ' + months[today.getMonth()] + ' ' + ordinal(today.getDate()) + ', ' + today.getFullYear();
+
+  // Count business days
+  var bizDays = 0;
+  var cur = new Date(today);
+  cur.setDate(today.getDate() + 1);
+  for (var i = 0; i < n; i++) {
+    var dow = cur.getDay();
+    if (dow !== 0 && dow !== 6) bizDays++;
+    cur.setDate(cur.getDate() + 1);
+  }
+
+  var weeks = Math.round(n / 7 * 10) / 10;
+
+  document.getElementById('dft-date').textContent = month + ' ' + ordinal(date) + ', ' + year;
+  document.getElementById('dft-weekday').textContent = dayName;
+  document.getElementById('dft-sub').textContent = n + ' calendar days from today';
+  document.getElementById('dft-hero-sub').textContent = n + ' days from today = ' + formatted;
+  document.getElementById('dft-today').textContent = months[today.getMonth()].slice(0,3) + ' ' + ordinal(today.getDate());
+  document.getElementById('dft-biz').textContent = bizDays + ' days';
+  document.getElementById('dft-weeks').textContent = weeks + ' wks';
+})();
+
+function goDays() {
+  var v = parseInt(document.getElementById('dft-custom').value);
+  if (v > 0 && v <= 3650) window.location.href = '/days-from-today/' + v + '-days-from-today';
+}
+</script>
+
+</Layout>

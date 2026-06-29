@@ -1,0 +1,235 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// 1 mph = 0.868976 knots (exact)
+const knotsPerMph = 0.868976;
+const mphPerKnot = 1 / 0.868976;
+
+const tableRows = [
+  {mph: 1, knots: 0.869},
+  {mph: 5, knots: 4.345},
+  {mph: 10, knots: 8.69},
+  {mph: 15, knots: 13.035},
+  {mph: 20, knots: 17.379},
+  {mph: 25, knots: 21.724},
+  {mph: 30, knots: 26.069},
+  {mph: 35, knots: 30.414},
+  {mph: 40, knots: 34.759},
+  {mph: 45, knots: 39.104},
+  {mph: 50, knots: 43.449},
+  {mph: 55, knots: 47.794},
+  {mph: 60, knots: 52.138},
+  {mph: 65, knots: 56.483},
+  {mph: 70, knots: 60.828},
+  {mph: 75, knots: 65.173},
+  {mph: 80, knots: 69.518},
+  {mph: 100, knots: 86.898},
+  {mph: 120, knots: 104.277},
+  {mph: 150, knots: 130.347},
+];
+
+const schema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "mph to Knots Converter — Speed Conversion | ComputeZap",
+    "url": "https://computezap.com/mph-to-knots",
+    "description": "Convert miles per hour to knots instantly. 1 mph = 0.869 knots. Enter any speed value and get knots, plus a reference table."
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
+      { "@type": "ListItem", "position": 2, "name": "mph to Knots", "item": "https://computezap.com/mph-to-knots" }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do I convert mph to knots?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Multiply mph by 0.868976 to get knots. Example: 60 mph × 0.868976 = 52.14 knots. To convert knots to mph: multiply by 1.15078." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many knots is 60 mph?",
+        "acceptedAnswer": { "@type": "Answer", "text": "60 mph = 52.14 knots. Formula: 60 × 0.868976 = 52.14 knots." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is a knot in mph?",
+        "acceptedAnswer": { "@type": "Answer", "text": "1 knot = 1.15078 mph. A knot is 1 nautical mile per hour. 1 nautical mile = 1,852 meters (6,076 feet), slightly longer than 1 statute mile (5,280 feet)." }
+      }
+    ]
+  }
+]);
+---
+<Layout
+  title="mph to Knots Converter — Miles Per Hour to Knots | ComputeZap"
+  description="Convert mph to knots instantly. 1 mph = 0.869 knots. Enter any speed for the exact knots conversion. Used in aviation, sailing, and weather."
+  canonical="/mph-to-knots"
+  schema={schema}
+>
+
+<div class="page-hero">
+  <nav class="breadcrumb"><a href="/">Home</a> › mph to Knots Converter</nav>
+  <h1>mph to Knots Converter</h1>
+  <p>1 mph = <strong>0.869 knots</strong></p>
+</div>
+
+<div class="calc-center">
+  <div class="card">
+    <div class="answer-hero show">
+      <div class="a-label">1 mph =</div>
+      <div class="a-value">0.869</div>
+      <div class="a-unit">knots (kn)</div>
+      <div class="a-sub">Exact: 1 mph = 0.868976 knots</div>
+    </div>
+    <div class="stats-row show">
+      <div class="stat-box">
+        <span class="stat-lbl">30 mph</span>
+        <span class="stat-val">26.07 kn</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">60 mph</span>
+        <span class="stat-val">52.14 kn</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">100 mph</span>
+        <span class="stat-val">86.9 kn</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">1 knot</span>
+        <span class="stat-val">1.151 mph</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <label style="font-size:.85rem;color:var(--muted);display:block;margin-bottom:.5rem">Enter mph:</label>
+    <div style="display:flex;gap:.5rem;align-items:center">
+      <input type="number" id="mph-in" min="0" step="any" placeholder="e.g. 60" style="flex:1;padding:.5rem .75rem;border:1px solid var(--border);border-radius:8px;font-size:1rem;background:var(--bg);color:var(--text)" oninput="calcMphKn()" />
+      <span style="font-size:.9rem;color:var(--muted)">mph =</span>
+      <input type="number" id="kn-out" step="any" placeholder="knots" readonly style="flex:1;padding:.5rem .75rem;border:1px solid var(--border);border-radius:8px;font-size:1rem;background:var(--surface);color:var(--text)" />
+      <span style="font-size:.9rem;color:var(--muted)">kn</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="preset-lbl">Common speeds</span>
+    <div class="preset-wrap">
+      <a href="#" onclick="setMph(10);return false" class="preset-btn">10 mph</a>
+      <a href="#" onclick="setMph(20);return false" class="preset-btn">20 mph</a>
+      <a href="#" onclick="setMph(30);return false" class="preset-btn">30 mph</a>
+      <a href="#" onclick="setMph(50);return false" class="preset-btn">50 mph</a>
+      <a href="#" onclick="setMph(60);return false" class="preset-btn">60 mph</a>
+      <a href="#" onclick="setMph(70);return false" class="preset-btn">70 mph</a>
+      <a href="#" onclick="setMph(100);return false" class="preset-btn">100 mph</a>
+      <a href="#" onclick="setMph(150);return false" class="preset-btn">150 mph</a>
+    </div>
+  </div>
+</div>
+
+<div class="content-wrap">
+
+  <div class="card">
+    <h2>How to Convert mph to Knots</h2>
+    <div class="formula-box">
+      <div class="formula-text">Knots = mph × 0.868976</div>
+      <div class="formula-sub">1 knot = 1 nautical mile per hour = 1.15078 mph</div>
+    </div>
+    <div class="formula-box">
+      <div class="formula-text">mph = Knots × 1.15078</div>
+      <div class="formula-sub">To convert knots back to mph</div>
+    </div>
+    <div class="answer-box">
+      <div class="answer-row"><span class="answer-lbl">30 mph in knots</span><span class="answer-val">26.07 kn</span></div>
+      <div class="answer-row"><span class="answer-lbl">60 mph in knots</span><span class="answer-val">52.14 kn</span></div>
+      <div class="answer-row"><span class="answer-lbl">100 mph in knots</span><span class="answer-val">86.90 kn</span></div>
+      <div class="answer-row"><span class="answer-lbl">1 knot in mph</span><span class="answer-val">1.15078 mph</span></div>
+    </div>
+    <div class="tip-box">
+      <span class="tip-icon">💡</span>
+      <p><strong>Why knots?</strong> Knots are used in aviation and maritime navigation because 1 knot = 1 nautical mile/hour, and 1 nautical mile ≈ 1 arcminute of latitude — making navigation charts much easier to use.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>mph to Knots Reference Table</h2>
+    <table class="conv-table">
+      <thead>
+        <tr><th>mph</th><th>Knots (kn)</th><th>km/h</th></tr>
+      </thead>
+      <tbody>
+        {tableRows.map(r => (
+          <tr class={r.mph === 60 ? 'hl' : ''}>
+            <td>{r.mph} mph</td>
+            <td>{r.knots} kn</td>
+            <td>{Math.round(r.mph * 1.60934 * 10) / 10} km/h</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>How many knots is 60 mph?</h3>
+      <p>60 mph = 52.14 knots. Multiply 60 × 0.868976 = 52.14 kn. Cruising speed for many small aircraft is around 100–150 knots (115–173 mph).</p>
+    </div>
+    <div class="faq-item">
+      <h3>What is a knot in mph?</h3>
+      <p>1 knot = 1.15078 mph. A knot is 1 nautical mile per hour. Nautical miles are used in aviation and maritime navigation.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Is a knot faster than mph?</h3>
+      <p>Yes — 1 knot = 1.151 mph. So knots are slightly larger than mph. 100 knots = 115.08 mph.</p>
+    </div>
+    <div class="faq-item">
+      <h3>How fast is 200 knots in mph?</h3>
+      <p>200 knots = 230.16 mph. Multiply 200 × 1.15078 = 230.16 mph.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Related Converters</h2>
+    <div class="next-grid">
+      <a href="/knots-to-mph" class="next-card">
+        <span class="next-tag">Speed</span>
+        <h3>Knots to mph</h3>
+        <p>Convert knots to miles per hour</p>
+      </a>
+      <a href="/km-to-miles" class="next-card">
+        <span class="next-tag">Distance</span>
+        <h3>km to Miles</h3>
+        <p>Convert kilometers to miles</p>
+      </a>
+      <a href="/bar-to-psi" class="next-card">
+        <span class="next-tag">Pressure</span>
+        <h3>Bar to PSI</h3>
+        <p>Convert bar to pounds per square inch</p>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function calcMphKn() {
+  var mph = parseFloat(document.getElementById('mph-in').value);
+  if (!isNaN(mph) && mph >= 0) {
+    document.getElementById('kn-out').value = Math.round(mph * 0.868976 * 10000) / 10000;
+  } else {
+    document.getElementById('kn-out').value = '';
+  }
+}
+function setMph(n) {
+  document.getElementById('mph-in').value = n;
+  calcMphKn();
+}
+</script>
+</Layout>
