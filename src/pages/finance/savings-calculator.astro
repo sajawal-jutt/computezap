@@ -1,12 +1,12 @@
----
-import Layout from '../layouts/Layout.astro';
+﻿---
+import Layout from '../../layouts/Layout.astro';
 
 const schema = JSON.stringify([
   {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "name": "Savings Calculator",
-    "url": "https://computezap.com/savings-calculator",
+    "url": "https://computezap.com/finance/savings-calculator",
     "applicationCategory": "FinanceApplication",
     "operatingSystem": "Web",
     "description": "Calculate how much you'll save, when you'll reach your savings goal, or how much to save monthly. Free savings calculator with interest and year-by-year breakdown.",
@@ -18,7 +18,7 @@ const schema = JSON.stringify([
     "itemListElement": [
       { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
       { "@type": "ListItem", "position": 2, "name": "Finance", "item": "https://computezap.com/finance" },
-      { "@type": "ListItem", "position": 3, "name": "Savings Calculator", "item": "https://computezap.com/savings-calculator" }
+      { "@type": "ListItem", "position": 3, "name": "Savings Calculator", "item": "https://computezap.com/finance/savings-calculator" }
     ]
   },
   {
@@ -57,7 +57,7 @@ const schema = JSON.stringify([
 <Layout
   title="Savings Calculator — Balance, Goal & Monthly Savings | ComputeZap"
   description="Calculate how much you'll save, when you'll reach your goal, or how much to save monthly. Free savings calculator with interest and year-by-year breakdown."
-  canonical="/savings-calculator"
+  canonical="/finance/savings-calculator"
   schema={schema}
 >
 
@@ -288,17 +288,17 @@ const schema = JSON.stringify([
   <div class="card">
     <h2>Related Finance Calculators</h2>
     <div class="next-grid">
-      <a href="/compound-interest-calculator" class="next-card">
+      <a href="/finance/compound-interest-calculator" class="next-card">
         <span class="next-tag">Finance</span>
         <h3>Compound Interest Calculator</h3>
         <p>See how money grows with compounding — includes monthly contributions and year-by-year table</p>
       </a>
-      <a href="/roth-ira-calculator" class="next-card">
+      <a href="/finance/roth-ira-calculator" class="next-card">
         <span class="next-tag">Finance</span>
         <h3>Roth IRA Calculator</h3>
         <p>Calculate your tax-free Roth IRA balance at retirement with milestones</p>
       </a>
-      <a href="/401k-calculator" class="next-card">
+      <a href="/finance/401k-calculator" class="next-card">
         <span class="next-tag">Finance</span>
         <h3>401K Calculator</h3>
         <p>Estimate 401k balance including employer match and salary growth</p>
@@ -308,12 +308,12 @@ const schema = JSON.stringify([
         <h3>CD Calculator</h3>
         <p>Calculate Certificate of Deposit earnings with compound interest</p>
       </a>
-      <a href="/amortization-calculator" class="next-card">
+      <a href="/finance/amortization-calculator" class="next-card">
         <span class="next-tag">Finance</span>
         <h3>Amortization Calculator</h3>
         <p>Full loan payment schedule — extra payment savings and payoff date</p>
       </a>
-      <a href="/apr-calculator" class="next-card">
+      <a href="/finance/apr-calculator" class="next-card">
         <span class="next-tag">Finance</span>
         <h3>APR Calculator</h3>
         <p>Find the true annual cost of any loan including origination fees</p>

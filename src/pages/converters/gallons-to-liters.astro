@@ -1,5 +1,5 @@
 ﻿---
-import Layout from '../layouts/Layout.astro';
+import Layout from '../../layouts/Layout.astro';
 
 // 1 US gallon = 3.785411784 liters (exact)
 const litersPerGallon = 3.785411784;
@@ -31,7 +31,7 @@ const schema = JSON.stringify([
     "@context": "https://schema.org",
     "@type": "WebPage",
     "name": "Gallons to Liters Converter — gal to L | ComputeZap",
-    "url": "https://computezap.com/gallons-to-liters",
+    "url": "https://computezap.com/converters/gallons-to-liters",
     "description": "Convert gallons to liters instantly. 1 US gallon = 3.785 liters. Enter any gallon value and get liters, plus a full reference table."
   },
   {
@@ -40,7 +40,7 @@ const schema = JSON.stringify([
     "itemListElement": [
       { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
       { "@type": "ListItem", "position": 2, "name": "Unit Converters", "item": "https://computezap.com/converters" },
-      { "@type": "ListItem", "position": 3, "name": "Gallons to Liters Converter", "item": "https://computezap.com/gallons-to-liters" }
+      { "@type": "ListItem", "position": 3, "name": "Gallons to Liters Converter", "item": "https://computezap.com/converters/gallons-to-liters" }
     ]
   },
   {
@@ -69,7 +69,7 @@ const schema = JSON.stringify([
 <Layout
   title="Gallons to Liters Converter — gal to L | ComputeZap"
   description="Convert gallons to liters instantly. 1 US gallon = 3.785 liters. Enter any gallon value for the exact liter conversion. Free converter with reference table."
-  canonical="/gallons-to-liters"
+  canonical="/converters/gallons-to-liters"
   schema={schema}
 >
 
@@ -199,12 +199,12 @@ const schema = JSON.stringify([
   <div class="card">
     <h2>Related Converters</h2>
     <div class="next-grid">
-      <a href="/quart-to-gallon" class="next-card">
+      <a href="/converters/quart-to-gallon" class="next-card">
         <span class="next-tag">Volume</span>
         <h3>Quart to Gallon</h3>
         <p>1 gallon = 4 quarts</p>
       </a>
-      <a href="/oz-to-pint" class="next-card">
+      <a href="/converters/oz-to-pint" class="next-card">
         <span class="next-tag">Volume</span>
         <h3>oz to Pint</h3>
         <p>1 pint = 16 fl oz</p>

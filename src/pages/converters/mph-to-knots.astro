@@ -1,5 +1,5 @@
 ﻿---
-import Layout from '../layouts/Layout.astro';
+import Layout from '../../layouts/Layout.astro';
 
 // 1 mph = 0.868976 knots (exact)
 const knotsPerMph = 0.868976;
@@ -33,7 +33,7 @@ const schema = JSON.stringify([
     "@context": "https://schema.org",
     "@type": "WebPage",
     "name": "mph to Knots Converter — Speed Conversion | ComputeZap",
-    "url": "https://computezap.com/mph-to-knots",
+    "url": "https://computezap.com/converters/mph-to-knots",
     "description": "Convert miles per hour to knots instantly. 1 mph = 0.869 knots. Enter any speed value and get knots, plus a reference table."
   },
   {
@@ -42,7 +42,7 @@ const schema = JSON.stringify([
     "itemListElement": [
       { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
       { "@type": "ListItem", "position": 2, "name": "Unit Converters", "item": "https://computezap.com/converters" },
-      { "@type": "ListItem", "position": 3, "name": "mph to Knots Converter", "item": "https://computezap.com/mph-to-knots" }
+      { "@type": "ListItem", "position": 3, "name": "mph to Knots Converter", "item": "https://computezap.com/converters/mph-to-knots" }
     ]
   },
   {
@@ -71,7 +71,7 @@ const schema = JSON.stringify([
 <Layout
   title="mph to Knots Converter — Miles Per Hour to Knots | ComputeZap"
   description="Convert mph to knots instantly. 1 mph = 0.869 knots. Enter any speed for the exact knots conversion. Used in aviation, sailing, and weather."
-  canonical="/mph-to-knots"
+  canonical="/converters/mph-to-knots"
   schema={schema}
 >
 
@@ -211,7 +211,7 @@ const schema = JSON.stringify([
         <h3>km to Miles</h3>
         <p>Convert kilometers to miles</p>
       </a>
-      <a href="/bar-to-psi" class="next-card">
+      <a href="/converters/bar-to-psi" class="next-card">
         <span class="next-tag">Pressure</span>
         <h3>Bar to PSI</h3>
         <p>Convert bar to pounds per square inch</p>

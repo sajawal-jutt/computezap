@@ -1,5 +1,5 @@
 ﻿---
-import Layout from '../layouts/Layout.astro';
+import Layout from '../../layouts/Layout.astro';
 
 const mgPerGrain = 64.79891;
 
@@ -31,7 +31,7 @@ const schema = JSON.stringify([
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "name": "Grain to Milligram Converter",
-    "url": "https://computezap.com/grain-to-mg",
+    "url": "https://computezap.com/converters/grain-to-mg",
     "applicationCategory": "UtilityApplication",
     "operatingSystem": "Web",
     "description": "Convert grains to milligrams instantly. 1 grain = 64.799 mg. Used for medication dosing and bullet weight. Free grain to mg converter with reference table.",
@@ -43,7 +43,7 @@ const schema = JSON.stringify([
     "itemListElement": [
       { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
       { "@type": "ListItem", "position": 2, "name": "Unit Converters", "item": "https://computezap.com/converters" },
-      { "@type": "ListItem", "position": 3, "name": "Grain to mg Converter", "item": "https://computezap.com/grain-to-mg" }
+      { "@type": "ListItem", "position": 3, "name": "Grain to mg Converter", "item": "https://computezap.com/converters/grain-to-mg" }
     ]
   },
   {
@@ -87,7 +87,7 @@ const schema = JSON.stringify([
 <Layout
   title="Grain to mg Converter — Grains to Milligrams | ComputeZap"
   description="Convert grains to milligrams instantly. 1 grain = 64.799 mg. 5 grains = 324 mg (standard aspirin). Used for medication and bullet weight. Free converter with reference table."
-  canonical="/grain-to-mg"
+  canonical="/converters/grain-to-mg"
   schema={schema}
 >
 
@@ -280,7 +280,7 @@ const schema = JSON.stringify([
         <h3>kg to lbs</h3>
         <p>Convert kilograms to pounds</p>
       </a>
-      <a href="/atm-to-bar" class="next-card">
+      <a href="/converters/atm-to-bar" class="next-card">
         <span class="next-tag">Pressure</span>
         <h3>atm to Bar</h3>
         <p>Convert atmospheres to bar</p>

@@ -1,5 +1,5 @@
 ﻿---
-import Layout from '../layouts/Layout.astro';
+import Layout from '../../layouts/Layout.astro';
 
 const hoursTotal = 168;
 const hoursWork = 40;
@@ -14,7 +14,7 @@ const schema = JSON.stringify([
     "@context": "https://schema.org",
     "@type": "WebPage",
     "name": "How Many Hours in a Week? — 168 Hours | ComputeZap",
-    "url": "https://computezap.com/hours-in-a-week",
+    "url": "https://computezap.com/date-time/hours-in-a-week",
     "description": "There are exactly 168 hours in a week. A standard work week has 40 hours. Weekend = 48 hours. Full breakdown: hours, minutes, and seconds."
   },
   {
@@ -23,7 +23,7 @@ const schema = JSON.stringify([
     "itemListElement": [
       { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
       { "@type": "ListItem", "position": 2, "name": "Date & Time", "item": "https://computezap.com/date-time" },
-      { "@type": "ListItem", "position": 3, "name": "Hours in a Week", "item": "https://computezap.com/hours-in-a-week" }
+      { "@type": "ListItem", "position": 3, "name": "Hours in a Week", "item": "https://computezap.com/date-time/hours-in-a-week" }
     ]
   },
   {
@@ -52,7 +52,7 @@ const schema = JSON.stringify([
 <Layout
   title="How Many Hours in a Week? — 168 Hours Explained | ComputeZap"
   description="There are exactly 168 hours in a week (7 × 24). A work week = 40 hours. Weekend = 48 hours. See full breakdown: minutes, seconds, work vs. free time."
-  canonical="/hours-in-a-week"
+  canonical="/date-time/hours-in-a-week"
   schema={schema}
 >
 

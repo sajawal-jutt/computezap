@@ -1,12 +1,12 @@
 ﻿---
-import Layout from '../layouts/Layout.astro';
+import Layout from '../../layouts/Layout.astro';
 
 const schema = JSON.stringify([
   {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "name": "APR Calculator",
-    "url": "https://computezap.com/apr-calculator",
+    "url": "https://computezap.com/finance/apr-calculator",
     "applicationCategory": "FinanceApplication",
     "operatingSystem": "Web",
     "description": "Calculate Annual Percentage Rate (APR) for any loan. Enter loan amount, interest rate, term, and fees to get your true APR, monthly payment, and total interest cost.",
@@ -18,7 +18,7 @@ const schema = JSON.stringify([
     "itemListElement": [
       { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
       { "@type": "ListItem", "position": 2, "name": "Finance", "item": "https://computezap.com/finance" },
-      { "@type": "ListItem", "position": 3, "name": "APR Calculator", "item": "https://computezap.com/apr-calculator" }
+      { "@type": "ListItem", "position": 3, "name": "APR Calculator", "item": "https://computezap.com/finance/apr-calculator" }
     ]
   },
   {
@@ -62,7 +62,7 @@ const schema = JSON.stringify([
 <Layout
   title="APR Calculator — Annual Percentage Rate Calculator | ComputeZap"
   description="Calculate the true APR for any loan. Enter loan amount, interest rate, term, and fees to see your Annual Percentage Rate, monthly payment, and total cost."
-  canonical="/apr-calculator"
+  canonical="/finance/apr-calculator"
   schema={schema}
 >
 
@@ -293,7 +293,7 @@ const schema = JSON.stringify([
         <h3>CD Calculator</h3>
         <p>Calculate Certificate of Deposit interest earnings</p>
       </a>
-      <a href="/cost-of-living-calculator" class="next-card">
+      <a href="/finance/cost-of-living-calculator" class="next-card">
         <span class="next-tag">Finance</span>
         <h3>Cost of Living Calculator</h3>
         <p>Compare salaries and expenses between US cities</p>

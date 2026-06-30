@@ -1,12 +1,12 @@
 ﻿---
-import Layout from '../layouts/Layout.astro';
+import Layout from '../../layouts/Layout.astro';
 
 const schema = JSON.stringify([
   {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "name": "401k Calculator",
-    "url": "https://computezap.com/401k-calculator",
+    "url": "https://computezap.com/finance/401k-calculator",
     "applicationCategory": "FinanceApplication",
     "operatingSystem": "Web",
     "description": "Calculate your 401k balance at retirement including employer match. See how contributions grow over time with our free 401k retirement calculator.",
@@ -18,7 +18,7 @@ const schema = JSON.stringify([
     "itemListElement": [
       { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
       { "@type": "ListItem", "position": 2, "name": "Finance", "item": "https://computezap.com/finance" },
-      { "@type": "ListItem", "position": 3, "name": "401k Calculator", "item": "https://computezap.com/401k-calculator" }
+      { "@type": "ListItem", "position": 3, "name": "401k Calculator", "item": "https://computezap.com/finance/401k-calculator" }
     ]
   },
   {
@@ -62,7 +62,7 @@ const schema = JSON.stringify([
 <Layout
   title="401k Calculator — Retirement Balance with Employer Match | ComputeZap"
   description="Calculate your 401k balance at retirement including employer match contributions. See your total savings, growth, and free employer money. Free 2024 401k calculator."
-  canonical="/401k-calculator"
+  canonical="/finance/401k-calculator"
   schema={schema}
 >
 
@@ -337,12 +337,12 @@ const schema = JSON.stringify([
   <div class="card">
     <h2>Related Calculators</h2>
     <div class="next-grid">
-      <a href="/roth-ira-calculator" class="next-card">
+      <a href="/finance/roth-ira-calculator" class="next-card">
         <span class="next-tag">Finance</span>
         <h3>Roth IRA Calculator</h3>
         <p>See how your Roth IRA grows tax-free by retirement</p>
       </a>
-      <a href="/apr-calculator" class="next-card">
+      <a href="/finance/apr-calculator" class="next-card">
         <span class="next-tag">Finance</span>
         <h3>APR Calculator</h3>
         <p>Find the true annual cost of any loan including fees</p>

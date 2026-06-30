@@ -1,5 +1,5 @@
 ﻿---
-import Layout from '../layouts/Layout.astro';
+import Layout from '../../layouts/Layout.astro';
 
 // 1 US pint = 16 US fl oz (liquid pint)
 const ozPerPint = 16;
@@ -31,7 +31,7 @@ const schema = JSON.stringify([
     "@context": "https://schema.org",
     "@type": "WebPage",
     "name": "Ounces to Pints Converter — oz to pt | ComputeZap",
-    "url": "https://computezap.com/oz-to-pint",
+    "url": "https://computezap.com/converters/oz-to-pint",
     "description": "Convert ounces to pints instantly. 1 pint = 16 fl oz. Enter any oz value and get pints, plus a full reference table."
   },
   {
@@ -40,7 +40,7 @@ const schema = JSON.stringify([
     "itemListElement": [
       { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
       { "@type": "ListItem", "position": 2, "name": "Unit Converters", "item": "https://computezap.com/converters" },
-      { "@type": "ListItem", "position": 3, "name": "oz to Pint Converter", "item": "https://computezap.com/oz-to-pint" }
+      { "@type": "ListItem", "position": 3, "name": "oz to Pint Converter", "item": "https://computezap.com/converters/oz-to-pint" }
     ]
   },
   {
@@ -69,7 +69,7 @@ const schema = JSON.stringify([
 <Layout
   title="Ounces to Pints Converter — oz to Pint | ComputeZap"
   description="Convert ounces to pints instantly. 1 US pint = 16 fl oz. Enter any oz value for the exact pint conversion. Includes full reference table."
-  canonical="/oz-to-pint"
+  canonical="/converters/oz-to-pint"
   schema={schema}
 >
 
@@ -199,12 +199,12 @@ const schema = JSON.stringify([
   <div class="card">
     <h2>Related Converters</h2>
     <div class="next-grid">
-      <a href="/quart-to-gallon" class="next-card">
+      <a href="/converters/quart-to-gallon" class="next-card">
         <span class="next-tag">Volume</span>
         <h3>Quart to Gallon</h3>
         <p>1 gallon = 4 quarts</p>
       </a>
-      <a href="/gallons-to-liters" class="next-card">
+      <a href="/converters/gallons-to-liters" class="next-card">
         <span class="next-tag">Volume</span>
         <h3>Gallons to Liters</h3>
         <p>1 gallon = 3.78541 liters</p>

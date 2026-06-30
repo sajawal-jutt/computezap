@@ -1,12 +1,12 @@
 ﻿---
-import Layout from '../layouts/Layout.astro';
+import Layout from '../../layouts/Layout.astro';
 
 const schema = JSON.stringify([
   {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "name": "BAC Calculator — Blood Alcohol Content",
-    "url": "https://computezap.com/bac-calculator",
+    "url": "https://computezap.com/health/bac-calculator",
     "applicationCategory": "HealthApplication",
     "operatingSystem": "Web",
     "description": "Estimate your Blood Alcohol Content (BAC) based on drinks consumed, body weight, sex, and time. For educational use only. Never drink and drive.",
@@ -18,7 +18,7 @@ const schema = JSON.stringify([
     "itemListElement": [
       { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
       { "@type": "ListItem", "position": 2, "name": "Health", "item": "https://computezap.com/health" },
-      { "@type": "ListItem", "position": 3, "name": "BAC Calculator", "item": "https://computezap.com/bac-calculator" }
+      { "@type": "ListItem", "position": 3, "name": "BAC Calculator", "item": "https://computezap.com/health/bac-calculator" }
     ]
   },
   {
@@ -62,7 +62,7 @@ const schema = JSON.stringify([
 <Layout
   title="BAC Calculator — Blood Alcohol Content Estimator | ComputeZap"
   description="Estimate your Blood Alcohol Content (BAC) by drinks, weight, sex, and hours. See effects at each BAC level, time to sober up, and legal driving status. Educational use only."
-  canonical="/bac-calculator"
+  canonical="/health/bac-calculator"
   schema={schema}
 >
 

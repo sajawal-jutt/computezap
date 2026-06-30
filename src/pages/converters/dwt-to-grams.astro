@@ -1,5 +1,5 @@
 ﻿---
-import Layout from '../layouts/Layout.astro';
+import Layout from '../../layouts/Layout.astro';
 
 const tableRows = [
   { dwt: 0.5,  g: 0.778 },
@@ -31,7 +31,7 @@ const schema = JSON.stringify([
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "name": "Pennyweight (dwt) to Grams Converter",
-    "url": "https://computezap.com/dwt-to-grams",
+    "url": "https://computezap.com/converters/dwt-to-grams",
     "applicationCategory": "UtilityApplication",
     "operatingSystem": "Web",
     "description": "Convert pennyweights (dwt) to grams instantly. 1 dwt = 1.55517 grams. Used in jewelry and precious metal weighing. Free dwt to grams converter with reference table.",
@@ -43,7 +43,7 @@ const schema = JSON.stringify([
     "itemListElement": [
       { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
       { "@type": "ListItem", "position": 2, "name": "Unit Converters", "item": "https://computezap.com/converters" },
-      { "@type": "ListItem", "position": 3, "name": "dwt to Grams Converter", "item": "https://computezap.com/dwt-to-grams" }
+      { "@type": "ListItem", "position": 3, "name": "dwt to Grams Converter", "item": "https://computezap.com/converters/dwt-to-grams" }
     ]
   },
   {
@@ -87,7 +87,7 @@ const schema = JSON.stringify([
 <Layout
   title="dwt to Grams Converter — Pennyweight to Grams | ComputeZap"
   description="Convert pennyweights (dwt) to grams instantly. 1 dwt = 1.55517 grams. 20 dwt = 1 troy oz. Jewelry and precious metals converter with full reference table."
-  canonical="/dwt-to-grams"
+  canonical="/converters/dwt-to-grams"
   schema={schema}
 >
 
@@ -277,7 +277,7 @@ const schema = JSON.stringify([
   <div class="card">
     <h2>Related Converters</h2>
     <div class="next-grid">
-      <a href="/grain-to-mg" class="next-card">
+      <a href="/converters/grain-to-mg" class="next-card">
         <span class="next-tag">Weight</span>
         <h3>Grain to mg</h3>
         <p>Convert grains to milligrams — 1 gr = 64.799 mg</p>

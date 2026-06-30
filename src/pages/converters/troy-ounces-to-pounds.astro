@@ -1,5 +1,5 @@
 ﻿---
-import Layout from '../layouts/Layout.astro';
+import Layout from '../../layouts/Layout.astro';
 
 // 1 troy oz = 31.1034768 g, 1 avoirdupois lb = 453.59237 g
 // 1 troy oz = 31.1034768 / 453.59237 avdp lb = 0.0685714...
@@ -33,7 +33,7 @@ const schema = JSON.stringify([
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "name": "Troy Ounces to Pounds Converter",
-    "url": "https://computezap.com/troy-ounces-to-pounds",
+    "url": "https://computezap.com/converters/troy-ounces-to-pounds",
     "applicationCategory": "UtilityApplication",
     "operatingSystem": "Web",
     "description": "Convert troy ounces to pounds instantly. 1 troy oz = 0.06857 lbs. Used for gold, silver, and precious metal weight. Free converter with full reference table.",
@@ -45,7 +45,7 @@ const schema = JSON.stringify([
     "itemListElement": [
       { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
       { "@type": "ListItem", "position": 2, "name": "Unit Converters", "item": "https://computezap.com/converters" },
-      { "@type": "ListItem", "position": 3, "name": "Troy Ounces to Pounds", "item": "https://computezap.com/troy-ounces-to-pounds" }
+      { "@type": "ListItem", "position": 3, "name": "Troy Ounces to Pounds", "item": "https://computezap.com/converters/troy-ounces-to-pounds" }
     ]
   },
   {
@@ -89,7 +89,7 @@ const schema = JSON.stringify([
 <Layout
   title="Troy Ounces to Pounds Converter — ozt to lbs | ComputeZap"
   description="Convert troy ounces to pounds instantly. 1 troy oz = 0.06857 lbs. 14.583 troy oz = 1 lb. Gold & silver weight converter with full reference table."
-  canonical="/troy-ounces-to-pounds"
+  canonical="/converters/troy-ounces-to-pounds"
   schema={schema}
 >
 
@@ -283,12 +283,12 @@ const schema = JSON.stringify([
   <div class="card">
     <h2>Related Converters</h2>
     <div class="next-grid">
-      <a href="/dwt-to-grams" class="next-card">
+      <a href="/converters/dwt-to-grams" class="next-card">
         <span class="next-tag">Weight</span>
         <h3>dwt to Grams</h3>
         <p>Convert pennyweights to grams — 1 dwt = 1.555 g</p>
       </a>
-      <a href="/grain-to-mg" class="next-card">
+      <a href="/converters/grain-to-mg" class="next-card">
         <span class="next-tag">Weight</span>
         <h3>Grain to mg</h3>
         <p>Convert grains to milligrams — 1 gr = 64.799 mg</p>

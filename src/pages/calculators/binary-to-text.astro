@@ -1,12 +1,12 @@
 ﻿---
-import Layout from '../layouts/Layout.astro';
+import Layout from '../../layouts/Layout.astro';
 
 const schema = JSON.stringify([
   {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "name": "Binary to Text Translator",
-    "url": "https://computezap.com/binary-to-text",
+    "url": "https://computezap.com/calculators/binary-to-text",
     "applicationCategory": "UtilityApplication",
     "operatingSystem": "Web",
     "description": "Convert binary code to text or text to binary instantly. Enter any 8-bit binary string and get readable text. Free binary to text translator.",
@@ -18,7 +18,7 @@ const schema = JSON.stringify([
     "itemListElement": [
       { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
       { "@type": "ListItem", "position": 2, "name": "Calculators", "item": "https://computezap.com/calculators" },
-      { "@type": "ListItem", "position": 3, "name": "Binary to Text Translator", "item": "https://computezap.com/binary-to-text" }
+      { "@type": "ListItem", "position": 3, "name": "Binary to Text Translator", "item": "https://computezap.com/calculators/binary-to-text" }
     ]
   },
   {
@@ -62,7 +62,7 @@ const schema = JSON.stringify([
 <Layout
   title="Binary to Text Translator — Convert Binary Code to Text | ComputeZap"
   description="Convert binary code to text or text to binary instantly. Enter 8-bit binary groups (e.g. 01001000 01101001 = Hi). Free binary translator with ASCII reference table."
-  canonical="/binary-to-text"
+  canonical="/calculators/binary-to-text"
   schema={schema}
 >
 
