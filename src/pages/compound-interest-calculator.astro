@@ -1,0 +1,424 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const title = "Compound Interest Calculator";
+const description = "Calculate compound interest with monthly contributions. See how your money grows year by year with our free compound interest calculator — includes Rule of 72 and growth table.";
+const canonical = "https://www.computezap.com/compound-interest-calculator";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "Compound Interest Calculator",
+      "url": canonical,
+      "description": description,
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "Any",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.computezap.com" },
+        { "@type": "ListItem", "position": 2, "name": "Finance", "item": "https://www.computezap.com/#finance" },
+        { "@type": "ListItem", "position": 3, "name": "Compound Interest Calculator", "item": canonical }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is compound interest?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Compound interest is interest calculated on both the initial principal and the accumulated interest from previous periods. Unlike simple interest, compounding causes your money to grow exponentially over time." }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the Rule of 72?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Divide 72 by your annual interest rate to estimate how many years it takes to double your money. At 7%, money doubles every 10.3 years (72 ÷ 7). It's a quick mental math shortcut that's surprisingly accurate." }
+        },
+        {
+          "@type": "Question",
+          "name": "How does compounding frequency affect growth?",
+          "acceptedAnswer": { "@type": "Answer", "text": "More frequent compounding means slightly higher returns. Daily compounding earns slightly more than monthly, which earns more than annually. However, the rate matters far more than the frequency." }
+        },
+        {
+          "@type": "Question",
+          "name": "What is a realistic interest rate to use?",
+          "acceptedAnswer": { "@type": "Answer", "text": "High-yield savings accounts offer 4–5%, the S&P 500 averages ~10% historically, CDs typically offer 4–5%. For long-term projections, 7% is commonly used as it accounts for inflation." }
+        }
+      ]
+    }
+  ]
+};
+---
+
+<Layout title={title} description={description} canonical={canonical}>
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+
+  <style>
+    .ci-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 500px) { .ci-grid { grid-template-columns: 1fr; } }
+    .freq-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+    .freq-btn { padding: 6px 14px; border: 1.5px solid var(--border); border-radius: 8px; background: var(--bg-card); color: var(--text); font-size: 0.82rem; cursor: pointer; transition: all 0.18s; }
+    .freq-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .freq-btn:hover:not(.active) { border-color: var(--primary); }
+    .growth-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    .growth-table th, .growth-table td { padding: 8px 12px; text-align: right; border-bottom: 1px solid var(--border); }
+    .growth-table th { background: var(--bg-hero); font-weight: 600; }
+    .growth-table td:first-child, .growth-table th:first-child { text-align: left; }
+    .growth-table tr:hover td { background: var(--bg-hero); }
+    .milestone-row td { background: rgba(99,102,241,0.07) !important; font-weight: 600; }
+  </style>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <nav class="breadcrumb">
+      <a href="/">Home</a>
+      <span>›</span>
+      <a href="/#finance">Finance</a>
+      <span>›</span>
+      <span>Compound Interest Calculator</span>
+    </nav>
+    <h1>Compound Interest Calculator</h1>
+    <p class="hero-sub">See how your money grows over time with the power of compounding</p>
+  </section>
+
+  <!-- CALCULATOR -->
+  <section class="calc-center">
+    <div class="calc-card">
+
+      <div class="preset-row">
+        <button class="preset-btn" onclick="setPreset(10000,7,30,500,'monthly')">S&P 500 Avg</button>
+        <button class="preset-btn" onclick="setPreset(5000,4.75,5,200,'monthly')">HYSA 5yr</button>
+        <button class="preset-btn" onclick="setPreset(1000,10,20,0,'annual')">$1K @ 10%</button>
+        <button class="preset-btn" onclick="setPreset(50000,6,25,1000,'monthly')">Retirement</button>
+      </div>
+
+      <div class="ci-grid">
+        <div class="input-group">
+          <label class="input-label">Starting Amount ($)</label>
+          <input type="number" id="principal" class="calc-input" value="10000" min="0" placeholder="10000">
+        </div>
+        <div class="input-group">
+          <label class="input-label">Annual Interest Rate (%)</label>
+          <input type="number" id="rate" class="calc-input" value="7" min="0" max="100" step="0.1" placeholder="7">
+        </div>
+        <div class="input-group">
+          <label class="input-label">Time Period (Years)</label>
+          <input type="number" id="years" class="calc-input" value="30" min="1" max="100" placeholder="30">
+        </div>
+        <div class="input-group">
+          <label class="input-label">Monthly Contribution ($)</label>
+          <input type="number" id="monthly" class="calc-input" value="500" min="0" placeholder="0">
+        </div>
+      </div>
+
+      <label class="input-label" style="display:block;margin-bottom:8px">Compound Frequency</label>
+      <div class="freq-row">
+        <button class="freq-btn" onclick="setFreq(this,'daily')">Daily</button>
+        <button class="freq-btn active" onclick="setFreq(this,'monthly')">Monthly</button>
+        <button class="freq-btn" onclick="setFreq(this,'quarterly')">Quarterly</button>
+        <button class="freq-btn" onclick="setFreq(this,'semiannual')">Semi-Annually</button>
+        <button class="freq-btn" onclick="setFreq(this,'annual')">Annually</button>
+      </div>
+
+      <button class="calc-btn" onclick="calcCI()">Calculate</button>
+
+      <div class="answer-hero show" id="answer-hero">
+        <div class="answer-label">Final Balance</div>
+        <div class="answer-value" id="final-val">—</div>
+        <div class="answer-sub" id="answer-sub">Enter values and click Calculate</div>
+      </div>
+
+      <div class="stats-row show" id="stats-row">
+        <div class="stat-box">
+          <div class="stat-label">Starting Amount</div>
+          <div class="stat-value" id="stat-principal">—</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">Total Contributions</div>
+          <div class="stat-value" id="stat-contrib">—</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">Total Interest Earned</div>
+          <div class="stat-value" id="stat-interest">—</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">Interest % of Total</div>
+          <div class="stat-value" id="stat-pct">—</div>
+        </div>
+      </div>
+
+      <div class="tip-box" id="tip-box" style="display:none"></div>
+
+    </div>
+  </section>
+
+  <!-- CONTENT -->
+  <section class="content-wrap">
+
+    <div class="content-card" id="growth-card" style="display:none">
+      <h2>Year-by-Year Growth</h2>
+      <div style="overflow-x:auto">
+        <table class="growth-table">
+          <thead>
+            <tr>
+              <th>Year</th>
+              <th>Balance</th>
+              <th>Interest Earned</th>
+              <th>Total Contributed</th>
+            </tr>
+          </thead>
+          <tbody id="growth-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>What Is Compound Interest?</h2>
+      <p>Compound interest is interest calculated on both your initial principal <em>and</em> the accumulated interest from previous periods. Every period, your balance grows — and the next period's interest is calculated on that larger balance.</p>
+      <p style="margin-top:10px">This creates exponential growth over time. The longer the period and the higher the rate, the more dramatic the effect. Even small monthly contributions can build into life-changing wealth over decades.</p>
+    </div>
+
+    <div class="content-card">
+      <h2>Rule of 72 — Doubling Time</h2>
+      <p>Divide <strong>72</strong> by the annual interest rate to estimate how long it takes to double your money.</p>
+      <div style="overflow-x:auto">
+        <table class="conv-table">
+          <thead><tr><th>Annual Rate</th><th>Rule of 72 Estimate</th><th>Actual Years</th></tr></thead>
+          <tbody>
+            <tr><td>3%</td><td>24.0 years</td><td>23.4 years</td></tr>
+            <tr><td>4%</td><td>18.0 years</td><td>17.7 years</td></tr>
+            <tr><td>5%</td><td>14.4 years</td><td>14.2 years</td></tr>
+            <tr><td>6%</td><td>12.0 years</td><td>11.9 years</td></tr>
+            <tr><td>7%</td><td>10.3 years</td><td>10.2 years</td></tr>
+            <tr><td>8%</td><td>9.0 years</td><td>9.0 years</td></tr>
+            <tr><td>10%</td><td>7.2 years</td><td>7.3 years</td></tr>
+            <tr><td>12%</td><td>6.0 years</td><td>6.1 years</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>Compounding Frequency Comparison</h2>
+      <p>How much does frequency matter? Here's $10,000 at 10% for 10 years:</p>
+      <div style="overflow-x:auto">
+        <table class="conv-table">
+          <thead><tr><th>Frequency</th><th>Final Amount</th><th>Interest Earned</th><th>Effective Annual Rate</th></tr></thead>
+          <tbody>
+            <tr><td>Annually</td><td>$25,937</td><td>$15,937</td><td>10.000%</td></tr>
+            <tr><td>Semi-Annually</td><td>$26,533</td><td>$16,533</td><td>10.250%</td></tr>
+            <tr><td>Quarterly</td><td>$26,851</td><td>$16,851</td><td>10.381%</td></tr>
+            <tr><td>Monthly</td><td>$27,070</td><td>$17,070</td><td>10.471%</td></tr>
+            <tr><td>Daily</td><td>$27,183</td><td>$17,183</td><td>10.516%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:10px;font-size:0.85rem;color:var(--text-muted)">The difference between monthly and daily is minimal. Rate and time matter far more than frequency.</p>
+    </div>
+
+    <div class="content-card">
+      <h2>Realistic Interest Rate Reference</h2>
+      <div style="overflow-x:auto">
+        <table class="conv-table">
+          <thead><tr><th>Investment Type</th><th>Typical Rate</th><th>Risk Level</th></tr></thead>
+          <tbody>
+            <tr><td>High-Yield Savings (HYSA)</td><td>4.0 – 5.0%</td><td>Very Low</td></tr>
+            <tr><td>Certificates of Deposit (CD)</td><td>4.5 – 5.5%</td><td>Very Low</td></tr>
+            <tr><td>Treasury Bonds (T-Bills)</td><td>4.0 – 5.5%</td><td>Low</td></tr>
+            <tr><td>Corporate Bonds</td><td>4.5 – 7.0%</td><td>Low – Medium</td></tr>
+            <tr><td>S&P 500 (historical avg)</td><td>~10% nominal / ~7% real</td><td>Medium</td></tr>
+            <tr><td>Total Stock Market Index</td><td>~9 – 10%</td><td>Medium</td></tr>
+            <tr><td>Real Estate (REITs)</td><td>7 – 12%</td><td>Medium – High</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>What is the compound interest formula?</h3>
+        <p>The formula is <strong>A = P(1 + r/n)^(nt)</strong> where P = principal, r = annual rate (decimal), n = compounds per year, t = time in years. With regular contributions, a month-by-month loop is used for accuracy.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What is the difference between simple and compound interest?</h3>
+        <p>Simple interest is calculated only on the principal: <strong>A = P × (1 + rt)</strong>. Compound interest earns interest on previous interest too. Over long periods, the difference is enormous — $10,000 at 7% for 30 years: simple = $31,000, compound = $76,123.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Does compound interest work against me on debt?</h3>
+        <p>Yes. Credit cards (20–30% APR) and high-interest loans compound against you. A $5,000 credit card balance at 25% APR compounding monthly costs you $1,374 in interest in just one year if you don't pay it. Paying off high-interest debt is often the best "investment" you can make.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How often does the S&P 500 compound?</h3>
+        <p>Stock market returns compound continuously as prices change daily. For calculator purposes, monthly or annual compounding gives a very accurate projection. The S&P 500 has averaged ~10% annually over the last century (about 7% after inflation).</p>
+      </div>
+      <div class="faq-item">
+        <h3>Why does starting early matter so much?</h3>
+        <p>At 7%, money doubles every 10.3 years. Starting at 25 gives you 3 more doublings than starting at 35. $10,000 invested at 25 becomes ~$200,000 by 65. The same $10,000 at 35 only becomes ~$100,000. Those 10 years cost you $100,000.</p>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>Related Finance Calculators</h2>
+      <div class="related-grid">
+        <a href="/savings-calculator" class="related-card">
+          <div class="related-icon">💰</div>
+          <div class="related-name">Savings Calculator</div>
+        </a>
+        <a href="/roth-ira-calculator" class="related-card">
+          <div class="related-icon">🏦</div>
+          <div class="related-name">Roth IRA Calculator</div>
+        </a>
+        <a href="/401k-calculator" class="related-card">
+          <div class="related-icon">📊</div>
+          <div class="related-name">401K Calculator</div>
+        </a>
+        <a href="/cd-calculator" class="related-card">
+          <div class="related-icon">🏛️</div>
+          <div class="related-name">CD Calculator</div>
+        </a>
+        <a href="/apr-calculator" class="related-card">
+          <div class="related-icon">📈</div>
+          <div class="related-name">APR Calculator</div>
+        </a>
+        <a href="/amortization-calculator" class="related-card">
+          <div class="related-icon">🏠</div>
+          <div class="related-name">Amortization Calculator</div>
+        </a>
+      </div>
+    </div>
+
+  </section>
+
+  <script is:inline>
+    var currentFreq = 'monthly';
+
+    function setFreq(btn, f) {
+      currentFreq = f;
+      document.querySelectorAll('.freq-btn').forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      calcCI();
+    }
+
+    function setPreset(p, r, y, m, f) {
+      document.getElementById('principal').value = p;
+      document.getElementById('rate').value = r;
+      document.getElementById('years').value = y;
+      document.getElementById('monthly').value = m;
+      currentFreq = f;
+      document.querySelectorAll('.freq-btn').forEach(function(b) {
+        b.classList.remove('active');
+        if (b.textContent.trim().toLowerCase().replace('-', '').replace(' ', '') === f.replace('semiannual', 'semiannually').replace('annual', 'annually').replace('monthly', 'monthly').replace('quarterly', 'quarterly').replace('daily', 'daily')) {
+          b.classList.add('active');
+        }
+      });
+      calcCI();
+    }
+
+    function fmtFull(n) {
+      return '$' + Math.round(n).toLocaleString();
+    }
+
+    function fmtShort(n) {
+      if (n >= 1000000) return '$' + (n / 1000000).toFixed(2) + 'M';
+      if (n >= 10000) return '$' + (n / 1000).toFixed(1) + 'K';
+      return '$' + Math.round(n).toLocaleString();
+    }
+
+    function getEffectiveMonthlyRate(annualRate, freq) {
+      var r = annualRate / 100;
+      if (freq === 'daily')      return Math.pow(1 + r / 365, 365 / 12) - 1;
+      if (freq === 'monthly')    return r / 12;
+      if (freq === 'quarterly')  return Math.pow(1 + r / 4, 1 / 3) - 1;
+      if (freq === 'semiannual') return Math.pow(1 + r / 2, 1 / 6) - 1;
+      if (freq === 'annual')     return Math.pow(1 + r, 1 / 12) - 1;
+      return r / 12;
+    }
+
+    function calcCI() {
+      var principal = parseFloat(document.getElementById('principal').value) || 0;
+      var rate      = parseFloat(document.getElementById('rate').value) || 0;
+      var years     = parseInt(document.getElementById('years').value)   || 0;
+      var monthly   = parseFloat(document.getElementById('monthly').value) || 0;
+
+      if (principal < 0 || rate < 0 || years < 1 || years > 100) return;
+
+      var emr    = getEffectiveMonthlyRate(rate, currentFreq);
+      var months = years * 12;
+
+      var bal          = principal;
+      var totalInterest = 0;
+      var totalContrib  = principal;
+      var yearData      = [];
+
+      for (var m = 0; m < months; m++) {
+        var interest = bal * emr;
+        totalInterest += interest;
+        bal           += interest + monthly;
+        totalContrib  += monthly;
+
+        if ((m + 1) % 12 === 0) {
+          yearData.push({
+            year:    (m + 1) / 12,
+            balance: bal,
+            interest: totalInterest,
+            contrib:  totalContrib
+          });
+        }
+      }
+
+      var finalBal     = bal;
+      var interestPct  = finalBal > 0 ? (totalInterest / finalBal) * 100 : 0;
+      var doublingYrs  = rate > 0 ? (Math.log(2) / Math.log(1 + rate / 100)).toFixed(1) : '∞';
+
+      // Answer hero
+      document.getElementById('final-val').textContent = fmtFull(finalBal);
+      var freqLabels = { daily: 'daily', monthly: 'monthly', quarterly: 'quarterly', semiannual: 'semi-annually', annual: 'annually' };
+      document.getElementById('answer-sub').textContent =
+        'After ' + years + ' year' + (years !== 1 ? 's' : '') +
+        ' at ' + rate + '% compounded ' + (freqLabels[currentFreq] || 'monthly');
+
+      // Stats
+      document.getElementById('stat-principal').textContent = fmtFull(principal);
+      document.getElementById('stat-contrib').textContent   = fmtFull(totalContrib);
+      document.getElementById('stat-interest').textContent  = fmtFull(totalInterest);
+      document.getElementById('stat-pct').textContent       = interestPct.toFixed(1) + '%';
+
+      // Tip
+      var tip = document.getElementById('tip-box');
+      tip.style.display = 'block';
+      if (rate === 0) {
+        tip.className = 'tip-box tip-orange';
+        tip.textContent = 'At 0% your money never grows. Try 7% for a long-term stock market estimate, or 4.75% for a high-yield savings account.';
+      } else if (monthly >= principal * 0.05) {
+        tip.className = 'tip-box tip-green';
+        tip.textContent = 'Your $' + monthly.toLocaleString() + '/mo contributions add $' + (monthly * 12).toLocaleString() + '/yr — a big driver of your growth. Rule of 72: at ' + rate + '%, money doubles every ' + doublingYrs + ' years.';
+      } else {
+        tip.className = 'tip-box tip-green';
+        tip.textContent = 'Rule of 72: at ' + rate + '%, your money doubles every ' + doublingYrs + ' years. Your $' + principal.toLocaleString() + ' starting amount will double around year ' + Math.ceil(parseFloat(doublingYrs)) + '.';
+      }
+
+      // Growth table
+      var tbody = document.getElementById('growth-body');
+      var html = '';
+      yearData.forEach(function(d) {
+        var isMilestone = d.year === 1 || d.year % 5 === 0 || d.year === years;
+        var cls = isMilestone ? ' class="milestone-row"' : '';
+        html += '<tr' + cls + '>' +
+          '<td>Year ' + d.year + '</td>' +
+          '<td>' + fmtFull(d.balance) + '</td>' +
+          '<td>' + fmtFull(d.interest) + '</td>' +
+          '<td>' + fmtFull(d.contrib) + '</td>' +
+          '</tr>';
+      });
+      tbody.innerHTML = html;
+      document.getElementById('growth-card').style.display = 'block';
+    }
+
+    calcCI();
+  </script>
+</Layout>
