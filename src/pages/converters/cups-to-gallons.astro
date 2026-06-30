@@ -1,15 +1,15 @@
----
-import Layout from '../layouts/Layout.astro';
+﻿---
+import Layout from '../../layouts/Layout.astro';
 
 const schema = JSON.stringify([
   {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    "name": "Cups to Tablespoons Converter",
-    "url": "https://computezap.com/cups-to-tablespoons",
+    "name": "Cups to Gallons Converter",
+    "url": "https://computezap.com/converters/cups-to-gallons",
     "applicationCategory": "UtilityApplication",
     "operatingSystem": "Web",
-    "description": "Convert cups to tablespoons instantly. 1 cup = 16 tablespoons. Free cups to tbsp converter with baking and cooking measurement reference.",
+    "description": "Convert cups to gallons instantly. 16 cups = 1 gallon. Free cups to gallons converter with kitchen measurement reference table.",
     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
   },
   {
@@ -17,26 +17,26 @@ const schema = JSON.stringify([
     "@type": "BreadcrumbList",
     "itemListElement": [
       { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
-      { "@type": "ListItem", "position": 2, "name": "Cups to Tablespoons", "item": "https://computezap.com/cups-to-tablespoons" }
+      { "@type": "ListItem", "position": 2, "name": "Cups to Gallons", "item": "https://computezap.com/converters/cups-to-gallons" }
     ]
   },
   {
     "@context": "https://schema.org",
     "@type": "FAQPage",
     "mainEntity": [
-      { "@type": "Question", "name": "How many tablespoons in a cup?", "acceptedAnswer": { "@type": "Answer", "text": "There are 16 tablespoons in 1 cup." } },
-      { "@type": "Question", "name": "How many tablespoons in half a cup?", "acceptedAnswer": { "@type": "Answer", "text": "Half a cup = 8 tablespoons." } },
-      { "@type": "Question", "name": "How many tablespoons in a quarter cup?", "acceptedAnswer": { "@type": "Answer", "text": "A quarter cup (¼ cup) = 4 tablespoons." } },
-      { "@type": "Question", "name": "How many teaspoons in a tablespoon?", "acceptedAnswer": { "@type": "Answer", "text": "1 tablespoon = 3 teaspoons." } },
-      { "@type": "Question", "name": "How many tablespoons in ⅓ cup?", "acceptedAnswer": { "@type": "Answer", "text": "⅓ cup = 5 tablespoons + 1 teaspoon (5.333 tablespoons)." } }
+      { "@type": "Question", "name": "How many cups in a gallon?", "acceptedAnswer": { "@type": "Answer", "text": "There are 16 cups in 1 US gallon." } },
+      { "@type": "Question", "name": "How many cups in half a gallon?", "acceptedAnswer": { "@type": "Answer", "text": "Half a gallon = 8 cups." } },
+      { "@type": "Question", "name": "How many gallons is 32 cups?", "acceptedAnswer": { "@type": "Answer", "text": "32 cups = 2 gallons. Divide 32 ÷ 16 = 2." } },
+      { "@type": "Question", "name": "How many cups in a quart?", "acceptedAnswer": { "@type": "Answer", "text": "1 quart = 4 cups." } },
+      { "@type": "Question", "name": "How many cups in a pint?", "acceptedAnswer": { "@type": "Answer", "text": "1 pint = 2 cups." } }
     ]
   }
 ]);
 ---
 <Layout
-  title="Cups to Tablespoons Converter — cups to tbsp | ComputeZap"
-  description="Convert cups to tablespoons instantly. 1 cup = 16 tablespoons. Free cups to tbsp converter with teaspoons, fluid ounces, and baking measurement chart."
-  canonical="/cups-to-tablespoons"
+  title="Cups to Gallons Converter — cups to gal | ComputeZap"
+  description="Convert cups to gallons instantly. 16 cups = 1 US gallon. Free cups to gallons converter with quarts, pints, fluid ounces, and kitchen reference chart."
+  canonical="/converters/cups-to-gallons"
   schema={schema}
 >
 <style is:global>
@@ -110,57 +110,55 @@ const schema = JSON.stringify([
 </style>
 
 <div class="page-hero">
-  <nav><a href="/">Home</a> › Cups to Tablespoons Converter</nav>
-  <h1>Cups to Tablespoons Converter</h1>
-  <p>1 cup = 16 tablespoons — convert any baking measurement instantly</p>
+  <nav><a href="/">Home</a> › Cups to Gallons Converter</nav>
+  <h1>Cups to Gallons Converter</h1>
+  <p>16 cups = 1 US gallon — convert any kitchen volume instantly</p>
 </div>
 
 <div class="calc-center">
   <div class="card">
     <div class="mode-wrap">
-      <button class="mode-btn active" id="btn-cup">cups → tbsp</button>
-      <button class="mode-btn" id="btn-tbsp">tbsp → cups</button>
+      <button class="mode-btn active" id="btn-cup">cups → gal</button>
+      <button class="mode-btn" id="btn-gal">gal → cups</button>
     </div>
     <div class="input-group">
       <label id="inp-lbl">Cups</label>
       <div class="input-wrap">
-        <input type="number" id="amount" value="1" min="0" step="0.25" />
+        <input type="number" id="amount" value="1" min="0" step="0.5" />
         <span class="input-sfx" id="inp-sfx">cup</span>
       </div>
     </div>
-    <span class="preset-lbl">Common fractions</span>
+    <span class="preset-lbl">Quick values</span>
     <div class="preset-wrap" id="preset-wrap">
-      <button class="preset-btn" onclick="setVal(0.25)">¼</button>
-      <button class="preset-btn" onclick="setVal(0.333)">⅓</button>
-      <button class="preset-btn" onclick="setVal(0.5)">½</button>
-      <button class="preset-btn" onclick="setVal(0.667)">⅔</button>
-      <button class="preset-btn" onclick="setVal(0.75)">¾</button>
       <button class="preset-btn" onclick="setVal(1)">1</button>
       <button class="preset-btn" onclick="setVal(2)">2</button>
+      <button class="preset-btn" onclick="setVal(4)">4</button>
+      <button class="preset-btn" onclick="setVal(8)">8</button>
+      <button class="preset-btn" onclick="setVal(16)">16</button>
     </div>
     <button class="calc-btn" id="calc-btn">Convert</button>
     <div class="answer-hero" id="answer">
       <div class="a-label" id="ans-label">1 cup =</div>
-      <div class="a-value" id="ans-value">16</div>
-      <div class="a-unit" id="ans-unit">tablespoons (tbsp)</div>
-      <div class="a-sub" id="ans-sub">1 × 16 = 16 tablespoons</div>
+      <div class="a-value" id="ans-value">0.0625</div>
+      <div class="a-unit" id="ans-unit">gallons (gal)</div>
+      <div class="a-sub" id="ans-sub">1 ÷ 16 = 0.0625 gal</div>
     </div>
     <div class="stats-row" id="stats">
       <div class="stat-box">
-        <span class="stat-lbl">Teaspoons</span>
-        <span class="stat-val" id="s1-val">48 tsp</span>
-      </div>
-      <div class="stat-box">
-        <span class="stat-lbl">Fluid Ounces</span>
-        <span class="stat-val" id="s2-val">8 fl oz</span>
-      </div>
-      <div class="stat-box">
-        <span class="stat-lbl">Milliliters</span>
-        <span class="stat-val" id="s3-val">236.6 mL</span>
+        <span class="stat-lbl">Quarts</span>
+        <span class="stat-val" id="s1-val">0.25 qt</span>
       </div>
       <div class="stat-box">
         <span class="stat-lbl">Pints</span>
-        <span class="stat-val" id="s4-val">0.5 pt</span>
+        <span class="stat-val" id="s2-val">0.5 pt</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">Fluid Ounces</span>
+        <span class="stat-val" id="s3-val">8 fl oz</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">Milliliters</span>
+        <span class="stat-val" id="s4-val">236.6 mL</span>
       </div>
     </div>
   </div>
@@ -169,33 +167,34 @@ const schema = JSON.stringify([
 <div class="content-wrap">
 
   <div class="content-card">
-    <h2>Cups to Tablespoons — Baking Chart</h2>
-    <p>The most common cup-to-tablespoon conversions for baking and cooking:</p>
+    <h2>Cups to Gallons Reference Table</h2>
     <div class="tip-box">
-      <span class="tip-icon">🥄</span>
-      <p><strong>Key facts:</strong> 1 cup = 16 tbsp = 48 tsp = 8 fl oz. For fractions: ¼ cup = 4 tbsp, ⅓ cup = 5 tbsp + 1 tsp, ½ cup = 8 tbsp.</p>
+      <span class="tip-icon">🥛</span>
+      <p><strong>Quick rule:</strong> 16 cups = 1 gallon. Divide cups by 16 to get gallons. Example: 8 cups ÷ 16 = 0.5 gallon (half gallon).</p>
     </div>
     <div style="overflow-x:auto">
       <table class="ref-tbl">
-        <thead><tr><th>Cups</th><th>Tablespoons</th><th>Teaspoons</th><th>Fluid Oz</th><th>mL</th></tr></thead>
+        <thead><tr><th>Cups</th><th>Gallons</th><th>Quarts</th><th>Pints</th><th>Fl Oz</th></tr></thead>
         <tbody>
           {[
-            ['⅛ cup (0.125)','0.125','2 tbsp','6 tsp','1 fl oz','30 mL'],
-            ['¼ cup (0.25)','0.25','4 tbsp','12 tsp','2 fl oz','59 mL'],
-            ['⅓ cup (0.333)','0.333','5 tbsp + 1 tsp','16 tsp','2.67 fl oz','79 mL'],
-            ['½ cup (0.5)','0.5','8 tbsp','24 tsp','4 fl oz','118 mL'],
-            ['⅔ cup (0.667)','0.667','10 tbsp + 2 tsp','32 tsp','5.33 fl oz','158 mL'],
-            ['¾ cup (0.75)','0.75','12 tbsp','36 tsp','6 fl oz','177 mL'],
-            ['1 cup','1','16 tbsp','48 tsp','8 fl oz','237 mL'],
-            ['1½ cups','1.5','24 tbsp','72 tsp','12 fl oz','355 mL'],
-            ['2 cups','2','32 tbsp','96 tsp','16 fl oz','473 mL'],
-          ].map(([label, val, tbsp, tsp, floz, ml]) => (
-            <tr onclick={`setVal(${val})`} class={val === '1' ? 'hi' : ''}>
-              <td class="acc">{label}</td>
-              <td>{tbsp}</td>
-              <td>{tsp}</td>
-              <td>{floz}</td>
-              <td style="color:#64748b">{ml}</td>
+            [1,'0.0625','0.25','0.5','8'],
+            [2,'0.125','0.5','1','16'],
+            [4,'0.25','1','2','32'],
+            [8,'0.5','2','4','64'],
+            [12,'0.75','3','6','96'],
+            [16,'1','4','8','128'],
+            [20,'1.25','5','10','160'],
+            [24,'1.5','6','12','192'],
+            [32,'2','8','16','256'],
+            [48,'3','12','24','384'],
+            [64,'4','16','32','512'],
+          ].map(([cup, gal, qt, pt, floz]) => (
+            <tr onclick={`setVal(${cup})`} class={cup === 16 ? 'hi' : ''}>
+              <td class="acc">{cup} cups</td>
+              <td>{gal} gal</td>
+              <td>{qt} qt</td>
+              <td>{pt} pt</td>
+              <td>{floz} fl oz</td>
             </tr>
           ))}
         </tbody>
@@ -204,67 +203,67 @@ const schema = JSON.stringify([
   </div>
 
   <div class="content-card">
-    <h2>Common Baking Substitutions</h2>
-    <ul>
-      <li><strong>No measuring cup?</strong> Use tablespoons: 16 tbsp = 1 cup</li>
-      <li><strong>⅓ cup butter</strong> = 5 tablespoons + 1 teaspoon</li>
-      <li><strong>¾ cup sugar</strong> = 12 tablespoons</li>
-      <li><strong>½ cup milk</strong> = 8 tablespoons = 24 teaspoons</li>
-      <li><strong>¼ cup oil</strong> = 4 tablespoons = 12 teaspoons</li>
-    </ul>
+    <h2>US Liquid Measurement Hierarchy</h2>
+    <div class="answer-box">
+      <div class="answer-row"><span class="answer-lbl">1 gallon</span><span class="answer-val">= 16 cups</span></div>
+      <div class="answer-row"><span class="answer-lbl">1 gallon</span><span class="answer-val">= 4 quarts</span></div>
+      <div class="answer-row"><span class="answer-lbl">1 gallon</span><span class="answer-val">= 8 pints</span></div>
+      <div class="answer-row"><span class="answer-lbl">1 gallon</span><span class="answer-val">= 128 fl oz</span></div>
+      <div class="answer-row"><span class="answer-lbl">1 gallon</span><span class="answer-val">= 3.785 liters</span></div>
+    </div>
   </div>
 
   <div class="content-card">
     <h2>Frequently Asked Questions</h2>
     <div class="faq-item">
-      <h3>How many tablespoons in a cup?</h3>
-      <p>There are <strong>16 tablespoons</strong> in 1 cup.</p>
+      <h3>How many cups in a gallon?</h3>
+      <p>There are <strong>16 cups</strong> in 1 US gallon.</p>
     </div>
     <div class="faq-item">
-      <h3>How many tablespoons in half a cup?</h3>
-      <p>½ cup = <strong>8 tablespoons</strong>.</p>
+      <h3>How many cups in half a gallon?</h3>
+      <p>Half a gallon = <strong>8 cups</strong>.</p>
     </div>
     <div class="faq-item">
-      <h3>How many tablespoons in a quarter cup?</h3>
-      <p>¼ cup = <strong>4 tablespoons</strong>.</p>
+      <h3>How many gallons is 32 cups?</h3>
+      <p>32 cups = <strong>2 gallons</strong>. Divide 32 ÷ 16 = 2.</p>
     </div>
     <div class="faq-item">
-      <h3>How many teaspoons in a tablespoon?</h3>
-      <p>1 tablespoon = <strong>3 teaspoons</strong>. So 1 cup = 16 tbsp = 48 tsp.</p>
+      <h3>How many cups in a quart?</h3>
+      <p>1 quart = <strong>4 cups</strong>.</p>
     </div>
     <div class="faq-item">
-      <h3>How many tablespoons in ⅓ cup?</h3>
-      <p>⅓ cup = <strong>5 tablespoons + 1 teaspoon</strong> (5.333 tbsp).</p>
+      <h3>How many cups in a pint?</h3>
+      <p>1 pint = <strong>2 cups</strong>.</p>
     </div>
   </div>
 
   <div class="content-card">
     <h2>Related Converters</h2>
     <div class="next-grid">
+      <a href="/cups-to-tablespoons" class="next-card">
+        <span class="next-tag">Volume</span>
+        <h3>Cups to Tbsp</h3>
+        <p>Convert cups to tablespoons for baking.</p>
+      </a>
       <a href="/oz-to-quarts" class="next-card">
         <span class="next-tag">Volume</span>
         <h3>Oz to Quarts</h3>
         <p>Convert fluid ounces to quarts.</p>
-      </a>
-      <a href="/cups-to-gallons" class="next-card">
-        <span class="next-tag">Volume</span>
-        <h3>Cups to Gallons</h3>
-        <p>Convert cups to gallons instantly.</p>
       </a>
       <a href="/liters-to-gallons" class="next-card">
         <span class="next-tag">Volume</span>
         <h3>Liters to Gallons</h3>
         <p>Convert liters to US and UK gallons.</p>
       </a>
-      <a href="/celsius-to-fahrenheit" class="next-card">
-        <span class="next-tag">Temperature</span>
-        <h3>Celsius to °F</h3>
-        <p>Convert oven temperatures for baking.</p>
-      </a>
       <a href="/kg-to-lbs" class="next-card">
         <span class="next-tag">Weight</span>
         <h3>kg to lbs</h3>
         <p>Convert kilograms to pounds.</p>
+      </a>
+      <a href="/celsius-to-fahrenheit" class="next-card">
+        <span class="next-tag">Temperature</span>
+        <h3>Celsius to °F</h3>
+        <p>Convert oven temperatures.</p>
       </a>
       <a href="/ounces-in-a-pound" class="next-card">
         <span class="next-tag">Weight</span>
@@ -280,7 +279,7 @@ const schema = JSON.stringify([
   var mode = 'cup';
 
   document.getElementById('btn-cup').addEventListener('click', function() { setMode('cup'); });
-  document.getElementById('btn-tbsp').addEventListener('click', function() { setMode('tbsp'); });
+  document.getElementById('btn-gal').addEventListener('click', function() { setMode('gal'); });
   document.getElementById('calc-btn').addEventListener('click', convert);
   document.getElementById('amount').addEventListener('input', convert);
   document.addEventListener('keydown', function(e) { if (e.key === 'Enter') convert(); });
@@ -294,39 +293,37 @@ const schema = JSON.stringify([
     mode = m;
     var isCup = m === 'cup';
     document.getElementById('btn-cup').classList.toggle('active', isCup);
-    document.getElementById('btn-tbsp').classList.toggle('active', !isCup);
-    document.getElementById('inp-lbl').textContent = isCup ? 'Cups' : 'Tablespoons (tbsp)';
-    document.getElementById('inp-sfx').textContent = isCup ? 'cup' : 'tbsp';
+    document.getElementById('btn-gal').classList.toggle('active', !isCup);
+    document.getElementById('inp-lbl').textContent = isCup ? 'Cups' : 'Gallons (gal)';
+    document.getElementById('inp-sfx').textContent = isCup ? 'cup' : 'gal';
     var presets = document.getElementById('preset-wrap');
-    presets.innerHTML = (isCup
-      ? [{v:0.25,l:'¼'},{v:0.333,l:'⅓'},{v:0.5,l:'½'},{v:0.667,l:'⅔'},{v:0.75,l:'¾'},{v:1,l:'1'},{v:2,l:'2'}]
-      : [{v:1,l:'1'},{v:2,l:'2'},{v:4,l:'4'},{v:8,l:'8'},{v:16,l:'16'},{v:32,l:'32'}])
-      .map(function(p){ return '<button class="preset-btn" onclick="setVal('+p.v+')">'+p.l+'</button>'; }).join('');
-    document.getElementById('amount').value = isCup ? 1 : 16;
+    presets.innerHTML = (isCup ? [1,2,4,8,16] : [0.25,0.5,1,2,4])
+      .map(function(v){ return '<button class="preset-btn" onclick="setVal('+v+')">'+v+'</button>'; }).join('');
+    document.getElementById('amount').value = isCup ? 1 : 1;
     convert();
   }
 
   function convert() {
     var val = parseFloat(document.getElementById('amount').value);
     if (isNaN(val) || val < 0) return;
-    var cups, tbsp, tsp, floz, ml, pt;
+    var cups, gal, qt, pt, floz, ml;
     if (mode === 'cup') {
-      cups = val; tbsp = val * 16; tsp = val * 48; floz = val * 8; ml = val * 236.588; pt = val * 0.5;
-      document.getElementById('ans-label').textContent = fmt(val, 3) + ' cup' + (val === 1 ? '' : 's') + ' =';
-      document.getElementById('ans-value').textContent = fmt(tbsp, 2);
-      document.getElementById('ans-unit').textContent = 'tablespoons (tbsp)';
-      document.getElementById('ans-sub').textContent = fmt(val,3) + ' × 16 = ' + fmt(tbsp,2) + ' tbsp';
+      cups = val; gal = val / 16; qt = val / 4; pt = val / 2; floz = val * 8; ml = val * 236.588;
+      document.getElementById('ans-label').textContent = fmt(val, 2) + ' cup' + (val === 1 ? '' : 's') + ' =';
+      document.getElementById('ans-value').textContent = fmt(gal, 4);
+      document.getElementById('ans-unit').textContent = 'gallon' + (gal === 1 ? '' : 's') + ' (gal)';
+      document.getElementById('ans-sub').textContent = fmt(val,2) + ' ÷ 16 = ' + fmt(gal,4) + ' gal';
     } else {
-      tbsp = val; cups = val / 16; tsp = val * 3; floz = val * 0.5; ml = val * 14.7868; pt = cups * 0.5;
-      document.getElementById('ans-label').textContent = fmt(val, 2) + ' tbsp =';
-      document.getElementById('ans-value').textContent = fmt(cups, 4);
+      gal = val; cups = val * 16; qt = val * 4; pt = val * 8; floz = val * 128; ml = val * 3785.41;
+      document.getElementById('ans-label').textContent = fmt(val, 2) + ' gal =';
+      document.getElementById('ans-value').textContent = fmt(cups, 2);
       document.getElementById('ans-unit').textContent = 'cups';
-      document.getElementById('ans-sub').textContent = fmt(val,2) + ' ÷ 16 = ' + fmt(cups,4) + ' cups';
+      document.getElementById('ans-sub').textContent = fmt(val,2) + ' × 16 = ' + fmt(cups,2) + ' cups';
     }
-    document.getElementById('s1-val').textContent = fmt(tsp, 2) + ' tsp';
-    document.getElementById('s2-val').textContent = fmt(floz, 2) + ' fl oz';
-    document.getElementById('s3-val').textContent = fmt(ml, 1) + ' mL';
-    document.getElementById('s4-val').textContent = fmt(pt, 4) + ' pt';
+    document.getElementById('s1-val').textContent = fmt(qt, 4) + ' qt';
+    document.getElementById('s2-val').textContent = fmt(pt, 4) + ' pt';
+    document.getElementById('s3-val').textContent = fmt(floz, 2) + ' fl oz';
+    document.getElementById('s4-val').textContent = fmt(ml, 1) + ' mL';
     document.getElementById('answer').classList.add('show');
     document.getElementById('stats').classList.add('show');
   }

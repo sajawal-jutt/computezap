@@ -1,12 +1,12 @@
----
-import Layout from '../layouts/Layout.astro';
+﻿---
+import Layout from '../../layouts/Layout.astro';
 
 const schema = JSON.stringify([
   {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "name": "Biweekly Mortgage Calculator",
-    "url": "https://computezap.com/biweekly-mortgage-calculator",
+    "url": "https://computezap.com/finance/biweekly-mortgage-calculator",
     "applicationCategory": "FinanceApplication",
     "operatingSystem": "Web",
     "description": "Calculate how much you save by making biweekly mortgage payments instead of monthly. See exact interest savings, years cut from your loan, and your new payoff date.",
@@ -17,7 +17,7 @@ const schema = JSON.stringify([
     "@type": "BreadcrumbList",
     "itemListElement": [
       { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
-      { "@type": "ListItem", "position": 2, "name": "Biweekly Mortgage Calculator", "item": "https://computezap.com/biweekly-mortgage-calculator" }
+      { "@type": "ListItem", "position": 2, "name": "Biweekly Mortgage Calculator", "item": "https://computezap.com/finance/biweekly-mortgage-calculator" }
     ]
   },
   {
@@ -61,7 +61,7 @@ const schema = JSON.stringify([
 <Layout
   title="Biweekly Mortgage Calculator — Save Years & Thousands | ComputeZap"
   description="Free biweekly mortgage calculator. Enter your loan details and see exactly how many years you cut off your mortgage and how much interest you save by paying every two weeks."
-  canonical="/biweekly-mortgage-calculator"
+  canonical="/finance/biweekly-mortgage-calculator"
   schema={schema}
 >
 

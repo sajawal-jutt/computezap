@@ -1,12 +1,12 @@
----
-import Layout from '../layouts/Layout.astro';
+﻿---
+import Layout from '../../layouts/Layout.astro';
 
 const schema = JSON.stringify([
   {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "name": "Hours in a Month Calculator",
-    "url": "https://computezap.com/hours-in-a-month",
+    "url": "https://computezap.com/date-time/hours-in-a-month",
     "applicationCategory": "UtilityApplication",
     "operatingSystem": "Web",
     "description": "Calculate exactly how many hours are in any month. Default month has 730 average hours. Shows work hours, minutes, seconds, and weekday count per month.",
@@ -17,7 +17,7 @@ const schema = JSON.stringify([
     "@type": "BreadcrumbList",
     "itemListElement": [
       { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
-      { "@type": "ListItem", "position": 2, "name": "Hours in a Month", "item": "https://computezap.com/hours-in-a-month" }
+      { "@type": "ListItem", "position": 2, "name": "Hours in a Month", "item": "https://computezap.com/date-time/hours-in-a-month" }
     ]
   },
   {
@@ -36,7 +36,7 @@ const schema = JSON.stringify([
 <Layout
   title="Hours in a Month — 730 Hours Average | ComputeZap"
   description="How many hours are in a month? 730 average hours per month. A 30-day month has 720 hours, 31-day has 744. Shows work hours, minutes, and seconds per month."
-  canonical="/hours-in-a-month"
+  canonical="/date-time/hours-in-a-month"
   schema={schema}
 >
 

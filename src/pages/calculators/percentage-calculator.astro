@@ -1,12 +1,12 @@
----
-import Layout from '../layouts/Layout.astro';
+﻿---
+import Layout from '../../layouts/Layout.astro';
 
 const schema = JSON.stringify([
   {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "name": "Percentage Calculator",
-    "url": "https://computezap.com/percentage-calculator",
+    "url": "https://computezap.com/calculators/percentage-calculator",
     "description": "Free percentage calculator. Find what % of a number is, what percent one number is of another, or what number equals X percent. Three calculators in one.",
     "applicationCategory": "UtilityApplication",
     "operatingSystem": "Web",
@@ -17,7 +17,7 @@ const schema = JSON.stringify([
     "@type": "BreadcrumbList",
     "itemListElement": [
       { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
-      { "@type": "ListItem", "position": 2, "name": "Percentage Calculator", "item": "https://computezap.com/percentage-calculator" }
+      { "@type": "ListItem", "position": 2, "name": "Percentage Calculator", "item": "https://computezap.com/calculators/percentage-calculator" }
     ]
   },
   {
@@ -56,7 +56,7 @@ const schema = JSON.stringify([
 <Layout
   title="Percentage Calculator — Find X% of Y, What % is X of Y | ComputeZap"
   description="Free percentage calculator. Find what % of a number is, what percent one number is of another, or find the total from a percent. Three calculators in one."
-  canonical="/percentage-calculator"
+  canonical="/calculators/percentage-calculator"
   schema={schema}
 >
 

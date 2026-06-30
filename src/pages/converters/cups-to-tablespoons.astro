@@ -1,15 +1,15 @@
----
-import Layout from '../layouts/Layout.astro';
+﻿---
+import Layout from '../../layouts/Layout.astro';
 
 const schema = JSON.stringify([
   {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    "name": "Oz to Quarts Converter",
-    "url": "https://computezap.com/oz-to-quarts",
+    "name": "Cups to Tablespoons Converter",
+    "url": "https://computezap.com/converters/cups-to-tablespoons",
     "applicationCategory": "UtilityApplication",
     "operatingSystem": "Web",
-    "description": "Convert fluid ounces to quarts instantly. 1 quart = 32 fl oz. Free oz to qt converter with cooking reference table.",
+    "description": "Convert cups to tablespoons instantly. 1 cup = 16 tablespoons. Free cups to tbsp converter with baking and cooking measurement reference.",
     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
   },
   {
@@ -17,26 +17,26 @@ const schema = JSON.stringify([
     "@type": "BreadcrumbList",
     "itemListElement": [
       { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
-      { "@type": "ListItem", "position": 2, "name": "Oz to Quarts", "item": "https://computezap.com/oz-to-quarts" }
+      { "@type": "ListItem", "position": 2, "name": "Cups to Tablespoons", "item": "https://computezap.com/converters/cups-to-tablespoons" }
     ]
   },
   {
     "@context": "https://schema.org",
     "@type": "FAQPage",
     "mainEntity": [
-      { "@type": "Question", "name": "How many oz in a quart?", "acceptedAnswer": { "@type": "Answer", "text": "There are 32 fluid ounces in 1 US quart." } },
-      { "@type": "Question", "name": "How do I convert oz to quarts?", "acceptedAnswer": { "@type": "Answer", "text": "Divide fluid ounces by 32. Example: 64 oz ÷ 32 = 2 quarts." } },
-      { "@type": "Question", "name": "How many oz is 2 quarts?", "acceptedAnswer": { "@type": "Answer", "text": "2 quarts = 64 fluid ounces. Multiply 2 × 32 = 64 oz." } },
-      { "@type": "Question", "name": "Is 32 oz the same as 1 quart?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. 32 fluid ounces = exactly 1 US quart." } },
-      { "@type": "Question", "name": "How many cups are in a quart?", "acceptedAnswer": { "@type": "Answer", "text": "4 cups = 1 quart. Each cup is 8 fl oz, so 4 × 8 = 32 fl oz = 1 quart." } }
+      { "@type": "Question", "name": "How many tablespoons in a cup?", "acceptedAnswer": { "@type": "Answer", "text": "There are 16 tablespoons in 1 cup." } },
+      { "@type": "Question", "name": "How many tablespoons in half a cup?", "acceptedAnswer": { "@type": "Answer", "text": "Half a cup = 8 tablespoons." } },
+      { "@type": "Question", "name": "How many tablespoons in a quarter cup?", "acceptedAnswer": { "@type": "Answer", "text": "A quarter cup (¼ cup) = 4 tablespoons." } },
+      { "@type": "Question", "name": "How many teaspoons in a tablespoon?", "acceptedAnswer": { "@type": "Answer", "text": "1 tablespoon = 3 teaspoons." } },
+      { "@type": "Question", "name": "How many tablespoons in ⅓ cup?", "acceptedAnswer": { "@type": "Answer", "text": "⅓ cup = 5 tablespoons + 1 teaspoon (5.333 tablespoons)." } }
     ]
   }
 ]);
 ---
 <Layout
-  title="Oz to Quarts Converter — Fluid Ounces to Quarts | ComputeZap"
-  description="Convert fluid ounces to quarts instantly. 1 quart = 32 fl oz. Free oz to qt converter with cooking measurement table and kitchen reference chart."
-  canonical="/oz-to-quarts"
+  title="Cups to Tablespoons Converter — cups to tbsp | ComputeZap"
+  description="Convert cups to tablespoons instantly. 1 cup = 16 tablespoons. Free cups to tbsp converter with teaspoons, fluid ounces, and baking measurement chart."
+  canonical="/converters/cups-to-tablespoons"
   schema={schema}
 >
 <style is:global>
@@ -110,55 +110,57 @@ const schema = JSON.stringify([
 </style>
 
 <div class="page-hero">
-  <nav><a href="/">Home</a> › Oz to Quarts Converter</nav>
-  <h1>Oz to Quarts Converter</h1>
-  <p>1 quart = 32 fluid ounces — convert any volume instantly</p>
+  <nav><a href="/">Home</a> › Cups to Tablespoons Converter</nav>
+  <h1>Cups to Tablespoons Converter</h1>
+  <p>1 cup = 16 tablespoons — convert any baking measurement instantly</p>
 </div>
 
 <div class="calc-center">
   <div class="card">
     <div class="mode-wrap">
-      <button class="mode-btn active" id="btn-oz">fl oz → qt</button>
-      <button class="mode-btn" id="btn-qt">qt → fl oz</button>
+      <button class="mode-btn active" id="btn-cup">cups → tbsp</button>
+      <button class="mode-btn" id="btn-tbsp">tbsp → cups</button>
     </div>
     <div class="input-group">
-      <label id="inp-lbl">Fluid Ounces (fl oz)</label>
+      <label id="inp-lbl">Cups</label>
       <div class="input-wrap">
-        <input type="number" id="amount" value="32" min="0" step="1" />
-        <span class="input-sfx" id="inp-sfx">fl oz</span>
+        <input type="number" id="amount" value="1" min="0" step="0.25" />
+        <span class="input-sfx" id="inp-sfx">cup</span>
       </div>
     </div>
-    <span class="preset-lbl">Quick values</span>
+    <span class="preset-lbl">Common fractions</span>
     <div class="preset-wrap" id="preset-wrap">
-      <button class="preset-btn" onclick="setVal(8)">8</button>
-      <button class="preset-btn" onclick="setVal(16)">16</button>
-      <button class="preset-btn" onclick="setVal(32)">32</button>
-      <button class="preset-btn" onclick="setVal(64)">64</button>
-      <button class="preset-btn" onclick="setVal(128)">128</button>
+      <button class="preset-btn" onclick="setVal(0.25)">¼</button>
+      <button class="preset-btn" onclick="setVal(0.333)">⅓</button>
+      <button class="preset-btn" onclick="setVal(0.5)">½</button>
+      <button class="preset-btn" onclick="setVal(0.667)">⅔</button>
+      <button class="preset-btn" onclick="setVal(0.75)">¾</button>
+      <button class="preset-btn" onclick="setVal(1)">1</button>
+      <button class="preset-btn" onclick="setVal(2)">2</button>
     </div>
     <button class="calc-btn" id="calc-btn">Convert</button>
     <div class="answer-hero" id="answer">
-      <div class="a-label" id="ans-label">32 fl oz =</div>
-      <div class="a-value" id="ans-value">1</div>
-      <div class="a-unit" id="ans-unit">quart (qt)</div>
-      <div class="a-sub" id="ans-sub">32 ÷ 32 = 1 quart</div>
+      <div class="a-label" id="ans-label">1 cup =</div>
+      <div class="a-value" id="ans-value">16</div>
+      <div class="a-unit" id="ans-unit">tablespoons (tbsp)</div>
+      <div class="a-sub" id="ans-sub">1 × 16 = 16 tablespoons</div>
     </div>
     <div class="stats-row" id="stats">
       <div class="stat-box">
+        <span class="stat-lbl">Teaspoons</span>
+        <span class="stat-val" id="s1-val">48 tsp</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">Fluid Ounces</span>
+        <span class="stat-val" id="s2-val">8 fl oz</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">Milliliters</span>
+        <span class="stat-val" id="s3-val">236.6 mL</span>
+      </div>
+      <div class="stat-box">
         <span class="stat-lbl">Pints</span>
-        <span class="stat-val" id="s1-val">2 pt</span>
-      </div>
-      <div class="stat-box">
-        <span class="stat-lbl">Cups</span>
-        <span class="stat-val" id="s2-val">4 cups</span>
-      </div>
-      <div class="stat-box">
-        <span class="stat-lbl">Liters</span>
-        <span class="stat-val" id="s3-val">0.9464 L</span>
-      </div>
-      <div class="stat-box">
-        <span class="stat-lbl">Tablespoons</span>
-        <span class="stat-val" id="s4-val">64 tbsp</span>
+        <span class="stat-val" id="s4-val">0.5 pt</span>
       </div>
     </div>
   </div>
@@ -167,45 +169,33 @@ const schema = JSON.stringify([
 <div class="content-wrap">
 
   <div class="content-card">
-    <h2>How Many Oz in a Quart?</h2>
-    <p>There are exactly <strong>32 fluid ounces in 1 US quart</strong>. The quart is divided into 2 pints or 4 cups — a standard US liquid measure used in cooking and recipes.</p>
-    <div class="answer-box">
-      <div class="answer-row"><span class="answer-lbl">1 quart</span><span class="answer-val">= 32 fl oz</span></div>
-      <div class="answer-row"><span class="answer-lbl">1 quart</span><span class="answer-val">= 2 pints</span></div>
-      <div class="answer-row"><span class="answer-lbl">1 quart</span><span class="answer-val">= 4 cups</span></div>
-      <div class="answer-row"><span class="answer-lbl">1 quart</span><span class="answer-val">= 0.946 liters</span></div>
-    </div>
-  </div>
-
-  <div class="content-card">
-    <h2>Oz to Quarts Reference Table</h2>
+    <h2>Cups to Tablespoons — Baking Chart</h2>
+    <p>The most common cup-to-tablespoon conversions for baking and cooking:</p>
     <div class="tip-box">
-      <span class="tip-icon">🍶</span>
-      <p><strong>Kitchen tip:</strong> Divide fl oz by 32 to get quarts. A standard 16 oz water bottle = 0.5 quarts = 1 pint.</p>
+      <span class="tip-icon">🥄</span>
+      <p><strong>Key facts:</strong> 1 cup = 16 tbsp = 48 tsp = 8 fl oz. For fractions: ¼ cup = 4 tbsp, ⅓ cup = 5 tbsp + 1 tsp, ½ cup = 8 tbsp.</p>
     </div>
     <div style="overflow-x:auto">
       <table class="ref-tbl">
-        <thead><tr><th>Fluid Oz</th><th>Quarts</th><th>Pints</th><th>Cups</th><th>Common measure</th></tr></thead>
+        <thead><tr><th>Cups</th><th>Tablespoons</th><th>Teaspoons</th><th>Fluid Oz</th><th>mL</th></tr></thead>
         <tbody>
           {[
-            [1,'0.031','0.063','0.125','2 tablespoons'],
-            [4,'0.125','0.25','0.5','½ cup'],
-            [8,'0.25','0.5','1','1 cup'],
-            [12,'0.375','0.75','1.5','1½ cups'],
-            [16,'0.5','1','2','1 pint'],
-            [24,'0.75','1.5','3','¾ quart'],
-            [32,'1','2','4','1 quart'],
-            [48,'1.5','3','6','1½ quarts'],
-            [64,'2','4','8','½ gallon'],
-            [96,'3','6','12','¾ gallon'],
-            [128,'4','8','16','1 gallon'],
-          ].map(([oz, qt, pt, cup, label]) => (
-            <tr onclick={`setVal(${oz})`} class={oz === 32 ? 'hi' : ''}>
-              <td class="acc">{oz} fl oz</td>
-              <td>{qt} qt</td>
-              <td>{pt} pt</td>
-              <td>{cup}</td>
-              <td style="color:#64748b;font-size:.82rem">{label}</td>
+            ['⅛ cup (0.125)','0.125','2 tbsp','6 tsp','1 fl oz','30 mL'],
+            ['¼ cup (0.25)','0.25','4 tbsp','12 tsp','2 fl oz','59 mL'],
+            ['⅓ cup (0.333)','0.333','5 tbsp + 1 tsp','16 tsp','2.67 fl oz','79 mL'],
+            ['½ cup (0.5)','0.5','8 tbsp','24 tsp','4 fl oz','118 mL'],
+            ['⅔ cup (0.667)','0.667','10 tbsp + 2 tsp','32 tsp','5.33 fl oz','158 mL'],
+            ['¾ cup (0.75)','0.75','12 tbsp','36 tsp','6 fl oz','177 mL'],
+            ['1 cup','1','16 tbsp','48 tsp','8 fl oz','237 mL'],
+            ['1½ cups','1.5','24 tbsp','72 tsp','12 fl oz','355 mL'],
+            ['2 cups','2','32 tbsp','96 tsp','16 fl oz','473 mL'],
+          ].map(([label, val, tbsp, tsp, floz, ml]) => (
+            <tr onclick={`setVal(${val})`} class={val === '1' ? 'hi' : ''}>
+              <td class="acc">{label}</td>
+              <td>{tbsp}</td>
+              <td>{tsp}</td>
+              <td>{floz}</td>
+              <td style="color:#64748b">{ml}</td>
             </tr>
           ))}
         </tbody>
@@ -214,47 +204,47 @@ const schema = JSON.stringify([
   </div>
 
   <div class="content-card">
-    <h2>US Liquid Measurement Chart</h2>
+    <h2>Common Baking Substitutions</h2>
     <ul>
-      <li><strong>1 tablespoon</strong> = 0.5 fl oz</li>
-      <li><strong>1 cup</strong> = 8 fl oz = 16 tablespoons</li>
-      <li><strong>1 pint</strong> = 16 fl oz = 2 cups</li>
-      <li><strong>1 quart</strong> = 32 fl oz = 2 pints = 4 cups</li>
-      <li><strong>1 gallon</strong> = 128 fl oz = 4 quarts = 8 pints = 16 cups</li>
+      <li><strong>No measuring cup?</strong> Use tablespoons: 16 tbsp = 1 cup</li>
+      <li><strong>⅓ cup butter</strong> = 5 tablespoons + 1 teaspoon</li>
+      <li><strong>¾ cup sugar</strong> = 12 tablespoons</li>
+      <li><strong>½ cup milk</strong> = 8 tablespoons = 24 teaspoons</li>
+      <li><strong>¼ cup oil</strong> = 4 tablespoons = 12 teaspoons</li>
     </ul>
   </div>
 
   <div class="content-card">
     <h2>Frequently Asked Questions</h2>
     <div class="faq-item">
-      <h3>How many oz in a quart?</h3>
-      <p>There are <strong>32 fluid ounces</strong> in 1 US quart.</p>
+      <h3>How many tablespoons in a cup?</h3>
+      <p>There are <strong>16 tablespoons</strong> in 1 cup.</p>
     </div>
     <div class="faq-item">
-      <h3>How many oz is 2 quarts?</h3>
-      <p>2 quarts = <strong>64 fl oz</strong>. Multiply 2 × 32 = 64.</p>
+      <h3>How many tablespoons in half a cup?</h3>
+      <p>½ cup = <strong>8 tablespoons</strong>.</p>
     </div>
     <div class="faq-item">
-      <h3>Is 32 oz 1 quart?</h3>
-      <p>Yes. <strong>32 fluid ounces = exactly 1 quart</strong>.</p>
+      <h3>How many tablespoons in a quarter cup?</h3>
+      <p>¼ cup = <strong>4 tablespoons</strong>.</p>
     </div>
     <div class="faq-item">
-      <h3>How many cups in a quart?</h3>
-      <p>There are <strong>4 cups</strong> in 1 quart. Each cup = 8 fl oz, so 4 × 8 = 32 fl oz = 1 quart.</p>
+      <h3>How many teaspoons in a tablespoon?</h3>
+      <p>1 tablespoon = <strong>3 teaspoons</strong>. So 1 cup = 16 tbsp = 48 tsp.</p>
     </div>
     <div class="faq-item">
-      <h3>How many quarts in a gallon?</h3>
-      <p>There are <strong>4 quarts</strong> in 1 US gallon. 4 × 32 fl oz = 128 fl oz = 1 gallon.</p>
+      <h3>How many tablespoons in ⅓ cup?</h3>
+      <p>⅓ cup = <strong>5 tablespoons + 1 teaspoon</strong> (5.333 tbsp).</p>
     </div>
   </div>
 
   <div class="content-card">
     <h2>Related Converters</h2>
     <div class="next-grid">
-      <a href="/cups-to-tablespoons" class="next-card">
+      <a href="/oz-to-quarts" class="next-card">
         <span class="next-tag">Volume</span>
-        <h3>Cups to Tbsp</h3>
-        <p>Convert cups to tablespoons for cooking.</p>
+        <h3>Oz to Quarts</h3>
+        <p>Convert fluid ounces to quarts.</p>
       </a>
       <a href="/cups-to-gallons" class="next-card">
         <span class="next-tag">Volume</span>
@@ -266,20 +256,20 @@ const schema = JSON.stringify([
         <h3>Liters to Gallons</h3>
         <p>Convert liters to US and UK gallons.</p>
       </a>
-      <a href="/ounces-in-a-pound" class="next-card">
-        <span class="next-tag">Weight</span>
-        <h3>Ounces in a Pound</h3>
-        <p>Convert ounces to pounds.</p>
+      <a href="/celsius-to-fahrenheit" class="next-card">
+        <span class="next-tag">Temperature</span>
+        <h3>Celsius to °F</h3>
+        <p>Convert oven temperatures for baking.</p>
       </a>
       <a href="/kg-to-lbs" class="next-card">
         <span class="next-tag">Weight</span>
         <h3>kg to lbs</h3>
         <p>Convert kilograms to pounds.</p>
       </a>
-      <a href="/celsius-to-fahrenheit" class="next-card">
-        <span class="next-tag">Temperature</span>
-        <h3>Celsius to °F</h3>
-        <p>Convert temperature for cooking.</p>
+      <a href="/ounces-in-a-pound" class="next-card">
+        <span class="next-tag">Weight</span>
+        <h3>Ounces in a Pound</h3>
+        <p>Convert ounces and pounds.</p>
       </a>
     </div>
   </div>
@@ -287,54 +277,56 @@ const schema = JSON.stringify([
 </div>
 
 <script is:inline>
-  var mode = 'oz';
+  var mode = 'cup';
 
-  document.getElementById('btn-oz').addEventListener('click', function() { setMode('oz'); });
-  document.getElementById('btn-qt').addEventListener('click', function() { setMode('qt'); });
+  document.getElementById('btn-cup').addEventListener('click', function() { setMode('cup'); });
+  document.getElementById('btn-tbsp').addEventListener('click', function() { setMode('tbsp'); });
   document.getElementById('calc-btn').addEventListener('click', convert);
   document.getElementById('amount').addEventListener('input', convert);
   document.addEventListener('keydown', function(e) { if (e.key === 'Enter') convert(); });
 
-  document.getElementById('amount').value = 32;
+  document.getElementById('amount').value = 1;
   convert();
 
   function fmt(v, d) { return parseFloat(v.toFixed(d !== undefined ? d : 4)).toString(); }
 
   function setMode(m) {
     mode = m;
-    var isOz = m === 'oz';
-    document.getElementById('btn-oz').classList.toggle('active', isOz);
-    document.getElementById('btn-qt').classList.toggle('active', !isOz);
-    document.getElementById('inp-lbl').textContent = isOz ? 'Fluid Ounces (fl oz)' : 'Quarts (qt)';
-    document.getElementById('inp-sfx').textContent = isOz ? 'fl oz' : 'qt';
+    var isCup = m === 'cup';
+    document.getElementById('btn-cup').classList.toggle('active', isCup);
+    document.getElementById('btn-tbsp').classList.toggle('active', !isCup);
+    document.getElementById('inp-lbl').textContent = isCup ? 'Cups' : 'Tablespoons (tbsp)';
+    document.getElementById('inp-sfx').textContent = isCup ? 'cup' : 'tbsp';
     var presets = document.getElementById('preset-wrap');
-    presets.innerHTML = (isOz ? [8,16,32,64,128] : [0.25,0.5,1,2,4])
-      .map(function(v){ return '<button class="preset-btn" onclick="setVal('+v+')">'+v+'</button>'; }).join('');
-    document.getElementById('amount').value = isOz ? 32 : 1;
+    presets.innerHTML = (isCup
+      ? [{v:0.25,l:'¼'},{v:0.333,l:'⅓'},{v:0.5,l:'½'},{v:0.667,l:'⅔'},{v:0.75,l:'¾'},{v:1,l:'1'},{v:2,l:'2'}]
+      : [{v:1,l:'1'},{v:2,l:'2'},{v:4,l:'4'},{v:8,l:'8'},{v:16,l:'16'},{v:32,l:'32'}])
+      .map(function(p){ return '<button class="preset-btn" onclick="setVal('+p.v+')">'+p.l+'</button>'; }).join('');
+    document.getElementById('amount').value = isCup ? 1 : 16;
     convert();
   }
 
   function convert() {
     var val = parseFloat(document.getElementById('amount').value);
     if (isNaN(val) || val < 0) return;
-    var oz, qt, pt, cup, l, tbsp;
-    if (mode === 'oz') {
-      oz = val; qt = val / 32; pt = val / 16; cup = val / 8; l = val * 0.0295735; tbsp = val * 2;
-      document.getElementById('ans-label').textContent = fmt(val, 0) + ' fl oz =';
-      document.getElementById('ans-value').textContent = fmt(qt, 4);
-      document.getElementById('ans-unit').textContent = 'quart' + (qt === 1 ? '' : 's') + ' (qt)';
-      document.getElementById('ans-sub').textContent = fmt(val,0) + ' ÷ 32 = ' + fmt(qt,4) + ' qt';
+    var cups, tbsp, tsp, floz, ml, pt;
+    if (mode === 'cup') {
+      cups = val; tbsp = val * 16; tsp = val * 48; floz = val * 8; ml = val * 236.588; pt = val * 0.5;
+      document.getElementById('ans-label').textContent = fmt(val, 3) + ' cup' + (val === 1 ? '' : 's') + ' =';
+      document.getElementById('ans-value').textContent = fmt(tbsp, 2);
+      document.getElementById('ans-unit').textContent = 'tablespoons (tbsp)';
+      document.getElementById('ans-sub').textContent = fmt(val,3) + ' × 16 = ' + fmt(tbsp,2) + ' tbsp';
     } else {
-      qt = val; oz = val * 32; pt = val * 2; cup = val * 4; l = val * 0.946353; tbsp = oz * 2;
-      document.getElementById('ans-label').textContent = fmt(val, 2) + ' qt =';
-      document.getElementById('ans-value').textContent = fmt(oz, 1);
-      document.getElementById('ans-unit').textContent = 'fluid ounces (fl oz)';
-      document.getElementById('ans-sub').textContent = fmt(val,2) + ' × 32 = ' + fmt(oz,1) + ' fl oz';
+      tbsp = val; cups = val / 16; tsp = val * 3; floz = val * 0.5; ml = val * 14.7868; pt = cups * 0.5;
+      document.getElementById('ans-label').textContent = fmt(val, 2) + ' tbsp =';
+      document.getElementById('ans-value').textContent = fmt(cups, 4);
+      document.getElementById('ans-unit').textContent = 'cups';
+      document.getElementById('ans-sub').textContent = fmt(val,2) + ' ÷ 16 = ' + fmt(cups,4) + ' cups';
     }
-    document.getElementById('s1-val').textContent = fmt(pt, 4) + ' pt';
-    document.getElementById('s2-val').textContent = fmt(cup, 4) + ' cups';
-    document.getElementById('s3-val').textContent = fmt(l, 4) + ' L';
-    document.getElementById('s4-val').textContent = fmt(tbsp, 1) + ' tbsp';
+    document.getElementById('s1-val').textContent = fmt(tsp, 2) + ' tsp';
+    document.getElementById('s2-val').textContent = fmt(floz, 2) + ' fl oz';
+    document.getElementById('s3-val').textContent = fmt(ml, 1) + ' mL';
+    document.getElementById('s4-val').textContent = fmt(pt, 4) + ' pt';
     document.getElementById('answer').classList.add('show');
     document.getElementById('stats').classList.add('show');
   }

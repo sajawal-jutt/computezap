@@ -1,12 +1,12 @@
----
-import Layout from '../layouts/Layout.astro';
+﻿---
+import Layout from '../../layouts/Layout.astro';
 
 const schema = JSON.stringify([
   {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "name": "Margin Calculator",
-    "url": "https://computezap.com/margin-calculator",
+    "url": "https://computezap.com/finance/margin-calculator",
     "description": "Free profit margin calculator. Calculate gross profit margin %, selling price from margin target, or revenue needed. Instant results.",
     "applicationCategory": "UtilityApplication",
     "operatingSystem": "Web",
@@ -18,7 +18,7 @@ const schema = JSON.stringify([
     "itemListElement": [
       { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
       { "@type": "ListItem", "position": 2, "name": "Percentage Calculator", "item": "https://computezap.com/percentage-calculator" },
-      { "@type": "ListItem", "position": 3, "name": "Margin Calculator", "item": "https://computezap.com/margin-calculator" }
+      { "@type": "ListItem", "position": 3, "name": "Margin Calculator", "item": "https://computezap.com/finance/margin-calculator" }
     ]
   },
   {
@@ -52,7 +52,7 @@ const schema = JSON.stringify([
 <Layout
   title="Margin Calculator — Profit Margin % Formula | ComputeZap"
   description="Free profit margin calculator. Calculate gross margin %, selling price from a target margin, or find cost from revenue and margin. Instant results."
-  canonical="/margin-calculator"
+  canonical="/finance/margin-calculator"
   schema={schema}
 >
 

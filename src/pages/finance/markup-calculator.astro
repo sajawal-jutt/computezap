@@ -1,12 +1,12 @@
----
-import Layout from '../layouts/Layout.astro';
+﻿---
+import Layout from '../../layouts/Layout.astro';
 
 const schema = JSON.stringify([
   {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "name": "Markup Calculator",
-    "url": "https://computezap.com/markup-calculator",
+    "url": "https://computezap.com/finance/markup-calculator",
     "description": "Free markup calculator. Find selling price from cost and markup %, or calculate markup % from cost and selling price. Instant results.",
     "applicationCategory": "UtilityApplication",
     "operatingSystem": "Web",
@@ -18,7 +18,7 @@ const schema = JSON.stringify([
     "itemListElement": [
       { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
       { "@type": "ListItem", "position": 2, "name": "Percentage Calculator", "item": "https://computezap.com/percentage-calculator" },
-      { "@type": "ListItem", "position": 3, "name": "Markup Calculator", "item": "https://computezap.com/markup-calculator" }
+      { "@type": "ListItem", "position": 3, "name": "Markup Calculator", "item": "https://computezap.com/finance/markup-calculator" }
     ]
   },
   {
@@ -52,7 +52,7 @@ const schema = JSON.stringify([
 <Layout
   title="Markup Calculator — Find Selling Price from Cost + Markup % | ComputeZap"
   description="Free markup calculator. Find selling price from cost and markup %, or calculate markup % from cost and price. Includes markup vs margin comparison table."
-  canonical="/markup-calculator"
+  canonical="/finance/markup-calculator"
   schema={schema}
 >
 

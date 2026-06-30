@@ -1,12 +1,12 @@
----
-import Layout from '../layouts/Layout.astro';
+﻿---
+import Layout from '../../layouts/Layout.astro';
 
 const schema = JSON.stringify([
   {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "name": "Time to Decimal Calculator",
-    "url": "https://computezap.com/time-to-decimal-calculator",
+    "url": "https://computezap.com/date-time/time-to-decimal-calculator",
     "applicationCategory": "UtilitiesApplication",
     "operatingSystem": "Web",
     "description": "Free time to decimal calculator. Convert hours and minutes to decimal format for timesheets, payroll, invoicing, and billing. Includes payroll calculator and full reference table.",
@@ -17,7 +17,7 @@ const schema = JSON.stringify([
     "@type": "BreadcrumbList",
     "itemListElement": [
       { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
-      { "@type": "ListItem", "position": 2, "name": "Time to Decimal Calculator", "item": "https://computezap.com/time-to-decimal-calculator" }
+      { "@type": "ListItem", "position": 2, "name": "Time to Decimal Calculator", "item": "https://computezap.com/date-time/time-to-decimal-calculator" }
     ]
   },
   {
@@ -37,7 +37,7 @@ const schema = JSON.stringify([
 <Layout
   title="Time to Decimal Calculator — Convert Hours & Minutes | ComputeZap"
   description="Free time to decimal calculator. Convert hours and minutes to decimal for timesheets and payroll. Instant results with payroll calculator and full conversion table."
-  canonical="/time-to-decimal-calculator"
+  canonical="/date-time/time-to-decimal-calculator"
   schema={schema}
 >
 <style is:global>

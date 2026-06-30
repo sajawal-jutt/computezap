@@ -1,12 +1,12 @@
----
-import Layout from '../layouts/Layout.astro';
+﻿---
+import Layout from '../../layouts/Layout.astro';
 
 const schema = JSON.stringify([
   {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "name": "Knots to MPH Converter",
-    "url": "https://computezap.com/knots-to-mph",
+    "url": "https://computezap.com/converters/knots-to-mph",
     "applicationCategory": "UtilityApplication",
     "operatingSystem": "Web",
     "description": "Convert knots to mph instantly. 1 knot = 1.15078 mph. Free knots to miles per hour converter with wind speed Beaufort scale and aviation reference.",
@@ -17,7 +17,7 @@ const schema = JSON.stringify([
     "@type": "BreadcrumbList",
     "itemListElement": [
       { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
-      { "@type": "ListItem", "position": 2, "name": "Knots to MPH", "item": "https://computezap.com/knots-to-mph" }
+      { "@type": "ListItem", "position": 2, "name": "Knots to MPH", "item": "https://computezap.com/converters/knots-to-mph" }
     ]
   },
   {
@@ -36,7 +36,7 @@ const schema = JSON.stringify([
 <Layout
   title="Knots to MPH Converter — Knots to Miles Per Hour | ComputeZap"
   description="Convert knots to mph instantly. 1 knot = 1.15078 mph. Free knots to miles per hour converter with Beaufort wind scale, aviation speeds, and km/h reference."
-  canonical="/knots-to-mph"
+  canonical="/converters/knots-to-mph"
   schema={schema}
 >
 <style is:global>

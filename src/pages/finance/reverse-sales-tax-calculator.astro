@@ -1,12 +1,12 @@
----
-import Layout from '../layouts/Layout.astro';
+﻿---
+import Layout from '../../layouts/Layout.astro';
 
 const schema = JSON.stringify([
   {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "name": "Reverse Sales Tax Calculator",
-    "url": "https://computezap.com/reverse-sales-tax-calculator",
+    "url": "https://computezap.com/finance/reverse-sales-tax-calculator",
     "applicationCategory": "FinanceApplication",
     "operatingSystem": "Web",
     "description": "Free reverse sales tax calculator. Find the original pre-tax price from any total amount paid. All 50 US state tax rates included — California, Texas, New York, Florida, and more.",
@@ -17,7 +17,7 @@ const schema = JSON.stringify([
     "@type": "BreadcrumbList",
     "itemListElement": [
       { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
-      { "@type": "ListItem", "position": 2, "name": "Reverse Sales Tax Calculator", "item": "https://computezap.com/reverse-sales-tax-calculator" }
+      { "@type": "ListItem", "position": 2, "name": "Reverse Sales Tax Calculator", "item": "https://computezap.com/finance/reverse-sales-tax-calculator" }
     ]
   },
   {
@@ -71,7 +71,7 @@ const schema = JSON.stringify([
 <Layout
   title="Reverse Sales Tax Calculator — All 50 US States | ComputeZap"
   description="Free reverse sales tax calculator. Enter any total price and find the original pre-tax price instantly. All 50 US state sales tax rates included — CA, TX, NY, FL, TN, WA, and more."
-  canonical="/reverse-sales-tax-calculator"
+  canonical="/finance/reverse-sales-tax-calculator"
   schema={schema}
 >
 <style is:global>
