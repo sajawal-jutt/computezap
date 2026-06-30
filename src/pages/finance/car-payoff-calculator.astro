@@ -1,0 +1,545 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const schema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Car Payoff Calculator",
+    "url": "https://computezap.com/finance/car-payoff-calculator",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Web",
+    "description": "Calculate your car loan monthly payment, total interest, and payoff schedule. Includes down payment, trade-in, sales tax, and extra payment savings.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
+      { "@type": "ListItem", "position": 2, "name": "Finance", "item": "https://computezap.com/finance" },
+      { "@type": "ListItem", "position": 3, "name": "Car Payoff Calculator", "item": "https://computezap.com/finance/car-payoff-calculator" }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do I calculate my car loan monthly payment?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Monthly Payment = P × r × (1+r)^n ÷ ((1+r)^n − 1), where P = loan amount (price − down payment − trade-in + tax), r = monthly rate (APR ÷ 12), n = loan term in months. Example: $25,000 at 6% APR for 60 months = $483/month." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is a good interest rate for a car loan?",
+        "acceptedAnswer": { "@type": "Answer", "text": "As of 2024, good car loan rates are 5–7% APR for new cars and 7–10% for used cars with good credit (700+). Excellent credit (750+) can qualify for 3–5% APR. Dealer financing often runs 1–3% higher than bank or credit union rates." }
+      },
+      {
+        "@type": "Question",
+        "name": "Should I put more money down on a car?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. A larger down payment reduces your loan amount, lowers monthly payments, reduces total interest, and prevents being 'underwater' (owing more than the car is worth). Aim for at least 10–20% down on a new car." }
+      },
+      {
+        "@type": "Question",
+        "name": "How does a trade-in affect my car loan?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A trade-in reduces the purchase price of your new car, lowering the loan amount and monthly payment. Trading in a $5,000 car is the same as adding $5,000 to your down payment. Get your trade-in value from multiple sources before negotiating." }
+      },
+      {
+        "@type": "Question",
+        "name": "Is a 72-month car loan a good idea?",
+        "acceptedAnswer": { "@type": "Answer", "text": "72-month loans lower your monthly payment but cost significantly more in interest and increase the risk of being underwater on the loan. A $30,000 car at 7% APR: 60 months = $594/mo ($5,640 interest) vs 72 months = $510/mo ($6,720 interest). Stick to 48–60 months when possible." }
+      }
+    ]
+  }
+]);
+---
+<Layout
+  title="Car Payoff Calculator — Monthly Payment & Total Interest | ComputeZap"
+  description="Calculate your car loan monthly payment, total interest, and full payoff schedule. Includes down payment, trade-in value, sales tax, and extra payment savings calculator."
+  canonical="/finance/car-payoff-calculator"
+  schema={schema}
+>
+
+<div class="page-hero">
+  <nav class="breadcrumb"><a href="/">Home</a> › <a href="/#finance">Finance</a> › Car Payoff Calculator</nav>
+  <h1>Car Payoff Calculator</h1>
+  <p>Calculate your monthly payment, total cost, and see how extra payments save you money</p>
+</div>
+
+<div class="calc-center">
+
+  <div class="card">
+    <div class="car-grid">
+      <div class="input-group">
+        <label>Car Price ($)</label>
+        <div class="input-wrap">
+          <input type="number" id="price" min="0" step="100" placeholder="e.g. 28000" oninput="calcCar()" />
+          <span class="input-sfx">$</span>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Down Payment ($)</label>
+        <div class="input-wrap">
+          <input type="number" id="down" min="0" step="100" placeholder="e.g. 3000" oninput="calcCar()" value="0" />
+          <span class="input-sfx">$</span>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Trade-In Value ($)</label>
+        <div class="input-wrap">
+          <input type="number" id="tradein" min="0" step="100" placeholder="e.g. 5000" oninput="calcCar()" value="0" />
+          <span class="input-sfx">$</span>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Sales Tax Rate (%)</label>
+        <div class="input-wrap">
+          <input type="number" id="tax" min="0" max="20" step="0.1" placeholder="e.g. 8" oninput="calcCar()" value="0" />
+          <span class="input-sfx">%</span>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Annual Interest Rate (APR %)</label>
+        <div class="input-wrap">
+          <input type="number" id="rate" min="0" max="50" step="0.1" placeholder="e.g. 6.5" oninput="calcCar()" />
+          <span class="input-sfx">%</span>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Loan Term (months)</label>
+        <div class="input-wrap">
+          <input type="number" id="term" min="6" max="120" step="6" placeholder="e.g. 60" oninput="calcCar()" />
+          <span class="input-sfx">mo</span>
+        </div>
+      </div>
+    </div>
+    <div class="input-group" style="margin-top:.5rem">
+      <label>Extra Monthly Payment ($) <span style="font-size:.8rem;color:var(--gray-600);font-weight:400">— optional, see savings</span></label>
+      <div class="input-wrap">
+        <input type="number" id="extra" min="0" step="10" placeholder="e.g. 50" oninput="calcCar()" value="0" />
+        <span class="input-sfx">$/mo</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" id="result-card" style="display:none">
+    <div class="answer-hero" id="res-hero">
+      <div class="a-label">Monthly Payment</div>
+      <div class="a-value" id="res-payment">—</div>
+      <div class="a-unit">per month</div>
+      <div class="a-sub" id="res-sub">—</div>
+    </div>
+    <div class="stats-row" id="res-stats">
+      <div class="stat-box">
+        <span class="stat-lbl">Loan amount</span>
+        <span class="stat-val" id="s-loan">—</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">Total interest</span>
+        <span class="stat-val" id="s-interest">—</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">Total cost</span>
+        <span class="stat-val" id="s-total">—</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">Payoff date</span>
+        <span class="stat-val" id="s-date">—</span>
+      </div>
+    </div>
+    <div class="answer-box">
+      <div class="answer-row"><span class="answer-lbl">Car price</span><span class="answer-val" id="b-price">—</span></div>
+      <div class="answer-row"><span class="answer-lbl">Down payment + trade-in</span><span class="answer-val" id="b-down">—</span></div>
+      <div class="answer-row"><span class="answer-lbl">Sales tax</span><span class="answer-val" id="b-tax">—</span></div>
+      <div class="answer-row"><span class="answer-lbl">Loan amount financed</span><span class="answer-val" id="b-loan">—</span></div>
+      <div class="answer-row"><span class="answer-lbl">Total interest paid</span><span class="answer-val" id="b-interest">—</span></div>
+      <div class="answer-row"><span class="answer-lbl">Total amount paid</span><span class="answer-val" id="b-total">—</span></div>
+    </div>
+    <div class="tip-box" id="extra-tip" style="display:none">
+      <span class="tip-icon">💰</span>
+      <p id="extra-tip-text">—</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="preset-lbl">Common car loan scenarios</span>
+    <div class="preset-wrap">
+      <a href="#" onclick="setPreset(20000,2000,0,7,6.5,48);return false" class="preset-btn">Used $20K / 4yr</a>
+      <a href="#" onclick="setPreset(25000,3000,0,8,5.9,60);return false" class="preset-btn">New $25K / 5yr</a>
+      <a href="#" onclick="setPreset(30000,5000,0,8,6.5,60);return false" class="preset-btn">New $30K / 5yr</a>
+      <a href="#" onclick="setPreset(35000,5000,3000,8,5.5,60);return false" class="preset-btn">$35K + Trade-in</a>
+      <a href="#" onclick="setPreset(45000,7000,0,8,6.9,72);return false" class="preset-btn">SUV $45K / 6yr</a>
+      <a href="#" onclick="setPreset(15000,1500,0,7,8.5,48);return false" class="preset-btn">Budget $15K / 4yr</a>
+    </div>
+  </div>
+
+</div>
+
+<div class="content-wrap">
+
+  <div class="card" id="amort-card" style="display:none">
+    <h2>Year-by-Year Payoff Schedule</h2>
+    <div style="overflow-x:auto">
+      <table class="loan-table">
+        <thead>
+          <tr><th>Year</th><th>Principal Paid</th><th>Interest Paid</th><th>Balance Remaining</th></tr>
+        </thead>
+        <tbody id="amort-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>How Car Loan Payments Are Calculated</h2>
+    <div class="formula-box">
+      <div class="formula-text">Loan Amount = Price − Down Payment − Trade-In + Sales Tax</div>
+      <div class="formula-sub">Monthly Payment = P × r × (1+r)ⁿ ÷ ((1+r)ⁿ − 1) &nbsp;·&nbsp; r = APR ÷ 12 &nbsp;·&nbsp; n = months</div>
+    </div>
+    <p style="font-size:.9rem;color:var(--gray-700);margin:0 0 .75rem">Example: You want to buy a $28,000 car. You put $3,000 down, trade in your old car worth $4,000, and your state charges 8% sales tax. Your loan amount is $28,000 − $3,000 − $4,000 + $2,240 (tax) = <strong>$23,240</strong>. At 6.5% APR for 60 months, your monthly payment is <strong>$454/month</strong>.</p>
+    <div class="tip-box tip-blue">
+      <span class="tip-icon">💡</span>
+      <p><strong>Key insight:</strong> Adding just $50–$100 extra per month can cut months off your loan and save hundreds in interest. Use the extra payment field above to see your exact savings.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Loan Term Comparison — $25,000 at 6% APR</h2>
+    <p style="font-size:.88rem;color:var(--gray-600);margin:0 0 .75rem">See how choosing a shorter or longer term changes your payment and total cost:</p>
+    <div style="overflow-x:auto">
+      <table class="loan-table">
+        <thead>
+          <tr><th>Term</th><th>Monthly Payment</th><th>Total Interest</th><th>Total Paid</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>24 months</td><td>$1,108/mo</td><td>$592</td><td>$25,592</td></tr>
+          <tr><td>36 months</td><td>$760/mo</td><td>$1,360 </td><td>$26,360</td></tr>
+          <tr class="hl-row"><td><strong>48 months</strong></td><td><strong>$587/mo</strong></td><td><strong>$1,178</strong></td><td><strong>$26,178</strong></td></tr>
+          <tr><td>60 months</td><td>$483/mo</td><td>$1,999</td><td>$26,999</td></tr>
+          <tr><td>72 months</td><td>$414/mo</td><td>$2,832</td><td>$27,832</td></tr>
+          <tr><td>84 months</td><td>$364/mo</td><td>$5,576</td><td>$30,576</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tip-box tip-blue">
+      <span class="tip-icon">⚠️</span>
+      <p><strong>84-month loans (7 years)</strong> are risky — your car depreciates faster than you pay it off, leaving you "underwater" for years. Stick to 48–60 months when possible.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Down Payment Impact — $30,000 Car at 6.5% APR / 60 Months</h2>
+    <p style="font-size:.88rem;color:var(--gray-600);margin:0 0 .75rem">A bigger down payment dramatically reduces your total interest cost:</p>
+    <div style="overflow-x:auto">
+      <table class="loan-table">
+        <thead>
+          <tr><th>Down Payment</th><th>Loan Amount</th><th>Monthly Payment</th><th>Total Interest</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>$0 (0%)</td><td>$30,000</td><td>$586/mo</td><td>$5,160</td></tr>
+          <tr><td>$3,000 (10%)</td><td>$27,000</td><td>$527/mo</td><td>$4,644</td></tr>
+          <tr class="hl-row"><td><strong>$6,000 (20%)</strong></td><td><strong>$24,000</strong></td><td><strong>$469/mo</strong></td><td><strong>$4,128</strong></td></tr>
+          <tr><td>$9,000 (30%)</td><td>$21,000</td><td>$410/mo</td><td>$3,612</td></tr>
+          <tr><td>$12,000 (40%)</td><td>$18,000</td><td>$352/mo</td><td>$3,096</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tip-box tip-green">
+      <span class="tip-icon">✅</span>
+      <p>The recommended minimum down payment is <strong>20% for new cars</strong> and <strong>10% for used cars</strong>. This keeps you above water as the car depreciates.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Car Loan Rates by Credit Score (2024)</h2>
+    <div style="overflow-x:auto">
+      <table class="loan-table">
+        <thead>
+          <tr><th>Credit Score</th><th>Rating</th><th>New Car APR</th><th>Used Car APR</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>750+</td><td style="color:var(--green);font-weight:600">Excellent</td><td>3.5% – 5.5%</td><td>4.5% – 7%</td></tr>
+          <tr><td>700–749</td><td style="color:var(--green);font-weight:600">Good</td><td>5.5% – 7.5%</td><td>7% – 10%</td></tr>
+          <tr><td>650–699</td><td style="color:#f59e0b;font-weight:600">Fair</td><td>10% – 14%</td><td>12% – 18%</td></tr>
+          <tr><td>600–649</td><td style="color:var(--red);font-weight:600">Poor</td><td>14% – 20%</td><td>18% – 25%</td></tr>
+          <tr><td>&lt;600</td><td style="color:var(--red);font-weight:600">Bad</td><td>20% – 30%+</td><td>25% – 35%+</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tip-box tip-green">
+      <span class="tip-icon">✅</span>
+      <p>Get pre-approved from your bank or credit union <em>before</em> visiting the dealership. It gives you a rate benchmark and stronger negotiating power. Credit unions often beat bank rates by 1–2%.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>New Car vs. Used Car Loan: What's the Difference?</h2>
+    <div style="overflow-x:auto">
+      <table class="loan-table">
+        <thead>
+          <tr><th>Factor</th><th>New Car</th><th>Used Car</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Typical APR</td><td style="color:var(--green)">3.5% – 7.5%</td><td style="color:#f59e0b">5% – 18%</td></tr>
+          <tr><td>Depreciation</td><td style="color:var(--red)">15–20% in year 1</td><td style="color:var(--green)">Already depreciated</td></tr>
+          <tr><td>Manufacturer deals</td><td style="color:var(--green)">0% APR possible</td><td style="color:var(--red)">Rarely available</td></tr>
+          <tr><td>Insurance cost</td><td style="color:var(--red)">Higher</td><td style="color:var(--green)">Lower</td></tr>
+          <tr><td>Warranty</td><td style="color:var(--green)">Full factory warranty</td><td style="color:#f59e0b">Limited / CPO only</td></tr>
+          <tr><td>Maintenance risk</td><td style="color:var(--green)">Low</td><td style="color:#f59e0b">Higher (unknown history)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tip-box tip-blue">
+      <span class="tip-icon">💡</span>
+      <p>A <strong>certified pre-owned (CPO)</strong> car from a manufacturer gives you near-new reliability at a used-car price — often the best value. Look for CPO programs from major brands.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>True Cost of Owning a Car (Annual)</h2>
+    <p style="font-size:.88rem;color:var(--gray-600);margin:0 0 .75rem">Your monthly payment is just one part of owning a car. Here's the full picture for a typical $30,000 vehicle:</p>
+    <div class="answer-box">
+      <div class="answer-row"><span class="answer-lbl">Loan payment (60mo / 6.5%)</span><span class="answer-val">$586/mo · $7,032/yr</span></div>
+      <div class="answer-row"><span class="answer-lbl">Auto insurance (average US)</span><span class="answer-val">$150–$250/mo · ~$2,200/yr</span></div>
+      <div class="answer-row"><span class="answer-lbl">Gas (15,000 mi / 28mpg)</span><span class="answer-val">~$120/mo · ~$1,450/yr</span></div>
+      <div class="answer-row"><span class="answer-lbl">Maintenance & tires</span><span class="answer-val">~$80/mo · ~$1,000/yr</span></div>
+      <div class="answer-row"><span class="answer-lbl">Registration & taxes</span><span class="answer-val">~$30/mo · ~$350/yr</span></div>
+      <div class="answer-row" style="font-weight:600"><span class="answer-lbl">Total monthly cost</span><span class="answer-val" style="color:var(--blue)">~$966 – $1,066/mo</span></div>
+    </div>
+    <div class="tip-box tip-blue">
+      <span class="tip-icon">⚠️</span>
+      <p>Most financial experts recommend keeping <strong>total car costs under 15–20% of take-home pay</strong>. On a $6,000/month income, that's $900–$1,200 total — not just the car payment.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Should You Take a 0% APR Deal?</h2>
+    <p style="font-size:.9rem;color:var(--gray-700);margin:0 0 .75rem">Manufacturers sometimes offer 0% APR promotions on new cars. These can be a great deal — but only if you qualify and don't need cash back.</p>
+    <div class="answer-box">
+      <div class="answer-row"><span class="answer-lbl">0% APR is better when…</span><span class="answer-val">You have excellent credit (750+)</span></div>
+      <div class="answer-row"><span class="answer-lbl">Cash back is better when…</span><span class="answer-val">You have cash to invest at higher returns</span></div>
+      <div class="answer-row"><span class="answer-lbl">Example: $30K / 60 months</span><span class="answer-val">0% = $500/mo · $0 interest</span></div>
+      <div class="answer-row"><span class="answer-lbl">vs. 6% APR + $2K cash back</span><span class="answer-val">$540/mo · $2,400 interest</span></div>
+    </div>
+    <div class="tip-box tip-green">
+      <span class="tip-icon">✅</span>
+      <p>0% APR is almost always the better deal if you plan to keep the car for the full term and have strong enough credit to qualify. Never sacrifice the 0% deal just to get a lower sticker price.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>When Should You Refinance Your Car Loan?</h2>
+    <p style="font-size:.9rem;color:var(--gray-700);margin:0 0 .75rem">Refinancing replaces your current loan with a new one — ideally at a lower rate. It makes sense when:</p>
+    <div class="answer-box">
+      <div class="answer-row"><span class="answer-lbl">Your credit score improved</span><span class="answer-val">Could qualify for 2–5% lower rate</span></div>
+      <div class="answer-row"><span class="answer-lbl">Interest rates dropped</span><span class="answer-val">Market rates lower than your current rate</span></div>
+      <div class="answer-row"><span class="answer-lbl">You have 12–48 months left</span><span class="answer-val">Enough time to recoup any fees</span></div>
+      <div class="answer-row"><span class="answer-lbl">No prepayment penalty</span><span class="answer-val">Most auto loans have none</span></div>
+    </div>
+    <div class="tip-box tip-blue">
+      <span class="tip-icon">💡</span>
+      <p>Refinancing a $20,000 loan from 12% to 7% APR with 36 months remaining saves about <strong>$1,700 in interest</strong>. Check rates at your bank, credit union, and online lenders like LightStream or PenFed.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <h3>How much car can I afford?</h3>
+        <p>Keep your car payment under 15% of monthly take-home pay, and total car costs (payment + insurance + gas + maintenance) under 20%. On a $5,000/month income, aim for a payment under $750 and total costs under $1,000.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Is it better to finance through a dealer or bank?</h3>
+        <p>Banks and credit unions typically offer lower rates than dealer financing. Credit unions often have the best rates. However, manufacturers sometimes offer 0% APR promotions that beat outside financing — always compare before signing.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What happens if I pay off my car loan early?</h3>
+        <p>You save on interest and own the car outright sooner. Most auto loans have no prepayment penalty. Paying off your loan early slightly reduces your credit score temporarily (closing an account), but the financial savings far outweigh this.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What is a good car loan term?</h3>
+        <p>48–60 months is generally ideal for most buyers. It balances a manageable monthly payment against a reasonable total interest cost. Avoid 72–84 month loans unless absolutely necessary — the extra interest and depreciation risk aren't worth the lower payment.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How does a trade-in reduce my loan?</h3>
+        <p>Your trade-in value is subtracted from the purchase price before calculating the loan. Trading in a $5,000 car is identical to adding $5,000 to your down payment. Get quotes from CarMax, Carvana, and the dealer — take the highest offer.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What credit score do I need for a car loan?</h3>
+        <p>You can get a car loan with almost any credit score, but a score below 600 will result in very high rates (18–30%+ APR). A score of 700+ unlocks competitive rates. Check and improve your credit before applying if possible.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Should I buy or lease a car?</h3>
+        <p>Buying is better if you drive over 15,000 miles/year, want to own the car long-term, or want to customize it. Leasing offers lower monthly payments but you never build equity. Most financial advisors recommend buying if you can afford it.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Related Finance Calculators</h2>
+    <div class="next-grid">
+      <a href="/finance/personal-loan-calculator" class="next-card">
+        <span class="next-tag">Finance</span>
+        <h3>Personal Loan Calculator</h3>
+        <p>Monthly payment and amortization for any personal loan</p>
+      </a>
+      <a href="/finance/amortization-calculator" class="next-card">
+        <span class="next-tag">Finance</span>
+        <h3>Amortization Calculator</h3>
+        <p>Full month-by-month schedule for any loan</p>
+      </a>
+      <a href="/finance/apr-calculator" class="next-card">
+        <span class="next-tag">Finance</span>
+        <h3>APR Calculator</h3>
+        <p>Find the true annual cost of a loan including all fees</p>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<style>
+.car-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
+@media (max-width: 540px) { .car-grid { grid-template-columns: 1fr; } }
+
+.formula-box { background: #eff6ff; border-left: 3px solid var(--blue); border-radius: 8px; padding: 1rem 1.25rem; margin-bottom: 1rem; }
+.formula-text { font-size: .95rem; font-weight: 600; color: var(--gray-900); margin-bottom: .25rem; }
+.formula-sub  { font-size: .8rem; color: var(--gray-600); }
+
+.loan-table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+.loan-table th { background: var(--gray-50); padding: .6rem .75rem; text-align: left; font-size: .8rem; color: var(--gray-600); text-transform: uppercase; letter-spacing: .04em; border-bottom: 2px solid #e2e8f0; }
+.loan-table td { padding: .6rem .75rem; border-bottom: 1px solid #e2e8f0; color: var(--gray-700); }
+.loan-table tr:last-child td { border-bottom: none; font-weight: 600; }
+.loan-table tr:hover td { background: var(--gray-50); }
+.loan-table tr.hl-row td { background: #eff6ff; font-weight: 600; }
+
+.faq-list { display: flex; flex-direction: column; gap: 1rem; }
+.faq-item h3 { font-size: .95rem; font-weight: 600; color: var(--gray-900); margin-bottom: .3rem; }
+.faq-item p  { font-size: .88rem; color: var(--gray-600); line-height: 1.6; margin: 0; }
+
+.tip-box { display: flex; gap: .75rem; padding: .875rem 1rem; border-radius: 8px; margin-top: 1rem; }
+.tip-box.tip-blue  { background: #eff6ff; border: 1px solid #bfdbfe; }
+.tip-box.tip-green { background: #f0fdf4; border: 1px solid #bbf7d0; }
+.tip-icon { font-size: 1.1rem; flex-shrink: 0; }
+.tip-box p { margin: 0; font-size: .875rem; color: var(--gray-700); line-height: 1.6; }
+</style>
+
+<script is:inline>
+function fmt(n) {
+  return n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+function calcCar() {
+  const price   = parseFloat(document.getElementById('price').value)   || 0;
+  const down    = parseFloat(document.getElementById('down').value)    || 0;
+  const tradein = parseFloat(document.getElementById('tradein').value) || 0;
+  const taxPct  = parseFloat(document.getElementById('tax').value)     || 0;
+  const apr     = parseFloat(document.getElementById('rate').value);
+  const n       = parseInt(document.getElementById('term').value);
+  const extra   = parseFloat(document.getElementById('extra').value)   || 0;
+
+  if (!price || !apr || !n || price <= 0 || apr <= 0 || n <= 0) return;
+
+  const salesTax = price * (taxPct / 100);
+  const loanAmt  = Math.max(0, price - down - tradein + salesTax);
+  const r        = apr / 100 / 12;
+
+  const monthly = r === 0
+    ? loanAmt / n
+    : loanAmt * r * Math.pow(1 + r, n) / (Math.pow(1 + r, n) - 1);
+
+  const totalPaid     = monthly * n;
+  const totalInterest = totalPaid - loanAmt;
+
+  // Payoff date
+  const now = new Date();
+  const payoff = new Date(now.getFullYear(), now.getMonth() + n, 1);
+  const payoffStr = payoff.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+
+  // Fill results
+  document.getElementById('res-payment').textContent = '$' + fmt(monthly);
+  document.getElementById('res-sub').textContent = n + ' months · ' + apr + '% APR';
+  document.getElementById('s-loan').textContent     = '$' + fmt(loanAmt);
+  document.getElementById('s-interest').textContent = '$' + fmt(totalInterest);
+  document.getElementById('s-total').textContent    = '$' + fmt(price + salesTax);
+  document.getElementById('s-date').textContent     = payoffStr;
+
+  document.getElementById('b-price').textContent    = '$' + fmt(price);
+  document.getElementById('b-down').textContent     = '$' + fmt(down + tradein);
+  document.getElementById('b-tax').textContent      = '$' + fmt(salesTax);
+  document.getElementById('b-loan').textContent     = '$' + fmt(loanAmt);
+  document.getElementById('b-interest').textContent = '$' + fmt(totalInterest);
+  document.getElementById('b-total').textContent    = '$' + fmt(totalPaid);
+
+  // Extra payment savings
+  const et = document.getElementById('extra-tip');
+  if (extra > 0) {
+    const result = calcWithExtra(loanAmt, r, monthly + extra);
+    const savedMonths   = n - result.months;
+    const savedInterest = totalInterest - result.interest;
+    document.getElementById('extra-tip-text').textContent =
+      `Paying $${fmt(extra)} extra/month saves you $${fmt(savedInterest)} in interest and pays off ${savedMonths} month${savedMonths !== 1 ? 's' : ''} early!`;
+    et.style.display = 'flex';
+  } else {
+    et.style.display = 'none';
+  }
+
+  document.getElementById('result-card').style.display = '';
+  document.getElementById('res-hero').classList.add('show');
+  document.getElementById('res-stats').classList.add('show');
+
+  buildAmort(loanAmt, r, n, monthly);
+}
+
+function calcWithExtra(P, r, payment) {
+  let balance = P, months = 0, interest = 0;
+  while (balance > 0.01 && months < 600) {
+    const intPmt = balance * r;
+    const prinPmt = Math.min(payment - intPmt, balance);
+    interest += intPmt;
+    balance -= prinPmt;
+    months++;
+  }
+  return { months, interest };
+}
+
+function buildAmort(P, r, n, monthly) {
+  let balance = P;
+  const tbody = document.getElementById('amort-body');
+  tbody.innerHTML = '';
+
+  for (let yr = 1; yr <= Math.ceil(n / 12); yr++) {
+    const start = (yr - 1) * 12 + 1;
+    const end   = Math.min(yr * 12, n);
+    let yPrin = 0, yInt = 0;
+
+    for (let m = start; m <= end; m++) {
+      const intPmt  = balance * r;
+      const prinPmt = Math.min(monthly - intPmt, balance);
+      yInt  += intPmt;
+      yPrin += prinPmt;
+      balance = Math.max(0, balance - prinPmt);
+    }
+
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>Year ${yr}</td><td>$${fmt(yPrin)}</td><td>$${fmt(yInt)}</td><td>$${fmt(balance)}</td>`;
+    tbody.appendChild(tr);
+  }
+
+  document.getElementById('amort-card').style.display = '';
+}
+
+function setPreset(price, down, tradein, tax, rate, term) {
+  document.getElementById('price').value   = price;
+  document.getElementById('down').value    = down;
+  document.getElementById('tradein').value = tradein;
+  document.getElementById('tax').value     = tax;
+  document.getElementById('rate').value    = rate;
+  document.getElementById('term').value    = term;
+  document.getElementById('extra').value   = 0;
+  calcCar();
+}
+</script>
+
+</Layout>
