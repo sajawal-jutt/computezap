@@ -8,7 +8,7 @@
 
 ---
 
-## Site Status (June 26, 2026)
+## Site Status (July 1, 2026)
 
 | Item | Status |
 |---|---|
@@ -20,10 +20,33 @@
 | Vercel deploy | ✅ Done (auto-deploy on main push) |
 | Google AdSense apply | ⏳ Pending (target: Oct 2026) |
 | Design Standard v2 rollout | ✅ Done (35/35 pages) |
+| Category URL restructure | ✅ Done (52 pages moved into `/converters/`, `/finance/`, `/calculators/`, `/date-time/`, `/health/` subfolders, old URLs 301-redirect) |
 
 ---
 
-## Pages Live — 426 Total
+## Pages Live — 646 Total (build output, June 30 – July 1, 2026)
+
+### New Tools Added Since Last Update
+| Page | URL | Status |
+|---|---|---|
+| Concrete Calculator | `/calculators/concrete-calculator` | ✅ |
+| Binary to Text Translator | `/calculators/binary-to-text` | ✅ |
+| BAC Calculator | `/health/bac-calculator` | ✅ |
+| Military Time Converter | `/date-time/military-time-converter` | ✅ |
+| APR Calculator | `/finance/apr-calculator` | ✅ |
+| Roth IRA Calculator | `/finance/roth-ira-calculator` | ✅ |
+| 401K Calculator | `/finance/401k-calculator` | ✅ |
+| Savings Calculator | `/finance/savings-calculator` | ✅ |
+| Compound Interest Calculator | `/finance/compound-interest-calculator` | ✅ |
+| Cost of Living Calculator | `/finance/cost-of-living-calculator` | ✅ |
+| Amortization Calculator | `/finance/amortization-calculator` | ✅ |
+| Personal Loan Calculator | `/finance/personal-loan-calculator` | ✅ |
+| Car Payoff Calculator | `/finance/car-payoff-calculator` | ✅ (expanded content + dynamic summary + HowTo schema + a11y, Jul 1) |
+| Fraction Calculator | `/calculators/fraction-calculator` | ✅ (add/subtract/multiply/divide, Jul 1) |
+
+**Note:** All tool pages now live under category subdirectories (`/converters/`, `/finance/`, `/calculators/`, `/date-time/`, `/health/`) so the live URL itself shows the category (not just breadcrumb schema). Old flat URLs (e.g. `/atm-to-bar`) permanently redirect (301) to the new category URL via `astro.config.mjs` → `redirects`.
+
+### Earlier Tool Pages (pre-June 26)
 
 ### Tool Pages (45)
 | Page | URL | Status |
@@ -91,76 +114,37 @@
 ### ✅ Phase 1 — DONE (Batches 1–6)
 Design Standard v2 rollout — 35 pages rewritten. All tool pages live.
 
----
+### ✅ Phase 2 — DONE — Batch 7 (Simple converters)
+Oz to Pint, Gallons to Liters, Quart to Gallon, Bar to PSI, ATM to Bar, MPH to Knots, Hours in a Week — all built.
 
-### 🔄 Phase 2 — Batch 7 (Next Up)
-**Simple converters — 7 pages, same architecture, 1 session**
+### ✅ Phase 3 — DONE — Batch 8 (Binary + Military Time)
+Binary to Text Translator, Military Time Converter — both built.
 
-| Tool | URL | Volume | KD | Status |
-|------|-----|--------|----|--------|
-| Oz to Pint | `/oz-to-pint` | 110K | 19 | ⏳ |
-| Gallons to Liters | `/gallons-to-liters` | 90K | 20 | ⏳ |
-| Quart to Gallon | `/quart-to-gallon` | 110K | 21 | ⏳ |
-| Bar to PSI | `/bar-to-psi` | 40K | 19 | ⏳ |
-| ATM to Bar | `/atm-to-bar` | 2.4K | 19 | ⏳ |
-| MPH to Knots | `/mph-to-knots` | 8.1K | 23 | ⏳ |
-| Hours in a Week | `/hours-in-a-week` | 135K | 20 | ⏳ |
+### ✅ Phase 4 — DONE — Programmatic Expansion
+days-from-today, kg-to-lbs, mb-to-gb, yards-to-meters, height — all expanded (580+ programmatic pages).
 
-**Why:** Low KD, same pattern as existing converters, fast to build, fills volume/pressure/speed/time clusters.
+### ✅ Phase 5 — DONE — High-CPC Finance Expansion
+APR, Roth IRA, 401K, Savings, Amortization, Cost of Living, Personal Loan, Car Payoff — all built.
+
+### ✅ Phase 5.5 — DONE — Category URL Restructure (Jun 30, 2026)
+52 pages moved from flat URLs into `/converters/`, `/finance/`, `/calculators/`, `/date-time/`, `/health/` so the live URL (not just schema) shows category. Old URLs 301-redirect via `astro.config.mjs`.
 
 ---
 
-### ⏳ Phase 3 — Batch 8
-**Unique tools — separate session (custom logic needed)**
-
-| Tool | URL | Volume | KD | Status |
-|------|-----|--------|----|--------|
-| Binary to Text Translator | `/binary-to-text` | 135K | 29 | ⏳ |
-| Military Time Converter | `/military-time-converter` | 9.9K | 20 | ⏳ |
-
-**Why:** Different logic from simple converters. Binary needs encoding/decoding + validation. Military time needs multiple input formats.
-
----
-
-### ⏳ Phase 4 — Programmatic Expansion
-**Scale existing tools with individual value pages**
-
-| Expansion | Example Pages | Volume Each |
-|-----------|--------------|-------------|
-| Days from Today | `/14-days-from-today`, `/21-days-from-today`, `/28-days-from-today`, `/45-days-from-today`, `/60-days-from-today` | 90K–246K |
-| kg to lbs | `/70-kg-to-lbs`, `/80-kg-to-lbs`, `/90-kg-to-lbs`, `/100-kg-to-lbs` | 110K–165K |
-| Height | More `/5ft-Xin-to-cm` variations | 90K each |
-
-**Why:** Long-tail traffic, easy to rank, builds on already-indexed base pages.
-
----
-
-### ⏳ Phase 5 — High-CPC Finance Expansion
-**Higher difficulty but highest AdSense revenue**
-
-| Tool | Volume | KD | Est. CPC |
-|------|--------|----|----------|
-| APR Calculator | 27.1K | 42 | $2–4 |
-| Car Payoff Calculator | 14.8K | 45 | $2–4 |
-| Roth IRA Calculator | 135K | 44 | $4–8 |
-| 401K Calculator | 165K | 50 | $3–6 |
-| Savings Calculator | 60.5K | 49 | $2–5 |
-| Amortization Calculator | 301K | 44 | $3–7 |
-| Cost of Living Calculator | 60.5K | 28 | $1–3 |
-
----
-
-### ⏳ Phase 6 — Hard KD / High Volume
+### 🔄 Phase 6 — Hard KD / High Volume (IN PROGRESS)
 **Build authority first, then tackle these**
 
-| Tool | Volume | KD |
-|------|--------|----|
-| Concrete Calculator | 550K | 40 |
-| Fraction Calculator | 301K | 43 |
-| BAC Calculator | 201K | 43 |
-| BMI Calculator | 2.74M | 74 |
-| GPA Calculator | 823K | 64 |
-| Compound Interest | 673K | 61 |
+| Tool | Volume | KD | Status |
+|------|--------|----|--------|
+| Concrete Calculator | 550K | 40 | ✅ Done |
+| BAC Calculator | 201K | 43 | ✅ Done |
+| Compound Interest | 673K | 61 | ✅ Done |
+| Fraction Calculator | 301K | 43 | ✅ Done (Jul 1, 2026) |
+| Tire Size Calculator | 135K | 44 | ⏳ Next |
+| Body Fat Calculator | 74K | 61 | ⏳ |
+| Mortgage Calculator | 2.74M | 76 | ⏳ |
+| GPA Calculator | 823K | 64 | ⏳ |
+| BMI Calculator | 2.74M | 74 | ⏳ (very hard) |
 
 ---
 
@@ -206,4 +190,4 @@ Design Standard v2 rollout — 35 pages rewritten. All tool pages live.
 
 ---
 
-*Last updated: June 26, 2026 | Total pages: 426 | Build: ✅ Zero errors*
+*Last updated: July 1, 2026 | Total pages: 646 | Build: ✅ Zero errors*

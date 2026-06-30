@@ -106,7 +106,9 @@ Required cards **in this order**:
 
 ---
 
-## Complete CSS (copy this block into every new page's `<style is:global>`)
+## Complete CSS — now centralized in `public/styles/global.css`
+
+> **Update (July 2026):** This block has already been merged into `public/styles/global.css`, which loads on every page via `Layout.astro`. **Do NOT paste this block into a new page's `<style is:global>` anymore** — just use the class names directly (see `percentage-calculator.astro` or `fraction-calculator.astro` for examples with zero local CSS). Only add a local `<style is:global>` block for something genuinely unique to one page (e.g. a custom visual element global.css has no class for).
 
 ```css
 /* === ComputeZap Standard Tool Layout v2 === */
@@ -305,3 +307,19 @@ Use this before marking a tool as done:
 | minutes-in-a-day.astro | ✅ Done | 2026-06-26 |
 | seconds-in-a-year.astro | ✅ Done | 2026-06-26 |
 | weeks-in-a-year.astro | ✅ Done | 2026-06-26 |
+| concrete-calculator.astro | ✅ Done | 2026-06-27 |
+| binary-to-text.astro | ✅ Done | 2026-06-27 |
+| bac-calculator.astro | ✅ Done | 2026-06-27 |
+| military-time-converter.astro | ✅ Done | 2026-06-27 |
+| apr-calculator.astro | ✅ Done | 2026-06-28 |
+| roth-ira-calculator.astro | ✅ Done | 2026-06-28 |
+| 401k-calculator.astro | ✅ Done | 2026-06-28 |
+| savings-calculator.astro | ✅ Done | 2026-06-28 |
+| compound-interest-calculator.astro | ✅ Done | 2026-06-28 |
+| cost-of-living-calculator.astro | ✅ Done | 2026-06-28 |
+| amortization-calculator.astro | ✅ Done | 2026-06-28 |
+| personal-loan-calculator.astro | ✅ Done | 2026-06-30 |
+| car-payoff-calculator.astro | ✅ Done (expanded content + dynamic summary + HowTo schema + a11y) | 2026-07-01 |
+| fraction-calculator.astro | ✅ Done | 2026-07-01 |
+
+**Note (2026-06-30):** All pages above were also moved from flat URLs into category subdirectories (`/converters/`, `/finance/`, `/calculators/`, `/date-time/`, `/health/`) — see `progress.md` Phase 5.5.
