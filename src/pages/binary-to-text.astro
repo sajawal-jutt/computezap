@@ -111,11 +111,11 @@ const schema = JSON.stringify([
   <div class="card">
     <span class="preset-lbl">Try these examples</span>
     <div class="preset-wrap">
-      <a href="#" onclick="setPreset('01001000 01101001');return false" class="preset-btn">Hi</a>
-      <a href="#" onclick="setPreset('01001000 01100101 01101100 01101100 01101111');return false" class="preset-btn">Hello</a>
-      <a href="#" onclick="setPreset('01001000 01100101 01101100 01101100 01101111 00100000 01010111 01101111 01110010 01101100 01100100');return false" class="preset-btn">Hello World</a>
-      <a href="#" onclick="setPreset('01000001 01000010 01000011');return false" class="preset-btn">ABC</a>
-      <a href="#" onclick="setPreset('01000011 01101111 01101101 01110000 01110101 01110100 01100101 01011010 01100001 01110000');return false" class="preset-btn">ComputeZap</a>
+      <a href="#" onclick="setPreset('Hi');return false" class="preset-btn">Hi</a>
+      <a href="#" onclick="setPreset('Hello');return false" class="preset-btn">Hello</a>
+      <a href="#" onclick="setPreset('Hello World');return false" class="preset-btn">Hello World</a>
+      <a href="#" onclick="setPreset('ABC');return false" class="preset-btn">ABC</a>
+      <a href="#" onclick="setPreset('ComputeZap');return false" class="preset-btn">ComputeZap</a>
     </div>
   </div>
 </div>
@@ -322,9 +322,15 @@ function convert() {
   outputArea.style.display = 'block';
 }
 
-function setPreset(val) {
-  if (mode !== 'b2t') setMode('b2t');
-  document.getElementById('bin-input').value = val;
+function setPreset(text) {
+  if (mode === 'b2t') {
+    var binary = text.split('').map(function(c) {
+      return c.charCodeAt(0).toString(2).padStart(8, '0');
+    }).join(' ');
+    document.getElementById('bin-input').value = binary;
+  } else {
+    document.getElementById('bin-input').value = text;
+  }
   convert();
 }
 
