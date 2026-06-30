@@ -1,0 +1,332 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const mgPerGrain = 64.79891;
+
+const tableRows = [
+  { gr: 0.25, mg: 16.2 },
+  { gr: 0.5,  mg: 32.4 },
+  { gr: 1,    mg: 64.799 },
+  { gr: 1.5,  mg: 97.198 },
+  { gr: 2,    mg: 129.598 },
+  { gr: 2.5,  mg: 161.997 },
+  { gr: 3,    mg: 194.397 },
+  { gr: 4,    mg: 259.196 },
+  { gr: 5,    mg: 323.995 },
+  { gr: 6,    mg: 388.793 },
+  { gr: 7,    mg: 453.592 },
+  { gr: 8,    mg: 518.391 },
+  { gr: 9,    mg: 583.190 },
+  { gr: 10,   mg: 647.989 },
+  { gr: 15,   mg: 971.984 },
+  { gr: 20,   mg: 1295.978 },
+  { gr: 25,   mg: 1619.973 },
+  { gr: 30,   mg: 1943.967 },
+  { gr: 50,   mg: 3239.946 },
+  { gr: 100,  mg: 6479.891 },
+];
+
+const schema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Grain to Milligram Converter",
+    "url": "https://computezap.com/grain-to-mg",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Web",
+    "description": "Convert grains to milligrams instantly. 1 grain = 64.799 mg. Used for medication dosing and bullet weight. Free grain to mg converter with reference table.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
+      { "@type": "ListItem", "position": 2, "name": "Grain to mg", "item": "https://computezap.com/grain-to-mg" }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How many milligrams are in a grain?",
+        "acceptedAnswer": { "@type": "Answer", "text": "1 grain = 64.79891 milligrams (mg). This is the exact international definition. For quick math: 1 grain ≈ 65 mg." }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I convert grains to milligrams?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Multiply grains by 64.79891 to get milligrams. Example: 5 grains × 64.79891 = 323.99 mg. To convert mg to grains: divide by 64.79891." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is 5 grains in mg?",
+        "acceptedAnswer": { "@type": "Answer", "text": "5 grains = 323.99 mg. Formula: 5 × 64.79891 = 323.99 milligrams. This is a common aspirin dosage (5-grain aspirin = 324 mg)." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is a grain used for?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Grains are used in: (1) Pharmacy — older medication dosages (aspirin was 5 grains = 325 mg). (2) Ammunition — bullet weight is measured in grains (e.g. 115 grain 9mm bullet). (3) Precious metals — historical gem and gold weighing." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many grains is 325 mg?",
+        "acceptedAnswer": { "@type": "Answer", "text": "325 mg = 5.015 grains. Divide by 64.79891: 325 ÷ 64.79891 ≈ 5 grains. Standard aspirin is 325 mg = 5 grains." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between grain and gram?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A grain (gr) is much smaller than a gram (g). 1 gram = 15.432 grains. 1 grain = 0.0648 grams = 64.8 mg. Do not confuse 'gr' (grain) with 'g' (gram) in medical prescriptions." }
+      }
+    ]
+  }
+]);
+---
+<Layout
+  title="Grain to mg Converter — Grains to Milligrams | ComputeZap"
+  description="Convert grains to milligrams instantly. 1 grain = 64.799 mg. 5 grains = 324 mg (standard aspirin). Used for medication and bullet weight. Free converter with reference table."
+  canonical="/grain-to-mg"
+  schema={schema}
+>
+
+<div class="page-hero">
+  <nav class="breadcrumb"><a href="/">Home</a> › Grain to mg Converter</nav>
+  <h1>Grain to Milligrams (mg) Converter</h1>
+  <p>1 grain = <strong>64.799 mg</strong></p>
+</div>
+
+<div class="calc-center">
+  <div class="card">
+    <div class="answer-hero show">
+      <div class="a-label">1 Grain =</div>
+      <div class="a-value">64.799</div>
+      <div class="a-unit">milligrams (mg)</div>
+      <div class="a-sub">Exact: 1 gr = 64.79891 mg</div>
+    </div>
+    <div class="stats-row show">
+      <div class="stat-box">
+        <span class="stat-lbl">5 grains</span>
+        <span class="stat-val">323.99 mg</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">10 grains</span>
+        <span class="stat-val">647.99 mg</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">Aspirin</span>
+        <span class="stat-val">5 gr = 325 mg</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">1 mg =</span>
+        <span class="stat-val">0.01543 gr</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="mode-wrap">
+      <button class="mode-btn active" id="btn-g2m" onclick="setMode('g2m');return false">Grains → mg</button>
+      <button class="mode-btn" id="btn-m2g" onclick="setMode('m2g');return false">mg → Grains</button>
+    </div>
+    <div class="input-group">
+      <label id="inp-lbl">Enter grains (gr):</label>
+      <div class="input-wrap">
+        <input type="number" id="gr-input" min="0" step="any" placeholder="e.g. 5" oninput="calcGrain()" />
+        <span class="input-sfx" id="inp-sfx">gr</span>
+      </div>
+    </div>
+    <div class="answer-box" id="result-box" style="display:none">
+      <div class="answer-row">
+        <span class="answer-lbl" id="res-lbl">mg</span>
+        <span class="answer-val" id="res-val">—</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="preset-lbl">Common values</span>
+    <div class="preset-wrap">
+      <a href="#" onclick="setVal(0.25);return false" class="preset-btn">¼ gr</a>
+      <a href="#" onclick="setVal(0.5);return false" class="preset-btn">½ gr</a>
+      <a href="#" onclick="setVal(1);return false" class="preset-btn">1 gr</a>
+      <a href="#" onclick="setVal(2);return false" class="preset-btn">2 gr</a>
+      <a href="#" onclick="setVal(5);return false" class="preset-btn">5 gr</a>
+      <a href="#" onclick="setVal(10);return false" class="preset-btn">10 gr</a>
+      <a href="#" onclick="setVal(15);return false" class="preset-btn">15 gr</a>
+      <a href="#" onclick="setVal(20);return false" class="preset-btn">20 gr</a>
+      <a href="#" onclick="setVal(50);return false" class="preset-btn">50 gr</a>
+      <a href="#" onclick="setVal(100);return false" class="preset-btn">100 gr</a>
+    </div>
+  </div>
+</div>
+
+<div class="content-wrap">
+
+  <div class="card">
+    <h2>How to Convert Grains to Milligrams</h2>
+    <div class="formula-box">
+      <div class="formula-text">mg = Grains × 64.79891</div>
+      <div class="formula-sub">1 grain = 64.79891 mg (exact international definition)</div>
+    </div>
+    <div class="formula-box">
+      <div class="formula-text">Grains = mg ÷ 64.79891</div>
+      <div class="formula-sub">To convert milligrams back to grains</div>
+    </div>
+    <div class="answer-box">
+      <div class="answer-row"><span class="answer-lbl">1 grain in mg</span><span class="answer-val">64.799 mg</span></div>
+      <div class="answer-row"><span class="answer-lbl">5 grains in mg</span><span class="answer-val">323.99 mg</span></div>
+      <div class="answer-row"><span class="answer-lbl">10 grains in mg</span><span class="answer-val">647.99 mg</span></div>
+      <div class="answer-row"><span class="answer-lbl">325 mg in grains</span><span class="answer-val">≈ 5 grains</span></div>
+    </div>
+    <div class="tip-box">
+      <span class="tip-icon">💡</span>
+      <p><strong>Medical note:</strong> In pharmacy, "gr" means grain (64.8 mg). Do not confuse with "g" (gram = 1,000 mg). A prescription for "gr v" means 5 grains = 325 mg — the same as standard aspirin.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Where Grains Are Used</h2>
+    <div style="overflow-x:auto">
+    <table class="conv-table">
+      <thead>
+        <tr><th>Application</th><th>Example</th><th>Grains</th><th>mg</th></tr>
+      </thead>
+      <tbody>
+        <tr class="hl"><td>Aspirin (standard)</td><td>Regular-strength</td><td>5 gr</td><td>325 mg</td></tr>
+        <tr><td>Aspirin (extra strength)</td><td>Extra-strength</td><td>7.7 gr</td><td>500 mg</td></tr>
+        <tr><td>Nitroglycerin (low dose)</td><td>Heart medication</td><td>1/150 gr</td><td>0.4 mg</td></tr>
+        <tr><td>Bullet — 9mm standard</td><td>Ammunition</td><td>115 gr</td><td>7,452 mg</td></tr>
+        <tr><td>Bullet — .45 ACP</td><td>Ammunition</td><td>230 gr</td><td>14,904 mg</td></tr>
+        <tr><td>Arrow — target</td><td>Archery</td><td>400 gr</td><td>25,920 mg</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Grain to mg Reference Table</h2>
+    <div style="overflow-x:auto">
+    <table class="conv-table">
+      <thead>
+        <tr><th>Grains (gr)</th><th>Milligrams (mg)</th><th>Grams (g)</th></tr>
+      </thead>
+      <tbody>
+        {tableRows.map(r => (
+          <tr class={r.gr === 1 ? 'hl' : ''}>
+            <td>{r.gr} gr</td>
+            <td>{r.mg} mg</td>
+            <td>{Math.round(r.mg / 1000 * 100000) / 100000} g</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Weight Unit Comparison</h2>
+    <div style="overflow-x:auto">
+    <table class="conv-table">
+      <thead>
+        <tr><th>Unit</th><th>= mg</th><th>= grains</th></tr>
+      </thead>
+      <tbody>
+        <tr class="hl"><td>1 grain (gr)</td><td>64.799 mg</td><td>1 gr</td></tr>
+        <tr><td>1 milligram (mg)</td><td>1 mg</td><td>0.01543 gr</td></tr>
+        <tr><td>1 gram (g)</td><td>1,000 mg</td><td>15.432 gr</td></tr>
+        <tr><td>1 ounce (oz)</td><td>28,349.5 mg</td><td>437.5 gr</td></tr>
+        <tr><td>1 pound (lb)</td><td>453,592 mg</td><td>7,000 gr</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>How many mg is 1 grain?</h3>
+      <p>1 grain = 64.79891 mg exactly. For everyday use, 1 grain ≈ 65 mg. This unit comes from the weight of a single grain of wheat.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What is 5 grains in mg?</h3>
+      <p>5 grains = 323.99 mg ≈ 324 mg. This is the weight of a standard aspirin tablet. Old pharmacy labels wrote "gr v" (5 grains) before metric became standard.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What is 325 mg in grains?</h3>
+      <p>325 mg ÷ 64.79891 = 5.015 grains ≈ 5 grains. Standard aspirin is labeled 325 mg = 5 grains.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Is "gr" grain or gram?</h3>
+      <p>"gr" = grain (64.8 mg). "g" = gram (1,000 mg). In medical contexts, always check which abbreviation is used — confusing the two could be dangerous. Modern prescriptions use metric (mg, g) to avoid this confusion.</p>
+    </div>
+    <div class="faq-item">
+      <h3>How many grains in a pound?</h3>
+      <p>There are exactly 7,000 grains in 1 avoirdupois pound. 1 pound = 453.592 grams = 453,592 mg = 7,000 grains.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Related Converters</h2>
+    <div class="next-grid">
+      <a href="/ounces-in-a-pound" class="next-card">
+        <span class="next-tag">Weight</span>
+        <h3>Ounces in a Pound</h3>
+        <p>16 oz = 1 lb — weight conversion</p>
+      </a>
+      <a href="/kg-to-lbs" class="next-card">
+        <span class="next-tag">Weight</span>
+        <h3>kg to lbs</h3>
+        <p>Convert kilograms to pounds</p>
+      </a>
+      <a href="/atm-to-bar" class="next-card">
+        <span class="next-tag">Pressure</span>
+        <h3>atm to Bar</h3>
+        <p>Convert atmospheres to bar</p>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<script is:inline>
+var mode = 'g2m';
+
+function setMode(m) {
+  mode = m;
+  document.getElementById('btn-g2m').classList.toggle('active', m === 'g2m');
+  document.getElementById('btn-m2g').classList.toggle('active', m === 'm2g');
+  document.getElementById('inp-lbl').textContent = m === 'g2m' ? 'Enter grains (gr):' : 'Enter milligrams (mg):';
+  document.getElementById('inp-sfx').textContent = m === 'g2m' ? 'gr' : 'mg';
+  document.getElementById('gr-input').placeholder = m === 'g2m' ? 'e.g. 5' : 'e.g. 325';
+  document.getElementById('gr-input').value = '';
+  document.getElementById('result-box').style.display = 'none';
+}
+
+function calcGrain() {
+  var val = parseFloat(document.getElementById('gr-input').value);
+  if (isNaN(val) || val < 0) {
+    document.getElementById('result-box').style.display = 'none';
+    return;
+  }
+  var result, lbl;
+  if (mode === 'g2m') {
+    result = Math.round(val * 64.79891 * 100000) / 100000;
+    lbl = 'Milligrams (mg)';
+  } else {
+    result = Math.round(val / 64.79891 * 100000) / 100000;
+    lbl = 'Grains (gr)';
+  }
+  document.getElementById('res-lbl').textContent = lbl;
+  document.getElementById('res-val').textContent = result.toLocaleString();
+  document.getElementById('result-box').style.display = 'block';
+}
+
+function setVal(n) {
+  if (mode !== 'g2m') setMode('g2m');
+  document.getElementById('gr-input').value = n;
+  calcGrain();
+}
+</script>
+
+</Layout>
