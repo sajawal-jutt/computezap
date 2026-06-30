@@ -1,0 +1,514 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const schema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "401k Calculator",
+    "url": "https://computezap.com/401k-calculator",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Web",
+    "description": "Calculate your 401k balance at retirement including employer match. See how contributions grow over time with our free 401k retirement calculator.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
+      { "@type": "ListItem", "position": 2, "name": "401k Calculator", "item": "https://computezap.com/401k-calculator" }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How much should I contribute to my 401k?",
+        "acceptedAnswer": { "@type": "Answer", "text": "At minimum, contribute enough to get your full employer match — that's an instant 50–100% return on your money. Many advisors recommend saving 15% of your income for retirement total (including employer match). If you can't do 15%, start with whatever gets you the full match and increase 1% per year." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the 401k contribution limit for 2024?",
+        "acceptedAnswer": { "@type": "Answer", "text": "The 2024 401k employee contribution limit is $23,000 per year ($30,500 if age 50 or older, including $7,500 catch-up). The total limit including employer contributions is $69,000 ($76,500 with catch-up)." }
+      },
+      {
+        "@type": "Question",
+        "name": "How does employer 401k match work?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A common employer match is '100% of the first 6% of salary.' If you earn $70,000 and contribute 6% ($4,200), your employer adds another $4,200 — free money. You must contribute enough to receive the full match or you're leaving salary on the table." }
+      },
+      {
+        "@type": "Question",
+        "name": "When can I withdraw from my 401k without penalty?",
+        "acceptedAnswer": { "@type": "Answer", "text": "You can withdraw from a traditional 401k without the 10% early withdrawal penalty at age 59½. At age 73 you must start required minimum distributions (RMDs). Withdrawals are taxed as ordinary income regardless of age." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is a good 401k balance by age?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Fidelity's rule of thumb: 1× salary by age 30, 3× by 40, 6× by 50, 8× by 60, 10× by 67. So at $75,000 salary: $75K by 30, $225K by 40, $450K by 50, $600K by 60, $750K by 67." }
+      },
+      {
+        "@type": "Question",
+        "name": "What return rate should I use for my 401k calculator?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A 401k invested in a diversified stock fund historically returns about 7% per year after inflation. Use 6–8% for a realistic projection. More conservative investors in bonds might use 4–5%. The default 7% is a common financial planning assumption." }
+      }
+    ]
+  }
+]);
+---
+<Layout
+  title="401k Calculator — Retirement Balance with Employer Match | ComputeZap"
+  description="Calculate your 401k balance at retirement including employer match contributions. See your total savings, growth, and free employer money. Free 2024 401k calculator."
+  canonical="/401k-calculator"
+  schema={schema}
+>
+
+<div class="page-hero">
+  <nav class="breadcrumb"><a href="/">Home</a> › 401k Calculator</nav>
+  <h1>401k Calculator</h1>
+  <p>See your retirement balance — including free employer match money</p>
+</div>
+
+<div class="calc-center">
+
+  <div class="card">
+    <div class="apr-grid">
+      <div class="input-group">
+        <label>Current Age</label>
+        <div class="input-wrap">
+          <input type="number" id="cur-age" min="18" max="80" step="1" placeholder="e.g. 30" oninput="calc401k()" />
+          <span class="input-sfx">yrs</span>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Retirement Age</label>
+        <div class="input-wrap">
+          <input type="number" id="ret-age" min="40" max="90" step="1" placeholder="e.g. 65" oninput="calc401k()" />
+          <span class="input-sfx">yrs</span>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Annual Salary ($)</label>
+        <div class="input-wrap">
+          <input type="number" id="salary" min="0" step="1000" placeholder="e.g. 70000" oninput="calc401k()" />
+          <span class="input-sfx">$/yr</span>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Current 401k Balance ($)</label>
+        <div class="input-wrap">
+          <input type="number" id="balance" min="0" step="500" placeholder="e.g. 0" oninput="calc401k()" value="0" />
+          <span class="input-sfx">$</span>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Your Contribution (% of salary)</label>
+        <div class="input-wrap">
+          <input type="number" id="emp-pct" min="0" max="100" step="0.5" placeholder="e.g. 6" oninput="calc401k()" />
+          <span class="input-sfx">%</span>
+        </div>
+        <div class="field-note" id="contrib-note"></div>
+      </div>
+      <div class="input-group">
+        <label>Employer Match (% of salary)</label>
+        <div class="input-wrap">
+          <input type="number" id="match-pct" min="0" max="50" step="0.5" placeholder="e.g. 3" oninput="calc401k()" value="3" />
+          <span class="input-sfx">%</span>
+        </div>
+        <div class="field-note">Common: 50% match up to 6% = 3%. 100% up to 3% = 3%.</div>
+      </div>
+      <div class="input-group">
+        <label>Expected Annual Return (%)</label>
+        <div class="input-wrap">
+          <input type="number" id="ret-rate" min="0" max="30" step="0.1" placeholder="e.g. 7" oninput="calc401k()" value="7" />
+          <span class="input-sfx">%/yr</span>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Annual Salary Increase (%)</label>
+        <div class="input-wrap">
+          <input type="number" id="sal-inc" min="0" max="20" step="0.1" placeholder="e.g. 2" oninput="calc401k()" value="2" />
+          <span class="input-sfx">%/yr</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" id="result-card" style="display:none">
+    <div class="answer-hero show">
+      <div class="a-label">401k Balance at Retirement (Age <span id="res-age">—</span>)</div>
+      <div class="a-value" id="res-balance">—</div>
+      <div class="a-unit">total saved</div>
+      <div class="a-sub" id="res-sub">—</div>
+    </div>
+    <div class="stats-row show">
+      <div class="stat-box">
+        <span class="stat-lbl">Your contributions</span>
+        <span class="stat-val" id="s-emp">—</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">Employer match</span>
+        <span class="stat-val" id="s-match">—</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">Investment growth</span>
+        <span class="stat-val" id="s-growth">—</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">Growth multiple</span>
+        <span class="stat-val" id="s-mult">—</span>
+      </div>
+    </div>
+    <div class="answer-box">
+      <div class="answer-row"><span class="answer-lbl">Starting balance</span><span class="answer-val" id="b-start">—</span></div>
+      <div class="answer-row"><span class="answer-lbl">Your contributions</span><span class="answer-val" id="b-emp">—</span></div>
+      <div class="answer-row"><span class="answer-lbl">Free employer match</span><span class="answer-val" id="b-match">—</span></div>
+      <div class="answer-row"><span class="answer-lbl">Investment gains</span><span class="answer-val" id="b-gains">—</span></div>
+      <div class="answer-row"><span class="answer-lbl">Final balance</span><span class="answer-val" id="b-final">—</span></div>
+      <div class="answer-row"><span class="answer-lbl">Match as % of final balance</span><span class="answer-val" id="b-match-pct">—</span></div>
+    </div>
+    <div class="tip-box" id="match-tip" style="display:none">
+      <span class="tip-icon">💰</span>
+      <p id="tip-text">—</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="preset-lbl">Quick scenarios</span>
+    <div class="preset-wrap">
+      <a href="#" onclick="setPreset(25,65,60000,0,6,3,7,2);return false" class="preset-btn">Age 25, $60K salary</a>
+      <a href="#" onclick="setPreset(30,65,75000,15000,6,3,7,2);return false" class="preset-btn">Age 30, $75K salary</a>
+      <a href="#" onclick="setPreset(35,65,100000,50000,8,4,7,2);return false" class="preset-btn">Age 35, $100K salary</a>
+      <a href="#" onclick="setPreset(40,65,120000,80000,10,5,7,2);return false" class="preset-btn">Age 40, $120K salary</a>
+      <a href="#" onclick="setPreset(50,65,120000,200000,15,6,7,2);return false" class="preset-btn">Age 50, catch-up</a>
+      <a href="#" onclick="setPreset(25,65,60000,0,3,3,7,2);return false" class="preset-btn">Age 25, match only</a>
+      <a href="#" onclick="setPreset(30,65,80000,0,6,0,7,2);return false" class="preset-btn">No employer match</a>
+      <a href="#" onclick="setPreset(25,65,60000,0,6,3,10,2);return false" class="preset-btn">Age 25, 10% return</a>
+    </div>
+  </div>
+
+  <div class="card" id="milestone-card" style="display:none">
+    <h3 style="margin-bottom:1rem">Growth Milestones</h3>
+    <div style="overflow-x:auto">
+    <table class="conv-table">
+      <thead>
+        <tr><th>Age</th><th>Year</th><th>Balance</th><th>Your Contributions</th><th>Employer Match</th><th>Growth</th></tr>
+      </thead>
+      <tbody id="milestone-body"></tbody>
+    </table>
+    </div>
+  </div>
+
+</div>
+
+<div class="content-wrap">
+
+  <div class="card">
+    <h2>How Employer Match Works</h2>
+    <div style="overflow-x:auto">
+    <table class="conv-table">
+      <thead>
+        <tr><th>Employer Match Formula</th><th>Your Salary</th><th>You Contribute</th><th>Employer Adds</th></tr>
+      </thead>
+      <tbody>
+        <tr class="hl"><td>100% up to 3% of salary</td><td>$70,000</td><td>3% = $2,100</td><td>$2,100</td></tr>
+        <tr><td>100% up to 6% of salary</td><td>$70,000</td><td>6% = $4,200</td><td>$4,200</td></tr>
+        <tr><td>50% up to 6% of salary</td><td>$70,000</td><td>6% = $4,200</td><td>$2,100</td></tr>
+        <tr><td>50% up to 8% of salary</td><td>$70,000</td><td>8% = $5,600</td><td>$2,800</td></tr>
+        <tr><td>No employer match</td><td>$70,000</td><td>Any amount</td><td>$0</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="tip-box">
+      <span class="tip-icon">🚨</span>
+      <p><strong>Never leave the match on the table.</strong> If your employer matches 100% up to 6%, contributing less than 6% means you're turning down part of your salary. That's an instant 100% return — no investment can beat it.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>2024 401k Contribution Limits</h2>
+    <div style="overflow-x:auto">
+    <table class="conv-table">
+      <thead>
+        <tr><th>Limit Type</th><th>Under Age 50</th><th>Age 50+ (Catch-Up)</th></tr>
+      </thead>
+      <tbody>
+        <tr class="hl"><td>Employee contribution</td><td>$23,000</td><td>$30,500</td></tr>
+        <tr><td>Catch-up contribution</td><td>N/A</td><td>+$7,500</td></tr>
+        <tr><td>Total (employee + employer)</td><td>$69,000</td><td>$76,500</td></tr>
+        <tr><td>Income limit to contribute?</td><td colspan="2">None — anyone with a 401k plan can contribute</td></tr>
+        <tr><td>Deadline</td><td colspan="2">December 31 (no extension unlike IRA)</td></tr>
+        <tr><td>RMD starting age</td><td colspan="2">Age 73 (SECURE 2.0 Act)</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>401k Balance Benchmarks by Age</h2>
+    <div style="overflow-x:auto">
+    <table class="conv-table">
+      <thead>
+        <tr><th>Age</th><th>Fidelity Target (× salary)</th><th>At $60K Salary</th><th>At $90K Salary</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>30</td><td>1× salary</td><td>$60,000</td><td>$90,000</td></tr>
+        <tr><td>40</td><td>3× salary</td><td>$180,000</td><td>$270,000</td></tr>
+        <tr class="hl"><td>50</td><td>6× salary</td><td>$360,000</td><td>$540,000</td></tr>
+        <tr><td>60</td><td>8× salary</td><td>$480,000</td><td>$720,000</td></tr>
+        <tr><td>67</td><td>10× salary</td><td>$600,000</td><td>$900,000</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p class="tbl-note">Source: Fidelity Investments retirement guidelines. Based on retiring at 67 and spending 45% of pre-retirement income.</p>
+  </div>
+
+  <div class="card">
+    <h2>Traditional 401k vs Roth 401k</h2>
+    <div style="overflow-x:auto">
+    <table class="conv-table">
+      <thead>
+        <tr><th></th><th>Traditional 401k</th><th>Roth 401k</th></tr>
+      </thead>
+      <tbody>
+        <tr class="hl"><td>Tax on contributions</td><td>Pre-tax (reduces income now)</td><td>After-tax (no deduction)</td></tr>
+        <tr><td>Tax on withdrawals</td><td>Taxed as ordinary income</td><td>✅ Tax-free</td></tr>
+        <tr><td>RMDs required?</td><td>Yes, starting age 73</td><td>Yes (but can roll to Roth IRA)</td></tr>
+        <tr><td>Best if you expect</td><td>Lower tax bracket in retirement</td><td>Higher tax bracket in retirement</td></tr>
+        <tr><td>Best for</td><td>Peak earners (40s–50s)</td><td>Young or early-career earners</td></tr>
+        <tr><td>Contribution limit 2024</td><td colspan="2">Same: $23,000 / $30,500 (50+)</td></tr>
+        <tr><td>Employer match</td><td colspan="2">Always goes into traditional side (pre-tax)</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Starting Early vs Starting Late</h2>
+    <div style="overflow-x:auto">
+    <table class="conv-table">
+      <thead>
+        <tr><th>Start Age</th><th>Years to 65</th><th>Your Contributions</th><th>Employer Match (3%)</th><th>Balance at 65 (7%)</th></tr>
+      </thead>
+      <tbody>
+        <tr class="hl"><td>25</td><td>40 yrs</td><td>$168,000</td><td>$84,000</td><td>$1,403,000</td></tr>
+        <tr><td>30</td><td>35 yrs</td><td>$147,000</td><td>$73,500</td><td>$955,000</td></tr>
+        <tr><td>35</td><td>30 yrs</td><td>$126,000</td><td>$63,000</td><td>$633,000</td></tr>
+        <tr><td>40</td><td>25 yrs</td><td>$105,000</td><td>$52,500</td><td>$404,000</td></tr>
+        <tr><td>45</td><td>20 yrs</td><td>$84,000</td><td>$42,000</td><td>$245,000</td></tr>
+        <tr><td>50</td><td>15 yrs</td><td>$63,000</td><td>$31,500</td><td>$141,000</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p class="tbl-note">Assumes $70,000 salary, 6% employee contribution, 3% employer match, 7% annual return, 2% salary increase/year.</p>
+  </div>
+
+  <div class="card">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>How much should I contribute to my 401k?</h3>
+      <p>At minimum, contribute enough to capture your full employer match — that's free money. After that, aim for 15% of income total (including the match). Max out at $23,000 if you can afford it. If cash is tight, start with 1% and increase by 1% each year.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What is the 401k limit for 2024?</h3>
+      <p>$23,000 employee contribution limit ($30,500 if age 50 or older). The total combined limit (employee + employer) is $69,000. Unlike an IRA, there is no income limit on 401k contributions.</p>
+    </div>
+    <div class="faq-item">
+      <h3>When can I withdraw from my 401k without penalty?</h3>
+      <p>Age 59½ for penalty-free withdrawals. Before that, early withdrawals trigger a 10% penalty plus income tax. Exception: the "Rule of 55" lets you withdraw penalty-free at age 55 if you've left your employer in or after that year.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Should I choose Traditional or Roth 401k?</h3>
+      <p>Choose Roth 401k if you're early in your career or expect higher taxes in retirement. Choose Traditional 401k if you're in your peak earning years and expect lower taxes at retirement. When in doubt, splitting contributions between both hedges your tax risk.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What happens to my 401k if I change jobs?</h3>
+      <p>You have four options: (1) Roll it into your new employer's 401k. (2) Roll it into an IRA for more investment options. (3) Leave it with your old employer (if allowed). (4) Cash it out — but this triggers taxes and a 10% penalty, so it's rarely the best choice.</p>
+    </div>
+    <div class="faq-item">
+      <h3>How is my 401k invested?</h3>
+      <p>Most 401k plans offer mutual funds and target-date funds. A target-date fund (e.g., "Target 2055 Fund") automatically shifts from aggressive stocks to conservative bonds as you approach retirement — a simple, low-maintenance choice for most people.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Related Calculators</h2>
+    <div class="next-grid">
+      <a href="/roth-ira-calculator" class="next-card">
+        <span class="next-tag">Finance</span>
+        <h3>Roth IRA Calculator</h3>
+        <p>See how your Roth IRA grows tax-free by retirement</p>
+      </a>
+      <a href="/apr-calculator" class="next-card">
+        <span class="next-tag">Finance</span>
+        <h3>APR Calculator</h3>
+        <p>Find the true annual cost of any loan including fees</p>
+      </a>
+      <a href="/mortgage-payoff-calculator" class="next-card">
+        <span class="next-tag">Finance</span>
+        <h3>Mortgage Payoff Calculator</h3>
+        <p>See how extra payments cut your mortgage term</p>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<style>
+.apr-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+.field-note {
+  font-size: 0.8rem;
+  color: var(--text-2);
+  margin-top: 0.3rem;
+  min-height: 1rem;
+}
+@media (max-width: 600px) {
+  .apr-grid { grid-template-columns: 1fr; }
+}
+</style>
+
+<script is:inline>
+function fmtD(n) {
+  if (n >= 1000000) return '$' + (n / 1000000).toFixed(2) + 'M';
+  if (n >= 1000) return '$' + Math.round(n).toLocaleString();
+  return '$' + n.toFixed(0);
+}
+function fmtDFull(n) {
+  return '$' + Math.round(n).toLocaleString();
+}
+
+function calc401k() {
+  var curAge  = parseInt(document.getElementById('cur-age').value);
+  var retAge  = parseInt(document.getElementById('ret-age').value);
+  var salary  = parseFloat(document.getElementById('salary').value) || 0;
+  var balance = parseFloat(document.getElementById('balance').value) || 0;
+  var empPct  = parseFloat(document.getElementById('emp-pct').value) || 0;
+  var matchPct= parseFloat(document.getElementById('match-pct').value) || 0;
+  var rate    = parseFloat(document.getElementById('ret-rate').value) || 0;
+  var salInc  = parseFloat(document.getElementById('sal-inc').value) || 0;
+
+  // contribution note
+  var note = document.getElementById('contrib-note');
+  var empAmt = salary * empPct / 100;
+  var limit = curAge >= 50 ? 30500 : 23000;
+  if (empAmt > limit) {
+    note.textContent = '⚠️ Exceeds 2024 limit of $' + limit.toLocaleString() + '/yr';
+    note.style.color = 'var(--accent)';
+  } else if (empPct > 0 && salary > 0) {
+    note.textContent = '= $' + Math.round(empAmt).toLocaleString() + '/yr (2024 limit: $' + limit.toLocaleString() + ')';
+    note.style.color = 'var(--text-2)';
+  } else {
+    note.textContent = '';
+  }
+
+  if (isNaN(curAge) || isNaN(retAge) || retAge <= curAge || salary <= 0) {
+    document.getElementById('result-card').style.display = 'none';
+    document.getElementById('milestone-card').style.display = 'none';
+    return;
+  }
+
+  var r = rate / 100;
+  var years = retAge - curAge;
+  var bal = balance;
+  var totalEmp = 0;
+  var totalMatch = 0;
+  var curSalary = salary;
+  var milestones = [];
+  var yr2024 = new Date().getFullYear();
+
+  for (var y = 1; y <= years; y++) {
+    var annEmp   = Math.min(curSalary * empPct / 100, limit);
+    var annMatch = curSalary * matchPct / 100;
+    bal = bal * (1 + r) + annEmp + annMatch;
+    totalEmp   += annEmp;
+    totalMatch += annMatch;
+    curSalary  *= (1 + salInc / 100);
+    var age = curAge + y;
+    var lim50 = age >= 50 ? 30500 : 23000;
+    limit = lim50;
+    if (age % 5 === 0 || age === retAge || (retAge - curAge <= 10)) {
+      milestones.push({
+        age: age,
+        yr: yr2024 + y,
+        bal: bal,
+        emp: balance + totalEmp,
+        match: totalMatch,
+        growth: bal - balance - totalEmp - totalMatch
+      });
+    }
+  }
+
+  var totalGrowth = bal - balance - totalEmp - totalMatch;
+  var totalContrib = balance + totalEmp + totalMatch;
+  var multiple = totalContrib > 0 ? bal / totalContrib : 0;
+  var matchFinalPct = (totalMatch / bal) * 100;
+
+  document.getElementById('res-age').textContent = retAge;
+  document.getElementById('res-balance').textContent = fmtD(bal);
+  document.getElementById('res-sub').textContent =
+    years + ' years of investing at ' + rate + '% return';
+
+  document.getElementById('s-emp').textContent = fmtD(totalEmp);
+  document.getElementById('s-match').textContent = fmtD(totalMatch);
+  document.getElementById('s-growth').textContent = fmtD(totalGrowth);
+  document.getElementById('s-mult').textContent = multiple.toFixed(1) + '×';
+
+  document.getElementById('b-start').textContent = fmtDFull(balance);
+  document.getElementById('b-emp').textContent = fmtDFull(totalEmp);
+  document.getElementById('b-match').textContent = fmtDFull(totalMatch);
+  document.getElementById('b-gains').textContent = fmtDFull(totalGrowth);
+  document.getElementById('b-final').textContent = fmtDFull(bal);
+  document.getElementById('b-match-pct').textContent = matchFinalPct.toFixed(1) + '% of your retirement balance';
+
+  var tip = document.getElementById('match-tip');
+  var tipText = document.getElementById('tip-text');
+  if (matchPct > 0 && totalMatch > 0) {
+    tipText.innerHTML = '<strong>Your employer contributes ' + fmtDFull(totalMatch) + ' over your career.</strong> That free match grows to ' + fmtD(totalMatch * Math.pow(1 + r, years / 2)) + ' by retirement when invested. Never contribute less than needed to get the full match.';
+    tip.style.display = 'flex';
+  } else if (matchPct === 0) {
+    tipText.innerHTML = '<strong>No employer match entered.</strong> If your employer offers a match, enter it above — it\'s the highest-return investment available to you.';
+    tip.style.display = 'flex';
+  } else {
+    tip.style.display = 'none';
+  }
+
+  // milestones
+  var tbody = document.getElementById('milestone-body');
+  tbody.innerHTML = '';
+  milestones.forEach(function(m) {
+    var tr = document.createElement('tr');
+    tr.innerHTML =
+      '<td>Age ' + m.age + '</td>' +
+      '<td>' + m.yr + '</td>' +
+      '<td><strong>' + fmtDFull(m.bal) + '</strong></td>' +
+      '<td>' + fmtDFull(m.emp) + '</td>' +
+      '<td>' + fmtDFull(m.match) + '</td>' +
+      '<td>' + fmtDFull(Math.max(0, m.growth)) + '</td>';
+    if (m.age === retAge) tr.className = 'hl';
+    tbody.appendChild(tr);
+  });
+
+  document.getElementById('result-card').style.display = 'block';
+  document.getElementById('milestone-card').style.display = 'block';
+}
+
+function setPreset(curAge, retAge, salary, balance, empPct, matchPct, rate, salInc) {
+  document.getElementById('cur-age').value    = curAge;
+  document.getElementById('ret-age').value    = retAge;
+  document.getElementById('salary').value     = salary;
+  document.getElementById('balance').value    = balance;
+  document.getElementById('emp-pct').value    = empPct;
+  document.getElementById('match-pct').value  = matchPct;
+  document.getElementById('ret-rate').value   = rate;
+  document.getElementById('sal-inc').value    = salInc;
+  calc401k();
+}
+</script>
+
+</Layout>
