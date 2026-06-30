@@ -1,0 +1,485 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const schema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Amortization Calculator",
+    "url": "https://computezap.com/amortization-calculator",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Web",
+    "description": "Calculate loan amortization schedule with monthly payment breakdown. See principal, interest, and balance for every payment. Supports extra payments to save on interest.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
+      { "@type": "ListItem", "position": 2, "name": "Amortization Calculator", "item": "https://computezap.com/amortization-calculator" }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is an amortization schedule?",
+        "acceptedAnswer": { "@type": "Answer", "text": "An amortization schedule is a table showing every loan payment broken into principal and interest portions, plus the remaining balance after each payment. Early payments are mostly interest; later payments are mostly principal." }
+      },
+      {
+        "@type": "Question",
+        "name": "How is monthly loan payment calculated?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Monthly Payment = Principal × (monthly rate) / (1 − (1 + monthly rate)^−n), where n is the total number of payments. For a $300,000 loan at 7% for 30 years: monthly rate = 7/12/100 = 0.005833, n = 360, payment = $1,996." }
+      },
+      {
+        "@type": "Question",
+        "name": "Why do early mortgage payments go mostly to interest?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Because interest is calculated on the remaining balance, which is highest at the start. On a $300,000 mortgage at 7%, your first payment of $1,996 includes $1,750 in interest and only $246 in principal. As the balance falls, interest shrinks and principal grows." }
+      },
+      {
+        "@type": "Question",
+        "name": "How much do extra payments save?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Extra payments directly reduce the principal, which reduces future interest charges. On a $300,000 mortgage at 7% for 30 years, paying an extra $200/month saves about $74,000 in interest and pays off the loan 6 years early." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between amortization and interest-only payments?",
+        "acceptedAnswer": { "@type": "Answer", "text": "With amortization, each payment reduces the balance — you build equity and eventually pay off the loan. With interest-only payments, the balance never decreases. Most mortgages and car loans are fully amortizing." }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I pay off my loan faster?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Make extra principal payments — even $50–$200 extra per month significantly shortens the term and reduces total interest. You can also make biweekly payments (26 half-payments per year = 13 full payments instead of 12), which effectively adds one extra payment per year." }
+      }
+    ]
+  }
+]);
+---
+<Layout
+  title="Amortization Calculator — Loan Payment Schedule | ComputeZap"
+  description="Calculate your loan amortization schedule. See monthly payment, principal vs interest breakdown, and full payment table. Includes extra payment savings calculator."
+  canonical="/amortization-calculator"
+  schema={schema}
+>
+
+<div class="page-hero">
+  <nav class="breadcrumb"><a href="/">Home</a> › Amortization Calculator</nav>
+  <h1>Amortization Calculator</h1>
+  <p>See your full loan payment schedule — principal, interest, and balance every month</p>
+</div>
+
+<div class="calc-center">
+
+  <div class="card">
+    <div class="apr-grid">
+      <div class="input-group">
+        <label>Loan Amount ($)</label>
+        <div class="input-wrap">
+          <input type="number" id="loan-amt" min="0" step="1000" placeholder="e.g. 300000" oninput="calcAmort()" />
+          <span class="input-sfx">$</span>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Annual Interest Rate (%)</label>
+        <div class="input-wrap">
+          <input type="number" id="rate" min="0" step="0.01" placeholder="e.g. 7.0" oninput="calcAmort()" />
+          <span class="input-sfx">%</span>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Loan Term (years)</label>
+        <div class="input-wrap">
+          <input type="number" id="term" min="1" max="50" step="1" placeholder="e.g. 30" oninput="calcAmort()" />
+          <span class="input-sfx">yrs</span>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Extra Monthly Payment ($) <span style="font-weight:400;color:var(--text-2)">(optional)</span></label>
+        <div class="input-wrap">
+          <input type="number" id="extra" min="0" step="10" placeholder="e.g. 0" oninput="calcAmort()" value="0" />
+          <span class="input-sfx">$/mo</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" id="result-card" style="display:none">
+    <div class="answer-hero show">
+      <div class="a-label">Monthly Payment</div>
+      <div class="a-value" id="res-payment">—</div>
+      <div class="a-unit">per month</div>
+      <div class="a-sub" id="res-sub">—</div>
+    </div>
+    <div class="stats-row show">
+      <div class="stat-box">
+        <span class="stat-lbl">Loan amount</span>
+        <span class="stat-val" id="s-loan">—</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">Total interest</span>
+        <span class="stat-val" id="s-interest">—</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">Total paid</span>
+        <span class="stat-val" id="s-total">—</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">Payoff date</span>
+        <span class="stat-val" id="s-date">—</span>
+      </div>
+    </div>
+    <div class="answer-box">
+      <div class="answer-row"><span class="answer-lbl">Principal</span><span class="answer-val" id="b-principal">—</span></div>
+      <div class="answer-row"><span class="answer-lbl">Total interest paid</span><span class="answer-val" id="b-interest">—</span></div>
+      <div class="answer-row"><span class="answer-lbl">Total cost of loan</span><span class="answer-val" id="b-total">—</span></div>
+      <div class="answer-row"><span class="answer-lbl">Interest as % of total</span><span class="answer-val" id="b-int-pct">—</span></div>
+    </div>
+    <div class="tip-box" id="extra-tip" style="display:none">
+      <span class="tip-icon">💰</span>
+      <p id="extra-tip-text">—</p>
+    </div>
+  </div>
+
+  <div class="card" id="extra-card" style="display:none">
+    <h3 style="margin-bottom:0.75rem">Extra Payment Savings</h3>
+    <div class="answer-box">
+      <div class="answer-row"><span class="answer-lbl">Without extra payment</span><span class="answer-val" id="x-base-total">—</span></div>
+      <div class="answer-row"><span class="answer-lbl">With extra payment</span><span class="answer-val" id="x-extra-total">—</span></div>
+      <div class="answer-row"><span class="answer-lbl">Interest saved</span><span class="answer-val" id="x-saved" style="color:#16a34a;font-weight:700">—</span></div>
+      <div class="answer-row"><span class="answer-lbl">Time saved</span><span class="answer-val" id="x-time" style="color:#16a34a;font-weight:700">—</span></div>
+      <div class="answer-row"><span class="answer-lbl">New payoff date</span><span class="answer-val" id="x-date">—</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="preset-lbl">Common loans</span>
+    <div class="preset-wrap">
+      <a href="#" onclick="setPreset(300000,7,30,0);return false" class="preset-btn">$300K Mortgage 30yr</a>
+      <a href="#" onclick="setPreset(300000,6.75,15,0);return false" class="preset-btn">$300K Mortgage 15yr</a>
+      <a href="#" onclick="setPreset(400000,7.25,30,0);return false" class="preset-btn">$400K Mortgage 30yr</a>
+      <a href="#" onclick="setPreset(30000,6.5,60,0);return false" class="preset-btn">$30K Auto 5yr</a>
+      <a href="#" onclick="setPreset(15000,8,48,0);return false" class="preset-btn">$15K Auto 4yr</a>
+      <a href="#" onclick="setPreset(10000,11,36,0);return false" class="preset-btn">$10K Personal 3yr</a>
+      <a href="#" onclick="setPreset(300000,7,30,200);return false" class="preset-btn">$300K + $200/mo extra</a>
+      <a href="#" onclick="setPreset(300000,7,30,500);return false" class="preset-btn">$300K + $500/mo extra</a>
+    </div>
+  </div>
+
+</div>
+
+<div class="content-wrap">
+
+  <div class="card" id="yearly-card" style="display:none">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:0.5rem">
+      <h2 style="margin:0">Amortization Schedule</h2>
+      <div style="display:flex;gap:0.5rem">
+        <button class="mode-btn active" id="btn-yearly" onclick="showView('yearly');return false">By Year</button>
+        <button class="mode-btn" id="btn-monthly" onclick="showView('monthly');return false">By Month</button>
+      </div>
+    </div>
+    <div style="overflow-x:auto">
+    <table class="conv-table" id="amort-table">
+      <thead>
+        <tr id="table-head">
+          <th>Year</th><th>Principal Paid</th><th>Interest Paid</th><th>Total Paid</th><th>Balance</th>
+        </tr>
+      </thead>
+      <tbody id="amort-body"></tbody>
+    </table>
+    </div>
+    <p class="tbl-note" id="monthly-note" style="display:none">Showing all monthly payments. Last payment may differ slightly due to rounding.</p>
+  </div>
+
+  <div class="card">
+    <h2>How Amortization Works</h2>
+    <div class="formula-box">
+      <div class="formula-text">Monthly Payment = P × r / (1 − (1+r)⁻ⁿ)</div>
+      <div class="formula-sub">P = loan amount &nbsp;|&nbsp; r = monthly rate (annual rate ÷ 12) &nbsp;|&nbsp; n = total months</div>
+    </div>
+    <div class="formula-box">
+      <div class="formula-text">Each month: Interest = Balance × r &nbsp;|&nbsp; Principal = Payment − Interest</div>
+      <div class="formula-sub">New Balance = Previous Balance − Principal Portion</div>
+    </div>
+    <div class="answer-box">
+      <div class="answer-row"><span class="answer-lbl">$300K at 7%, 30yr — payment</span><span class="answer-val">$1,996/mo</span></div>
+      <div class="answer-row"><span class="answer-lbl">Month 1 interest portion</span><span class="answer-val">$1,750</span></div>
+      <div class="answer-row"><span class="answer-lbl">Month 1 principal portion</span><span class="answer-val">$246</span></div>
+      <div class="answer-row"><span class="answer-lbl">Month 180 interest portion</span><span class="answer-val">$1,024</span></div>
+      <div class="answer-row"><span class="answer-lbl">Month 180 principal portion</span><span class="answer-val">$972</span></div>
+    </div>
+    <div class="tip-box">
+      <span class="tip-icon">📊</span>
+      <p><strong>The crossover point</strong> — where your monthly principal exceeds your monthly interest — happens around year 19 on a 30-year mortgage at 7%. Before that, more than half your payment goes to interest.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Impact of Extra Payments on a $300,000 Mortgage (7%, 30yr)</h2>
+    <div style="overflow-x:auto">
+    <table class="conv-table">
+      <thead>
+        <tr><th>Extra/Month</th><th>Total Interest</th><th>Interest Saved</th><th>Payoff</th><th>Time Saved</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>$0 (base)</td><td>$418,527</td><td>—</td><td>30 years</td><td>—</td></tr>
+        <tr><td>$100/mo</td><td>$375,611</td><td>$42,916</td><td>26 yrs 5 mo</td><td>3 yrs 7 mo</td></tr>
+        <tr class="hl"><td>$200/mo</td><td>$344,021</td><td>$74,506</td><td>23 yrs 9 mo</td><td>6 yrs 3 mo</td></tr>
+        <tr><td>$300/mo</td><td>$319,107</td><td>$99,420</td><td>21 yrs 8 mo</td><td>8 yrs 4 mo</td></tr>
+        <tr><td>$500/mo</td><td>$280,063</td><td>$138,464</td><td>18 yrs 5 mo</td><td>11 yrs 7 mo</td></tr>
+        <tr><td>$1,000/mo</td><td>$224,107</td><td>$194,420</td><td>13 yrs 10 mo</td><td>16 yrs 2 mo</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p class="tbl-note">Base payment $1,996/month. Extra payments applied to principal each month.</p>
+  </div>
+
+  <div class="card">
+    <h2>15-Year vs 30-Year Mortgage</h2>
+    <div style="overflow-x:auto">
+    <table class="conv-table">
+      <thead>
+        <tr><th></th><th>30-Year at 7%</th><th>15-Year at 6.5%</th><th>Difference</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Loan amount</td><td>$300,000</td><td>$300,000</td><td>—</td></tr>
+        <tr><td>Monthly payment</td><td>$1,996</td><td>$2,613</td><td>+$617/mo</td></tr>
+        <tr class="hl"><td>Total interest paid</td><td>$418,527</td><td>$170,340</td><td>Save $248,187</td></tr>
+        <tr><td>Total paid</td><td>$718,527</td><td>$470,340</td><td>Save $248,187</td></tr>
+        <tr><td>Equity after 5 years</td><td>~$18,000</td><td>~$82,000</td><td>+$64,000</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>What is an amortization schedule?</h3>
+      <p>A table showing every loan payment split into principal (reduces balance) and interest (cost of borrowing). Early payments go mostly to interest; later payments go mostly to principal. The amortization table above shows this month by month or year by year.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Why do early mortgage payments go mostly to interest?</h3>
+      <p>Interest is calculated on the remaining balance. At month 1, you owe the full $300,000, so 7% annual = $1,750 in interest that month alone. As your balance falls, so does the interest portion — but this takes years on a 30-year loan.</p>
+    </div>
+    <div class="faq-item">
+      <h3>How much interest do I save with extra payments?</h3>
+      <p>On a $300,000 mortgage at 7%, paying $200/month extra saves about $74,500 in interest and cuts 6+ years off the loan. Use the extra payment field above to calculate your exact savings.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Should I choose a 15-year or 30-year mortgage?</h3>
+      <p>A 15-year mortgage saves enormous interest (often $200,000+) and builds equity faster, but monthly payments are about 30% higher. Choose 30-year if cash flow is tight; choose 15-year if you can afford the higher payment and want to pay off faster.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What does "fully amortizing" mean?</h3>
+      <p>A fully amortizing loan means each payment covers interest plus some principal, so the balance reaches exactly $0 on the final payment date. Most mortgages, car loans, and personal loans are fully amortizing. Contrast with interest-only loans where balance never decreases.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Related Calculators</h2>
+    <div class="next-grid">
+      <a href="/mortgage-payoff-calculator" class="next-card">
+        <span class="next-tag">Finance</span>
+        <h3>Mortgage Payoff Calculator</h3>
+        <p>See how extra payments cut your mortgage term and interest</p>
+      </a>
+      <a href="/apr-calculator" class="next-card">
+        <span class="next-tag">Finance</span>
+        <h3>APR Calculator</h3>
+        <p>Find the true annual cost of any loan including fees</p>
+      </a>
+      <a href="/biweekly-mortgage-calculator" class="next-card">
+        <span class="next-tag">Finance</span>
+        <h3>Biweekly Mortgage Calculator</h3>
+        <p>Save years off your mortgage with biweekly payments</p>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<style>
+.apr-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+@media (max-width: 600px) {
+  .apr-grid { grid-template-columns: 1fr; }
+}
+</style>
+
+<script is:inline>
+var scheduleData = [];
+
+function fmtD(n) {
+  return '$' + Math.abs(Math.round(n)).toLocaleString();
+}
+function fmtD2(n) {
+  return '$' + Math.abs(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+function getPayoffDate(months) {
+  var d = new Date();
+  d.setMonth(d.getMonth() + months);
+  return d.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+}
+
+function timeSaved(base, extra) {
+  var diff = base - extra;
+  if (diff <= 0) return null;
+  var yrs = Math.floor(diff / 12);
+  var mos = diff % 12;
+  var parts = [];
+  if (yrs > 0) parts.push(yrs + ' yr' + (yrs > 1 ? 's' : ''));
+  if (mos > 0) parts.push(mos + ' mo');
+  return parts.join(' ');
+}
+
+function buildSchedule(principal, monthlyRate, payment, extra) {
+  var bal = principal;
+  var rows = [];
+  var month = 0;
+  while (bal > 0.005 && month < 600) {
+    month++;
+    var interest = bal * monthlyRate;
+    var totalPmt = Math.min(payment + extra, bal + interest);
+    var princ = totalPmt - interest;
+    bal -= princ;
+    if (bal < 0.005) bal = 0;
+    rows.push({ month: month, interest: interest, principal: princ, payment: totalPmt, balance: bal });
+  }
+  return rows;
+}
+
+function calcAmort() {
+  var loan  = parseFloat(document.getElementById('loan-amt').value);
+  var rate  = parseFloat(document.getElementById('rate').value);
+  var term  = parseFloat(document.getElementById('term').value);
+  var extra = parseFloat(document.getElementById('extra').value) || 0;
+
+  if (isNaN(loan) || loan <= 0 || isNaN(rate) || rate < 0 || isNaN(term) || term < 1) {
+    document.getElementById('result-card').style.display = 'none';
+    document.getElementById('extra-card').style.display = 'none';
+    document.getElementById('yearly-card').style.display = 'none';
+    return;
+  }
+
+  var r = rate / 100 / 12;
+  var n = Math.round(term * 12);
+  var pmt = r === 0 ? loan / n : loan * r / (1 - Math.pow(1 + r, -n));
+
+  // base schedule (no extra)
+  var base = buildSchedule(loan, r, pmt, 0);
+  var baseTotalInterest = base.reduce(function(s, x) { return s + x.interest; }, 0);
+  var baseTotalPaid = base.reduce(function(s, x) { return s + x.payment; }, 0);
+
+  // extra payment schedule
+  var sched = extra > 0 ? buildSchedule(loan, r, pmt, extra) : base;
+  var totalInterest = sched.reduce(function(s, x) { return s + x.interest; }, 0);
+  var totalPaid = sched.reduce(function(s, x) { return s + x.payment; }, 0);
+  var months = sched.length;
+  var intPct = (totalInterest / totalPaid) * 100;
+
+  scheduleData = sched;
+
+  document.getElementById('res-payment').textContent = fmtD2(pmt + (extra > 0 ? extra : 0));
+  document.getElementById('res-sub').textContent =
+    fmtD2(pmt) + ' base' + (extra > 0 ? ' + ' + fmtD(extra) + ' extra = ' + fmtD2(pmt + extra) + '/mo' : '') +
+    ' | ' + Math.floor(months / 12) + ' yr ' + (months % 12 > 0 ? months % 12 + ' mo' : '');
+
+  document.getElementById('s-loan').textContent = fmtD(loan);
+  document.getElementById('s-interest').textContent = fmtD(totalInterest);
+  document.getElementById('s-total').textContent = fmtD(totalPaid);
+  document.getElementById('s-date').textContent = getPayoffDate(months);
+
+  document.getElementById('b-principal').textContent = fmtD(loan);
+  document.getElementById('b-interest').textContent = fmtD(totalInterest);
+  document.getElementById('b-total').textContent = fmtD(totalPaid);
+  document.getElementById('b-int-pct').textContent = intPct.toFixed(1) + '%';
+
+  // extra savings box
+  if (extra > 0) {
+    var saved = baseTotalInterest - totalInterest;
+    var ts = timeSaved(base.length, months);
+    document.getElementById('x-base-total').textContent = fmtD(baseTotalInterest) + ' interest over ' + base.length + ' mo';
+    document.getElementById('x-extra-total').textContent = fmtD(totalInterest) + ' interest over ' + months + ' mo';
+    document.getElementById('x-saved').textContent = fmtD(saved);
+    document.getElementById('x-time').textContent = ts || '—';
+    document.getElementById('x-date').textContent = getPayoffDate(months);
+    document.getElementById('extra-card').style.display = 'block';
+
+    document.getElementById('extra-tip-text').innerHTML =
+      '<strong>Extra $' + Math.round(extra).toLocaleString() + '/mo saves you ' + fmtD(saved) + ' in interest</strong>' +
+      (ts ? ' and pays off ' + ts + ' early.' : '.');
+    document.getElementById('extra-tip').style.display = 'flex';
+  } else {
+    document.getElementById('extra-card').style.display = 'none';
+    document.getElementById('extra-tip').style.display = 'none';
+  }
+
+  document.getElementById('result-card').style.display = 'block';
+  document.getElementById('yearly-card').style.display = 'block';
+  showView('yearly');
+}
+
+function showView(view) {
+  document.getElementById('btn-yearly').classList.toggle('active', view === 'yearly');
+  document.getElementById('btn-monthly').classList.toggle('active', view === 'monthly');
+  document.getElementById('monthly-note').style.display = view === 'monthly' ? 'block' : 'none';
+
+  var head = document.getElementById('table-head');
+  var tbody = document.getElementById('amort-body');
+  tbody.innerHTML = '';
+
+  if (view === 'yearly') {
+    head.innerHTML = '<th>Year</th><th>Principal Paid</th><th>Interest Paid</th><th>Total Paid</th><th>Ending Balance</th>';
+    var year = 1;
+    var i = 0;
+    while (i < scheduleData.length) {
+      var yPrinc = 0, yInt = 0, yTotal = 0, endBal = 0;
+      var start = i;
+      for (var m = 0; m < 12 && i < scheduleData.length; m++, i++) {
+        yPrinc += scheduleData[i].principal;
+        yInt   += scheduleData[i].interest;
+        yTotal += scheduleData[i].payment;
+        endBal  = scheduleData[i].balance;
+      }
+      var tr = document.createElement('tr');
+      tr.innerHTML =
+        '<td>Year ' + year + '</td>' +
+        '<td>' + fmtD(yPrinc) + '</td>' +
+        '<td>' + fmtD(yInt) + '</td>' +
+        '<td>' + fmtD(yTotal) + '</td>' +
+        '<td>' + fmtD(endBal) + '</td>';
+      tbody.appendChild(tr);
+      year++;
+    }
+  } else {
+    head.innerHTML = '<th>Month</th><th>Payment</th><th>Principal</th><th>Interest</th><th>Balance</th>';
+    scheduleData.forEach(function(row) {
+      var tr = document.createElement('tr');
+      tr.innerHTML =
+        '<td>' + row.month + '</td>' +
+        '<td>' + fmtD2(row.payment) + '</td>' +
+        '<td>' + fmtD2(row.principal) + '</td>' +
+        '<td>' + fmtD2(row.interest) + '</td>' +
+        '<td>' + fmtD(row.balance) + '</td>';
+      tbody.appendChild(tr);
+    });
+  }
+}
+
+function setPreset(loan, rate, term, extra) {
+  document.getElementById('loan-amt').value = loan;
+  document.getElementById('rate').value = rate;
+  document.getElementById('term').value = term;
+  document.getElementById('extra').value = extra;
+  calcAmort();
+}
+</script>
+
+</Layout>
