@@ -1,0 +1,349 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const schema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Personal Loan Calculator",
+    "url": "https://computezap.com/finance/personal-loan-calculator",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Web",
+    "description": "Calculate your personal loan monthly payment, total interest, and full amortization schedule. Free loan calculator for any amount, rate, and term.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
+      { "@type": "ListItem", "position": 2, "name": "Finance", "item": "https://computezap.com/finance" },
+      { "@type": "ListItem", "position": 3, "name": "Personal Loan Calculator", "item": "https://computezap.com/finance/personal-loan-calculator" }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do I calculate my personal loan monthly payment?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Monthly Payment = P × r × (1+r)^n ÷ ((1+r)^n − 1), where P = loan amount, r = monthly interest rate (annual rate ÷ 12), n = total months. Example: $10,000 at 8% APR for 36 months = $313.36/month." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is a good interest rate for a personal loan?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A good personal loan rate is below 10% APR. Average rates range 10–28% APR depending on credit score. Excellent credit (750+) typically qualifies for 6–10% APR. Fair credit (580–669) typically sees 18–28% APR." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between APR and interest rate?",
+        "acceptedAnswer": { "@type": "Answer", "text": "The interest rate is the base cost of borrowing. APR (Annual Percentage Rate) includes the interest rate plus fees like origination fees. APR gives the true cost of the loan. Always compare APRs when shopping for loans." }
+      },
+      {
+        "@type": "Question",
+        "name": "Should I choose a shorter or longer loan term?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Shorter terms mean higher monthly payments but less total interest paid. Longer terms lower your monthly payment but increase total interest significantly. For $10,000 at 10% APR: 24 months = $461/mo ($1,064 interest); 60 months = $212/mo ($2,748 interest)." }
+      },
+      {
+        "@type": "Question",
+        "name": "How much can I borrow with a personal loan?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Personal loans typically range $1,000–$100,000 depending on the lender and your credit. Most online lenders offer $2,000–$50,000. Your loan amount depends on income, credit score, and debt-to-income ratio." }
+      }
+    ]
+  }
+]);
+---
+<Layout
+  title="Personal Loan Calculator — Monthly Payment & Total Interest | ComputeZap"
+  description="Calculate your personal loan monthly payment, total interest, and amortization schedule instantly. Enter loan amount, APR, and term to see your full cost breakdown."
+  canonical="/finance/personal-loan-calculator"
+  schema={schema}
+>
+
+<div class="page-hero">
+  <nav class="breadcrumb"><a href="/">Home</a> › <a href="/#finance">Finance</a> › Personal Loan Calculator</nav>
+  <h1>Personal Loan Calculator</h1>
+  <p>Find your monthly payment, total interest, and full payoff schedule</p>
+</div>
+
+<div class="calc-center">
+
+  <div class="card">
+    <div class="input-group">
+      <label>Loan Amount ($)</label>
+      <div class="input-wrap">
+        <input type="number" id="amount" min="100" step="100" placeholder="e.g. 10000" oninput="calcLoan()" />
+        <span class="input-sfx">$</span>
+      </div>
+    </div>
+    <div class="input-group">
+      <label>Annual Interest Rate (APR %)</label>
+      <div class="input-wrap">
+        <input type="number" id="rate" min="0.1" max="100" step="0.1" placeholder="e.g. 8.5" oninput="calcLoan()" />
+        <span class="input-sfx">%</span>
+      </div>
+    </div>
+    <div class="input-group">
+      <label>Loan Term</label>
+      <div class="input-wrap" style="gap:.5rem">
+        <input type="number" id="term" min="1" step="1" placeholder="e.g. 36" oninput="calcLoan()" />
+        <select id="term-unit" onchange="calcLoan()" style="padding:.5rem .75rem;border:1px solid #e2e8f0;border-radius:8px;font-size:.95rem;background:#fff;color:var(--gray-900);cursor:pointer">
+          <option value="months">Months</option>
+          <option value="years">Years</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" id="result-card" style="display:none">
+    <div class="answer-hero" id="res-hero">
+      <div class="a-label">Monthly Payment</div>
+      <div class="a-value" id="res-payment">—</div>
+      <div class="a-unit">per month</div>
+      <div class="a-sub" id="res-sub">—</div>
+    </div>
+    <div class="stats-row" id="res-stats">
+      <div class="stat-box">
+        <span class="stat-lbl">Total paid</span>
+        <span class="stat-val" id="res-total">—</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">Total interest</span>
+        <span class="stat-val" id="res-interest">—</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">Principal</span>
+        <span class="stat-val" id="res-principal">—</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">Interest cost</span>
+        <span class="stat-val" id="res-pct">—</span>
+      </div>
+    </div>
+    <div class="answer-box">
+      <div class="answer-row"><span class="answer-lbl">Loan amount</span><span class="answer-val" id="b-principal">—</span></div>
+      <div class="answer-row"><span class="answer-lbl">Monthly payment</span><span class="answer-val" id="b-monthly">—</span></div>
+      <div class="answer-row"><span class="answer-lbl">Total interest paid</span><span class="answer-val" id="b-interest">—</span></div>
+      <div class="answer-row"><span class="answer-lbl">Total amount paid</span><span class="answer-val" id="b-total">—</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="preset-lbl">Common loan scenarios</span>
+    <div class="preset-wrap">
+      <a href="#" onclick="setPreset(5000,10.5,36,'months');return false" class="preset-btn">$5K / 3yr</a>
+      <a href="#" onclick="setPreset(10000,8.5,36,'months');return false" class="preset-btn">$10K / 3yr</a>
+      <a href="#" onclick="setPreset(10000,12,60,'months');return false" class="preset-btn">$10K / 5yr</a>
+      <a href="#" onclick="setPreset(15000,9,48,'months');return false" class="preset-btn">$15K / 4yr</a>
+      <a href="#" onclick="setPreset(20000,7.5,60,'months');return false" class="preset-btn">$20K / 5yr</a>
+      <a href="#" onclick="setPreset(25000,11,60,'months');return false" class="preset-btn">$25K / 5yr</a>
+      <a href="#" onclick="setPreset(50000,8,84,'months');return false" class="preset-btn">$50K / 7yr</a>
+    </div>
+  </div>
+
+</div>
+
+<div class="content-wrap">
+
+  <div class="card" id="amort-card" style="display:none">
+    <h2>Year-by-Year Amortization</h2>
+    <div style="overflow-x:auto">
+      <table class="loan-table">
+        <thead>
+          <tr><th>Year</th><th>Principal Paid</th><th>Interest Paid</th><th>Balance Remaining</th></tr>
+        </thead>
+        <tbody id="amort-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>How to Calculate Personal Loan Payments</h2>
+    <div class="formula-box">
+      <div class="formula-text">Monthly Payment = P × r × (1+r)ⁿ ÷ ((1+r)ⁿ − 1)</div>
+      <div class="formula-sub">P = loan amount · r = monthly rate (APR ÷ 12) · n = total months</div>
+    </div>
+    <div class="answer-box">
+      <div class="answer-row"><span class="answer-lbl">$10,000 at 8% for 24 months</span><span class="answer-val">$452/mo · $851 interest</span></div>
+      <div class="answer-row"><span class="answer-lbl">$10,000 at 8% for 36 months</span><span class="answer-val">$313/mo · $1,128 interest</span></div>
+      <div class="answer-row"><span class="answer-lbl">$10,000 at 8% for 60 months</span><span class="answer-val">$203/mo · $2,166 interest</span></div>
+      <div class="answer-row"><span class="answer-lbl">$10,000 at 15% for 36 months</span><span class="answer-val">$347/mo · $2,480 interest</span></div>
+    </div>
+    <div class="tip-box tip-blue">
+      <span class="tip-icon">💡</span>
+      <p><strong>Rule of thumb:</strong> Cutting your rate in half saves more than doubling your term. Always compare APR (not just monthly payment) when choosing a loan.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Personal Loan Interest Rates by Credit Score</h2>
+    <div class="answer-box">
+      <div class="answer-row"><span class="answer-lbl">Excellent (750+)</span><span class="answer-val" style="color:var(--green)">6% – 10% APR</span></div>
+      <div class="answer-row"><span class="answer-lbl">Good (700–749)</span><span class="answer-val" style="color:var(--green)">10% – 15% APR</span></div>
+      <div class="answer-row"><span class="answer-lbl">Fair (650–699)</span><span class="answer-val" style="color:#f59e0b">15% – 22% APR</span></div>
+      <div class="answer-row"><span class="answer-lbl">Poor (580–649)</span><span class="answer-val" style="color:var(--red)">22% – 30% APR</span></div>
+      <div class="answer-row"><span class="answer-lbl">Bad (&lt;580)</span><span class="answer-val" style="color:var(--red)">30%+ APR</span></div>
+    </div>
+    <div class="tip-box tip-green">
+      <span class="tip-icon">✅</span>
+      <p>Even a 2–3% rate reduction saves hundreds on a typical loan. Check your credit score before applying and compare at least 3 lenders.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <h3>How do I lower my monthly payment?</h3>
+        <p>Extend your loan term, reduce the loan amount, or improve your credit score before applying to qualify for a lower rate. Note: a longer term means more total interest paid.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Is it better to pay off a personal loan early?</h3>
+        <p>Usually yes — paying early saves interest. Check if your lender charges a prepayment penalty first. Most online lenders have no prepayment fees.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What can a personal loan be used for?</h3>
+        <p>Debt consolidation, home improvement, medical bills, wedding costs, emergency expenses, or any major purchase. Personal loans are unsecured — no collateral required.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Related Finance Calculators</h2>
+    <div class="next-grid">
+      <a href="/finance/amortization-calculator" class="next-card">
+        <span class="next-tag">Finance</span>
+        <h3>Amortization Calculator</h3>
+        <p>Full month-by-month payment schedule for any loan</p>
+      </a>
+      <a href="/finance/apr-calculator" class="next-card">
+        <span class="next-tag">Finance</span>
+        <h3>APR Calculator</h3>
+        <p>Find the true annual cost of a loan including fees</p>
+      </a>
+      <a href="/finance/compound-interest-calculator" class="next-card">
+        <span class="next-tag">Finance</span>
+        <h3>Compound Interest</h3>
+        <p>See how savings or debt grows over time</p>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<style>
+.formula-box {
+  background: #eff6ff;
+  border-left: 3px solid var(--blue);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1rem;
+}
+.formula-text { font-size: 1rem; font-weight: 600; color: var(--gray-900); margin-bottom: .25rem; }
+.formula-sub  { font-size: .8rem; color: var(--gray-600); }
+
+.loan-table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+.loan-table th { background: var(--gray-50); padding: .6rem .75rem; text-align: left; font-size: .8rem; color: var(--gray-600); text-transform: uppercase; letter-spacing: .04em; border-bottom: 2px solid #e2e8f0; }
+.loan-table td { padding: .6rem .75rem; border-bottom: 1px solid #e2e8f0; color: var(--gray-700); }
+.loan-table tr:last-child td { border-bottom: none; font-weight: 600; }
+.loan-table tr:hover td { background: var(--gray-50); }
+
+.faq-list { display: flex; flex-direction: column; gap: 1rem; }
+.faq-item h3 { font-size: .95rem; font-weight: 600; color: var(--gray-900); margin-bottom: .3rem; }
+.faq-item p  { font-size: .88rem; color: var(--gray-600); line-height: 1.6; margin: 0; }
+
+.tip-box { display: flex; gap: .75rem; padding: .875rem 1rem; border-radius: 8px; margin-top: 1rem; }
+.tip-box.tip-blue  { background: #eff6ff; border: 1px solid #bfdbfe; }
+.tip-box.tip-green { background: #f0fdf4; border: 1px solid #bbf7d0; }
+.tip-icon { font-size: 1.1rem; flex-shrink: 0; }
+.tip-box p { margin: 0; font-size: .875rem; color: var(--gray-700); line-height: 1.6; }
+</style>
+
+<script is:inline>
+function fmt(n) {
+  return n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+function fmtK(n) {
+  return '$' + (n >= 1000 ? (n/1000).toFixed(1) + 'K' : fmt(n));
+}
+
+function calcLoan() {
+  const P = parseFloat(document.getElementById('amount').value);
+  const apr = parseFloat(document.getElementById('rate').value);
+  const termVal = parseFloat(document.getElementById('term').value);
+  const unit = document.getElementById('term-unit').value;
+
+  if (!P || !apr || !termVal || P <= 0 || apr <= 0 || termVal <= 0) return;
+
+  const n = unit === 'years' ? Math.round(termVal * 12) : Math.round(termVal);
+  const r = apr / 100 / 12;
+
+  let monthly;
+  if (r === 0) {
+    monthly = P / n;
+  } else {
+    monthly = P * r * Math.pow(1 + r, n) / (Math.pow(1 + r, n) - 1);
+  }
+
+  const totalPaid = monthly * n;
+  const totalInterest = totalPaid - P;
+  const interestPct = (totalInterest / P * 100).toFixed(1);
+
+  document.getElementById('res-payment').textContent = '$' + fmt(monthly);
+  document.getElementById('res-sub').textContent = 'over ' + n + ' months · ' + apr + '% APR';
+  document.getElementById('res-total').textContent = '$' + fmt(totalPaid);
+  document.getElementById('res-interest').textContent = '$' + fmt(totalInterest);
+  document.getElementById('res-principal').textContent = '$' + fmt(P);
+  document.getElementById('res-pct').textContent = interestPct + '% of principal';
+
+  document.getElementById('b-principal').textContent = '$' + fmt(P);
+  document.getElementById('b-monthly').textContent = '$' + fmt(monthly);
+  document.getElementById('b-interest').textContent = '$' + fmt(totalInterest);
+  document.getElementById('b-total').textContent = '$' + fmt(totalPaid);
+
+  const rc = document.getElementById('result-card');
+  rc.style.display = '';
+  document.getElementById('res-hero').classList.add('show');
+  document.getElementById('res-stats').classList.add('show');
+
+  buildAmort(P, r, n, monthly);
+}
+
+function buildAmort(P, r, n, monthly) {
+  let balance = P;
+  const tbody = document.getElementById('amort-body');
+  tbody.innerHTML = '';
+  const years = Math.ceil(n / 12);
+
+  for (let yr = 1; yr <= years; yr++) {
+    const start = (yr - 1) * 12 + 1;
+    const end = Math.min(yr * 12, n);
+    let yPrincipal = 0, yInterest = 0;
+
+    for (let m = start; m <= end; m++) {
+      const intPmt = balance * r;
+      const prinPmt = Math.min(monthly - intPmt, balance);
+      yInterest += intPmt;
+      yPrincipal += prinPmt;
+      balance = Math.max(0, balance - prinPmt);
+    }
+
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>Year ${yr}</td><td>$${fmt(yPrincipal)}</td><td>$${fmt(yInterest)}</td><td>$${fmt(balance)}</td>`;
+    tbody.appendChild(tr);
+  }
+
+  document.getElementById('amort-card').style.display = '';
+}
+
+function setPreset(amount, rate, term, unit) {
+  document.getElementById('amount').value = amount;
+  document.getElementById('rate').value = rate;
+  document.getElementById('term').value = term;
+  document.getElementById('term-unit').value = unit;
+  calcLoan();
+}
+</script>
+
+</Layout>
