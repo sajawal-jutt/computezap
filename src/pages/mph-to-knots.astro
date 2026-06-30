@@ -1,4 +1,4 @@
----
+﻿---
 import Layout from '../layouts/Layout.astro';
 
 // 1 mph = 0.868976 knots (exact)
@@ -75,7 +75,7 @@ const schema = JSON.stringify([
 >
 
 <div class="page-hero">
-  <nav class="breadcrumb"><a href="/">Home</a> › mph to Knots Converter</nav>
+  <nav class="breadcrumb"><a href="/">Home</a> › <a href="/#converters">Unit Converters</a> › mph to Knots Converter</nav>
   <h1>mph to Knots Converter</h1>
   <p>1 mph = <strong>0.869 knots</strong></p>
 </div>
@@ -159,6 +159,7 @@ const schema = JSON.stringify([
 
   <div class="card">
     <h2>mph to Knots Reference Table</h2>
+    <div style="overflow-x:auto">
     <table class="conv-table">
       <thead>
         <tr><th>mph</th><th>Knots (kn)</th><th>km/h</th></tr>
@@ -173,6 +174,7 @@ const schema = JSON.stringify([
         ))}
       </tbody>
     </table>
+    </div>
   </div>
 
   <div class="card">
@@ -218,7 +220,7 @@ const schema = JSON.stringify([
 
 </div>
 
-<script>
+<script is:inline>
 function calcMphKn() {
   var mph = parseFloat(document.getElementById('mph-in').value);
   if (!isNaN(mph) && mph >= 0) {

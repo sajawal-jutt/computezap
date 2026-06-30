@@ -1,0 +1,487 @@
+﻿---
+import Layout from '../layouts/Layout.astro';
+
+const schema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Cost of Living Calculator",
+    "url": "https://computezap.com/cost-of-living-calculator",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Web",
+    "description": "Compare cost of living between cities. See what salary you need in a new city to maintain your current lifestyle. Free cost of living comparison calculator for 50+ US cities.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
+      { "@type": "ListItem", "position": 2, "name": "Cost of Living Calculator", "item": "https://computezap.com/cost-of-living-calculator" }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How does a cost of living calculator work?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A cost of living calculator compares price indices between two cities. If City B costs 20% more than City A, you need 20% more salary to maintain the same lifestyle. Formula: New Salary = Current Salary × (City B Index ÷ City A Index)." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the most expensive city to live in the US?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Honolulu, HI and New York City, NY consistently rank as the most expensive US cities, with cost of living indices roughly 85–100% above the national average. San Francisco, CA and San Jose, CA follow closely." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the cheapest city to live in the US?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Memphis, TN, Detroit, MI, Cleveland, OH, and Oklahoma City, OK consistently rank among the most affordable large US cities, with cost of living around 10–15% below the national average." }
+      },
+      {
+        "@type": "Question",
+        "name": "If I make $100,000 in NYC, what do I need in Austin?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A $100,000 salary in New York City is roughly equivalent to $65,000–$70,000 in Austin, TX, because Austin's cost of living is about 35% lower. Housing is the biggest driver of this difference." }
+      },
+      {
+        "@type": "Question",
+        "name": "Does remote work affect cost of living?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. If you work remotely and can keep your current salary while moving to a lower-cost city, you effectively get a pay raise. Moving from San Francisco to Austin on the same salary gives you roughly 45–50% more purchasing power." }
+      },
+      {
+        "@type": "Question",
+        "name": "What costs are included in cost of living?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Cost of living indices typically include housing (30–40% weight), groceries, utilities, transportation, healthcare, and miscellaneous goods and services. Housing is the largest variable between cities." }
+      }
+    ]
+  }
+]);
+---
+<Layout
+  title="Cost of Living Calculator — Compare Cities & Salaries | ComputeZap"
+  description="Compare cost of living between US cities. Enter your salary in City A and see what you need in City B to maintain the same lifestyle. Free calculator for 50+ cities."
+  canonical="/cost-of-living-calculator"
+  schema={schema}
+>
+
+<div class="page-hero">
+  <nav class="breadcrumb"><a href="/">Home</a> › <a href="/#finance">Finance</a> › Cost of Living Calculator</nav>
+  <h1>Cost of Living Calculator</h1>
+  <p>Compare cities — see what salary you need to maintain your lifestyle</p>
+</div>
+
+<div class="calc-center">
+
+  <div class="card">
+    <div class="col-grid">
+      <div class="col-city-block">
+        <label class="col-label">📍 Current City</label>
+        <select id="city-a" onchange="calcCol()">
+          <option value="">Select city…</option>
+        </select>
+        <div class="input-group" style="margin-top:1rem">
+          <label>Current Salary (annual $)</label>
+          <div class="input-wrap">
+            <input type="number" id="salary" min="0" step="1000" placeholder="e.g. 80000" oninput="calcCol()" />
+            <span class="input-sfx">$/yr</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-arrow">→</div>
+      <div class="col-city-block">
+        <label class="col-label">🎯 Target City</label>
+        <select id="city-b" onchange="calcCol()">
+          <option value="">Select city…</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" id="result-card" style="display:none">
+    <div class="answer-hero show">
+      <div class="a-label">Equivalent Salary Needed in <span id="res-city-name">—</span></div>
+      <div class="a-value" id="res-salary">—</div>
+      <div class="a-unit">per year</div>
+      <div class="a-sub" id="res-sub">—</div>
+    </div>
+    <div class="stats-row show">
+      <div class="stat-box">
+        <span class="stat-lbl">Current salary</span>
+        <span class="stat-val" id="s-current">—</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">Equivalent salary</span>
+        <span class="stat-val" id="s-equiv">—</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">COL difference</span>
+        <span class="stat-val" id="s-diff">—</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">Monthly difference</span>
+        <span class="stat-val" id="s-monthly">—</span>
+      </div>
+    </div>
+    <div class="answer-box" id="breakdown-box">
+      <div class="answer-row"><span class="answer-lbl">Current city COL index</span><span class="answer-val" id="b-idxa">—</span></div>
+      <div class="answer-row"><span class="answer-lbl">Target city COL index</span><span class="answer-val" id="b-idxb">—</span></div>
+      <div class="answer-row"><span class="answer-lbl">Your purchasing power</span><span class="answer-val" id="b-power">—</span></div>
+    </div>
+    <div class="tip-box" id="move-tip" style="display:none">
+      <span class="tip-icon" id="tip-icon">💡</span>
+      <p id="tip-text">—</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="preset-lbl">Popular comparisons</span>
+    <div class="preset-wrap">
+      <a href="#" onclick="setPreset('New York City, NY','Austin, TX');return false" class="preset-btn">NYC → Austin</a>
+      <a href="#" onclick="setPreset('San Francisco, CA','Denver, CO');return false" class="preset-btn">SF → Denver</a>
+      <a href="#" onclick="setPreset('Los Angeles, CA','Phoenix, AZ');return false" class="preset-btn">LA → Phoenix</a>
+      <a href="#" onclick="setPreset('Chicago, IL','Nashville, TN');return false" class="preset-btn">Chicago → Nashville</a>
+      <a href="#" onclick="setPreset('Seattle, WA','Boise, ID');return false" class="preset-btn">Seattle → Boise</a>
+      <a href="#" onclick="setPreset('Washington, DC','Charlotte, NC');return false" class="preset-btn">DC → Charlotte</a>
+      <a href="#" onclick="setPreset('Boston, MA','Raleigh, NC');return false" class="preset-btn">Boston → Raleigh</a>
+      <a href="#" onclick="setPreset('Miami, FL','Tampa, FL');return false" class="preset-btn">Miami → Tampa</a>
+    </div>
+  </div>
+
+</div>
+
+<div class="content-wrap">
+
+  <div class="card">
+    <h2>Cost of Living Index by City</h2>
+    <p style="margin-bottom:1rem;color:var(--text-2);font-size:0.9rem">US National Average = 100. Higher index = more expensive. Source: estimated from BLS, Numbeo, and C2ER data.</p>
+    <div style="overflow-x:auto">
+    <table class="conv-table">
+      <thead>
+        <tr><th>City</th><th>COL Index</th><th>vs National Avg</th></tr>
+      </thead>
+      <tbody id="col-table-body">
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>How the Calculator Works</h2>
+    <div class="formula-box">
+      <div class="formula-text">Equivalent Salary = Current Salary × (Target City Index ÷ Current City Index)</div>
+      <div class="formula-sub">This tells you how much you need to earn in the new city to buy the same things</div>
+    </div>
+    <div class="answer-box">
+      <div class="answer-row"><span class="answer-lbl">$100K in NYC → Austin</span><span class="answer-val">≈ $65,000</span></div>
+      <div class="answer-row"><span class="answer-lbl">$100K in SF → Denver</span><span class="answer-val">≈ $71,000</span></div>
+      <div class="answer-row"><span class="answer-lbl">$100K in Chicago → Nashville</span><span class="answer-val">≈ $90,000</span></div>
+      <div class="answer-row"><span class="answer-lbl">$100K in Boston → Raleigh</span><span class="answer-val">≈ $68,000</span></div>
+    </div>
+    <div class="tip-box">
+      <span class="tip-icon">🏠</span>
+      <p><strong>Housing drives the gap.</strong> In expensive cities, rent can consume 40–50% of take-home pay. The biggest cost of living differences between cities come from housing, not groceries or utilities.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Most Expensive US Cities to Live In</h2>
+    <div style="overflow-x:auto">
+    <table class="conv-table">
+      <thead>
+        <tr><th>Rank</th><th>City</th><th>COL Index</th><th>vs National Avg</th></tr>
+      </thead>
+      <tbody>
+        <tr class="hl"><td>1</td><td>Honolulu, HI</td><td>196</td><td>+96%</td></tr>
+        <tr><td>2</td><td>New York City, NY</td><td>187</td><td>+87%</td></tr>
+        <tr><td>3</td><td>San Jose, CA</td><td>175</td><td>+75%</td></tr>
+        <tr><td>4</td><td>San Francisco, CA</td><td>180</td><td>+80%</td></tr>
+        <tr><td>5</td><td>Los Angeles, CA</td><td>168</td><td>+68%</td></tr>
+        <tr><td>6</td><td>Boston, MA</td><td>162</td><td>+62%</td></tr>
+        <tr><td>7</td><td>San Diego, CA</td><td>158</td><td>+58%</td></tr>
+        <tr><td>8</td><td>Washington, DC</td><td>152</td><td>+52%</td></tr>
+        <tr><td>9</td><td>Seattle, WA</td><td>150</td><td>+50%</td></tr>
+        <tr><td>10</td><td>Anchorage, AK</td><td>150</td><td>+50%</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Most Affordable US Cities to Live In</h2>
+    <div style="overflow-x:auto">
+    <table class="conv-table">
+      <thead>
+        <tr><th>Rank</th><th>City</th><th>COL Index</th><th>vs National Avg</th></tr>
+      </thead>
+      <tbody>
+        <tr class="hl"><td>1</td><td>Memphis, TN</td><td>84</td><td>−16%</td></tr>
+        <tr><td>2</td><td>Detroit, MI</td><td>85</td><td>−15%</td></tr>
+        <tr><td>3</td><td>Cleveland, OH</td><td>86</td><td>−14%</td></tr>
+        <tr><td>4</td><td>Oklahoma City, OK</td><td>88</td><td>−12%</td></tr>
+        <tr><td>5</td><td>El Paso, TX</td><td>88</td><td>−12%</td></tr>
+        <tr><td>6</td><td>Indianapolis, IN</td><td>90</td><td>−10%</td></tr>
+        <tr><td>7</td><td>Louisville, KY</td><td>91</td><td>−9%</td></tr>
+        <tr><td>8</td><td>Columbus, OH</td><td>93</td><td>−7%</td></tr>
+        <tr><td>9</td><td>St. Louis, MO</td><td>93</td><td>−7%</td></tr>
+        <tr><td>10</td><td>Cincinnati, OH</td><td>94</td><td>−6%</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>What Costs Make Up Cost of Living?</h2>
+    <div style="overflow-x:auto">
+    <table class="conv-table">
+      <thead>
+        <tr><th>Category</th><th>Weight in COL</th><th>Varies Most In</th></tr>
+      </thead>
+      <tbody>
+        <tr class="hl"><td>Housing (rent/mortgage)</td><td>~30–40%</td><td>Coastal cities vs midwest</td></tr>
+        <tr><td>Transportation</td><td>~15–18%</td><td>NYC (public transit) vs car-dependent cities</td></tr>
+        <tr><td>Food &amp; groceries</td><td>~12–15%</td><td>Honolulu (highest), midwest (lowest)</td></tr>
+        <tr><td>Healthcare</td><td>~8–10%</td><td>Tied to employer, less city-dependent</td></tr>
+        <tr><td>Utilities</td><td>~6–8%</td><td>Extreme climates (AK, HI, TX summer)</td></tr>
+        <tr><td>Miscellaneous</td><td>~15–20%</td><td>Entertainment, dining, personal care</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>How does a cost of living calculator work?</h3>
+      <p>It divides the cost of living index of your target city by your current city's index, then multiplies by your salary. If your target city is 30% cheaper, you need 30% less salary to maintain the same standard of living.</p>
+    </div>
+    <div class="faq-item">
+      <h3>If I make $100,000 in NYC, what do I need in Austin?</h3>
+      <p>Austin's COL index (~122) is roughly 65% of NYC's (~187). So $100,000 in NYC ≈ $65,000 in Austin. You could accept a job paying $65K in Austin and live at the same level you currently do in NYC.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What is the most expensive city in the US?</h3>
+      <p>Honolulu, HI has the highest cost of living index (~196), followed by New York City (~187), San Francisco (~180), and San Jose (~175). These cities cost roughly 75–100% more than the national average.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Does remote work change cost of living math?</h3>
+      <p>Yes — significantly. If you keep your San Francisco salary ($120K) and move to Austin, your purchasing power jumps from $120K to the equivalent of $185K locally. Remote work is one of the fastest ways to dramatically improve lifestyle without a raise.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Are these indices exact?</h3>
+      <p>These are estimates based on BLS, Numbeo, and C2ER data averaged over recent years. Actual costs vary by neighborhood, lifestyle, and housing type. Use this as a planning guide, not a precise figure.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Related Calculators</h2>
+    <div class="next-grid">
+      <a href="/mortgage-payoff-calculator" class="next-card">
+        <span class="next-tag">Finance</span>
+        <h3>Mortgage Payoff Calculator</h3>
+        <p>See how extra payments cut years off your mortgage</p>
+      </a>
+      <a href="/debt-snowball-calculator" class="next-card">
+        <span class="next-tag">Finance</span>
+        <h3>Debt Snowball Calculator</h3>
+        <p>Pay off debt faster — see your debt-free date</p>
+      </a>
+      <a href="/cd-calculator" class="next-card">
+        <span class="next-tag">Finance</span>
+        <h3>CD Calculator</h3>
+        <p>Calculate CD interest earnings at maturity</p>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<style>
+.col-grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 1rem;
+  align-items: start;
+}
+.col-city-block { display: flex; flex-direction: column; gap: 0.4rem; }
+.col-label { font-size: 0.85rem; font-weight: 600; color: var(--text-2); text-transform: uppercase; letter-spacing: 0.05em; }
+.col-city-block select {
+  width: 100%;
+  padding: 0.65rem 0.75rem;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 1rem;
+  cursor: pointer;
+}
+.col-city-block select:focus { outline: none; border-color: var(--accent); }
+.col-arrow {
+  font-size: 1.6rem;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  padding-top: 1.8rem;
+  font-weight: 700;
+}
+@media (max-width: 600px) {
+  .col-grid { grid-template-columns: 1fr; }
+  .col-arrow { padding-top: 0; justify-content: center; transform: rotate(90deg); }
+}
+</style>
+
+<script is:inline>
+var cities = [
+  { name: 'Albuquerque, NM',    idx: 98  },
+  { name: 'Anchorage, AK',      idx: 150 },
+  { name: 'Atlanta, GA',        idx: 112 },
+  { name: 'Austin, TX',         idx: 122 },
+  { name: 'Baltimore, MD',      idx: 128 },
+  { name: 'Boise, ID',          idx: 115 },
+  { name: 'Boston, MA',         idx: 162 },
+  { name: 'Buffalo, NY',        idx: 98  },
+  { name: 'Charlotte, NC',      idx: 108 },
+  { name: 'Chicago, IL',        idx: 128 },
+  { name: 'Cincinnati, OH',     idx: 94  },
+  { name: 'Cleveland, OH',      idx: 86  },
+  { name: 'Columbus, OH',       idx: 93  },
+  { name: 'Dallas, TX',         idx: 115 },
+  { name: 'Denver, CO',         idx: 128 },
+  { name: 'Detroit, MI',        idx: 85  },
+  { name: 'El Paso, TX',        idx: 88  },
+  { name: 'Hartford, CT',       idx: 135 },
+  { name: 'Honolulu, HI',       idx: 196 },
+  { name: 'Houston, TX',        idx: 110 },
+  { name: 'Indianapolis, IN',   idx: 90  },
+  { name: 'Jacksonville, FL',   idx: 105 },
+  { name: 'Kansas City, MO',    idx: 98  },
+  { name: 'Las Vegas, NV',      idx: 112 },
+  { name: 'Los Angeles, CA',    idx: 168 },
+  { name: 'Louisville, KY',     idx: 91  },
+  { name: 'Memphis, TN',        idx: 84  },
+  { name: 'Miami, FL',          idx: 138 },
+  { name: 'Milwaukee, WI',      idx: 100 },
+  { name: 'Minneapolis, MN',    idx: 118 },
+  { name: 'Nashville, TN',      idx: 115 },
+  { name: 'New Orleans, LA',    idx: 108 },
+  { name: 'New York City, NY',  idx: 187 },
+  { name: 'Oklahoma City, OK',  idx: 88  },
+  { name: 'Orlando, FL',        idx: 112 },
+  { name: 'Philadelphia, PA',   idx: 132 },
+  { name: 'Phoenix, AZ',        idx: 108 },
+  { name: 'Pittsburgh, PA',     idx: 100 },
+  { name: 'Portland, OR',       idx: 134 },
+  { name: 'Providence, RI',     idx: 130 },
+  { name: 'Raleigh, NC',        idx: 110 },
+  { name: 'Richmond, VA',       idx: 108 },
+  { name: 'Sacramento, CA',     idx: 140 },
+  { name: 'Salt Lake City, UT', idx: 120 },
+  { name: 'San Antonio, TX',    idx: 102 },
+  { name: 'San Diego, CA',      idx: 158 },
+  { name: 'San Francisco, CA',  idx: 180 },
+  { name: 'San Jose, CA',       idx: 175 },
+  { name: 'Seattle, WA',        idx: 150 },
+  { name: 'St. Louis, MO',      idx: 93  },
+  { name: 'Tampa, FL',          idx: 115 },
+  { name: 'Tucson, AZ',         idx: 98  },
+  { name: 'Tulsa, OK',          idx: 90  },
+  { name: 'Virginia Beach, VA', idx: 110 },
+  { name: 'Washington, DC',     idx: 152 },
+];
+
+function fmt(n) {
+  return '$' + Math.round(n).toLocaleString();
+}
+
+function pct(n) {
+  return (n >= 0 ? '+' : '') + n.toFixed(1) + '%';
+}
+
+// populate selects
+(function() {
+  var selA = document.getElementById('city-a');
+  var selB = document.getElementById('city-b');
+  var tbody = document.getElementById('col-table-body');
+  cities.sort(function(a,b){ return a.name.localeCompare(b.name); });
+  cities.forEach(function(c) {
+    var oA = document.createElement('option');
+    oA.value = c.name; oA.textContent = c.name; selA.appendChild(oA);
+    var oB = document.createElement('option');
+    oB.value = c.name; oB.textContent = c.name; selB.appendChild(oB);
+  });
+  // table — sorted by index desc
+  var sorted = cities.slice().sort(function(a,b){ return b.idx - a.idx; });
+  sorted.forEach(function(c) {
+    var diff = c.idx - 100;
+    var tr = document.createElement('tr');
+    tr.innerHTML = '<td>' + c.name + '</td><td>' + c.idx + '</td><td>' + (diff >= 0 ? '+' : '') + diff + '%</td>';
+    tbody.appendChild(tr);
+  });
+})();
+
+function getIdx(name) {
+  for (var i = 0; i < cities.length; i++) {
+    if (cities[i].name === name) return cities[i].idx;
+  }
+  return null;
+}
+
+function calcCol() {
+  var nameA = document.getElementById('city-a').value;
+  var nameB = document.getElementById('city-b').value;
+  var salary = parseFloat(document.getElementById('salary').value);
+  if (!nameA || !nameB || isNaN(salary) || salary <= 0) {
+    document.getElementById('result-card').style.display = 'none';
+    return;
+  }
+  var idxA = getIdx(nameA);
+  var idxB = getIdx(nameB);
+  var equiv = salary * (idxB / idxA);
+  var diffPct = ((idxB - idxA) / idxA) * 100;
+  var monthlyDiff = (equiv - salary) / 12;
+  var power = (idxA / idxB) * 100;
+
+  document.getElementById('res-city-name').textContent = nameB;
+  document.getElementById('res-salary').textContent = fmt(equiv);
+  document.getElementById('res-sub').textContent =
+    nameB + ' is ' + Math.abs(diffPct).toFixed(1) + '% ' + (diffPct >= 0 ? 'more' : 'less') + ' expensive than ' + nameA;
+
+  document.getElementById('s-current').textContent = fmt(salary) + ' in ' + nameA.split(',')[0];
+  document.getElementById('s-equiv').textContent = fmt(equiv) + ' in ' + nameB.split(',')[0];
+  document.getElementById('s-diff').textContent = pct(diffPct);
+  document.getElementById('s-monthly').textContent = fmt(Math.abs(monthlyDiff)) + '/mo ' + (monthlyDiff > 0 ? 'more' : 'less');
+
+  document.getElementById('b-idxa').textContent = idxA + ' (' + nameA.split(',')[0] + ')';
+  document.getElementById('b-idxb').textContent = idxB + ' (' + nameB.split(',')[0] + ')';
+  document.getElementById('b-power').textContent = power.toFixed(1) + '% of current purchasing power';
+
+  var tip = document.getElementById('move-tip');
+  var tipText = document.getElementById('tip-text');
+  var tipIcon = document.getElementById('tip-icon');
+  if (diffPct < -10) {
+    tipIcon.textContent = '🎉';
+    tipText.innerHTML = '<strong>Moving saves you money.</strong> ' + nameB.split(',')[0] + ' is ' + Math.abs(diffPct).toFixed(0) + '% cheaper. On your current salary, you would have ' + fmt(salary - equiv) + '/year more in purchasing power — that\'s ' + fmt((salary - equiv) / 12) + '/month.';
+    tip.style.display = 'flex';
+  } else if (diffPct > 10) {
+    tipIcon.textContent = '⚠️';
+    tipText.innerHTML = '<strong>Moving costs more.</strong> You need ' + fmt(equiv - salary) + ' more per year (' + fmt((equiv - salary) / 12) + '/mo) in ' + nameB.split(',')[0] + ' to maintain your current lifestyle. Negotiate your new salary accordingly.';
+    tip.style.display = 'flex';
+  } else {
+    tip.style.display = 'none';
+  }
+
+  document.getElementById('result-card').style.display = 'block';
+}
+
+function setPreset(a, b) {
+  document.getElementById('city-a').value = a;
+  document.getElementById('city-b').value = b;
+  if (!document.getElementById('salary').value) {
+    document.getElementById('salary').value = 100000;
+  }
+  calcCol();
+  document.getElementById('city-a').scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+</script>
+
+</Layout>

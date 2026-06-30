@@ -1,0 +1,444 @@
+﻿---
+import Layout from '../layouts/Layout.astro';
+
+const schema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Roth IRA Calculator",
+    "url": "https://computezap.com/roth-ira-calculator",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Web",
+    "description": "Calculate how much your Roth IRA will grow by retirement. Enter your age, annual contribution, and expected return to see your tax-free balance at retirement.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
+      { "@type": "ListItem", "position": 2, "name": "Roth IRA Calculator", "item": "https://computezap.com/roth-ira-calculator" }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How much will my Roth IRA grow?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Contributing $7,000/year from age 25 to 65 at a 7% average return grows to approximately $1.47 million — all tax-free. Starting at 35 instead of 25 cuts that to about $735,000, showing the power of starting early." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the 2024 Roth IRA contribution limit?",
+        "acceptedAnswer": { "@type": "Answer", "text": "The 2024 Roth IRA contribution limit is $7,000 per year ($8,000 if you are age 50 or older). This is the combined limit across all your IRAs — you cannot contribute $7,000 to a Roth IRA AND $7,000 to a Traditional IRA in the same year." }
+      },
+      {
+        "@type": "Question",
+        "name": "Who can contribute to a Roth IRA?",
+        "acceptedAnswer": { "@type": "Answer", "text": "You must have earned income and your modified AGI must be below the phase-out range. For 2024: single filers phase out $146,000–$161,000; married filing jointly phase out $230,000–$240,000. Above these limits, you cannot contribute directly (but may use a backdoor Roth)." }
+      },
+      {
+        "@type": "Question",
+        "name": "What return rate should I use for a Roth IRA calculator?",
+        "acceptedAnswer": { "@type": "Answer", "text": "The S&P 500 has historically returned about 10% per year before inflation, or 7% after inflation. Most financial planners use 6–8% as a conservative real return assumption for long-term retirement projections." }
+      },
+      {
+        "@type": "Question",
+        "name": "Is a Roth IRA better than a Traditional IRA?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Roth IRA is generally better if you expect to be in a higher tax bracket in retirement than now. Traditional IRA is better if you expect lower taxes in retirement. Young earners in lower tax brackets usually benefit most from Roth IRA." }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I withdraw from a Roth IRA early?",
+        "acceptedAnswer": { "@type": "Answer", "text": "You can always withdraw your contributions (not earnings) tax- and penalty-free at any time. Earnings can be withdrawn tax- and penalty-free after age 59½ AND the account has been open at least 5 years. Early withdrawal of earnings incurs income tax + 10% penalty." }
+      }
+    ]
+  }
+]);
+---
+<Layout
+  title="Roth IRA Calculator — Growth & Retirement Balance | ComputeZap"
+  description="Calculate your Roth IRA balance at retirement. See how contributions grow tax-free over time. Uses 2024 limits ($7,000/yr). Free Roth IRA growth calculator."
+  canonical="/roth-ira-calculator"
+  schema={schema}
+>
+
+<div class="page-hero">
+  <nav class="breadcrumb"><a href="/">Home</a> › <a href="/#finance">Finance</a> › Roth IRA Calculator</nav>
+  <h1>Roth IRA Calculator</h1>
+  <p>See how your Roth IRA grows tax-free by retirement</p>
+</div>
+
+<div class="calc-center">
+
+  <div class="card">
+    <div class="apr-grid">
+      <div class="input-group">
+        <label>Current Age</label>
+        <div class="input-wrap">
+          <input type="number" id="cur-age" min="18" max="80" step="1" placeholder="e.g. 30" oninput="calcRoth()" />
+          <span class="input-sfx">yrs</span>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Retirement Age</label>
+        <div class="input-wrap">
+          <input type="number" id="ret-age" min="40" max="90" step="1" placeholder="e.g. 65" oninput="calcRoth()" />
+          <span class="input-sfx">yrs</span>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Current Roth IRA Balance ($)</label>
+        <div class="input-wrap">
+          <input type="number" id="balance" min="0" step="100" placeholder="e.g. 0" oninput="calcRoth()" value="0" />
+          <span class="input-sfx">$</span>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Annual Contribution ($)</label>
+        <div class="input-wrap">
+          <input type="number" id="contrib" min="0" max="8000" step="100" placeholder="e.g. 7000" oninput="calcRoth()" />
+          <span class="input-sfx">$/yr</span>
+        </div>
+        <div class="field-note" id="contrib-note"></div>
+      </div>
+      <div class="input-group">
+        <label>Expected Annual Return (%)</label>
+        <div class="input-wrap">
+          <input type="number" id="ret-rate" min="0" max="30" step="0.1" placeholder="e.g. 7" oninput="calcRoth()" value="7" />
+          <span class="input-sfx">%/yr</span>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Annual Contribution Increase (%)</label>
+        <div class="input-wrap">
+          <input type="number" id="contrib-inc" min="0" max="10" step="0.1" placeholder="e.g. 0" oninput="calcRoth()" value="0" />
+          <span class="input-sfx">%/yr</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" id="result-card" style="display:none">
+    <div class="answer-hero show">
+      <div class="a-label">Roth IRA Balance at Retirement (Age <span id="res-age">—</span>)</div>
+      <div class="a-value" id="res-balance">—</div>
+      <div class="a-unit">tax-free</div>
+      <div class="a-sub" id="res-sub">—</div>
+    </div>
+    <div class="stats-row show">
+      <div class="stat-box">
+        <span class="stat-lbl">Total contributions</span>
+        <span class="stat-val" id="s-contrib">—</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">Total growth</span>
+        <span class="stat-val" id="s-growth">—</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">Growth multiple</span>
+        <span class="stat-val" id="s-mult">—</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">Years investing</span>
+        <span class="stat-val" id="s-years">—</span>
+      </div>
+    </div>
+    <div class="answer-box">
+      <div class="answer-row"><span class="answer-lbl">Starting balance</span><span class="answer-val" id="b-start">—</span></div>
+      <div class="answer-row"><span class="answer-lbl">Total contributions</span><span class="answer-val" id="b-contrib">—</span></div>
+      <div class="answer-row"><span class="answer-lbl">Investment gains</span><span class="answer-val" id="b-gains">—</span></div>
+      <div class="answer-row"><span class="answer-lbl">Final balance</span><span class="answer-val" id="b-final">—</span></div>
+      <div class="answer-row"><span class="answer-lbl">Est. tax savings vs taxable*</span><span class="answer-val" id="b-tax">—</span></div>
+    </div>
+    <p class="tbl-note">*Estimated tax savings assume 22% tax on investment gains in a taxable account.</p>
+  </div>
+
+  <div class="card">
+    <span class="preset-lbl">Quick scenarios</span>
+    <div class="preset-wrap">
+      <a href="#" onclick="setPreset(25,65,0,7000,7);return false" class="preset-btn">Age 25, max out</a>
+      <a href="#" onclick="setPreset(30,65,0,7000,7);return false" class="preset-btn">Age 30, max out</a>
+      <a href="#" onclick="setPreset(35,65,0,7000,7);return false" class="preset-btn">Age 35, max out</a>
+      <a href="#" onclick="setPreset(40,65,0,7000,7);return false" class="preset-btn">Age 40, max out</a>
+      <a href="#" onclick="setPreset(25,65,0,3500,7);return false" class="preset-btn">Age 25, half max</a>
+      <a href="#" onclick="setPreset(30,65,10000,7000,7);return false" class="preset-btn">Age 30, $10K start</a>
+      <a href="#" onclick="setPreset(50,65,50000,8000,7);return false" class="preset-btn">Age 50, catch-up</a>
+      <a href="#" onclick="setPreset(25,65,0,7000,10);return false" class="preset-btn">Age 25, 10% return</a>
+    </div>
+  </div>
+
+  <div class="card" id="milestone-card" style="display:none">
+    <h3 style="margin-bottom:1rem">Growth Milestones</h3>
+    <div style="overflow-x:auto">
+    <table class="conv-table">
+      <thead>
+        <tr><th>Age</th><th>Year</th><th>Balance</th><th>Total Contributed</th><th>Total Growth</th></tr>
+      </thead>
+      <tbody id="milestone-body"></tbody>
+    </table>
+    </div>
+  </div>
+
+</div>
+
+<div class="content-wrap">
+
+  <div class="card">
+    <h2>2024 Roth IRA Contribution Limits &amp; Rules</h2>
+    <div style="overflow-x:auto">
+    <table class="conv-table">
+      <thead>
+        <tr><th>Rule</th><th>2024 Details</th></tr>
+      </thead>
+      <tbody>
+        <tr class="hl"><td>Contribution limit (under 50)</td><td>$7,000 per year</td></tr>
+        <tr class="hl"><td>Contribution limit (age 50+)</td><td>$8,000 per year (catch-up +$1,000)</td></tr>
+        <tr><td>Single filer income phase-out</td><td>$146,000 – $161,000 MAGI</td></tr>
+        <tr><td>Married filing jointly phase-out</td><td>$230,000 – $240,000 MAGI</td></tr>
+        <tr><td>Required minimum distributions</td><td>None — Roth IRA has no RMDs</td></tr>
+        <tr><td>Tax-free withdrawals begin</td><td>Age 59½ AND account open ≥ 5 years</td></tr>
+        <tr><td>Contribution deadline</td><td>Tax filing deadline (April 15, 2025 for 2024)</td></tr>
+        <tr><td>Must have earned income</td><td>Yes — contributions ≤ your earned income</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Starting Early Makes a Huge Difference</h2>
+    <div style="overflow-x:auto">
+    <table class="conv-table">
+      <thead>
+        <tr><th>Start Age</th><th>Retire at 65</th><th>Years Investing</th><th>Total Contributed</th><th>Balance at 65 (7%)</th></tr>
+      </thead>
+      <tbody>
+        <tr class="hl"><td>22</td><td>65</td><td>43 years</td><td>$301,000</td><td>$1,865,000</td></tr>
+        <tr><td>25</td><td>65</td><td>40 years</td><td>$280,000</td><td>$1,474,000</td></tr>
+        <tr><td>30</td><td>65</td><td>35 years</td><td>$245,000</td><td>$1,002,000</td></tr>
+        <tr><td>35</td><td>65</td><td>30 years</td><td>$210,000</td><td>$661,000</td></tr>
+        <tr><td>40</td><td>65</td><td>25 years</td><td>$175,000</td><td>$422,000</td></tr>
+        <tr><td>45</td><td>65</td><td>20 years</td><td>$140,000</td><td>$256,000</td></tr>
+        <tr><td>50</td><td>65</td><td>15 years</td><td>$120,000</td><td>$149,000</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p class="tbl-note">Assumes $7,000/year contribution ($8,000/yr age 50+), 7% annual return, no starting balance.</p>
+    <div class="tip-box">
+      <span class="tip-icon">⏰</span>
+      <p><strong>Starting at 25 vs 35 costs you $341,000.</strong> Waiting just 10 years cuts your retirement balance by 33%, even though you only contribute $70,000 less. Compound growth on early contributions is the difference.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Roth IRA vs Traditional IRA</h2>
+    <div style="overflow-x:auto">
+    <table class="conv-table">
+      <thead>
+        <tr><th></th><th>Roth IRA</th><th>Traditional IRA</th></tr>
+      </thead>
+      <tbody>
+        <tr class="hl"><td>Tax on contributions</td><td>After-tax (no deduction)</td><td>Pre-tax (deductible)</td></tr>
+        <tr><td>Tax on withdrawals</td><td>✅ Tax-free</td><td>Taxed as income</td></tr>
+        <tr><td>RMDs required?</td><td>❌ No RMDs ever</td><td>Yes, starting age 73</td></tr>
+        <tr><td>Early withdrawal of contributions</td><td>✅ Anytime, penalty-free</td><td>10% penalty + tax</td></tr>
+        <tr><td>Best if you expect</td><td>Higher taxes in retirement</td><td>Lower taxes in retirement</td></tr>
+        <tr><td>Best for</td><td>Young earners, low brackets now</td><td>Peak earners, high brackets now</td></tr>
+        <tr><td>2024 contribution limit</td><td>$7,000 / $8,000 (50+)</td><td>$7,000 / $8,000 (50+)</td></tr>
+        <tr><td>Income limit to contribute</td><td>Yes (phase-out above $146K single)</td><td>No limit to contribute (deduction limit applies)</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Roth IRA Withdrawal Rules</h2>
+    <div style="overflow-x:auto">
+    <table class="conv-table">
+      <thead>
+        <tr><th>What You Withdraw</th><th>Age &lt; 59½</th><th>Age ≥ 59½ + 5yr rule met</th></tr>
+      </thead>
+      <tbody>
+        <tr class="hl"><td>Contributions (your deposits)</td><td>✅ Tax-free, no penalty</td><td>✅ Tax-free, no penalty</td></tr>
+        <tr><td>Earnings (investment gains)</td><td>⚠️ Income tax + 10% penalty</td><td>✅ Tax-free, no penalty</td></tr>
+        <tr><td>Conversions (from Traditional IRA)</td><td>⚠️ 10% penalty (if &lt; 5 yrs)</td><td>✅ Tax-free, no penalty</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="tip-box">
+      <span class="tip-icon">💡</span>
+      <p><strong>The 5-year rule:</strong> Your Roth IRA must be at least 5 years old before earnings can be withdrawn tax-free (even after age 59½). Open your Roth IRA as early as possible — even with a small deposit — to start the 5-year clock.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>How much will my Roth IRA be worth at retirement?</h3>
+      <p>It depends on how much you contribute and how long it grows. Contributing $7,000/year from age 25 to 65 at 7% annual return grows to about $1.47 million — all tax-free. Use the calculator above to see your specific projection.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What is the 2024 Roth IRA limit?</h3>
+      <p>$7,000 per year if you're under 50. $8,000 per year if you're 50 or older (the extra $1,000 is called a "catch-up contribution"). This limit applies across all your IRAs combined.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Can I contribute to a Roth IRA if I have a 401(k)?</h3>
+      <p>Yes. Roth IRA and 401(k) contribution limits are completely separate. You can max out both in the same year: $23,000 into your 401(k) plus $7,000 into your Roth IRA (2024 limits).</p>
+    </div>
+    <div class="faq-item">
+      <h3>What return rate should I use?</h3>
+      <p>Most financial planners use 6–8% as a conservative estimate for a stock-heavy portfolio. The S&P 500 has averaged ~10% historically before inflation, or ~7% after inflation. We recommend using 7% as a baseline and running scenarios at 5% and 10% to see the range.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What if my income is too high for a Roth IRA?</h3>
+      <p>If your MAGI exceeds the phase-out range ($161,000 single / $240,000 married in 2024), you cannot contribute directly. However, you can use the "Backdoor Roth IRA" strategy: contribute to a non-deductible Traditional IRA, then convert it to a Roth IRA.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Related Calculators</h2>
+    <div class="next-grid">
+      <a href="/apr-calculator" class="next-card">
+        <span class="next-tag">Finance</span>
+        <h3>APR Calculator</h3>
+        <p>Find the true annual cost of any loan including fees</p>
+      </a>
+      <a href="/cd-calculator" class="next-card">
+        <span class="next-tag">Finance</span>
+        <h3>CD Calculator</h3>
+        <p>Calculate Certificate of Deposit interest earnings</p>
+      </a>
+      <a href="/mortgage-payoff-calculator" class="next-card">
+        <span class="next-tag">Finance</span>
+        <h3>Mortgage Payoff Calculator</h3>
+        <p>See how extra payments cut your mortgage term</p>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<style>
+.apr-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+.field-note {
+  font-size: 0.8rem;
+  color: var(--accent);
+  margin-top: 0.3rem;
+  min-height: 1rem;
+}
+@media (max-width: 600px) {
+  .apr-grid { grid-template-columns: 1fr; }
+}
+</style>
+
+<script is:inline>
+function fmtD(n) {
+  if (n >= 1000000) return '$' + (n / 1000000).toFixed(2) + 'M';
+  if (n >= 1000) return '$' + Math.round(n).toLocaleString();
+  return '$' + n.toFixed(0);
+}
+function fmtDFull(n) {
+  return '$' + Math.round(n).toLocaleString();
+}
+
+function calcRoth() {
+  var curAge   = parseInt(document.getElementById('cur-age').value);
+  var retAge   = parseInt(document.getElementById('ret-age').value);
+  var balance  = parseFloat(document.getElementById('balance').value) || 0;
+  var contrib  = parseFloat(document.getElementById('contrib').value) || 0;
+  var rate     = parseFloat(document.getElementById('ret-rate').value) || 0;
+  var incRate  = parseFloat(document.getElementById('contrib-inc').value) || 0;
+
+  // contribution limit hint
+  var note = document.getElementById('contrib-note');
+  var limit = curAge >= 50 ? 8000 : 7000;
+  if (contrib > limit) {
+    note.textContent = '⚠️ 2024 limit is $' + limit.toLocaleString() + '/yr' + (curAge >= 50 ? ' (age 50+ catch-up)' : '');
+  } else if (contrib === limit) {
+    note.textContent = '✅ Maxing out your Roth IRA';
+  } else {
+    note.textContent = '2024 limit: $' + limit.toLocaleString() + '/yr' + (curAge >= 50 ? ' (catch-up eligible)' : '');
+  }
+
+  if (isNaN(curAge) || isNaN(retAge) || retAge <= curAge || isNaN(contrib) || contrib < 0) {
+    document.getElementById('result-card').style.display = 'none';
+    document.getElementById('milestone-card').style.display = 'none';
+    return;
+  }
+
+  var r = rate / 100;
+  var years = retAge - curAge;
+  var bal = balance;
+  var totalContrib = 0;
+  var annualContrib = contrib;
+  var milestones = [];
+
+  for (var y = 1; y <= years; y++) {
+    bal = bal * (1 + r) + annualContrib;
+    totalContrib += annualContrib;
+    annualContrib *= (1 + incRate / 100);
+    var age = curAge + y;
+    if (age % 5 === 0 || age === retAge || (retAge - curAge <= 10)) {
+      milestones.push({ age: age, bal: bal, contrib: balance + totalContrib, growth: bal - balance - totalContrib });
+    }
+  }
+
+  var totalGrowth = bal - balance - totalContrib;
+  var multiple = totalContrib > 0 ? bal / (balance + totalContrib) : 0;
+  var taxSavings = totalGrowth * 0.22;
+
+  document.getElementById('res-age').textContent = retAge;
+  document.getElementById('res-balance').textContent = fmtD(bal);
+  document.getElementById('res-sub').textContent =
+    years + ' years of investing at ' + rate + '% return — all withdrawals tax-free';
+
+  document.getElementById('s-contrib').textContent = fmtD(balance + totalContrib);
+  document.getElementById('s-growth').textContent = fmtD(totalGrowth);
+  document.getElementById('s-mult').textContent = multiple.toFixed(1) + '×';
+  document.getElementById('s-years').textContent = years + ' years';
+
+  document.getElementById('b-start').textContent = fmtDFull(balance);
+  document.getElementById('b-contrib').textContent = fmtDFull(totalContrib);
+  document.getElementById('b-gains').textContent = fmtDFull(totalGrowth);
+  document.getElementById('b-final').textContent = fmtDFull(bal);
+  document.getElementById('b-tax').textContent = '≈ ' + fmtDFull(taxSavings) + ' saved';
+
+  // milestone table
+  var tbody = document.getElementById('milestone-body');
+  tbody.innerHTML = '';
+  var yr2024 = new Date().getFullYear();
+  milestones.forEach(function(m) {
+    var yr = yr2024 + (m.age - curAge);
+    var tr = document.createElement('tr');
+    tr.innerHTML =
+      '<td>Age ' + m.age + '</td>' +
+      '<td>' + yr + '</td>' +
+      '<td><strong>' + fmtDFull(m.bal) + '</strong></td>' +
+      '<td>' + fmtDFull(m.contrib) + '</td>' +
+      '<td>' + fmtDFull(Math.max(0, m.growth)) + '</td>';
+    if (m.age === retAge) tr.className = 'hl';
+    tbody.appendChild(tr);
+  });
+
+  document.getElementById('result-card').style.display = 'block';
+  document.getElementById('milestone-card').style.display = 'block';
+}
+
+function setPreset(curAge, retAge, balance, contrib, rate) {
+  document.getElementById('cur-age').value = curAge;
+  document.getElementById('ret-age').value = retAge;
+  document.getElementById('balance').value = balance;
+  document.getElementById('contrib').value = contrib;
+  document.getElementById('ret-rate').value = rate;
+  document.getElementById('contrib-inc').value = 0;
+  calcRoth();
+}
+</script>
+
+</Layout>

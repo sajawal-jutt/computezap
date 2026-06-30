@@ -74,7 +74,7 @@ const schema = JSON.stringify([
 >
 
 <div class="page-hero">
-  <nav class="breadcrumb"><a href="/">Home</a> › atm to Bar Converter</nav>
+  <nav class="breadcrumb"><a href="/">Home</a> › <a href="/#converters">Unit Converters</a> › atm to Bar Converter</nav>
   <h1>atm to Bar Converter</h1>
   <p>1 atm = <strong>1.01325 bar</strong></p>
 </div>
@@ -158,6 +158,7 @@ const schema = JSON.stringify([
 
   <div class="card">
     <h2>atm to Bar Reference Table</h2>
+    <div style="overflow-x:auto">
     <table class="conv-table">
       <thead>
         <tr><th>atm</th><th>Bar</th><th>PSI</th><th>kPa</th></tr>
@@ -173,10 +174,12 @@ const schema = JSON.stringify([
         ))}
       </tbody>
     </table>
+    </div>
   </div>
 
   <div class="card">
     <h2>Pressure Units Comparison</h2>
+    <div style="overflow-x:auto">
     <table class="conv-table">
       <thead>
         <tr><th>Unit</th><th>= 1 atm</th><th>Definition</th></tr>
@@ -190,6 +193,7 @@ const schema = JSON.stringify([
         <tr><td>mmHg (Torr)</td><td>760 mmHg</td><td>Millimeters of mercury</td></tr>
       </tbody>
     </table>
+    </div>
   </div>
 
   <div class="card">
@@ -235,7 +239,7 @@ const schema = JSON.stringify([
 
 </div>
 
-<script>
+<script is:inline>
 function calcAtmBar() {
   var atm = parseFloat(document.getElementById('atm-in').value);
   if (!isNaN(atm) && atm >= 0) {

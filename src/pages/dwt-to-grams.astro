@@ -1,0 +1,344 @@
+﻿---
+import Layout from '../layouts/Layout.astro';
+
+const tableRows = [
+  { dwt: 0.5,  g: 0.778 },
+  { dwt: 1,    g: 1.555 },
+  { dwt: 2,    g: 3.110 },
+  { dwt: 3,    g: 4.665 },
+  { dwt: 4,    g: 6.221 },
+  { dwt: 5,    g: 7.776 },
+  { dwt: 6,    g: 9.331 },
+  { dwt: 7,    g: 10.886 },
+  { dwt: 8,    g: 12.441 },
+  { dwt: 9,    g: 13.997 },
+  { dwt: 10,   g: 15.552 },
+  { dwt: 12,   g: 18.662 },
+  { dwt: 15,   g: 23.328 },
+  { dwt: 20,   g: 31.103 },
+  { dwt: 25,   g: 38.879 },
+  { dwt: 30,   g: 46.655 },
+  { dwt: 40,   g: 62.207 },
+  { dwt: 50,   g: 77.759 },
+  { dwt: 60,   g: 93.310 },
+  { dwt: 100,  g: 155.517 },
+  { dwt: 200,  g: 311.035 },
+  { dwt: 240,  g: 373.242 },
+];
+
+const schema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Pennyweight (dwt) to Grams Converter",
+    "url": "https://computezap.com/dwt-to-grams",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Web",
+    "description": "Convert pennyweights (dwt) to grams instantly. 1 dwt = 1.55517 grams. Used in jewelry and precious metal weighing. Free dwt to grams converter with reference table.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
+      { "@type": "ListItem", "position": 2, "name": "dwt to Grams", "item": "https://computezap.com/dwt-to-grams" }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How many grams is 1 pennyweight (dwt)?",
+        "acceptedAnswer": { "@type": "Answer", "text": "1 pennyweight (dwt) = 1.55517384 grams. For quick estimates: 1 dwt ≈ 1.555 g. The pennyweight is exactly 1/20 of a troy ounce." }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I convert dwt to grams?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Multiply pennyweights by 1.55517384 to get grams. Example: 10 dwt × 1.55517384 = 15.55 grams. To convert grams to dwt: divide by 1.55517384." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is 10 dwt in grams?",
+        "acceptedAnswer": { "@type": "Answer", "text": "10 dwt = 15.55 grams. Formula: 10 × 1.55517384 = 15.5517 grams. This is a common jewelry weight used for gold chains and pendants." }
+      },
+      {
+        "@type": "Question",
+        "name": "What does dwt stand for?",
+        "acceptedAnswer": { "@type": "Answer", "text": "dwt stands for pennyweight. The 'd' comes from 'denarius,' the Roman silver coin. Pennyweights have been used in the jewelry and precious metals trade for centuries." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many pennyweights are in a troy ounce?",
+        "acceptedAnswer": { "@type": "Answer", "text": "1 troy ounce = 20 pennyweights (dwt). Since 1 troy ounce = 31.1035 grams: 31.1035 ÷ 20 = 1.55517 grams per pennyweight." }
+      },
+      {
+        "@type": "Question",
+        "name": "Is dwt the same as a regular gram?",
+        "acceptedAnswer": { "@type": "Answer", "text": "No. 1 pennyweight (dwt) = 1.55517 grams. They are different units. Dwt is part of the troy weight system used for precious metals, while grams are metric." }
+      }
+    ]
+  }
+]);
+---
+<Layout
+  title="dwt to Grams Converter — Pennyweight to Grams | ComputeZap"
+  description="Convert pennyweights (dwt) to grams instantly. 1 dwt = 1.55517 grams. 20 dwt = 1 troy oz. Jewelry and precious metals converter with full reference table."
+  canonical="/dwt-to-grams"
+  schema={schema}
+>
+
+<div class="page-hero">
+  <nav class="breadcrumb"><a href="/">Home</a> › <a href="/#converters">Unit Converters</a> › dwt to Grams Converter</nav>
+  <h1>Pennyweight (dwt) to Grams Converter</h1>
+  <p>1 pennyweight = <strong>1.55517 grams</strong></p>
+</div>
+
+<div class="calc-center">
+  <div class="card">
+    <div class="answer-hero show">
+      <div class="a-label">1 Pennyweight (dwt) =</div>
+      <div class="a-value">1.55517</div>
+      <div class="a-unit">grams (g)</div>
+      <div class="a-sub">Exact: 1 dwt = 1.55517384 g &nbsp;|&nbsp; 20 dwt = 1 troy oz</div>
+    </div>
+    <div class="stats-row show">
+      <div class="stat-box">
+        <span class="stat-lbl">10 dwt</span>
+        <span class="stat-val">15.55 g</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">20 dwt</span>
+        <span class="stat-val">31.10 g (1 troy oz)</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">1 gram</span>
+        <span class="stat-val">0.6430 dwt</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">240 dwt</span>
+        <span class="stat-val">373.24 g (1 troy lb)</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="mode-wrap">
+      <button class="mode-btn active" id="btn-d2g" onclick="setMode('d2g');return false">dwt → Grams</button>
+      <button class="mode-btn" id="btn-g2d" onclick="setMode('g2d');return false">Grams → dwt</button>
+    </div>
+    <div class="input-group">
+      <label id="inp-lbl">Enter pennyweights (dwt):</label>
+      <div class="input-wrap">
+        <input type="number" id="dwt-input" min="0" step="any" placeholder="e.g. 10" oninput="calcDwt()" />
+        <span class="input-sfx" id="inp-sfx">dwt</span>
+      </div>
+    </div>
+    <div class="answer-box" id="result-box" style="display:none">
+      <div class="answer-row">
+        <span class="answer-lbl" id="res-lbl">Grams</span>
+        <span class="answer-val" id="res-val">—</span>
+      </div>
+      <div class="answer-row" id="troy-row" style="display:none">
+        <span class="answer-lbl">Troy ounces</span>
+        <span class="answer-val" id="troy-val">—</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="preset-lbl">Common values</span>
+    <div class="preset-wrap">
+      <a href="#" onclick="setVal(0.5);return false" class="preset-btn">½ dwt</a>
+      <a href="#" onclick="setVal(1);return false" class="preset-btn">1 dwt</a>
+      <a href="#" onclick="setVal(2);return false" class="preset-btn">2 dwt</a>
+      <a href="#" onclick="setVal(5);return false" class="preset-btn">5 dwt</a>
+      <a href="#" onclick="setVal(10);return false" class="preset-btn">10 dwt</a>
+      <a href="#" onclick="setVal(15);return false" class="preset-btn">15 dwt</a>
+      <a href="#" onclick="setVal(20);return false" class="preset-btn">20 dwt</a>
+      <a href="#" onclick="setVal(50);return false" class="preset-btn">50 dwt</a>
+      <a href="#" onclick="setVal(100);return false" class="preset-btn">100 dwt</a>
+    </div>
+  </div>
+</div>
+
+<div class="content-wrap">
+
+  <div class="card">
+    <h2>How to Convert dwt to Grams</h2>
+    <div class="formula-box">
+      <div class="formula-text">Grams = dwt × 1.55517384</div>
+      <div class="formula-sub">1 pennyweight = 1.55517384 grams (exact)</div>
+    </div>
+    <div class="formula-box">
+      <div class="formula-text">dwt = Grams ÷ 1.55517384</div>
+      <div class="formula-sub">To convert grams back to pennyweights</div>
+    </div>
+    <div class="answer-box">
+      <div class="answer-row"><span class="answer-lbl">1 dwt in grams</span><span class="answer-val">1.5552 g</span></div>
+      <div class="answer-row"><span class="answer-lbl">5 dwt in grams</span><span class="answer-val">7.776 g</span></div>
+      <div class="answer-row"><span class="answer-lbl">10 dwt in grams</span><span class="answer-val">15.552 g</span></div>
+      <div class="answer-row"><span class="answer-lbl">20 dwt in grams</span><span class="answer-val">31.103 g (= 1 troy oz)</span></div>
+      <div class="answer-row"><span class="answer-lbl">1 gram in dwt</span><span class="answer-val">0.6430 dwt</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Pennyweight to Grams Reference Table</h2>
+    <div style="overflow-x:auto">
+    <table class="conv-table">
+      <thead>
+        <tr><th>Pennyweights (dwt)</th><th>Grams (g)</th><th>Troy Ounces</th></tr>
+      </thead>
+      <tbody>
+        {tableRows.map(r => (
+          <tr class={r.dwt === 20 ? 'hl' : ''}>
+            <td>{r.dwt} dwt</td>
+            <td>{r.g} g</td>
+            <td>{Math.round(r.dwt / 20 * 10000) / 10000} ozt</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+    </div>
+    <p class="tbl-note">20 dwt = 1 troy ounce (highlighted). 240 dwt = 1 troy pound.</p>
+  </div>
+
+  <div class="card">
+    <h2>Troy Weight System Explained</h2>
+    <div style="overflow-x:auto">
+    <table class="conv-table">
+      <thead>
+        <tr><th>Unit</th><th>= dwt</th><th>= grams</th><th>Used for</th></tr>
+      </thead>
+      <tbody>
+        <tr class="hl"><td>1 pennyweight (dwt)</td><td>1 dwt</td><td>1.5552 g</td><td>Jewelry, small lots</td></tr>
+        <tr><td>1 troy ounce (ozt)</td><td>20 dwt</td><td>31.103 g</td><td>Gold, silver bullion</td></tr>
+        <tr><td>1 troy pound</td><td>240 dwt</td><td>373.242 g</td><td>Larger precious metal lots</td></tr>
+        <tr><td>1 grain (gr)</td><td>1/24 dwt</td><td>0.0648 g</td><td>Gemstones, pharmaceuticals</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="tip-box">
+      <span class="tip-icon">💡</span>
+      <p><strong>Jewelry trade note:</strong> Gold prices are quoted per troy ounce, but individual pieces are often weighed in pennyweights. Divide the spot price by 20 to get price per dwt, then multiply by the piece weight in dwt to get the gold value.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Grams to dwt Reference Table</h2>
+    <div style="overflow-x:auto">
+    <table class="conv-table">
+      <thead>
+        <tr><th>Grams (g)</th><th>Pennyweights (dwt)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1 g</td><td>0.6430 dwt</td></tr>
+        <tr><td>2 g</td><td>1.2860 dwt</td></tr>
+        <tr><td>5 g</td><td>3.2151 dwt</td></tr>
+        <tr><td>10 g</td><td>6.4301 dwt</td></tr>
+        <tr><td>15 g</td><td>9.6452 dwt</td></tr>
+        <tr class="hl"><td>31.103 g</td><td>20 dwt (1 troy oz)</td></tr>
+        <tr><td>50 g</td><td>32.151 dwt</td></tr>
+        <tr><td>100 g</td><td>64.301 dwt</td></tr>
+        <tr><td>373.242 g</td><td>240 dwt (1 troy lb)</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>How many grams is 1 pennyweight?</h3>
+      <p>1 pennyweight (dwt) = 1.55517384 grams. Remember: 1 troy ounce = 20 dwt = 31.1035 grams, so 31.1035 ÷ 20 = 1.55517 g per dwt.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What is 10 dwt in grams?</h3>
+      <p>10 dwt = 15.55 grams. Calculation: 10 × 1.55517384 = 15.5517 g. A common gold chain weighs 10–20 dwt.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What does dwt stand for?</h3>
+      <p>dwt stands for pennyweight. The "d" comes from "denarius," the ancient Roman silver coin. It has been used in the English-speaking jewelry trade for over 600 years.</p>
+    </div>
+    <div class="faq-item">
+      <h3>How many pennyweights in a troy ounce?</h3>
+      <p>Exactly 20 pennyweights (dwt) = 1 troy ounce. Troy ounces are the standard unit for gold and silver spot prices worldwide.</p>
+    </div>
+    <div class="faq-item">
+      <h3>How is dwt different from a regular ounce?</h3>
+      <p>A regular (avoirdupois) ounce = 28.3495 g = 18.229 dwt. A troy ounce = 31.1035 g = 20 dwt. Precious metals always use the troy ounce, which is heavier than the regular ounce.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Related Converters</h2>
+    <div class="next-grid">
+      <a href="/grain-to-mg" class="next-card">
+        <span class="next-tag">Weight</span>
+        <h3>Grain to mg</h3>
+        <p>Convert grains to milligrams — 1 gr = 64.799 mg</p>
+      </a>
+      <a href="/kg-to-lbs" class="next-card">
+        <span class="next-tag">Weight</span>
+        <h3>kg to lbs</h3>
+        <p>Convert kilograms to pounds</p>
+      </a>
+      <a href="/ounces-in-a-pound" class="next-card">
+        <span class="next-tag">Weight</span>
+        <h3>Ounces in a Pound</h3>
+        <p>How many oz in a lb? 16 oz = 1 lb</p>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<script is:inline>
+var mode = 'd2g';
+var DWT_PER_G = 1.55517384;
+
+function setMode(m) {
+  mode = m;
+  document.getElementById('btn-d2g').classList.toggle('active', m === 'd2g');
+  document.getElementById('btn-g2d').classList.toggle('active', m === 'g2d');
+  document.getElementById('inp-lbl').textContent = m === 'd2g' ? 'Enter pennyweights (dwt):' : 'Enter grams (g):';
+  document.getElementById('inp-sfx').textContent = m === 'd2g' ? 'dwt' : 'g';
+  document.getElementById('dwt-input').placeholder = m === 'd2g' ? 'e.g. 10' : 'e.g. 31.1';
+  document.getElementById('dwt-input').value = '';
+  document.getElementById('result-box').style.display = 'none';
+}
+
+function calcDwt() {
+  var val = parseFloat(document.getElementById('dwt-input').value);
+  if (isNaN(val) || val < 0) {
+    document.getElementById('result-box').style.display = 'none';
+    return;
+  }
+  var result, lbl;
+  if (mode === 'd2g') {
+    result = Math.round(val * DWT_PER_G * 100000) / 100000;
+    lbl = 'Grams (g)';
+    var troyOz = Math.round(val / 20 * 100000) / 100000;
+    document.getElementById('troy-val').textContent = troyOz + ' troy oz';
+    document.getElementById('troy-row').style.display = 'flex';
+  } else {
+    result = Math.round(val / DWT_PER_G * 100000) / 100000;
+    lbl = 'Pennyweights (dwt)';
+    document.getElementById('troy-row').style.display = 'none';
+  }
+  document.getElementById('res-lbl').textContent = lbl;
+  document.getElementById('res-val').textContent = result.toLocaleString();
+  document.getElementById('result-box').style.display = 'block';
+}
+
+function setVal(n) {
+  if (mode !== 'd2g') setMode('d2g');
+  document.getElementById('dwt-input').value = n;
+  calcDwt();
+}
+</script>
+
+</Layout>

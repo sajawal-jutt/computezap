@@ -1,0 +1,354 @@
+﻿---
+import Layout from '../layouts/Layout.astro';
+
+// 1 troy oz = 31.1034768 g, 1 avoirdupois lb = 453.59237 g
+// 1 troy oz = 31.1034768 / 453.59237 avdp lb = 0.0685714...
+const TROY_OZ_TO_LB  = 31.1034768 / 453.59237;   // avdp lb
+const TROY_OZ_TO_TLB = 1 / 12;                    // troy lb (12 troy oz = 1 troy lb)
+
+const tableRows = [
+  { ozt: 1,    lb: 0.0686,  g: 31.103 },
+  { ozt: 2,    lb: 0.1371,  g: 62.207 },
+  { ozt: 3,    lb: 0.2057,  g: 93.310 },
+  { ozt: 4,    lb: 0.2743,  g: 124.414 },
+  { ozt: 5,    lb: 0.3429,  g: 155.517 },
+  { ozt: 6,    lb: 0.4114,  g: 186.621 },
+  { ozt: 7,    lb: 0.4800,  g: 217.724 },
+  { ozt: 8,    lb: 0.5486,  g: 248.828 },
+  { ozt: 9,    lb: 0.6171,  g: 279.931 },
+  { ozt: 10,   lb: 0.6857,  g: 311.035 },
+  { ozt: 12,   lb: 0.8229,  g: 373.242 },
+  { ozt: 14,   lb: 0.9600,  g: 435.449 },
+  { ozt: 14.583,lb: 1.0000, g: 453.592 },
+  { ozt: 16,   lb: 1.0971,  g: 497.656 },
+  { ozt: 20,   lb: 1.3714,  g: 622.070 },
+  { ozt: 25,   lb: 1.7143,  g: 777.587 },
+  { ozt: 32.15,lb: 2.2046,  g: 1000.0 },
+  { ozt: 50,   lb: 3.4286,  g: 1555.17 },
+  { ozt: 100,  lb: 6.8571,  g: 3110.35 },
+];
+
+const schema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Troy Ounces to Pounds Converter",
+    "url": "https://computezap.com/troy-ounces-to-pounds",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Web",
+    "description": "Convert troy ounces to pounds instantly. 1 troy oz = 0.06857 lbs. Used for gold, silver, and precious metal weight. Free converter with full reference table.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
+      { "@type": "ListItem", "position": 2, "name": "Troy Ounces to Pounds", "item": "https://computezap.com/troy-ounces-to-pounds" }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How many troy ounces are in a pound?",
+        "acceptedAnswer": { "@type": "Answer", "text": "There are 14.5833 troy ounces in 1 avoirdupois (regular) pound. If you mean a troy pound, there are exactly 12 troy ounces in 1 troy pound." }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I convert troy ounces to pounds?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Multiply troy ounces by 0.0685714 to get avoirdupois (regular) pounds. Example: 10 troy oz × 0.0685714 = 0.6857 lbs. To reverse: divide pounds by 0.0685714." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is 10 troy ounces in pounds?",
+        "acceptedAnswer": { "@type": "Answer", "text": "10 troy ounces = 0.6857 pounds (avoirdupois). In grams: 10 × 31.1035 = 311.035 grams." }
+      },
+      {
+        "@type": "Question",
+        "name": "Is a troy ounce heavier than a regular ounce?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. 1 troy ounce = 31.1035 grams. 1 regular (avoirdupois) ounce = 28.3495 grams. A troy ounce is about 10% heavier than a regular ounce." }
+      },
+      {
+        "@type": "Question",
+        "name": "How much is 1 troy ounce in pounds?",
+        "acceptedAnswer": { "@type": "Answer", "text": "1 troy ounce = 0.06857 avoirdupois pounds (regular pounds), or 0.08333 troy pounds. Since gold and silver prices are quoted per troy ounce, knowing this helps convert to familiar weight units." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many troy ounces are in a kilogram?",
+        "acceptedAnswer": { "@type": "Answer", "text": "1 kilogram = 32.1507 troy ounces. Or: 1 troy ounce = 0.0311035 kg = 31.1035 grams." }
+      }
+    ]
+  }
+]);
+---
+<Layout
+  title="Troy Ounces to Pounds Converter — ozt to lbs | ComputeZap"
+  description="Convert troy ounces to pounds instantly. 1 troy oz = 0.06857 lbs. 14.583 troy oz = 1 lb. Gold & silver weight converter with full reference table."
+  canonical="/troy-ounces-to-pounds"
+  schema={schema}
+>
+
+<div class="page-hero">
+  <nav class="breadcrumb"><a href="/">Home</a> › <a href="/#converters">Unit Converters</a> › Troy Ounces to Pounds</nav>
+  <h1>Troy Ounces to Pounds (lbs) Converter</h1>
+  <p>1 troy oz = <strong>0.06857 lbs</strong> &nbsp;|&nbsp; 14.583 troy oz = 1 lb</p>
+</div>
+
+<div class="calc-center">
+  <div class="card">
+    <div class="answer-hero show">
+      <div class="a-label">1 Troy Ounce =</div>
+      <div class="a-value">0.06857</div>
+      <div class="a-unit">pounds (lbs)</div>
+      <div class="a-sub">= 31.1035 g &nbsp;|&nbsp; 14.5833 troy oz = 1 lb &nbsp;|&nbsp; 12 troy oz = 1 troy lb</div>
+    </div>
+    <div class="stats-row show">
+      <div class="stat-box">
+        <span class="stat-lbl">10 troy oz</span>
+        <span class="stat-val">0.6857 lbs</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">14.583 troy oz</span>
+        <span class="stat-val">1 lb</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">1 troy oz</span>
+        <span class="stat-val">31.1035 g</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-lbl">32.15 troy oz</span>
+        <span class="stat-val">1 kg</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="mode-wrap">
+      <button class="mode-btn active" id="btn-o2p" onclick="setMode('o2p');return false">Troy oz → lbs</button>
+      <button class="mode-btn" id="btn-p2o" onclick="setMode('p2o');return false">lbs → Troy oz</button>
+    </div>
+    <div class="input-group">
+      <label id="inp-lbl">Enter troy ounces (ozt):</label>
+      <div class="input-wrap">
+        <input type="number" id="ozt-input" min="0" step="any" placeholder="e.g. 10" oninput="calcOzt()" />
+        <span class="input-sfx" id="inp-sfx">ozt</span>
+      </div>
+    </div>
+    <div class="answer-box" id="result-box" style="display:none">
+      <div class="answer-row">
+        <span class="answer-lbl" id="res-lbl">Pounds (lbs)</span>
+        <span class="answer-val" id="res-val">—</span>
+      </div>
+      <div class="answer-row" id="gram-row" style="display:none">
+        <span class="answer-lbl">Grams (g)</span>
+        <span class="answer-val" id="gram-val">—</span>
+      </div>
+      <div class="answer-row" id="tlb-row" style="display:none">
+        <span class="answer-lbl">Troy pounds</span>
+        <span class="answer-val" id="tlb-val">—</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="preset-lbl">Common values</span>
+    <div class="preset-wrap">
+      <a href="#" onclick="setVal(1);return false" class="preset-btn">1 ozt</a>
+      <a href="#" onclick="setVal(5);return false" class="preset-btn">5 ozt</a>
+      <a href="#" onclick="setVal(10);return false" class="preset-btn">10 ozt</a>
+      <a href="#" onclick="setVal(12);return false" class="preset-btn">12 ozt</a>
+      <a href="#" onclick="setVal(14.583);return false" class="preset-btn">14.583 ozt</a>
+      <a href="#" onclick="setVal(20);return false" class="preset-btn">20 ozt</a>
+      <a href="#" onclick="setVal(32.15);return false" class="preset-btn">32.15 ozt</a>
+      <a href="#" onclick="setVal(50);return false" class="preset-btn">50 ozt</a>
+      <a href="#" onclick="setVal(100);return false" class="preset-btn">100 ozt</a>
+    </div>
+  </div>
+</div>
+
+<div class="content-wrap">
+
+  <div class="card">
+    <h2>How to Convert Troy Ounces to Pounds</h2>
+    <div class="formula-box">
+      <div class="formula-text">lbs = Troy oz × 0.0685714</div>
+      <div class="formula-sub">1 troy oz = 31.1035 g ÷ 453.592 g/lb = 0.0685714 lbs</div>
+    </div>
+    <div class="formula-box">
+      <div class="formula-text">Troy oz = lbs × 14.5833</div>
+      <div class="formula-sub">To convert pounds back to troy ounces</div>
+    </div>
+    <div class="answer-box">
+      <div class="answer-row"><span class="answer-lbl">1 troy oz in lbs</span><span class="answer-val">0.06857 lbs</span></div>
+      <div class="answer-row"><span class="answer-lbl">5 troy oz in lbs</span><span class="answer-val">0.3429 lbs</span></div>
+      <div class="answer-row"><span class="answer-lbl">10 troy oz in lbs</span><span class="answer-val">0.6857 lbs</span></div>
+      <div class="answer-row"><span class="answer-lbl">100 troy oz in lbs</span><span class="answer-val">6.857 lbs</span></div>
+      <div class="answer-row"><span class="answer-lbl">1 lb in troy oz</span><span class="answer-val">14.5833 troy oz</span></div>
+    </div>
+    <div class="tip-box">
+      <span class="tip-icon">🥇</span>
+      <p><strong>Gold &amp; silver tip:</strong> Spot prices are always quoted per troy ounce. Multiply troy oz weight by the current spot price to get the metal value in dollars — no unit conversion needed for pricing.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Troy oz to Pounds Reference Table</h2>
+    <div style="overflow-x:auto">
+    <table class="conv-table">
+      <thead>
+        <tr><th>Troy Ounces (ozt)</th><th>Pounds (lbs)</th><th>Grams (g)</th></tr>
+      </thead>
+      <tbody>
+        {tableRows.map(r => (
+          <tr class={r.ozt === 14.583 ? 'hl' : ''}>
+            <td>{r.ozt} ozt</td>
+            <td>{r.lb} lbs</td>
+            <td>{r.g} g</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+    </div>
+    <p class="tbl-note">14.583 troy oz = 1 avoirdupois pound (highlighted). 12 troy oz = 1 troy pound = 373.24 g.</p>
+  </div>
+
+  <div class="card">
+    <h2>Troy vs Avoirdupois Weight System</h2>
+    <div style="overflow-x:auto">
+    <table class="conv-table">
+      <thead>
+        <tr><th>Unit</th><th>System</th><th>= grams</th><th>= troy oz</th></tr>
+      </thead>
+      <tbody>
+        <tr class="hl"><td>1 troy ounce (ozt)</td><td>Troy</td><td>31.1035 g</td><td>1 ozt</td></tr>
+        <tr><td>1 troy pound</td><td>Troy</td><td>373.242 g</td><td>12 ozt</td></tr>
+        <tr><td>1 ounce (oz)</td><td>Avoirdupois</td><td>28.3495 g</td><td>0.9115 ozt</td></tr>
+        <tr><td>1 pound (lb)</td><td>Avoirdupois</td><td>453.592 g</td><td>14.5833 ozt</td></tr>
+        <tr><td>1 kilogram (kg)</td><td>Metric</td><td>1000 g</td><td>32.1507 ozt</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Pounds to Troy Ounces Reference Table</h2>
+    <div style="overflow-x:auto">
+    <table class="conv-table">
+      <thead>
+        <tr><th>Pounds (lbs)</th><th>Troy Ounces (ozt)</th><th>Grams (g)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>0.5 lbs</td><td>7.292 ozt</td><td>226.796 g</td></tr>
+        <tr class="hl"><td>1 lb</td><td>14.5833 ozt</td><td>453.592 g</td></tr>
+        <tr><td>2 lbs</td><td>29.167 ozt</td><td>907.185 g</td></tr>
+        <tr><td>5 lbs</td><td>72.917 ozt</td><td>2267.96 g</td></tr>
+        <tr><td>10 lbs</td><td>145.833 ozt</td><td>4535.92 g</td></tr>
+        <tr><td>25 lbs</td><td>364.583 ozt</td><td>11339.8 g</td></tr>
+        <tr><td>50 lbs</td><td>729.167 ozt</td><td>22679.6 g</td></tr>
+        <tr><td>100 lbs</td><td>1458.33 ozt</td><td>45359.2 g</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>How many troy ounces are in a pound?</h3>
+      <p>14.5833 troy ounces = 1 avoirdupois (regular) pound. If using a troy pound: exactly 12 troy ounces = 1 troy pound. The two pound types are different — the troy pound (373 g) is lighter than the regular pound (453 g).</p>
+    </div>
+    <div class="faq-item">
+      <h3>Is a troy ounce heavier than a regular ounce?</h3>
+      <p>Yes. 1 troy ounce = 31.1035 grams. 1 regular ounce = 28.3495 grams. A troy ounce is about 9.7% heavier. This is why gold and silver are always priced per troy ounce — it is the larger unit.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What is 10 troy ounces in pounds?</h3>
+      <p>10 troy oz × 0.0685714 = 0.6857 lbs. In grams: 10 × 31.1035 = 311.035 g. A 10 troy oz gold bar weighs slightly under 0.7 pounds.</p>
+    </div>
+    <div class="faq-item">
+      <h3>How many troy ounces are in a kilogram?</h3>
+      <p>1 kilogram = 32.1507 troy ounces. This is why a 1 kg gold bar is priced at spot × 32.15. Reverse: 1 troy oz = 0.0311035 kg.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Why are precious metals measured in troy ounces?</h3>
+      <p>The troy weight system dates to medieval Troyes, France — a major trading hub. It became the standard for precious metals across Europe and remains the global standard today. Spot prices for gold, silver, platinum, and palladium are always quoted per troy ounce.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Related Converters</h2>
+    <div class="next-grid">
+      <a href="/dwt-to-grams" class="next-card">
+        <span class="next-tag">Weight</span>
+        <h3>dwt to Grams</h3>
+        <p>Convert pennyweights to grams — 1 dwt = 1.555 g</p>
+      </a>
+      <a href="/grain-to-mg" class="next-card">
+        <span class="next-tag">Weight</span>
+        <h3>Grain to mg</h3>
+        <p>Convert grains to milligrams — 1 gr = 64.799 mg</p>
+      </a>
+      <a href="/kg-to-lbs" class="next-card">
+        <span class="next-tag">Weight</span>
+        <h3>kg to lbs</h3>
+        <p>Convert kilograms to pounds — 1 kg = 2.205 lbs</p>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<script is:inline>
+var mode = 'o2p';
+var FACTOR = 31.1034768 / 453.59237; // troy oz to avdp lb
+
+function setMode(m) {
+  mode = m;
+  document.getElementById('btn-o2p').classList.toggle('active', m === 'o2p');
+  document.getElementById('btn-p2o').classList.toggle('active', m === 'p2o');
+  document.getElementById('inp-lbl').textContent = m === 'o2p' ? 'Enter troy ounces (ozt):' : 'Enter pounds (lbs):';
+  document.getElementById('inp-sfx').textContent = m === 'o2p' ? 'ozt' : 'lbs';
+  document.getElementById('ozt-input').placeholder = m === 'o2p' ? 'e.g. 10' : 'e.g. 1';
+  document.getElementById('ozt-input').value = '';
+  document.getElementById('result-box').style.display = 'none';
+}
+
+function calcOzt() {
+  var val = parseFloat(document.getElementById('ozt-input').value);
+  if (isNaN(val) || val < 0) {
+    document.getElementById('result-box').style.display = 'none';
+    return;
+  }
+  var result, lbl;
+  if (mode === 'o2p') {
+    result = Math.round(val * FACTOR * 100000) / 100000;
+    lbl = 'Pounds (lbs)';
+    var grams = Math.round(val * 31.1034768 * 1000) / 1000;
+    var tLb   = Math.round(val / 12 * 100000) / 100000;
+    document.getElementById('gram-val').textContent = grams.toLocaleString() + ' g';
+    document.getElementById('tlb-val').textContent  = tLb + ' troy lb';
+    document.getElementById('gram-row').style.display = 'flex';
+    document.getElementById('tlb-row').style.display  = 'flex';
+  } else {
+    result = Math.round(val / FACTOR * 100000) / 100000;
+    lbl = 'Troy ounces (ozt)';
+    document.getElementById('gram-row').style.display = 'none';
+    document.getElementById('tlb-row').style.display  = 'none';
+  }
+  document.getElementById('res-lbl').textContent = lbl;
+  document.getElementById('res-val').textContent = result.toLocaleString();
+  document.getElementById('result-box').style.display = 'block';
+}
+
+function setVal(n) {
+  if (mode !== 'o2p') setMode('o2p');
+  document.getElementById('ozt-input').value = n;
+  calcOzt();
+}
+</script>
+
+</Layout>

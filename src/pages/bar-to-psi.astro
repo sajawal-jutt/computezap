@@ -75,7 +75,7 @@ const schema = JSON.stringify([
 >
 
 <div class="page-hero">
-  <nav class="breadcrumb"><a href="/">Home</a> › Bar to PSI Converter</nav>
+  <nav class="breadcrumb"><a href="/">Home</a> › <a href="/#converters">Unit Converters</a> › Bar to PSI Converter</nav>
   <h1>Bar to PSI Converter</h1>
   <p>1 bar = <strong>14.504 PSI</strong></p>
 </div>
@@ -159,6 +159,7 @@ const schema = JSON.stringify([
 
   <div class="card">
     <h2>Bar to PSI Reference Table</h2>
+    <div style="overflow-x:auto">
     <table class="conv-table">
       <thead>
         <tr><th>Bar</th><th>PSI</th><th>kPa</th></tr>
@@ -173,10 +174,12 @@ const schema = JSON.stringify([
         ))}
       </tbody>
     </table>
+    </div>
   </div>
 
   <div class="card">
     <h2>Common Pressure References</h2>
+    <div style="overflow-x:auto">
     <table class="conv-table">
       <thead>
         <tr><th>Context</th><th>Bar</th><th>PSI</th></tr>
@@ -190,6 +193,7 @@ const schema = JSON.stringify([
         <tr><td>Water pipe (typical)</td><td>3–5 bar</td><td>43–73 psi</td></tr>
       </tbody>
     </table>
+    </div>
   </div>
 
   <div class="card">
@@ -235,7 +239,7 @@ const schema = JSON.stringify([
 
 </div>
 
-<script>
+<script is:inline>
 function calcBarPsi() {
   var bar = parseFloat(document.getElementById('bar-in').value);
   if (!isNaN(bar) && bar >= 0) {

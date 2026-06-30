@@ -1,4 +1,4 @@
----
+﻿---
 import Layout from '../layouts/Layout.astro';
 
 const hoursTotal = 168;
@@ -56,7 +56,7 @@ const schema = JSON.stringify([
 >
 
 <div class="page-hero">
-  <nav class="breadcrumb"><a href="/">Home</a> › Hours in a Week</nav>
+  <nav class="breadcrumb"><a href="/">Home</a> › <a href="/#date-time">Date & Time</a> › Hours in a Week</nav>
   <h1>How Many Hours in a Week?</h1>
   <p>A week has exactly <strong>168 hours</strong> — 7 days × 24 hours.</p>
 </div>
@@ -105,6 +105,7 @@ const schema = JSON.stringify([
       <div class="formula-text">7 days × 24 hours = 168 hours</div>
       <div class="formula-sub">One week = exactly 168 hours, every time — no exceptions</div>
     </div>
+    <div style="overflow-x:auto">
     <table class="conv-table">
       <thead>
         <tr><th>Time Segment</th><th>Hours</th><th>Minutes</th></tr>
@@ -118,10 +119,12 @@ const schema = JSON.stringify([
         <tr><td>Work day (8 hrs)</td><td>8 hrs</td><td>480 min</td></tr>
       </tbody>
     </table>
+    </div>
   </div>
 
   <div class="card">
     <h2>Weekly Hours — Common Schedules</h2>
+    <div style="overflow-x:auto">
     <table class="conv-table">
       <thead>
         <tr><th>Schedule</th><th>Hours/Week</th><th>% of 168 hrs</th></tr>
@@ -134,6 +137,7 @@ const schema = JSON.stringify([
         <tr><td>Free time (168 – work – sleep)</td><td>~72 hrs</td><td>~42.9%</td></tr>
       </tbody>
     </table>
+    </div>
     <div class="tip-box">
       <span class="tip-icon">💡</span>
       <p><strong>168 hours allocation:</strong> If you work 40 hours and sleep 56 hours (8 hrs/night), you have 72 hours left — that's 3 full days for everything else.</p>
@@ -142,6 +146,7 @@ const schema = JSON.stringify([
 
   <div class="card">
     <h2>Hours to Other Time Units</h2>
+    <div style="overflow-x:auto">
     <table class="conv-table">
       <thead>
         <tr><th>Unit</th><th>Value</th><th>Calculation</th></tr>
@@ -156,6 +161,7 @@ const schema = JSON.stringify([
         <tr><td>Hours in a year (52 wks)</td><td>8,736 hours</td><td>168 × 52</td></tr>
       </tbody>
     </table>
+    </div>
   </div>
 
   <div class="card">

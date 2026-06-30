@@ -1,4 +1,4 @@
----
+﻿---
 import Layout from '../layouts/Layout.astro';
 
 // 1 US pint = 16 US fl oz (liquid pint)
@@ -73,7 +73,7 @@ const schema = JSON.stringify([
 >
 
 <div class="page-hero">
-  <nav class="breadcrumb"><a href="/">Home</a> › oz to Pint Converter</nav>
+  <nav class="breadcrumb"><a href="/">Home</a> › <a href="/#converters">Unit Converters</a> › oz to Pint Converter</nav>
   <h1>Ounces to Pints Converter</h1>
   <p>1 US pint = <strong>16 fluid ounces</strong></p>
 </div>
@@ -157,6 +157,7 @@ const schema = JSON.stringify([
 
   <div class="card">
     <h2>oz to Pints Reference Table</h2>
+    <div style="overflow-x:auto">
     <table class="conv-table">
       <thead>
         <tr><th>Fluid Ounces</th><th>Pints (US)</th><th>mL (approx.)</th></tr>
@@ -171,6 +172,7 @@ const schema = JSON.stringify([
         ))}
       </tbody>
     </table>
+    </div>
   </div>
 
   <div class="card">
@@ -216,7 +218,7 @@ const schema = JSON.stringify([
 
 </div>
 
-<script>
+<script is:inline>
 function calcOzPt() {
   var oz = parseFloat(document.getElementById('oz-in').value);
   if (!isNaN(oz) && oz >= 0) {
