@@ -49,7 +49,40 @@ const schema = JSON.stringify([
         "@type": "Question",
         "name": "Is a 72-month car loan a good idea?",
         "acceptedAnswer": { "@type": "Answer", "text": "72-month loans lower your monthly payment but cost significantly more in interest and increase the risk of being underwater on the loan. A $30,000 car at 7% APR: 60 months = $594/mo ($5,640 interest) vs 72 months = $510/mo ($6,720 interest). Stick to 48–60 months when possible." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is negative equity on a car loan?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Negative equity (being underwater) means you owe more on your loan than the car is worth. This happens when depreciation outpaces your loan payoff — common with long loan terms and small down payments." }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I get a car loan with no down payment?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes, many lenders offer 0% down financing for new cars with strong credit. However, no-down-payment loans carry higher monthly payments and put you at risk of negative equity quickly." }
+      },
+      {
+        "@type": "Question",
+        "name": "What fees are not included in the car price?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Expect sales tax (5–10% depending on state), dealer documentation fee ($100–$500), title and registration fees ($50–$300), and possibly a destination charge on new cars. Always ask for the out-the-door price." }
+      },
+      {
+        "@type": "Question",
+        "name": "How does debt-to-income ratio affect my car loan?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Lenders prefer a debt-to-income ratio under 36–43%. Adding a large car payment to existing debt can push your DTI too high, leading to rejection or higher interest rates." }
       }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to Calculate Your Car Payoff",
+    "description": "Step-by-step guide to calculating your car loan monthly payment and total cost.",
+    "step": [
+      { "@type": "HowToStep", "name": "Enter car price", "text": "Enter the full purchase price of the vehicle before tax or fees." },
+      { "@type": "HowToStep", "name": "Enter down payment & trade-in", "text": "Add any cash down payment and the value of a trade-in vehicle, if any." },
+      { "@type": "HowToStep", "name": "Add sales tax rate", "text": "Enter your state or local sales tax percentage to include it in the loan amount." },
+      { "@type": "HowToStep", "name": "Enter APR and loan term", "text": "Input the annual interest rate (APR) offered by your lender and the loan term in months." },
+      { "@type": "HowToStep", "name": "Review your results", "text": "See your monthly payment, total interest, payoff date, and full year-by-year amortization schedule." }
     ]
   }
 ]);
@@ -74,42 +107,42 @@ const schema = JSON.stringify([
       <div class="input-group">
         <label>Car Price ($)</label>
         <div class="input-wrap">
-          <input type="number" id="price" min="0" step="100" placeholder="e.g. 28000" oninput="calcCar()" />
+          <input type="number" id="price" min="0" step="100" placeholder="e.g. 28000" oninput="calcCar()" aria-label="Car price in dollars" />
           <span class="input-sfx">$</span>
         </div>
       </div>
       <div class="input-group">
         <label>Down Payment ($)</label>
         <div class="input-wrap">
-          <input type="number" id="down" min="0" step="100" placeholder="e.g. 3000" oninput="calcCar()" value="0" />
+          <input type="number" id="down" min="0" step="100" placeholder="e.g. 3000" oninput="calcCar()" value="0" aria-label="Down payment in dollars" />
           <span class="input-sfx">$</span>
         </div>
       </div>
       <div class="input-group">
         <label>Trade-In Value ($)</label>
         <div class="input-wrap">
-          <input type="number" id="tradein" min="0" step="100" placeholder="e.g. 5000" oninput="calcCar()" value="0" />
+          <input type="number" id="tradein" min="0" step="100" placeholder="e.g. 5000" oninput="calcCar()" value="0" aria-label="Trade-in value in dollars" />
           <span class="input-sfx">$</span>
         </div>
       </div>
       <div class="input-group">
         <label>Sales Tax Rate (%)</label>
         <div class="input-wrap">
-          <input type="number" id="tax" min="0" max="20" step="0.1" placeholder="e.g. 8" oninput="calcCar()" value="0" />
+          <input type="number" id="tax" min="0" max="20" step="0.1" placeholder="e.g. 8" oninput="calcCar()" value="0" aria-label="Sales tax rate percent" />
           <span class="input-sfx">%</span>
         </div>
       </div>
       <div class="input-group">
         <label>Annual Interest Rate (APR %)</label>
         <div class="input-wrap">
-          <input type="number" id="rate" min="0" max="50" step="0.1" placeholder="e.g. 6.5" oninput="calcCar()" />
+          <input type="number" id="rate" min="0" max="50" step="0.1" placeholder="e.g. 6.5" oninput="calcCar()" aria-label="Annual interest rate percent" />
           <span class="input-sfx">%</span>
         </div>
       </div>
       <div class="input-group">
         <label>Loan Term (months)</label>
         <div class="input-wrap">
-          <input type="number" id="term" min="6" max="120" step="6" placeholder="e.g. 60" oninput="calcCar()" />
+          <input type="number" id="term" min="6" max="120" step="6" placeholder="e.g. 60" oninput="calcCar()" aria-label="Loan term in months" />
           <span class="input-sfx">mo</span>
         </div>
       </div>
@@ -117,7 +150,7 @@ const schema = JSON.stringify([
     <div class="input-group" style="margin-top:.5rem">
       <label>Extra Monthly Payment ($) <span style="font-size:.8rem;color:var(--gray-600);font-weight:400">— optional, see savings</span></label>
       <div class="input-wrap">
-        <input type="number" id="extra" min="0" step="10" placeholder="e.g. 50" oninput="calcCar()" value="0" />
+        <input type="number" id="extra" min="0" step="10" placeholder="e.g. 50" oninput="calcCar()" value="0" aria-label="Extra monthly payment in dollars" />
         <span class="input-sfx">$/mo</span>
       </div>
     </div>
@@ -156,6 +189,7 @@ const schema = JSON.stringify([
       <div class="answer-row"><span class="answer-lbl">Total interest paid</span><span class="answer-val" id="b-interest">—</span></div>
       <div class="answer-row"><span class="answer-lbl">Total amount paid</span><span class="answer-val" id="b-total">—</span></div>
     </div>
+    <p id="res-summary" style="font-size:.88rem;color:var(--gray-600);margin:.75rem 0 0;line-height:1.6"></p>
     <div class="tip-box" id="extra-tip" style="display:none">
       <span class="tip-icon">💰</span>
       <p id="extra-tip-text">—</p>
@@ -193,7 +227,7 @@ const schema = JSON.stringify([
   <div class="card">
     <h2>How Car Loan Payments Are Calculated</h2>
     <div class="formula-box">
-      <div class="formula-text">Loan Amount = Price − Down Payment − Trade-In + Sales Tax</div>
+      <div class="formula-text">Loan Amount = (Vehicle Price + Sales Tax) − Down Payment − Trade-In</div>
       <div class="formula-sub">Monthly Payment = P × r × (1+r)ⁿ ÷ ((1+r)ⁿ − 1) &nbsp;·&nbsp; r = APR ÷ 12 &nbsp;·&nbsp; n = months</div>
     </div>
     <p style="font-size:.9rem;color:var(--gray-700);margin:0 0 .75rem">Example: You want to buy a $28,000 car. You put $3,000 down, trade in your old car worth $4,000, and your state charges 8% sales tax. Your loan amount is $28,000 − $3,000 − $4,000 + $2,240 (tax) = <strong>$23,240</strong>. At 6.5% APR for 60 months, your monthly payment is <strong>$454/month</strong>.</p>
@@ -373,6 +407,26 @@ const schema = JSON.stringify([
         <h3>Should I buy or lease a car?</h3>
         <p>Buying is better if you drive over 15,000 miles/year, want to own the car long-term, or want to customize it. Leasing offers lower monthly payments but you never build equity. Most financial advisors recommend buying if you can afford it.</p>
       </div>
+      <div class="faq-item">
+        <h3>What is negative equity on a car loan?</h3>
+        <p>Negative equity (being "underwater") means you owe more on your loan than the car is worth. This happens when depreciation outpaces your loan payoff — common with long loan terms and small down payments. If you sell or total the car, you'd still owe the remaining balance.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Can I get a car loan with no down payment?</h3>
+        <p>Yes, many lenders offer 0% down financing, especially for new cars with strong credit. However, no-down-payment loans carry higher monthly payments and put you at risk of negative equity quickly. At minimum, try to put down enough to cover sales tax and fees.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What fees are not included in the car price?</h3>
+        <p>Besides the sticker price, expect: sales tax (varies by state, typically 5–10%), dealer documentation fee ($100–$500), title and registration fees ($50–$300), and possibly a destination charge on new cars. Always ask for the "out-the-door" price before calculating your loan.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Is a fixed or variable APR better for a car loan?</h3>
+        <p>Almost all auto loans use a fixed APR — your rate stays the same for the life of the loan. Variable-rate auto loans are rare and generally not recommended because your payment can change. Always confirm your loan has a fixed rate before signing.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How does my debt-to-income ratio affect my car loan?</h3>
+        <p>Lenders look at your debt-to-income (DTI) ratio — monthly debt payments divided by gross monthly income. Most lenders prefer a DTI under 36–43%. Adding a large car payment to existing debt can push your DTI too high, leading to rejection or higher rates.</p>
+      </div>
     </div>
   </div>
 
@@ -387,12 +441,27 @@ const schema = JSON.stringify([
       <a href="/finance/amortization-calculator" class="next-card">
         <span class="next-tag">Finance</span>
         <h3>Amortization Calculator</h3>
-        <p>Full month-by-month schedule for any loan</p>
+        <p>Full month-by-month loan payment schedule</p>
       </a>
       <a href="/finance/apr-calculator" class="next-card">
         <span class="next-tag">Finance</span>
         <h3>APR Calculator</h3>
         <p>Find the true annual cost of a loan including all fees</p>
+      </a>
+      <a href="/finance/mortgage-payoff-calculator" class="next-card">
+        <span class="next-tag">Finance</span>
+        <h3>Mortgage Payoff Calculator</h3>
+        <p>See how extra payments cut years off your mortgage</p>
+      </a>
+      <a href="/finance/compound-interest-calculator" class="next-card">
+        <span class="next-tag">Finance</span>
+        <h3>Compound Interest Calculator</h3>
+        <p>See how your savings or debt grows over time</p>
+      </a>
+      <a href="/finance/debt-snowball-calculator" class="next-card">
+        <span class="next-tag">Finance</span>
+        <h3>Debt Snowball Calculator</h3>
+        <p>Pay off multiple debts fastest with the snowball method</p>
       </a>
     </div>
   </div>
@@ -471,6 +540,9 @@ function calcCar() {
   document.getElementById('b-loan').textContent     = '$' + fmt(loanAmt);
   document.getElementById('b-interest').textContent = '$' + fmt(totalInterest);
   document.getElementById('b-total').textContent    = '$' + fmt(totalPaid);
+
+  document.getElementById('res-summary').textContent =
+    `Based on a $${fmt(price)} car, $${fmt(down + tradein)} down payment/trade-in, ${apr}% APR and a ${n}-month loan term, your estimated monthly payment is $${fmt(monthly)}. You will pay $${fmt(totalInterest)} in interest over the life of the loan, for a total cost of $${fmt(totalPaid)}.`;
 
   // Extra payment savings
   const et = document.getElementById('extra-tip');
