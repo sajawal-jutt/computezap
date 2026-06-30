@@ -1,0 +1,358 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const schema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Binary to Text Translator",
+    "url": "https://computezap.com/binary-to-text",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Web",
+    "description": "Convert binary code to text or text to binary instantly. Enter any 8-bit binary string and get readable text. Free binary to text translator.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com" },
+      { "@type": "ListItem", "position": 2, "name": "Binary to Text", "item": "https://computezap.com/binary-to-text" }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do I convert binary to text?",
+        "acceptedAnswer": { "@type": "Answer", "text": "To convert binary to text: (1) Split the binary string into 8-bit groups. (2) Convert each 8-bit group from base-2 to a decimal number. (3) Match that decimal number to its ASCII character. Example: 01001000 = 72 = 'H', 01101001 = 105 = 'i' → 'Hi'." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is 01001000 01100101 01101100 01101100 01101111 in text?",
+        "acceptedAnswer": { "@type": "Answer", "text": "01001000 01100101 01101100 01101100 01101111 in text is 'Hello'. Each 8-bit group maps to one ASCII character: 01001000=H, 01100101=e, 01101100=l, 01101100=l, 01101111=o." }
+      },
+      {
+        "@type": "Question",
+        "name": "What does binary code look like?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Binary code is a series of 0s and 1s. Each character is represented by 8 bits (one byte). For example, the letter 'A' in binary is 01000001, 'B' is 01000010, and space is 00100000. Groups are separated by spaces." }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I convert text to binary?",
+        "acceptedAnswer": { "@type": "Answer", "text": "To convert text to binary: (1) Get the ASCII value of each character using its decimal code. (2) Convert that decimal number to an 8-bit binary string. Example: 'H' = ASCII 72 = 01001000. Use the Text → Binary mode in our translator above." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is ASCII?",
+        "acceptedAnswer": { "@type": "Answer", "text": "ASCII (American Standard Code for Information Interchange) is a character encoding standard. It assigns numbers 0–127 to characters: 65='A', 97='a', 48='0', 32=space. Binary code for text uses 8 bits per character, mapping to ASCII values." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is 01001000 01101001 in text?",
+        "acceptedAnswer": { "@type": "Answer", "text": "01001000 01101001 in text is 'Hi'. 01001000 = decimal 72 = 'H', and 01101001 = decimal 105 = 'i'." }
+      }
+    ]
+  }
+]);
+---
+<Layout
+  title="Binary to Text Translator — Convert Binary Code to Text | ComputeZap"
+  description="Convert binary code to text or text to binary instantly. Enter 8-bit binary groups (e.g. 01001000 01101001 = Hi). Free binary translator with ASCII reference table."
+  canonical="/binary-to-text"
+  schema={schema}
+>
+
+<div class="page-hero">
+  <nav class="breadcrumb"><a href="/">Home</a> › Binary to Text Translator</nav>
+  <h1>Binary to Text Translator</h1>
+  <p>Convert binary code ↔ text instantly — paste binary, get readable text</p>
+</div>
+
+<div class="calc-center">
+  <div class="card">
+    <div class="mode-wrap">
+      <button class="mode-btn active" id="btn-b2t" onclick="setMode('b2t');return false">Binary → Text</button>
+      <button class="mode-btn" id="btn-t2b" onclick="setMode('t2b');return false">Text → Binary</button>
+    </div>
+
+    <div class="input-group">
+      <label id="inp-lbl">Enter Binary Code:</label>
+      <div class="input-wrap">
+        <textarea
+          id="bin-input"
+          rows="4"
+          placeholder="e.g. 01001000 01100101 01101100 01101100 01101111"
+          style="width:100%;padding:.65rem .9rem;border:1.5px solid #e2e8f0;border-radius:8px;font-size:.95rem;font-family:monospace;color:#111;resize:vertical;background:#fff;box-sizing:border-box;line-height:1.6"
+        ></textarea>
+      </div>
+    </div>
+
+    <button class="calc-btn" onclick="convert();return false">Translate</button>
+
+    <div id="output-area" style="display:none;margin-top:.75rem">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.4rem">
+        <label id="out-lbl" style="font-size:.82rem;font-weight:600;color:#374151;margin:0">Text Output:</label>
+        <button onclick="copyResult();return false" id="copy-btn" style="font-size:.75rem;padding:.25rem .65rem;background:#eff6ff;color:#2563eb;border:1px solid #bfdbfe;border-radius:6px;cursor:pointer;font-weight:700">Copy</button>
+      </div>
+      <textarea
+        id="bin-output"
+        rows="3"
+        readonly
+        style="width:100%;padding:.65rem .9rem;border:1.5px solid #e2e8f0;border-radius:8px;font-size:.95rem;font-family:monospace;color:#1e293b;background:#f8fafc;resize:vertical;box-sizing:border-box;line-height:1.6"
+      ></textarea>
+    </div>
+
+    <div id="error-box" style="display:none;background:#fff7ed;border:1.5px solid #fed7aa;border-radius:8px;padding:.75rem 1rem;margin-top:.75rem;font-size:.875rem;color:#c2410c;font-weight:600"></div>
+  </div>
+
+  <div class="card">
+    <span class="preset-lbl">Try these examples</span>
+    <div class="preset-wrap">
+      <a href="#" onclick="setPreset('01001000 01101001');return false" class="preset-btn">Hi</a>
+      <a href="#" onclick="setPreset('01001000 01100101 01101100 01101100 01101111');return false" class="preset-btn">Hello</a>
+      <a href="#" onclick="setPreset('01001000 01100101 01101100 01101100 01101111 00100000 01010111 01101111 01110010 01101100 01100100');return false" class="preset-btn">Hello World</a>
+      <a href="#" onclick="setPreset('01000001 01000010 01000011');return false" class="preset-btn">ABC</a>
+      <a href="#" onclick="setPreset('01000011 01101111 01101101 01110000 01110101 01110100 01100101 01011010 01100001 01110000');return false" class="preset-btn">ComputeZap</a>
+    </div>
+  </div>
+</div>
+
+<div class="content-wrap">
+
+  <div class="card">
+    <h2>How to Convert Binary to Text</h2>
+    <div class="formula-box">
+      <div class="formula-text">Binary (8 bits) → Decimal → ASCII Character</div>
+      <div class="formula-sub">Each 8-bit group = 1 character. Groups separated by spaces.</div>
+    </div>
+    <div class="steps-list">
+      <li>Split binary string into 8-bit groups (e.g. <code style="background:#f1f5f9;padding:.1rem .3rem;border-radius:4px;font-size:.85rem">01001000 01101001</code>)</li>
+      <li>Convert each group from base-2 to decimal (01001000 = 72, 01101001 = 105)</li>
+      <li>Look up the ASCII character for each decimal (72 = H, 105 = i)</li>
+      <li>Join all characters → <strong>Hi</strong></li>
+    </div>
+    <div class="answer-box" style="margin-top:.75rem">
+      <div class="answer-row"><span class="answer-lbl">01001000</span><span class="answer-val">72 → H</span></div>
+      <div class="answer-row"><span class="answer-lbl">01100101</span><span class="answer-val">101 → e</span></div>
+      <div class="answer-row"><span class="answer-lbl">01101100</span><span class="answer-val">108 → l</span></div>
+      <div class="answer-row"><span class="answer-lbl">01101111</span><span class="answer-val">111 → o</span></div>
+    </div>
+    <div class="tip-box">
+      <span class="tip-icon">💡</span>
+      <p><strong>Tip:</strong> Always separate 8-bit groups with a space. If binary groups run together (no spaces), the translator may produce incorrect results.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Binary Code — Common Characters</h2>
+    <div style="overflow-x:auto">
+    <table class="conv-table">
+      <thead>
+        <tr><th>Char</th><th>ASCII</th><th>Binary</th><th>Char</th><th>ASCII</th><th>Binary</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>A</td><td>65</td><td>01000001</td><td>a</td><td>97</td><td>01100001</td></tr>
+        <tr><td>B</td><td>66</td><td>01000010</td><td>b</td><td>98</td><td>01100010</td></tr>
+        <tr><td>C</td><td>67</td><td>01000011</td><td>c</td><td>99</td><td>01100011</td></tr>
+        <tr><td>D</td><td>68</td><td>01000100</td><td>d</td><td>100</td><td>01100100</td></tr>
+        <tr><td>E</td><td>69</td><td>01000101</td><td>e</td><td>101</td><td>01100101</td></tr>
+        <tr><td>F</td><td>70</td><td>01000110</td><td>f</td><td>102</td><td>01100110</td></tr>
+        <tr><td>G</td><td>71</td><td>01000111</td><td>g</td><td>103</td><td>01100111</td></tr>
+        <tr><td>H</td><td>72</td><td>01001000</td><td>h</td><td>104</td><td>01101000</td></tr>
+        <tr><td>I</td><td>73</td><td>01001001</td><td>i</td><td>105</td><td>01101001</td></tr>
+        <tr><td>J</td><td>74</td><td>01001010</td><td>j</td><td>106</td><td>01101010</td></tr>
+        <tr><td>K</td><td>75</td><td>01001011</td><td>k</td><td>107</td><td>01101011</td></tr>
+        <tr><td>L</td><td>76</td><td>01001100</td><td>l</td><td>108</td><td>01101100</td></tr>
+        <tr><td>M</td><td>77</td><td>01001101</td><td>m</td><td>109</td><td>01101101</td></tr>
+        <tr><td>N</td><td>78</td><td>01001110</td><td>n</td><td>110</td><td>01101110</td></tr>
+        <tr><td>O</td><td>79</td><td>01001111</td><td>o</td><td>111</td><td>01101111</td></tr>
+        <tr><td>P</td><td>80</td><td>01010000</td><td>p</td><td>112</td><td>01110000</td></tr>
+        <tr><td>Q</td><td>81</td><td>01010001</td><td>q</td><td>113</td><td>01110001</td></tr>
+        <tr><td>R</td><td>82</td><td>01010010</td><td>r</td><td>114</td><td>01110010</td></tr>
+        <tr><td>S</td><td>83</td><td>01010011</td><td>s</td><td>115</td><td>01110011</td></tr>
+        <tr><td>T</td><td>84</td><td>01010100</td><td>t</td><td>116</td><td>01110100</td></tr>
+        <tr><td>U</td><td>85</td><td>01010101</td><td>u</td><td>117</td><td>01110101</td></tr>
+        <tr><td>V</td><td>86</td><td>01010110</td><td>v</td><td>118</td><td>01110110</td></tr>
+        <tr><td>W</td><td>87</td><td>01010111</td><td>w</td><td>119</td><td>01110111</td></tr>
+        <tr><td>X</td><td>88</td><td>01011000</td><td>x</td><td>120</td><td>01111000</td></tr>
+        <tr><td>Y</td><td>89</td><td>01011001</td><td>y</td><td>121</td><td>01111001</td></tr>
+        <tr><td>Z</td><td>90</td><td>01011010</td><td>z</td><td>122</td><td>01111010</td></tr>
+        <tr><td>0</td><td>48</td><td>00110000</td><td>Space</td><td>32</td><td>00100000</td></tr>
+        <tr><td>1</td><td>49</td><td>00110001</td><td>!</td><td>33</td><td>00100001</td></tr>
+        <tr><td>2</td><td>50</td><td>00110010</td><td>?</td><td>63</td><td>00111111</td></tr>
+        <tr><td>3</td><td>51</td><td>00110011</td><td>.</td><td>46</td><td>00101110</td></tr>
+        <tr><td>4</td><td>52</td><td>00110100</td><td>,</td><td>44</td><td>00101100</td></tr>
+        <tr><td>5</td><td>53</td><td>00110101</td><td>@</td><td>64</td><td>01000000</td></tr>
+        <tr><td>6</td><td>54</td><td>00110110</td><td>#</td><td>35</td><td>00100011</td></tr>
+        <tr><td>7</td><td>55</td><td>00110111</td><td>$</td><td>36</td><td>00100100</td></tr>
+        <tr><td>8</td><td>56</td><td>00111000</td><td>%</td><td>37</td><td>00100101</td></tr>
+        <tr><td>9</td><td>57</td><td>00111001</td><td>&amp;</td><td>38</td><td>00100110</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Common Binary Phrases</h2>
+    <div style="overflow-x:auto">
+    <table class="conv-table">
+      <thead>
+        <tr><th>Text</th><th>Binary</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Hi</td><td style="font-family:monospace;font-size:.78rem">01001000 01101001</td></tr>
+        <tr class="hl"><td>Hello</td><td style="font-family:monospace;font-size:.78rem">01001000 01100101 01101100 01101100 01101111</td></tr>
+        <tr><td>Yes</td><td style="font-family:monospace;font-size:.78rem">01011001 01100101 01110011</td></tr>
+        <tr><td>No</td><td style="font-family:monospace;font-size:.78rem">01001110 01101111</td></tr>
+        <tr><td>OK</td><td style="font-family:monospace;font-size:.78rem">01001111 01001011</td></tr>
+        <tr><td>A</td><td style="font-family:monospace;font-size:.78rem">01000001</td></tr>
+        <tr><td>ABC</td><td style="font-family:monospace;font-size:.78rem">01000001 01000010 01000011</td></tr>
+        <tr><td>1</td><td style="font-family:monospace;font-size:.78rem">00110001</td></tr>
+        <tr><td>123</td><td style="font-family:monospace;font-size:.78rem">00110001 00110010 00110011</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>What is binary code?</h3>
+      <p>Binary code is a system that uses only two digits — 0 and 1 — to represent data. Computers use binary because electronic circuits have two states: on (1) and off (0). Each character in text is represented by 8 binary digits (1 byte).</p>
+    </div>
+    <div class="faq-item">
+      <h3>What does 01001000 01100101 01101100 01101100 01101111 mean?</h3>
+      <p>It means "Hello". Each 8-bit group maps to one letter: 01001000=H, 01100101=e, 01101100=l, 01101100=l, 01101111=o. This is the most famous binary phrase.</p>
+    </div>
+    <div class="faq-item">
+      <h3>How many bits per character?</h3>
+      <p>Standard ASCII uses 8 bits (1 byte) per character — covering 256 possible values (0–255). Extended Unicode characters may use more bytes (UTF-8 uses 1–4 bytes per character for international text).</p>
+    </div>
+    <div class="faq-item">
+      <h3>What is the binary for space?</h3>
+      <p>A space character (ASCII 32) in binary is <code style="background:#f1f5f9;padding:.1rem .3rem;border-radius:4px">00100000</code>. When converting sentences, spaces appear as 00100000 between word groups.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What is the difference between binary and hexadecimal?</h3>
+      <p>Binary uses base-2 (only 0 and 1). Hexadecimal uses base-16 (0–9 and A–F). Programmers often use hex as a shorthand for binary — each hex digit represents exactly 4 binary bits. Example: 01001000 binary = 48 hex = 72 decimal = 'H'.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Can I convert binary to numbers too?</h3>
+      <p>Yes — binary can represent both text (via ASCII) and numbers. Binary 00000001=1, 00000010=2, 00000100=4, 00001000=8, etc. This translator is for text (ASCII) conversion. For binary-to-number, each bit position is a power of 2.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Related Tools</h2>
+    <div class="next-grid">
+      <a href="/decimal-to-fraction" class="next-card">
+        <span class="next-tag">Math</span>
+        <h3>Decimal to Fraction</h3>
+        <p>Convert decimals to simplified fractions</p>
+      </a>
+      <a href="/percent-off-calculator" class="next-card">
+        <span class="next-tag">Math</span>
+        <h3>Percent Off Calculator</h3>
+        <p>Calculate sale price after discount</p>
+      </a>
+      <a href="/pythagorean-theorem-calculator" class="next-card">
+        <span class="next-tag">Math</span>
+        <h3>Pythagorean Theorem</h3>
+        <p>Calculate triangle sides with a² + b² = c²</p>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<script is:inline>
+var mode = 'b2t';
+
+function setMode(m) {
+  mode = m;
+  document.getElementById('btn-b2t').classList.toggle('active', m === 'b2t');
+  document.getElementById('btn-t2b').classList.toggle('active', m === 't2b');
+  document.getElementById('inp-lbl').textContent = m === 'b2t' ? 'Enter Binary Code:' : 'Enter Text:';
+  document.getElementById('out-lbl').textContent = m === 'b2t' ? 'Text Output:' : 'Binary Output:';
+  document.getElementById('bin-input').placeholder = m === 'b2t'
+    ? 'e.g. 01001000 01100101 01101100 01101100 01101111'
+    : 'e.g. Hello World';
+  document.getElementById('bin-input').value = '';
+  document.getElementById('bin-output').value = '';
+  document.getElementById('output-area').style.display = 'none';
+  document.getElementById('error-box').style.display = 'none';
+}
+
+function convert() {
+  var input = document.getElementById('bin-input').value.trim();
+  var errorBox = document.getElementById('error-box');
+  var outputArea = document.getElementById('output-area');
+
+  errorBox.style.display = 'none';
+  if (!input) return;
+
+  var output = '';
+
+  if (mode === 'b2t') {
+    var groups = input.trim().split(/\s+/);
+    var valid = true;
+    var chars = [];
+    for (var i = 0; i < groups.length; i++) {
+      var g = groups[i];
+      if (!/^[01]+$/.test(g)) { valid = false; break; }
+      chars.push(String.fromCharCode(parseInt(g, 2)));
+    }
+    if (!valid || chars.length === 0) {
+      errorBox.textContent = 'Invalid binary input. Use only 0s and 1s, separated by spaces (e.g. 01001000 01101001).';
+      errorBox.style.display = 'block';
+      outputArea.style.display = 'none';
+      return;
+    }
+    output = chars.join('');
+  } else {
+    output = input.split('').map(function(c) {
+      return c.charCodeAt(0).toString(2).padStart(8, '0');
+    }).join(' ');
+  }
+
+  document.getElementById('bin-output').value = output;
+  outputArea.style.display = 'block';
+}
+
+function setPreset(val) {
+  if (mode !== 'b2t') setMode('b2t');
+  document.getElementById('bin-input').value = val;
+  convert();
+}
+
+function copyResult() {
+  var out = document.getElementById('bin-output');
+  out.select();
+  out.setSelectionRange(0, 99999);
+  try {
+    document.execCommand('copy');
+  } catch(e) {
+    navigator.clipboard && navigator.clipboard.writeText(out.value);
+  }
+  var btn = document.getElementById('copy-btn');
+  btn.textContent = 'Copied!';
+  btn.style.background = '#dcfce7';
+  btn.style.color = '#166534';
+  btn.style.borderColor = '#86efac';
+  setTimeout(function() {
+    btn.textContent = 'Copy';
+    btn.style.background = '#eff6ff';
+    btn.style.color = '#2563eb';
+    btn.style.borderColor = '#bfdbfe';
+  }, 2000);
+}
+
+document.getElementById('bin-input').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); convert(); }
+});
+</script>
+
+</Layout>
