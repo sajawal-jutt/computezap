@@ -1,0 +1,572 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const title = "Savings Calculator";
+const description = "Calculate how much you'll save, when you'll reach your goal, or how much to save monthly. Free savings calculator with interest, contributions, and year-by-year breakdown.";
+const canonical = "https://www.computezap.com/savings-calculator";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "Savings Calculator",
+      "url": canonical,
+      "description": description,
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "Any",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.computezap.com" },
+        { "@type": "ListItem", "position": 2, "name": "Finance", "item": "https://www.computezap.com/#finance" },
+        { "@type": "ListItem", "position": 3, "name": "Savings Calculator", "item": canonical }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How much should I have in savings?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Most financial experts recommend 3–6 months of living expenses in an emergency fund ($15,000–$30,000 for average households). Beyond that, save toward specific goals like a down payment, retirement, or education." }
+        },
+        {
+          "@type": "Question",
+          "name": "What interest rate should I use for a savings calculator?",
+          "acceptedAnswer": { "@type": "Answer", "text": "High-yield savings accounts (HYSA) currently offer 4.5–5.0%. For long-term investment growth, use 7% (S&P 500 historical average after inflation). For CDs, use 4.5–5.5%." }
+        },
+        {
+          "@type": "Question",
+          "name": "How long does it take to save $100,000?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Saving $500/month at 5% interest takes about 12 years to reach $100,000. At $1,000/month and 5%, it takes about 7 years. At $2,000/month and 7%, you can reach $100,000 in about 4 years." }
+        }
+      ]
+    }
+  ]
+};
+---
+
+<Layout title={title} description={description} canonical={canonical}>
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+
+  <style>
+    .mode-row { display: flex; gap: 0; margin-bottom: 20px; border-radius: 10px; overflow: hidden; border: 1.5px solid var(--border); }
+    .mode-btn { flex: 1; padding: 10px 6px; border: none; background: var(--bg-card); color: var(--text-muted); font-size: 0.82rem; font-weight: 500; cursor: pointer; transition: all 0.18s; border-right: 1px solid var(--border); line-height: 1.3; }
+    .mode-btn:last-child { border-right: none; }
+    .mode-btn.active { background: var(--primary); color: #fff; }
+    .mode-btn:hover:not(.active) { background: var(--bg-hero); color: var(--text); }
+    .sv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 500px) { .sv-grid { grid-template-columns: 1fr; } }
+    .growth-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    .growth-table th, .growth-table td { padding: 8px 12px; text-align: right; border-bottom: 1px solid var(--border); }
+    .growth-table th { background: var(--bg-hero); font-weight: 600; }
+    .growth-table td:first-child, .growth-table th:first-child { text-align: left; }
+    .growth-table tr:hover td { background: var(--bg-hero); }
+    .milestone-row td { background: rgba(99,102,241,0.07) !important; font-weight: 600; }
+    .goal-progress { height: 10px; background: var(--border); border-radius: 6px; margin-top: 10px; overflow: hidden; }
+    .goal-bar { height: 100%; background: var(--primary); border-radius: 6px; transition: width 0.4s; }
+  </style>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <nav class="breadcrumb">
+      <a href="/">Home</a>
+      <span>›</span>
+      <a href="/#finance">Finance</a>
+      <span>›</span>
+      <span>Savings Calculator</span>
+    </nav>
+    <h1>Savings Calculator</h1>
+    <p class="hero-sub">Calculate your savings balance, time to reach a goal, or monthly savings needed</p>
+  </section>
+
+  <!-- CALCULATOR -->
+  <section class="calc-center">
+    <div class="calc-card">
+
+      <!-- Mode Toggle -->
+      <div class="mode-row">
+        <button class="mode-btn active" onclick="setMode('balance', this)">Calculate Balance</button>
+        <button class="mode-btn" onclick="setMode('goal', this)">Time to Goal</button>
+        <button class="mode-btn" onclick="setMode('monthly', this)">Monthly Needed</button>
+      </div>
+
+      <!-- Presets -->
+      <div class="preset-row" id="presets-balance">
+        <button class="preset-btn" onclick="setPreset('balance',1000,500,5,5)">Emergency Fund</button>
+        <button class="preset-btn" onclick="setPreset('balance',10000,300,7,10)">Invest $10K</button>
+        <button class="preset-btn" onclick="setPreset('balance',0,200,4.75,3)">HYSA 3yr</button>
+        <button class="preset-btn" onclick="setPreset('balance',5000,1000,7,20)">Long Term</button>
+      </div>
+      <div class="preset-row" id="presets-goal" style="display:none">
+        <button class="preset-btn" onclick="setPreset('goal',15000,1000,500,5)">Emergency Fund</button>
+        <button class="preset-btn" onclick="setPreset('goal',60000,5000,1500,5)">Down Payment</button>
+        <button class="preset-btn" onclick="setPreset('goal',100000,0,800,7)">$100K Goal</button>
+        <button class="preset-btn" onclick="setPreset('goal',1000000,10000,1500,7)">$1 Million</button>
+      </div>
+      <div class="preset-row" id="presets-monthly" style="display:none">
+        <button class="preset-btn" onclick="setPreset('monthly',15000,0,5,2)">Emergency Fund</button>
+        <button class="preset-btn" onclick="setPreset('monthly',60000,5000,5,5)">Down Payment</button>
+        <button class="preset-btn" onclick="setPreset('monthly',100000,10000,7,10)">$100K in 10yr</button>
+        <button class="preset-btn" onclick="setPreset('monthly',1000000,50000,7,25)">$1M in 25yr</button>
+      </div>
+
+      <!-- Inputs -->
+      <div class="sv-grid">
+        <!-- Goal (mode 2 & 3 only) -->
+        <div class="input-group" id="row-goal" style="display:none">
+          <label class="input-label">Savings Goal ($)</label>
+          <input type="number" id="goal" class="calc-input" value="15000" min="0" placeholder="15000">
+        </div>
+        <!-- Starting balance (all modes) -->
+        <div class="input-group" id="row-principal">
+          <label class="input-label">Starting Balance ($)</label>
+          <input type="number" id="principal" class="calc-input" value="1000" min="0" placeholder="0">
+        </div>
+        <!-- Monthly contribution (mode 1 & 2) -->
+        <div class="input-group" id="row-monthly">
+          <label class="input-label">Monthly Contribution ($)</label>
+          <input type="number" id="monthly" class="calc-input" value="500" min="0" placeholder="500">
+        </div>
+        <!-- Rate (all modes) -->
+        <div class="input-group" id="row-rate">
+          <label class="input-label">Annual Interest Rate (%)</label>
+          <input type="number" id="rate" class="calc-input" value="5" min="0" max="100" step="0.1" placeholder="5">
+        </div>
+        <!-- Years (mode 1 & 3) -->
+        <div class="input-group" id="row-years">
+          <label class="input-label">Time Period (Years)</label>
+          <input type="number" id="years" class="calc-input" value="5" min="1" max="100" placeholder="5">
+        </div>
+      </div>
+
+      <button class="calc-btn" onclick="calcSavings()">Calculate</button>
+
+      <!-- Answer Hero -->
+      <div class="answer-hero show" id="answer-hero">
+        <div class="answer-label" id="answer-label">Final Balance</div>
+        <div class="answer-value" id="final-val">—</div>
+        <div class="answer-sub" id="answer-sub">Enter values and click Calculate</div>
+        <!-- Goal progress bar (mode 2 only) -->
+        <div id="progress-wrap" style="display:none">
+          <div class="goal-progress"><div class="goal-bar" id="goal-bar" style="width:0%"></div></div>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-row show">
+        <div class="stat-box">
+          <div class="stat-label" id="s1-label">Starting Balance</div>
+          <div class="stat-value" id="stat-s1">—</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label" id="s2-label">Total Contributions</div>
+          <div class="stat-value" id="stat-s2">—</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label" id="s3-label">Interest Earned</div>
+          <div class="stat-value" id="stat-s3">—</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label" id="s4-label">Goal Reached</div>
+          <div class="stat-value" id="stat-s4">—</div>
+        </div>
+      </div>
+
+      <div class="tip-box" id="tip-box" style="display:none"></div>
+
+    </div>
+  </section>
+
+  <!-- CONTENT -->
+  <section class="content-wrap">
+
+    <div class="content-card" id="growth-card" style="display:none">
+      <h2>Year-by-Year Savings Growth</h2>
+      <div style="overflow-x:auto">
+        <table class="growth-table">
+          <thead>
+            <tr>
+              <th>Year</th>
+              <th>Balance</th>
+              <th>Interest Earned</th>
+              <th>Total Saved</th>
+            </tr>
+          </thead>
+          <tbody id="growth-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>How Much Should I Have Saved?</h2>
+      <p>Financial experts recommend saving in layers — starting with a basic emergency cushion, then building toward long-term goals.</p>
+      <div style="overflow-x:auto;margin-top:12px">
+        <table class="conv-table">
+          <thead><tr><th>Savings Tier</th><th>Target Amount</th><th>Purpose</th><th>Timeline</th></tr></thead>
+          <tbody>
+            <tr><td>Starter Emergency Fund</td><td>$1,000</td><td>Cover small unexpected expenses</td><td>ASAP</td></tr>
+            <tr><td>Full Emergency Fund</td><td>3–6 months expenses ($12K–$30K)</td><td>Job loss, medical, car repairs</td><td>1–3 years</td></tr>
+            <tr><td>Short-Term Goals</td><td>$5K–$30K</td><td>Vacation, appliance, car repair</td><td>1–3 years</td></tr>
+            <tr><td>Down Payment</td><td>$20K–$80K (10–20% of home)</td><td>Buy a house</td><td>3–7 years</td></tr>
+            <tr><td>Retirement (by age 30)</td><td>1× annual salary</td><td>Long-term financial independence</td><td>5–10 years</td></tr>
+            <tr><td>Financial Independence</td><td>25× annual expenses</td><td>The "4% rule" — retire early</td><td>15–30 years</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>Savings Rate Comparison — $500/Month Over Time</h2>
+      <div style="overflow-x:auto">
+        <table class="conv-table">
+          <thead><tr><th>Interest Rate</th><th>After 5 Years</th><th>After 10 Years</th><th>After 20 Years</th><th>After 30 Years</th></tr></thead>
+          <tbody>
+            <tr><td>0% (no interest)</td><td>$30,000</td><td>$60,000</td><td>$120,000</td><td>$180,000</td></tr>
+            <tr><td>2%</td><td>$31,517</td><td>$66,152</td><td>$147,380</td><td>$246,820</td></tr>
+            <tr><td>4%</td><td>$33,149</td><td>$73,625</td><td>$183,085</td><td>$347,084</td></tr>
+            <tr><td>5% (HYSA)</td><td>$34,070</td><td>$77,641</td><td>$206,221</td><td>$416,130</td></tr>
+            <tr><td>7% (S&P 500 real)</td><td>$35,938</td><td>$86,482</td><td>$262,481</td><td>$605,765</td></tr>
+            <tr><td>10%</td><td>$38,791</td><td>$101,187</td><td>$379,684</td><td>$1,130,243</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>Where to Keep Your Savings</h2>
+      <div style="overflow-x:auto">
+        <table class="conv-table">
+          <thead><tr><th>Account Type</th><th>Typical Rate</th><th>Best For</th><th>FDIC Insured</th></tr></thead>
+          <tbody>
+            <tr><td>Regular Savings Account</td><td>0.01 – 0.5%</td><td>Parking money, easy access</td><td>Yes</td></tr>
+            <tr><td>High-Yield Savings (HYSA)</td><td>4.0 – 5.0%</td><td>Emergency fund, short-term goals</td><td>Yes</td></tr>
+            <tr><td>Money Market Account</td><td>4.0 – 5.0%</td><td>Emergency fund + check writing</td><td>Yes</td></tr>
+            <tr><td>CD (3–12 month)</td><td>4.5 – 5.5%</td><td>Fixed-term savings, higher rate</td><td>Yes</td></tr>
+            <tr><td>I-Bonds (Treasury)</td><td>Inflation-indexed</td><td>Inflation hedge, 1yr minimum</td><td>Yes (govt)</td></tr>
+            <tr><td>Index Fund (S&P 500)</td><td>~7–10% avg</td><td>Long-term wealth building (5+ yrs)</td><td>No</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h3>How much should I save each month?</h3>
+        <p>The classic rule is <strong>50/30/20</strong>: 50% needs, 30% wants, 20% savings. On a $4,000/month take-home, that's $800/month saved. But even $100–$200/month consistently outperforms sporadic large deposits.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Is a savings account better than investing?</h3>
+        <p>For money you need within 3 years, a high-yield savings account (4–5%) is safer. For goals 5+ years away, index fund investing (7–10% average) typically beats savings accounts significantly over time — but comes with short-term volatility.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How long does it take to save $10,000?</h3>
+        <p>At $500/month with 5% HYSA interest: about 19 months. At $300/month: about 32 months. At $1,000/month: about 10 months. Starting with existing savings dramatically reduces the timeline.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Does compound interest apply to savings accounts?</h3>
+        <p>Yes. Most savings accounts compound daily and credit interest monthly. HYSA accounts at 4.75% APY compounded daily effectively give you 4.75% annually — the APY (Annual Percentage Yield) already accounts for compounding.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What is the 4% rule for retirement?</h3>
+        <p>To retire comfortably, save 25× your annual expenses. If you spend $50,000/year, you need $1.25 million saved. Then withdraw 4%/year ($50K) — historically, this lasts 30+ years in a diversified portfolio.</p>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>Related Finance Calculators</h2>
+      <div class="related-grid">
+        <a href="/compound-interest-calculator" class="related-card">
+          <div class="related-icon">📈</div>
+          <div class="related-name">Compound Interest</div>
+        </a>
+        <a href="/roth-ira-calculator" class="related-card">
+          <div class="related-icon">🏦</div>
+          <div class="related-name">Roth IRA Calculator</div>
+        </a>
+        <a href="/401k-calculator" class="related-card">
+          <div class="related-icon">📊</div>
+          <div class="related-name">401K Calculator</div>
+        </a>
+        <a href="/cd-calculator" class="related-card">
+          <div class="related-icon">🏛️</div>
+          <div class="related-name">CD Calculator</div>
+        </a>
+        <a href="/amortization-calculator" class="related-card">
+          <div class="related-icon">🏠</div>
+          <div class="related-name">Amortization Calculator</div>
+        </a>
+        <a href="/percent-off-calculator" class="related-card">
+          <div class="related-icon">🏷️</div>
+          <div class="related-name">Percent Off Calculator</div>
+        </a>
+      </div>
+    </div>
+
+  </section>
+
+  <script is:inline>
+    var currentMode = 'balance';
+
+    function setMode(mode, btn) {
+      currentMode = mode;
+      document.querySelectorAll('.mode-btn').forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+
+      // Show/hide presets
+      document.getElementById('presets-balance').style.display = mode === 'balance' ? '' : 'none';
+      document.getElementById('presets-goal').style.display   = mode === 'goal'    ? '' : 'none';
+      document.getElementById('presets-monthly').style.display = mode === 'monthly' ? '' : 'none';
+
+      // Show/hide inputs
+      document.getElementById('row-goal').style.display    = (mode === 'goal' || mode === 'monthly') ? '' : 'none';
+      document.getElementById('row-monthly').style.display = (mode === 'balance' || mode === 'goal') ? '' : 'none';
+      document.getElementById('row-years').style.display   = (mode === 'balance' || mode === 'monthly') ? '' : 'none';
+
+      // Hide growth table when switching modes
+      document.getElementById('growth-card').style.display = 'none';
+
+      calcSavings();
+    }
+
+    function setPreset(mode, a, b, c, d) {
+      // mode balance: (principal, monthly, rate, years)
+      // mode goal:    (goal, principal, monthly, rate)
+      // mode monthly: (goal, principal, rate, years)
+      if (mode === 'balance') {
+        document.getElementById('principal').value = a;
+        document.getElementById('monthly').value   = b;
+        document.getElementById('rate').value      = c;
+        document.getElementById('years').value     = d;
+      } else if (mode === 'goal') {
+        document.getElementById('goal').value      = a;
+        document.getElementById('principal').value = b;
+        document.getElementById('monthly').value   = c;
+        document.getElementById('rate').value      = d;
+      } else if (mode === 'monthly') {
+        document.getElementById('goal').value      = a;
+        document.getElementById('principal').value = b;
+        document.getElementById('rate').value      = c;
+        document.getElementById('years').value     = d;
+      }
+      calcSavings();
+    }
+
+    function fmtFull(n) {
+      return '$' + Math.round(n).toLocaleString();
+    }
+
+    function fmtShort(n) {
+      if (n >= 1000000) return '$' + (n / 1000000).toFixed(2) + 'M';
+      if (n >= 10000)   return '$' + (n / 1000).toFixed(1) + 'K';
+      return '$' + Math.round(n).toLocaleString();
+    }
+
+    function fmtMonths(totalMonths) {
+      var y = Math.floor(totalMonths / 12);
+      var m = Math.round(totalMonths % 12);
+      if (m === 12) { y++; m = 0; }
+      var parts = [];
+      if (y > 0) parts.push(y + ' yr' + (y !== 1 ? 's' : ''));
+      if (m > 0) parts.push(m + ' mo');
+      return parts.length ? parts.join(' ') : 'Already reached';
+    }
+
+    function getGoalDate(months) {
+      var d = new Date();
+      d.setMonth(d.getMonth() + Math.ceil(months));
+      return d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+    }
+
+    function runLoop(principal, monthly, rateAnnual, months) {
+      var rm = rateAnnual / 100 / 12;
+      var bal = principal;
+      var totalInterest = 0;
+      var totalContrib  = principal;
+      var yearData = [];
+      for (var m = 0; m < months; m++) {
+        var interest = bal * rm;
+        totalInterest += interest;
+        bal += interest + monthly;
+        totalContrib += monthly;
+        if ((m + 1) % 12 === 0) {
+          yearData.push({ year: (m + 1) / 12, balance: bal, interest: totalInterest, contrib: totalContrib });
+        }
+      }
+      return { balance: bal, totalInterest: totalInterest, totalContrib: totalContrib, yearData: yearData };
+    }
+
+    function calcSavings() {
+      var principal = parseFloat(document.getElementById('principal').value) || 0;
+      var rate      = parseFloat(document.getElementById('rate').value)      || 0;
+      var tip       = document.getElementById('tip-box');
+      var progWrap  = document.getElementById('progress-wrap');
+
+      progWrap.style.display = 'none';
+      tip.style.display = 'none';
+
+      if (currentMode === 'balance') {
+        var monthly = parseFloat(document.getElementById('monthly').value) || 0;
+        var years   = parseInt(document.getElementById('years').value)     || 0;
+        if (years < 1) return;
+
+        var res = runLoop(principal, monthly, rate, years * 12);
+        var interestPct = res.balance > 0 ? (res.totalInterest / res.balance * 100) : 0;
+
+        document.getElementById('answer-label').textContent = 'Final Balance';
+        document.getElementById('final-val').textContent    = fmtFull(res.balance);
+        document.getElementById('answer-sub').textContent   =
+          'After ' + years + ' year' + (years !== 1 ? 's' : '') + ' at ' + rate + '% interest';
+
+        document.getElementById('s1-label').textContent = 'Starting Balance';
+        document.getElementById('s2-label').textContent = 'Total Contributions';
+        document.getElementById('s3-label').textContent = 'Interest Earned';
+        document.getElementById('s4-label').textContent = 'Interest % of Total';
+        document.getElementById('stat-s1').textContent  = fmtFull(principal);
+        document.getElementById('stat-s2').textContent  = fmtFull(res.totalContrib);
+        document.getElementById('stat-s3').textContent  = fmtFull(res.totalInterest);
+        document.getElementById('stat-s4').textContent  = interestPct.toFixed(1) + '%';
+
+        // Tip
+        tip.style.display = 'block';
+        if (rate === 0) {
+          tip.className = 'tip-box tip-orange';
+          tip.textContent = 'At 0% interest your money isn\'t growing. High-yield savings accounts currently offer 4.5–5.0% — a big improvement over traditional 0.01% bank accounts.';
+        } else {
+          var doublingYrs = (Math.log(2) / Math.log(1 + rate / 100)).toFixed(1);
+          tip.className = 'tip-box tip-green';
+          tip.textContent = 'Interest earns you ' + fmtShort(res.totalInterest) + ' over ' + years + ' years — that\'s free money on top of your ' + fmtShort(monthly * 12 * years) + ' in contributions. At ' + rate + '%, money doubles every ' + doublingYrs + ' years.';
+        }
+
+        // Year table
+        buildTable(res.yearData, years);
+        document.getElementById('growth-card').style.display = 'block';
+
+      } else if (currentMode === 'goal') {
+        var goal    = parseFloat(document.getElementById('goal').value)    || 0;
+        var monthly = parseFloat(document.getElementById('monthly').value) || 0;
+        if (goal <= 0) return;
+
+        var rm = rate / 100 / 12;
+        var months;
+
+        if (goal <= principal) {
+          months = 0;
+        } else if (rm === 0) {
+          months = monthly > 0 ? (goal - principal) / monthly : Infinity;
+        } else {
+          var num = Math.log((goal * rm + monthly) / (principal * rm + monthly));
+          var den = Math.log(1 + rm);
+          months = num / den;
+        }
+
+        var isInfinity = !isFinite(months) || months < 0;
+        var totalContrib = isInfinity ? 0 : principal + monthly * months;
+        var totalInterest = isInfinity ? 0 : goal - totalContrib;
+        var startPct = goal > 0 ? Math.min(100, (principal / goal) * 100) : 0;
+
+        document.getElementById('answer-label').textContent = months === 0 ? 'Already Reached!' : 'Time to Reach Goal';
+        document.getElementById('final-val').textContent = isInfinity ? '∞' : fmtMonths(months);
+        document.getElementById('answer-sub').textContent = isInfinity
+          ? 'Your monthly savings can\'t reach this goal without interest growing it'
+          : (months === 0 ? 'Your current balance already meets the goal!' : 'Goal reached: ' + getGoalDate(months));
+
+        // Progress bar
+        progWrap.style.display = 'block';
+        document.getElementById('goal-bar').style.width = startPct.toFixed(1) + '%';
+
+        document.getElementById('s1-label').textContent = 'Current Progress';
+        document.getElementById('s2-label').textContent = 'Monthly Saving';
+        document.getElementById('s3-label').textContent = 'Interest Will Earn';
+        document.getElementById('s4-label').textContent = 'Goal';
+        document.getElementById('stat-s1').textContent  = fmtFull(principal) + ' (' + startPct.toFixed(0) + '%)';
+        document.getElementById('stat-s2').textContent  = fmtFull(monthly);
+        document.getElementById('stat-s3').textContent  = isInfinity ? '—' : fmtFull(Math.max(0, totalInterest));
+        document.getElementById('stat-s4').textContent  = fmtFull(goal);
+
+        tip.style.display = 'block';
+        if (isInfinity) {
+          tip.className = 'tip-box tip-orange';
+          tip.textContent = 'At $' + monthly.toLocaleString() + '/month with 0% interest, you\'ll never reach $' + goal.toLocaleString() + '. Increase monthly savings or add an interest-bearing account.';
+        } else if (months === 0) {
+          tip.className = 'tip-box tip-green';
+          tip.textContent = 'You\'ve already saved ' + fmtFull(principal) + ' — your goal of ' + fmtFull(goal) + ' is already reached!';
+        } else {
+          tip.className = 'tip-box tip-green';
+          tip.textContent = 'Save an extra $' + Math.round(monthly * 0.25).toLocaleString() + '/month and you\'ll reach your goal about ' + fmtMonths(months * 0.2) + ' sooner.';
+        }
+
+      } else if (currentMode === 'monthly') {
+        var goal  = parseFloat(document.getElementById('goal').value)  || 0;
+        var years = parseInt(document.getElementById('years').value)   || 0;
+        if (goal <= 0 || years < 1) return;
+
+        var rm = rate / 100 / 12;
+        var n  = years * 12;
+        var pv = principal * Math.pow(1 + rm, n);
+        var needed;
+
+        if (goal <= pv) {
+          needed = 0;
+        } else if (rm === 0) {
+          needed = (goal - principal) / n;
+        } else {
+          needed = (goal - principal * Math.pow(1 + rm, n)) * rm / (Math.pow(1 + rm, n) - 1);
+        }
+
+        var totalContrib  = Math.max(0, principal + needed * n);
+        var totalInterest = goal - totalContrib;
+
+        document.getElementById('answer-label').textContent = 'Monthly Savings Needed';
+        document.getElementById('final-val').textContent    = needed <= 0 ? '$0' : fmtFull(needed);
+        document.getElementById('answer-sub').textContent   =
+          'To reach ' + fmtFull(goal) + ' in ' + years + ' year' + (years !== 1 ? 's' : '') + ' at ' + rate + '%';
+
+        document.getElementById('s1-label').textContent = 'Starting Balance';
+        document.getElementById('s2-label').textContent = 'Total You Contribute';
+        document.getElementById('s3-label').textContent = 'Interest Earned';
+        document.getElementById('s4-label').textContent = 'Annual Savings';
+        document.getElementById('stat-s1').textContent  = fmtFull(principal);
+        document.getElementById('stat-s2').textContent  = fmtFull(Math.max(0, needed * n + principal));
+        document.getElementById('stat-s3').textContent  = fmtFull(Math.max(0, totalInterest));
+        document.getElementById('stat-s4').textContent  = needed <= 0 ? '$0' : fmtFull(needed * 12);
+
+        tip.style.display = 'block';
+        if (needed <= 0) {
+          tip.className = 'tip-box tip-green';
+          tip.textContent = 'Great news! Your starting balance of ' + fmtFull(principal) + ' already grows to ' + fmtFull(goal) + ' or more in ' + years + ' years at ' + rate + '% — no additional monthly savings needed!';
+        } else {
+          tip.className = rate < 3 ? 'tip-box tip-orange' : 'tip-box tip-green';
+          tip.textContent = 'Interest earns you ' + fmtFull(Math.max(0, totalInterest)) + ' over ' + years + ' years. That means you only need to contribute ' + fmtFull(Math.max(0, needed * n)) + ' to reach your ' + fmtFull(goal) + ' goal — interest covers the rest.';
+        }
+      }
+    }
+
+    function buildTable(yearData, totalYears) {
+      var tbody = document.getElementById('growth-body');
+      var html = '';
+      yearData.forEach(function(d) {
+        var isMilestone = d.year === 1 || d.year % 5 === 0 || d.year === totalYears;
+        var cls = isMilestone ? ' class="milestone-row"' : '';
+        html += '<tr' + cls + '>' +
+          '<td>Year ' + d.year + '</td>' +
+          '<td>' + fmtFull(d.balance) + '</td>' +
+          '<td>' + fmtFull(d.interest) + '</td>' +
+          '<td>' + fmtFull(d.contrib) + '</td>' +
+          '</tr>';
+      });
+      tbody.innerHTML = html;
+    }
+
+    // Show correct inputs for default mode
+    document.getElementById('row-goal').style.display    = 'none';
+    document.getElementById('row-years').style.display   = '';
+    document.getElementById('row-monthly').style.display = '';
+
+    calcSavings();
+  </script>
+</Layout>
