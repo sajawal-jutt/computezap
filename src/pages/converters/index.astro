@@ -1,0 +1,145 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const tools = [
+  { href: '/converters/cm-to-inches', icon: '📏', name: 'cm to Inches', desc: '1 cm = 0.3937 in — height, fabric, and screen size conversions' },
+  { href: '/kg-to-lbs', icon: '⚖️', name: 'kg to lbs', desc: '1 kg = 2.2046 lbs — weight conversion with 56 pre-calculated pages' },
+  { href: '/converters/km-to-miles', icon: '🛣️', name: 'km to Miles', desc: '1 km = 0.6214 miles — distance and speed conversions' },
+  { href: '/converters/meters-to-feet', icon: '📐', name: 'Meters to Feet', desc: '1 meter = 3.2808 feet — elevation, ceiling height, depth' },
+  { href: '/converters/celsius-to-fahrenheit', icon: '🌡️', name: 'Celsius to Fahrenheit', desc: 'C to F conversion — body temperature, weather, cooking' },
+  { href: '/converters/fahrenheit-to-celsius', icon: '🌡️', name: 'Fahrenheit to Celsius', desc: 'F to C conversion — reverse temperature converter' },
+  { href: '/converters/liters-to-gallons', icon: '🪣', name: 'Liters to Gallons', desc: '1 L = 0.2642 US gallons — fuel, water, liquid volume' },
+  { href: '/converters/gallons-to-liters', icon: '🪣', name: 'Gallons to Liters', desc: '1 US gallon = 3.7854 L — reverse gallon converter' },
+  { href: '/converters/cups-to-gallons', icon: '🥛', name: 'Cups to Gallons', desc: '16 cups = 1 gallon — cooking and recipe conversions' },
+  { href: '/converters/cups-to-tablespoons', icon: '🥄', name: 'Cups to Tablespoons', desc: '1 cup = 16 tablespoons — kitchen measurement converter' },
+  { href: '/converters/oz-to-quarts', icon: '🧴', name: 'Oz to Quarts', desc: '32 fl oz = 1 quart — fluid ounce to quart converter' },
+  { href: '/converters/oz-to-pint', icon: '🍺', name: 'Oz to Pints', desc: '16 fl oz = 1 pint — fluid ounce and pint converter' },
+  { href: '/converters/quart-to-gallon', icon: '🪣', name: 'Quart to Gallon', desc: '4 quarts = 1 gallon — quick volume reference' },
+  { href: '/converters/ounces-in-a-pound', icon: '⚖️', name: 'Ounces in a Pound', desc: '16 oz = 1 lb — weight converter with common conversions' },
+  { href: '/converters/knots-to-mph', icon: '⛵', name: 'Knots to MPH', desc: '1 knot = 1.1508 mph — maritime and aviation speed' },
+  { href: '/converters/mph-to-knots', icon: '✈️', name: 'MPH to Knots', desc: '1 mph = 0.869 knots — reverse speed converter' },
+  { href: '/converters/bar-to-psi', icon: '🔧', name: 'Bar to PSI', desc: '1 bar = 14.504 psi — tire pressure and hydraulics' },
+  { href: '/converters/atm-to-bar', icon: '💨', name: 'ATM to Bar', desc: '1 atm = 1.01325 bar — atmospheric pressure converter' },
+  { href: '/converters/grain-to-mg', icon: '⚖️', name: 'Grain to Milligrams', desc: '1 grain = 64.799 mg — medication and ammunition dosing' },
+  { href: '/converters/dwt-to-grams', icon: '💍', name: 'DWT to Grams', desc: '1 dwt = 1.5552 g — pennyweight to grams for jewelry' },
+  { href: '/converters/troy-ounces-to-pounds', icon: '🥇', name: 'Troy Ounces to Pounds', desc: '1 troy oz = 0.0686 lbs — gold, silver, precious metals' },
+];
+
+const schema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Unit Converters — ComputeZap",
+    "url": "https://computezap.com/converters/",
+    "description": "Free online unit converters — length, weight, temperature, volume, pressure, and more. Instant conversion with formulas and reference tables."
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Unit Converters", "item": "https://computezap.com/converters/" }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "Unit Converters",
+    "itemListElement": tools.map((t, i) => ({
+      "@type": "ListItem",
+      "position": i + 1,
+      "name": t.name,
+      "url": `https://computezap.com${t.href}`
+    }))
+  }
+]);
+---
+<Layout
+  title="Unit Converters — Length, Weight, Temperature & More | ComputeZap"
+  description="Free unit converters: cm to inches, kg to lbs, Celsius to Fahrenheit, liters to gallons, and 20+ more. Instant conversion with formulas and reference tables."
+  canonical="/converters/"
+  schema={schema}
+>
+  <div class="page-hero">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a> › <span>Unit Converters</span>
+    </nav>
+    <h1>Unit Converters</h1>
+    <p class="hero-sub">Length, weight, temperature, volume, pressure, and more — instant results with conversion formulas.</p>
+  </div>
+
+  <div class="content-wrap">
+
+    <p class="hub-intro">Our unit converters cover the most common everyday conversions — from cooking measurements and body weight to temperature, pressure, and precious metal weights. Every converter shows the formula, common reference values, and a quick-reference table.</p>
+
+    <h2 class="hub-section-title">⚖️ All Converters ({tools.length} tools)</h2>
+    <div class="hub-tool-grid">
+      {tools.map(t => (
+        <a href={t.href} class="hub-card">
+          <span class="h-icon">{t.icon}</span>
+          <h3>{t.name}</h3>
+          <p>{t.desc}</p>
+        </a>
+      ))}
+    </div>
+
+    <div class="content-card">
+      <h2>Conversion Categories</h2>
+      <ul>
+        <li><strong>Length & Distance</strong> — cm to inches, km to miles, meters to feet</li>
+        <li><strong>Weight & Mass</strong> — kg to lbs, ounces in a pound, grain to mg, dwt to grams, troy ounces to pounds</li>
+        <li><strong>Temperature</strong> — Celsius to Fahrenheit, Fahrenheit to Celsius</li>
+        <li><strong>Volume & Liquid</strong> — liters to gallons, cups to gallons, oz to quarts, oz to pints, quart to gallon</li>
+        <li><strong>Speed</strong> — knots to mph, mph to knots</li>
+        <li><strong>Pressure</strong> — bar to PSI, ATM to bar</li>
+      </ul>
+    </div>
+
+    <div class="content-card">
+      <h2>Frequently Asked Questions</h2>
+
+      <div class="faq-item">
+        <h3>How do I convert kg to lbs?</h3>
+        <p>Multiply kilograms by 2.2046. For example, 70 kg × 2.2046 = 154.32 lbs. Use our <a href="/kg-to-lbs">kg to lbs converter</a> for instant results.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>How do I convert Celsius to Fahrenheit?</h3>
+        <p>Use the formula: °F = (°C × 9/5) + 32. For example, 37°C (body temperature) = (37 × 9/5) + 32 = 98.6°F. Use our <a href="/converters/celsius-to-fahrenheit">Celsius to Fahrenheit converter</a> for any value.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>How many cups are in a gallon?</h3>
+        <p>There are 16 cups in 1 US gallon. Use our <a href="/converters/cups-to-gallons">cups to gallons converter</a> for any quantity.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>What is a troy ounce?</h3>
+        <p>A troy ounce (31.1035 grams) is heavier than a regular avoirdupois ounce (28.35 grams). It's the standard unit for precious metals like gold, silver, and platinum. Use our <a href="/converters/troy-ounces-to-pounds">troy ounces to pounds converter</a> for metal weight conversions.</p>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>Explore Other Categories</h2>
+      <div class="next-grid">
+        <a href="/finance/" class="next-card">
+          <span class="next-tag">Finance</span>
+          Finance Calculators
+        </a>
+        <a href="/calculators/" class="next-card">
+          <span class="next-tag">Math</span>
+          Math Calculators
+        </a>
+        <a href="/health/" class="next-card">
+          <span class="next-tag">Health</span>
+          Health Calculators
+        </a>
+        <a href="/date-time/" class="next-card">
+          <span class="next-tag">Time</span>
+          Date &amp; Time Tools
+        </a>
+      </div>
+    </div>
+
+  </div>
+</Layout>

@@ -1,0 +1,138 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const tools = [
+  { href: '/health/bac-calculator', icon: '🍺', name: 'BAC Calculator', desc: 'Estimate Blood Alcohol Content using the Widmark formula — multi-drink entry table' },
+];
+
+const comingSoon = [
+  { icon: '⚖️', name: 'BMI Calculator', desc: 'Body Mass Index — underweight, healthy, overweight, obese ranges' },
+  { icon: '🔥', name: 'Body Fat Calculator', desc: 'Estimate body fat percentage using Navy method and skinfold measurements' },
+  { icon: '🍽️', name: 'Calorie Calculator', desc: 'Daily calorie needs using TDEE — based on age, weight, height, and activity level' },
+];
+
+const schema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Health Calculators — ComputeZap",
+    "url": "https://computezap.com/health/",
+    "description": "Free health calculators: BAC estimator, with BMI, body fat, and calorie calculators coming soon. Educational use only — not medical advice."
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Health Calculators", "item": "https://computezap.com/health/" }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "Health Calculators",
+    "itemListElement": tools.map((t, i) => ({
+      "@type": "ListItem",
+      "position": i + 1,
+      "name": t.name,
+      "url": `https://computezap.com${t.href}`
+    }))
+  }
+]);
+---
+<Layout
+  title="Health Calculators — BAC, BMI, Body Fat & More | ComputeZap"
+  description="Free health calculators: BAC estimator using the Widmark formula, with BMI, body fat, and calorie calculators coming soon. For educational use only."
+  canonical="/health/"
+  schema={schema}
+>
+  <div class="page-hero">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a> › <span>Health Calculators</span>
+    </nav>
+    <h1>Health Calculators</h1>
+    <p class="hero-sub">Estimate health metrics for educational awareness — not a substitute for medical advice.</p>
+  </div>
+
+  <div class="content-wrap">
+
+    <p class="hub-intro">Our health calculators use established formulas to provide general estimates for educational purposes. They help you understand health metrics — but results should never replace advice from a qualified healthcare professional.</p>
+
+    <h2 class="hub-section-title">🏥 Available Now ({tools.length} tool)</h2>
+    <div class="hub-tool-grid">
+      {tools.map(t => (
+        <a href={t.href} class="hub-card">
+          <span class="h-icon">{t.icon}</span>
+          <h3>{t.name}</h3>
+          <p>{t.desc}</p>
+        </a>
+      ))}
+    </div>
+
+    <h2 class="hub-section-title">🔜 Coming Soon</h2>
+    <div class="hub-tool-grid">
+      {comingSoon.map(t => (
+        <div class="hub-card" style="opacity:.6;cursor:default">
+          <span class="h-icon">{t.icon}</span>
+          <h3>{t.name}</h3>
+          <p>{t.desc}</p>
+          <span class="badge">Coming Soon</span>
+        </div>
+      ))}
+    </div>
+
+    <div class="content-card">
+      <h2>Important Health Disclaimer</h2>
+      <p>All health calculators on ComputeZap provide <strong>estimates only</strong>, based on general population formulas. Individual results can vary significantly based on metabolism, body composition, medications, and other personal factors.</p>
+      <ul>
+        <li>Results are for <strong>educational and informational purposes only</strong></li>
+        <li>Results are <strong>not medical advice</strong> and should not be used to make health decisions</li>
+        <li>BAC estimates in particular can vary — <strong>never drive based on a calculator result</strong></li>
+        <li>For any health concern, consult a qualified healthcare professional</li>
+      </ul>
+      <p>Read our full <a href="/disclaimer">Disclaimer</a> for more information.</p>
+    </div>
+
+    <div class="content-card">
+      <h2>Frequently Asked Questions</h2>
+
+      <div class="faq-item">
+        <h3>What is BAC and how is it calculated?</h3>
+        <p>BAC (Blood Alcohol Content) measures the percentage of alcohol in your bloodstream. Our <a href="/health/bac-calculator">BAC Calculator</a> uses the Widmark formula, which estimates BAC based on drinks consumed, alcohol percentage, body weight, gender, and time elapsed. It's an estimate — actual BAC varies by individual.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Is the BAC calculator accurate?</h3>
+        <p>The Widmark formula provides a reasonable estimate but cannot account for all variables — food intake, medication, individual metabolism, liver health, and other factors all affect real BAC. The only safe choice if you've consumed alcohol is not to drive, regardless of any calculator result.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>When will BMI and Body Fat calculators be available?</h3>
+        <p>We're actively building these tools. BMI, Body Fat (Navy method), and Calorie / TDEE calculators are next in our health section. Check back soon or explore our other categories in the meantime.</p>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>Explore Other Categories</h2>
+      <div class="next-grid">
+        <a href="/finance/" class="next-card">
+          <span class="next-tag">Finance</span>
+          Finance Calculators
+        </a>
+        <a href="/calculators/" class="next-card">
+          <span class="next-tag">Math</span>
+          Math Calculators
+        </a>
+        <a href="/converters/" class="next-card">
+          <span class="next-tag">Converters</span>
+          Unit Converters
+        </a>
+        <a href="/date-time/" class="next-card">
+          <span class="next-tag">Time</span>
+          Date &amp; Time Tools
+        </a>
+      </div>
+    </div>
+
+  </div>
+</Layout>

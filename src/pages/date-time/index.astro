@@ -1,0 +1,132 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const tools = [
+  { href: '/days-from-today', icon: '🗓️', name: 'Days From Today Calculator', desc: 'What date is N days from today? Net 30, 60, 90, 180 day deadlines' },
+  { href: '/date-time/hours-in-a-week', icon: '🗓️', name: 'Hours in a Week', desc: '168 hours in a week — work week breakdown and time planning' },
+  { href: '/date-time/hours-in-a-month', icon: '🕐', name: 'Hours in a Month', desc: '730 avg hours per month — exact hours for every month of the year' },
+  { href: '/date-time/hours-in-a-year', icon: '📅', name: 'Hours in a Year', desc: '8,760 hours per year — work hours and salary to hourly conversion' },
+  { href: '/date-time/minutes-in-a-day', icon: '⏱️', name: 'Minutes in a Day', desc: '1,440 minutes in a day — complete time unit reference' },
+  { href: '/date-time/seconds-in-a-year', icon: '⏰', name: 'Seconds in a Year', desc: '31,536,000 seconds per year — with the π × 10⁷ approximation trick' },
+  { href: '/date-time/weeks-in-a-year', icon: '📆', name: 'Weeks in a Year', desc: '52 weeks + 1 day — work weeks, school weeks, and pay periods explained' },
+  { href: '/date-time/military-time-converter', icon: '🎖️', name: 'Military Time Converter', desc: 'Convert military time (1300, 0800) to standard 12-hour format — bidirectional' },
+  { href: '/date-time/time-to-decimal-calculator', icon: '🔢', name: 'Time to Decimal Calculator', desc: 'Convert hours & minutes to decimal for timesheets and payroll' },
+];
+
+const schema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Date & Time Tools — ComputeZap",
+    "url": "https://computezap.com/date-time/",
+    "description": "Free date and time calculators — days from today, hours in a week/month/year, military time converter, weeks in a year, and more."
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Date & Time Tools", "item": "https://computezap.com/date-time/" }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "Date & Time Tools",
+    "itemListElement": tools.map((t, i) => ({
+      "@type": "ListItem",
+      "position": i + 1,
+      "name": t.name,
+      "url": `https://computezap.com${t.href}`
+    }))
+  }
+]);
+---
+<Layout
+  title="Date & Time Tools — Days From Today, Hours, Weeks & More | ComputeZap"
+  description="Free date and time calculators: days from today, hours in a week, hours in a year, military time converter, weeks in a year, time to decimal, and more."
+  canonical="/date-time/"
+  schema={schema}
+>
+  <div class="page-hero">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a> › <span>Date &amp; Time Tools</span>
+    </nav>
+    <h1>Date &amp; Time Tools</h1>
+    <p class="hero-sub">Days from today, time unit conversions, military time, and more — instant answers for time-related questions.</p>
+  </div>
+
+  <div class="content-wrap">
+
+    <p class="hub-intro">Whether you need to find a deadline date, convert hours to decimals for payroll, or figure out how many weeks are in this year — our date and time tools give you fast, accurate answers for everyday scheduling and time math.</p>
+
+    <h2 class="hub-section-title">📅 All Date & Time Tools ({tools.length} tools)</h2>
+    <div class="hub-tool-grid">
+      {tools.map(t => (
+        <a href={t.href} class="hub-card">
+          <span class="h-icon">{t.icon}</span>
+          <h3>{t.name}</h3>
+          <p>{t.desc}</p>
+        </a>
+      ))}
+    </div>
+
+    <div class="content-card">
+      <h2>What Can You Calculate?</h2>
+      <ul>
+        <li><strong>Date Deadlines</strong> — find the exact date that is 30, 60, 90, or any number of days from today</li>
+        <li><strong>Time Unit Conversions</strong> — hours in a day, week, month, or year — useful for salary calculations and scheduling</li>
+        <li><strong>Military Time</strong> — convert between 12-hour (AM/PM) and 24-hour military time formats</li>
+        <li><strong>Payroll Calculations</strong> — convert hours and minutes to decimal format for timesheets</li>
+        <li><strong>Calendar Reference</strong> — exact weeks in any year, work weeks, school weeks, and pay periods</li>
+      </ul>
+    </div>
+
+    <div class="content-card">
+      <h2>Frequently Asked Questions</h2>
+
+      <div class="faq-item">
+        <h3>What date is 90 days from today?</h3>
+        <p>Use our <a href="/days-from-today/90-days-from-today">90 Days From Today</a> tool for the exact date. 90 days is commonly used for contract deadlines, return policies, and quarterly planning.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>How do I convert military time to regular time?</h3>
+        <p>For times 1300 and above: subtract 12 to get the PM hour (1300 = 1:00 PM, 1800 = 6:00 PM). For 0000–1159, it's AM (0800 = 8:00 AM). Use our <a href="/date-time/military-time-converter">Military Time Converter</a> for any value.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>How many hours are in a year?</h3>
+        <p>A standard year has 8,760 hours (365 days × 24 hours). A leap year has 8,784 hours. For work hours: 40 hours/week × 52 weeks = 2,080 work hours per year. See our <a href="/date-time/hours-in-a-year">Hours in a Year</a> tool for full breakdown.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>How do I convert time to decimal for a timesheet?</h3>
+        <p>Divide the minutes by 60. For example, 7 hours 45 minutes = 7 + (45/60) = 7.75 hours. Use our <a href="/date-time/time-to-decimal-calculator">Time to Decimal Calculator</a> to convert any time instantly.</p>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>Explore Other Categories</h2>
+      <div class="next-grid">
+        <a href="/finance/" class="next-card">
+          <span class="next-tag">Finance</span>
+          Finance Calculators
+        </a>
+        <a href="/calculators/" class="next-card">
+          <span class="next-tag">Math</span>
+          Math Calculators
+        </a>
+        <a href="/converters/" class="next-card">
+          <span class="next-tag">Converters</span>
+          Unit Converters
+        </a>
+        <a href="/health/" class="next-card">
+          <span class="next-tag">Health</span>
+          Health Calculators
+        </a>
+      </div>
+    </div>
+
+  </div>
+</Layout>

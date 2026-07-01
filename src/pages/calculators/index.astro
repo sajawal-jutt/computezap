@@ -1,0 +1,136 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const tools = [
+  { href: '/calculators/percentage-calculator', icon: '💯', name: 'Percentage Calculator', desc: 'Find what percent X is of Y, increase/decrease, or reverse percentage' },
+  { href: '/calculators/percent-off-calculator', icon: '🏷️', name: 'Percent Off Calculator', desc: 'Sale price and savings for any price and discount percentage' },
+  { href: '/calculators/percentage-increase-calculator', icon: '📈', name: 'Percentage Increase Calculator', desc: 'Calculate the % increase between two values' },
+  { href: '/calculators/percentage-decrease-calculator', icon: '📉', name: 'Percentage Decrease Calculator', desc: 'Calculate the % decrease between two values' },
+  { href: '/calculators/fraction-calculator', icon: '➗', name: 'Fraction Calculator', desc: 'Add, subtract, multiply, or divide fractions — simplified with steps' },
+  { href: '/calculators/decimal-to-fraction', icon: '🔢', name: 'Decimal to Fraction', desc: 'Convert any decimal to a simplified fraction with steps' },
+  { href: '/calculators/pythagorean-theorem-calculator', icon: '📐', name: 'Pythagorean Theorem Calculator', desc: 'Find any side of a right triangle — a² + b² = c²' },
+  { href: '/calculators/square-footage-calculator', icon: '📏', name: 'Square Footage Calculator', desc: 'Area of rooms, floors, land — rectangle, triangle, circle, L-shape' },
+  { href: '/calculators/concrete-calculator', icon: '🧱', name: 'Concrete Calculator', desc: 'Cubic yards and bags needed for slab, footing, column, or circular pour' },
+  { href: '/calculators/binary-to-text', icon: '💻', name: 'Binary to Text Converter', desc: 'Convert binary code to text and text to binary — bidirectional' },
+  { href: '/finance/markup-calculator', icon: '🏷️', name: 'Markup Calculator', desc: 'Find selling price from cost and desired markup percentage' },
+  { href: '/finance/margin-calculator', icon: '📊', name: 'Margin Calculator', desc: 'Calculate gross profit margin from cost and revenue' },
+];
+
+const schema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Math Calculators — ComputeZap",
+    "url": "https://computezap.com/calculators/",
+    "description": "Free online math calculators — percentage, fractions, geometry, area, binary, and more. Instant results with step-by-step explanations."
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Math Calculators", "item": "https://computezap.com/calculators/" }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "Math Calculators",
+    "itemListElement": tools.map((t, i) => ({
+      "@type": "ListItem",
+      "position": i + 1,
+      "name": t.name,
+      "url": `https://computezap.com${t.href}`
+    }))
+  }
+]);
+---
+<Layout
+  title="Math Calculators — Percentage, Fractions, Geometry & More | ComputeZap"
+  description="Free online math calculators: percentage, percent off, fractions, Pythagorean theorem, square footage, concrete, binary converter, and more. Instant answers with steps."
+  canonical="/calculators/"
+  schema={schema}
+>
+  <div class="page-hero">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a> › <span>Math Calculators</span>
+    </nav>
+    <h1>Math Calculators</h1>
+    <p class="hero-sub">Percentage, fractions, geometry, and more — instant answers with step-by-step explanations.</p>
+  </div>
+
+  <div class="content-wrap">
+
+    <p class="hub-intro">From quick percentage calculations to geometry problems and fraction arithmetic — our math calculators give you clear answers with the formulas and steps shown, so you understand how the result was reached.</p>
+
+    <h2 class="hub-section-title">🧮 All Math Tools ({tools.length} tools)</h2>
+    <div class="hub-tool-grid">
+      {tools.map(t => (
+        <a href={t.href} class="hub-card">
+          <span class="h-icon">{t.icon}</span>
+          <h3>{t.name}</h3>
+          <p>{t.desc}</p>
+        </a>
+      ))}
+    </div>
+
+    <div class="content-card">
+      <h2>What Can You Calculate?</h2>
+      <ul>
+        <li><strong>Percentages</strong> — percent of a number, percent increase/decrease, reverse percentage, sale price</li>
+        <li><strong>Fractions</strong> — add, subtract, multiply, divide any fractions with simplified results and mixed numbers</li>
+        <li><strong>Geometry</strong> — right triangles with Pythagorean theorem, area of rooms and land with square footage calculator</li>
+        <li><strong>Construction</strong> — concrete volume in cubic yards and bag counts for slabs, footings, and columns</li>
+        <li><strong>Encoding</strong> — convert text to binary and binary back to text</li>
+        <li><strong>Markup & Margin</strong> — selling price from cost, gross profit margin for business pricing</li>
+      </ul>
+    </div>
+
+    <div class="content-card">
+      <h2>Frequently Asked Questions</h2>
+
+      <div class="faq-item">
+        <h3>Do these calculators show their work?</h3>
+        <p>Yes. Every calculator on ComputeZap shows the formula used and, where applicable, step-by-step working so you can understand and verify the result — not just copy a number.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>How do I calculate a percentage of a number?</h3>
+        <p>Use the <a href="/calculators/percentage-calculator">Percentage Calculator</a>. Enter the percentage and the number — it handles "what is X% of Y", "X is what % of Y", and reverse percentage in one tool.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>How do I add two fractions?</h3>
+        <p>Use the <a href="/calculators/fraction-calculator">Fraction Calculator</a>. Enter both fractions, select "Add", and get the simplified result, mixed number form, decimal equivalent, and the step-by-step working.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>How do I find the hypotenuse of a right triangle?</h3>
+        <p>Use the <a href="/calculators/pythagorean-theorem-calculator">Pythagorean Theorem Calculator</a>. Enter any two sides and it solves for the third using a² + b² = c².</p>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>Explore Other Categories</h2>
+      <div class="next-grid">
+        <a href="/finance/" class="next-card">
+          <span class="next-tag">Finance</span>
+          Finance Calculators
+        </a>
+        <a href="/converters/" class="next-card">
+          <span class="next-tag">Converters</span>
+          Unit Converters
+        </a>
+        <a href="/health/" class="next-card">
+          <span class="next-tag">Health</span>
+          Health Calculators
+        </a>
+        <a href="/date-time/" class="next-card">
+          <span class="next-tag">Time</span>
+          Date &amp; Time Tools
+        </a>
+      </div>
+    </div>
+
+  </div>
+</Layout>

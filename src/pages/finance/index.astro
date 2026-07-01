@@ -1,0 +1,147 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const tools = [
+  { href: '/finance/debt-snowball-calculator', icon: '❄️', name: 'Debt Snowball Calculator', desc: 'Pay off debt faster — payoff order, total interest saved, debt-free date', badge: 'hot' },
+  { href: '/finance/cd-calculator', icon: '🏦', name: 'CD Calculator', desc: 'Certificate of Deposit earnings with compound interest and APY' },
+  { href: '/finance/mortgage-payoff-calculator', icon: '🏠', name: 'Mortgage Payoff Calculator', desc: 'See how extra payments cut your mortgage term and total interest' },
+  { href: '/finance/biweekly-mortgage-calculator', icon: '📆', name: 'Biweekly Mortgage Calculator', desc: 'Save years off your mortgage by switching to biweekly payments' },
+  { href: '/finance/reverse-sales-tax-calculator', icon: '🧾', name: 'Reverse Sales Tax Calculator', desc: 'Find the original price before tax from the total amount paid' },
+  { href: '/finance/cost-of-living-calculator', icon: '🏙️', name: 'Cost of Living Calculator', desc: 'Compare salaries between 55 US cities — find your equivalent pay' },
+  { href: '/finance/apr-calculator', icon: '📊', name: 'APR Calculator', desc: 'True Annual Percentage Rate including fees for any loan type' },
+  { href: '/finance/roth-ira-calculator', icon: '📈', name: 'Roth IRA Calculator', desc: 'See how your Roth IRA grows tax-free — balance at retirement' },
+  { href: '/finance/401k-calculator', icon: '💼', name: '401k Calculator', desc: 'Calculate 401k retirement balance including employer match' },
+  { href: '/finance/amortization-calculator', icon: '📋', name: 'Amortization Calculator', desc: 'Full loan payment schedule — principal, interest, balance every month' },
+  { href: '/finance/compound-interest-calculator', icon: '💹', name: 'Compound Interest Calculator', desc: 'See how money grows with compounding — year-by-year table' },
+  { href: '/finance/savings-calculator', icon: '💰', name: 'Savings Calculator', desc: 'Calculate balance, time to goal, or monthly savings needed' },
+  { href: '/finance/personal-loan-calculator', icon: '🏦', name: 'Personal Loan Calculator', desc: 'Monthly payment, total interest, and full amortization schedule' },
+  { href: '/finance/car-payoff-calculator', icon: '🚗', name: 'Car Payoff Calculator', desc: 'Car loan payment with down payment, trade-in, tax, and extra savings' },
+  { href: '/finance/margin-calculator', icon: '📉', name: 'Margin Calculator', desc: 'Calculate gross profit margin and markup from cost and revenue' },
+  { href: '/finance/markup-calculator', icon: '🏷️', name: 'Markup Calculator', desc: 'Find the selling price from cost and desired markup percentage' },
+];
+
+const schema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Finance Calculators — ComputeZap",
+    "url": "https://computezap.com/finance/",
+    "description": "Free online finance calculators — mortgage, loan, compound interest, savings, retirement (Roth IRA, 401k), APR, CD, and more."
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Finance Calculators", "item": "https://computezap.com/finance/" }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "Finance Calculators",
+    "itemListElement": tools.map((t, i) => ({
+      "@type": "ListItem",
+      "position": i + 1,
+      "name": t.name,
+      "url": `https://computezap.com${t.href}`
+    }))
+  }
+]);
+---
+<Layout
+  title="Finance Calculators — Free Online Financial Tools | ComputeZap"
+  description="Free finance calculators: mortgage, loan, APR, compound interest, savings, Roth IRA, 401k, car payoff, amortization, CD, debt snowball, and more. No signup needed."
+  canonical="/finance/"
+  schema={schema}
+>
+  <div class="page-hero">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a> › <span>Finance Calculators</span>
+    </nav>
+    <h1>Finance Calculators</h1>
+    <p class="hero-sub">Free online tools for loans, mortgages, retirement, savings, and more — no signup needed.</p>
+  </div>
+
+  <div class="content-wrap">
+
+    <p class="hub-intro">Whether you're planning to buy a car, pay off debt, save for retirement, or understand a loan offer — our finance calculators give you fast, accurate estimates so you can make smarter money decisions.</p>
+
+    <h2 class="hub-section-title">💰 All Finance Tools ({tools.length} tools)</h2>
+    <div class="hub-tool-grid">
+      {tools.map(t => (
+        <a href={t.href} class="hub-card">
+          <span class="h-icon">{t.icon}</span>
+          <h3>{t.name}</h3>
+          <p>{t.desc}</p>
+          {t.badge === 'hot' && <span class="badge hot">⭐ Most popular</span>}
+        </a>
+      ))}
+    </div>
+
+    <div class="content-card">
+      <h2>What Can You Calculate?</h2>
+      <ul>
+        <li><strong>Loan & Mortgage Payments</strong> — monthly payment, total interest, amortization schedule</li>
+        <li><strong>Retirement Savings</strong> — Roth IRA and 401k growth, contribution limits, employer match</li>
+        <li><strong>Debt Payoff</strong> — snowball method, payoff order, interest saved over time</li>
+        <li><strong>Investment Growth</strong> — compound interest with monthly contributions</li>
+        <li><strong>Loan True Cost</strong> — APR including fees, not just the stated interest rate</li>
+        <li><strong>CD Earnings</strong> — Certificate of Deposit yield with compound interest and APY</li>
+        <li><strong>Cost of Living</strong> — salary comparison across 55 US cities</li>
+      </ul>
+    </div>
+
+    <div class="content-card">
+      <h2>Frequently Asked Questions</h2>
+
+      <div class="faq-item">
+        <h3>Are these finance calculators accurate?</h3>
+        <p>All calculators use standard financial formulas verified against industry standards. Results are estimates — actual loan terms, interest rates, and tax rules vary by lender, state, and individual financial situation. Always verify with your lender or a financial advisor before making major decisions.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Do I need to create an account to use these tools?</h3>
+        <p>No. All ComputeZap calculators are completely free and require no signup, registration, or personal information. Just enter your numbers and get your answer instantly.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Is my financial data saved or shared?</h3>
+        <p>No. All calculations happen entirely in your browser. The numbers you enter are never sent to our servers, never stored, and never shared with anyone.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Which calculator should I use for a car loan?</h3>
+        <p>Use the <a href="/finance/car-payoff-calculator">Car Payoff Calculator</a> — it accounts for down payment, trade-in value, sales tax, APR, and optional extra monthly payments to see total interest savings.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>What's the difference between APR and interest rate?</h3>
+        <p>The interest rate is the base cost of borrowing. APR (Annual Percentage Rate) includes the interest rate plus any fees (origination fees, points, etc.), making it a more accurate measure of the true cost of a loan. Use our <a href="/finance/apr-calculator">APR Calculator</a> to see the difference for your loan.</p>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>Explore Other Categories</h2>
+      <div class="next-grid">
+        <a href="/calculators/" class="next-card">
+          <span class="next-tag">Math</span>
+          Math Calculators
+        </a>
+        <a href="/converters/" class="next-card">
+          <span class="next-tag">Converters</span>
+          Unit Converters
+        </a>
+        <a href="/health/" class="next-card">
+          <span class="next-tag">Health</span>
+          Health Calculators
+        </a>
+        <a href="/date-time/" class="next-card">
+          <span class="next-tag">Time</span>
+          Date &amp; Time Tools
+        </a>
+      </div>
+    </div>
+
+  </div>
+</Layout>
