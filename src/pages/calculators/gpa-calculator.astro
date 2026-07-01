@@ -177,8 +177,8 @@ const gradeScale = [
 
     <div class="content-card">
       <h2>Grade Point Scale</h2>
-      <div class="payoff-table">
-        <table>
+      <div style="overflow-x:auto;-webkit-overflow-scrolling:touch">
+        <table class="payoff-table">
           <thead>
             <tr><th>Letter Grade</th><th>Grade Points</th><th>Percentage Range</th><th>Standing</th></tr>
           </thead>
@@ -198,8 +198,8 @@ const gradeScale = [
 
     <div class="content-card">
       <h2>GPA Standing Guide</h2>
-      <div class="payoff-table">
-        <table>
+      <div style="overflow-x:auto;-webkit-overflow-scrolling:touch">
+        <table class="payoff-table">
           <thead><tr><th>GPA Range</th><th>Standing</th><th>Notes</th></tr></thead>
           <tbody>
             <tr><td><strong>3.7 – 4.0</strong></td><td>Excellent / Dean's List</td><td>Qualifies for most merit scholarships and honors programs</td></tr>
@@ -362,7 +362,7 @@ const gradeScale = [
       var defaultCr = crVal || 3;
       var row = document.createElement('div');
       row.id = 'row-' + i;
-      row.style.cssText = 'display:grid;gap:.4rem;margin-bottom:.5rem;align-items:center;grid-template-columns:1fr 90px 28px;';
+      row.style.cssText = 'display:grid;gap:.4rem;margin-bottom:.5rem;align-items:center;grid-template-columns:1fr 80px 28px;min-width:0';
       row.innerHTML =
         '<div id="grade-cell-' + i + '">' + (inputType === 'letter'
           ? makeGradeSelect('grade-' + i, defaultGrade)
@@ -477,7 +477,7 @@ const gradeScale = [
 
     // Add a header row label
     var hdr = document.createElement('div');
-    hdr.style.cssText = 'display:grid;grid-template-columns:1fr 90px 28px;gap:.4rem;margin-bottom:.3rem';
+    hdr.style.cssText = 'display:grid;grid-template-columns:1fr 80px 28px;gap:.4rem;margin-bottom:.3rem';
     hdr.innerHTML = '<span style="font-size:.72rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.05em">Grade</span><span style="font-size:.72rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.05em">Credits</span><span></span>';
     document.getElementById('course-table').appendChild(hdr);
 

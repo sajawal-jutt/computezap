@@ -601,6 +601,12 @@ main {
   min-width: 0;
 }
 
+/* Table scroll wrapper — use <div class="tbl-scroll"><table class="payoff-table"> on all new pages */
+.tbl-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
 img, pre, iframe { max-width: 100%; }
 
 /* MOBILE BREAKPOINTS */
