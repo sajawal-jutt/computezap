@@ -1,0 +1,382 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const schema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "BMI Calculator",
+    "url": "https://computezap.com/health/bmi-calculator",
+    "description": "Free BMI calculator — enter your height and weight to instantly find your Body Mass Index, WHO category, healthy weight range, and how much to lose or gain.",
+    "applicationCategory": "HealthApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Health", "item": "https://computezap.com/health/" },
+      { "@type": "ListItem", "position": 3, "name": "BMI Calculator", "item": "https://computezap.com/health/bmi-calculator" }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "What is a healthy BMI?", "acceptedAnswer": { "@type": "Answer", "text": "According to the World Health Organization (WHO), a healthy BMI is between 18.5 and 24.9. Below 18.5 is underweight, 25–29.9 is overweight, and 30 or above is obese. These thresholds apply to most adults aged 18–65." } },
+      { "@type": "Question", "name": "How is BMI calculated?", "acceptedAnswer": { "@type": "Answer", "text": "BMI = weight (kg) ÷ height (m)². In imperial units: BMI = 703 × weight (lbs) ÷ height (inches)². For example, a 5'9\" person weighing 160 lbs: height = 69 inches, BMI = 703 × 160 ÷ (69²) = 703 × 160 ÷ 4761 = 23.6." } },
+      { "@type": "Question", "name": "What BMI is considered obese?", "acceptedAnswer": { "@type": "Answer", "text": "A BMI of 30 or higher is classified as obese by the WHO. Obese Class I is 30–34.9, Class II is 35–39.9, and Class III (morbid obesity) is 40 and above. Each class carries progressively higher health risks." } },
+      { "@type": "Question", "name": "Is BMI accurate for muscular or athletic people?", "acceptedAnswer": { "@type": "Answer", "text": "No — BMI cannot distinguish between fat and muscle. A muscular athlete may have a BMI in the overweight range despite having very low body fat. For athletes and highly muscular individuals, body fat percentage (measured by Navy Method or DEXA scan) is a more meaningful metric." } },
+      { "@type": "Question", "name": "What are the limitations of BMI?", "acceptedAnswer": { "@type": "Answer", "text": "BMI does not account for: (1) muscle vs fat mass, (2) fat distribution (belly fat vs hip fat), (3) age-related changes in body composition, (4) ethnic differences (Asian populations face higher health risks at lower BMIs), (5) gender differences in fat distribution. Use BMI as a screening tool, not a diagnosis." } },
+      { "@type": "Question", "name": "Is BMI different for men and women?", "acceptedAnswer": { "@type": "Answer", "text": "The WHO BMI categories are the same for men and women. However, women naturally carry more body fat than men at the same BMI. A woman and a man with a BMI of 25 will have different actual body fat percentages. Some researchers argue for gender-specific thresholds, but standard WHO categories are gender-neutral." } },
+      { "@type": "Question", "name": "What BMI is considered underweight?", "acceptedAnswer": { "@type": "Answer", "text": "A BMI below 18.5 is classified as underweight. Severe underweight is below 16. Being underweight can indicate malnutrition, eating disorders, or other health conditions and carries its own health risks including bone density loss and immune system weakening." } },
+      { "@type": "Question", "name": "How does age affect BMI?", "acceptedAnswer": { "@type": "Answer", "text": "The standard WHO BMI categories apply to adults aged 18–65. For children and teenagers, BMI is interpreted using age- and sex-specific growth charts (BMI-for-age percentiles) because body composition changes significantly during development. For older adults (65+), a slightly higher BMI (22–27) may be protective." } },
+      { "@type": "Question", "name": "How do I lower my BMI?", "acceptedAnswer": { "@type": "Answer", "text": "BMI decreases when you lose weight relative to your height. A calorie deficit of 500 calories/day leads to approximately 1 lb of fat loss per week. Combining reduced calorie intake with increased physical activity is the most effective approach. Resistance training helps preserve muscle while losing fat." } },
+      { "@type": "Question", "name": "What is BMI Prime?", "acceptedAnswer": { "@type": "Answer", "text": "BMI Prime is your BMI divided by 25 (the upper limit of the normal range). A BMI Prime of 1.0 means you're exactly at the top of the healthy range. Below 0.74 is underweight, 0.74–1.0 is normal, 1.0–1.2 is overweight, and above 1.2 is obese. It's a simpler way to see how far from healthy weight you are." } }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to Calculate Your BMI",
+    "step": [
+      { "@type": "HowToStep", "name": "Choose units", "text": "Select Imperial (feet/inches and pounds) or Metric (centimeters and kilograms)." },
+      { "@type": "HowToStep", "name": "Enter your height", "text": "In Imperial mode, select your feet and inches from the dropdowns. In Metric mode, enter your height in centimeters." },
+      { "@type": "HowToStep", "name": "Enter your weight", "text": "Enter your current weight in pounds (Imperial) or kilograms (Metric)." },
+      { "@type": "HowToStep", "name": "Read your results", "text": "Your BMI, WHO category, healthy weight range for your height, and the weight change needed to reach a normal BMI appear instantly." }
+    ]
+  }
+]);
+
+const bmiTable = [
+  { cat: 'Severe Underweight', range: '< 16.0', risk: 'Very High', color: '#7c3aed' },
+  { cat: 'Underweight',        range: '16.0 – 18.4', risk: 'High', color: '#3b82f6' },
+  { cat: 'Normal Weight',      range: '18.5 – 24.9', risk: 'Lowest', color: '#22c55e' },
+  { cat: 'Overweight',         range: '25.0 – 29.9', risk: 'Increased', color: '#eab308' },
+  { cat: 'Obese Class I',      range: '30.0 – 34.9', risk: 'High', color: '#f97316' },
+  { cat: 'Obese Class II',     range: '35.0 – 39.9', risk: 'Very High', color: '#ef4444' },
+  { cat: 'Obese Class III',    range: '≥ 40.0',      risk: 'Extremely High', color: '#991b1b' },
+];
+---
+<Layout
+  title="BMI Calculator — Body Mass Index with Healthy Weight Range | ComputeZap"
+  description="Free BMI calculator: enter height and weight to get your Body Mass Index, WHO category (underweight to obese), healthy weight range, and weight to lose or gain."
+  canonical="/health/bmi-calculator"
+  schema={schema}
+>
+  <div class="page-hero">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a> › <a href="/health/">Health</a> › <span>BMI Calculator</span>
+    </nav>
+    <h1>BMI Calculator</h1>
+    <p class="hero-sub">Calculate your Body Mass Index — with healthy weight range and WHO category.</p>
+  </div>
+
+  <div class="calc-center">
+    <div class="calc-card">
+
+      <!-- Unit toggle -->
+      <div class="mode-wrap" style="grid-template-columns:1fr 1fr">
+        <button class="mode-btn active" id="btn-imperial" onclick="setUnit('imperial')">🇺🇸 Imperial (ft / lbs)</button>
+        <button class="mode-btn" id="btn-metric" onclick="setUnit('metric')">🌍 Metric (cm / kg)</button>
+      </div>
+
+      <!-- Imperial inputs -->
+      <div id="imperial-panel">
+        <div class="two-col">
+          <div class="input-group">
+            <label>Height</label>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem">
+              <select id="i-ft" onchange="calcBMI()" aria-label="Feet" style="padding:.55rem .5rem;border:1px solid #e5e7eb;border-radius:8px;font-size:.95rem;background:#fff;font-weight:600">
+                {Array.from({length:5},(_,i)=>i+4).map(f=><option value={f} selected={f===5}>{f} ft</option>)}
+              </select>
+              <select id="i-in" onchange="calcBMI()" aria-label="Inches" style="padding:.55rem .5rem;border:1px solid #e5e7eb;border-radius:8px;font-size:.95rem;background:#fff;font-weight:600">
+                {Array.from({length:12},(_,i)=>i).map(n=><option value={n} selected={n===9}>{n} in</option>)}
+              </select>
+            </div>
+          </div>
+          <div class="input-group">
+            <label for="i-wt">Weight (lbs)</label>
+            <div class="input-wrap">
+              <input type="number" id="i-wt" value="160" min="50" max="700" step="0.1" aria-label="Weight in pounds" oninput="calcBMI()" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Metric inputs -->
+      <div id="metric-panel" style="display:none">
+        <div class="two-col">
+          <div class="input-group">
+            <label for="m-cm">Height (cm)</label>
+            <div class="input-wrap">
+              <input type="number" id="m-cm" value="175" min="100" max="250" step="0.1" aria-label="Height in centimeters" oninput="calcBMI()" />
+            </div>
+          </div>
+          <div class="input-group">
+            <label for="m-kg">Weight (kg)</label>
+            <div class="input-wrap">
+              <input type="number" id="m-kg" value="72" min="20" max="300" step="0.1" aria-label="Weight in kilograms" oninput="calcBMI()" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Result -->
+      <div class="answer-hero" id="answer">
+        <div class="a-label" id="res-label">Your BMI</div>
+        <div><span class="a-value" id="res-val">—</span></div>
+        <div class="a-sub" id="res-cat">Enter your height and weight above</div>
+      </div>
+
+      <div class="stats-row" id="stats">
+        <div class="stat-box">
+          <div class="stat-lbl">Category</div>
+          <div class="stat-val" id="stat-cat">—</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-lbl">Healthy Range</div>
+          <div class="stat-val" id="stat-range">—</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-lbl" id="stat-diff-lbl">To Lose</div>
+          <div class="stat-val" id="stat-diff">—</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-lbl">BMI Prime</div>
+          <div class="stat-val" id="stat-prime">—</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="content-wrap">
+
+    <div class="tip-box">
+      <strong>Health note:</strong> BMI is a screening tool, not a diagnosis. It does not account for muscle mass, age, or fat distribution. Consult a healthcare professional for a complete health assessment.
+    </div>
+
+    <div class="formula-box">
+      <div class="formula-text">BMI = weight (kg) ÷ height (m)²</div>
+      <div class="formula-sub">Imperial: BMI = 703 × weight (lbs) ÷ height (inches)²</div>
+      <div class="formula-text" style="margin-top:.75rem">Example (5'9″, 160 lbs): BMI = 703 × 160 ÷ 69² = 112,480 ÷ 4,761 = <strong>23.6</strong></div>
+      <div class="formula-sub">Source: World Health Organization (WHO) BMI classification</div>
+    </div>
+
+    <div class="content-card">
+      <h2>BMI Categories — WHO Classification</h2>
+      <div class="tbl-scroll">
+        <table class="payoff-table">
+          <thead>
+            <tr><th>Category</th><th>BMI Range</th><th>Health Risk</th></tr>
+          </thead>
+          <tbody>
+            {bmiTable.map(r => (
+              <tr>
+                <td><strong style={`color:${r.color}`}>{r.cat}</strong></td>
+                <td>{r.range}</td>
+                <td>{r.risk}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:.82rem;color:#64748b;margin-top:.75rem">Source: World Health Organization (WHO) Global Database on Body Mass Index.</p>
+    </div>
+
+    <div class="content-card">
+      <h2>Healthy Weight Range by Height</h2>
+      <p style="font-size:.875rem;color:#64748b;margin-bottom:.75rem">Normal BMI (18.5–24.9) translated to pounds for common heights.</p>
+      <div class="tbl-scroll">
+        <table class="payoff-table">
+          <thead><tr><th>Height</th><th>Min Weight (lbs)</th><th>Max Weight (lbs)</th><th>Min (kg)</th><th>Max (kg)</th></tr></thead>
+          <tbody>
+            <tr><td>5'0" (152 cm)</td><td>95</td><td>128</td><td>43</td><td>58</td></tr>
+            <tr><td>5'2" (157 cm)</td><td>101</td><td>136</td><td>46</td><td>62</td></tr>
+            <tr><td>5'4" (163 cm)</td><td>108</td><td>145</td><td>49</td><td>66</td></tr>
+            <tr><td>5'6" (168 cm)</td><td>115</td><td>154</td><td>52</td><td>70</td></tr>
+            <tr><td>5'8" (173 cm)</td><td>122</td><td>164</td><td>55</td><td>74</td></tr>
+            <tr><td>5'9" (175 cm)</td><td>125</td><td>169</td><td>57</td><td>77</td></tr>
+            <tr><td>5'10" (178 cm)</td><td>129</td><td>174</td><td>59</td><td>79</td></tr>
+            <tr><td>6'0" (183 cm)</td><td>136</td><td>184</td><td>62</td><td>83</td></tr>
+            <tr><td>6'2" (188 cm)</td><td>144</td><td>194</td><td>65</td><td>88</td></tr>
+            <tr><td>6'4" (193 cm)</td><td>152</td><td>204</td><td>69</td><td>93</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>Frequently Asked Questions</h2>
+
+      <div class="faq-item">
+        <h3>What is a healthy BMI?</h3>
+        <p>According to the WHO, a healthy BMI is <strong>18.5 to 24.9</strong>. Below 18.5 is underweight, 25–29.9 is overweight, and 30 or above is obese. These ranges apply to adults aged 18–65. For older adults (65+), some research suggests a slightly higher range of 22–27 may be protective.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>How is BMI calculated?</h3>
+        <p>BMI = weight in kg ÷ height in meters². In Imperial units: BMI = 703 × weight (lbs) ÷ height (inches)². A 5'9" person (69 inches) weighing 160 lbs has a BMI of 703 × 160 ÷ 4761 = <strong>23.6</strong> — in the normal range.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Is BMI accurate for muscular people?</h3>
+        <p>No. BMI cannot distinguish between fat and muscle. A 200 lb athlete with 10% body fat has the same BMI as a 200 lb sedentary person with 30% body fat. For muscular individuals, <a href="/health/body-fat-calculator" style="color:var(--blue)">body fat percentage</a> using the Navy Method is a more meaningful metric.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>What BMI is considered obese?</h3>
+        <p>A BMI of <strong>30 or higher</strong> is classified as obese. Class I (30–34.9) is associated with high health risk, Class II (35–39.9) with very high risk, and Class III / morbid obesity (40+) with extremely high risk of cardiovascular disease, type 2 diabetes, and other conditions.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>What are the limitations of BMI?</h3>
+        <p>BMI does not account for: muscle mass, fat distribution (belly fat is riskier than hip fat), ethnic differences (Asians face higher risks at lower BMIs), age, or gender. Use it as a quick screening tool — not a definitive health diagnosis.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>What is BMI Prime?</h3>
+        <p>BMI Prime = your BMI ÷ 25. A score of 1.0 means you're exactly at the top of the healthy range. Below 0.74 = underweight, 0.74–1.0 = normal, 1.0–1.2 = overweight, above 1.2 = obese. It's a quick way to see how far from the healthy range you are.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>How do I lower my BMI?</h3>
+        <p>BMI decreases when you lose weight. A 500 calorie/day deficit causes approximately 1 lb of fat loss per week. Combining a calorie-controlled diet with strength training and cardio is the most effective approach. Losing just 5–10% of body weight significantly reduces health risks.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Is BMI calculated differently for children?</h3>
+        <p>Yes. For children and teens (2–19), BMI is assessed using age- and sex-specific growth charts (BMI-for-age percentiles). The same number means different things at different ages. This calculator is designed for adults 18 and older.</p>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>Related Health Calculators</h2>
+      <div class="next-grid">
+        <a href="/health/body-fat-calculator" class="next-card">
+          <span class="next-tag">Health</span>
+          Body Fat Calculator
+        </a>
+        <a href="/health/bac-calculator" class="next-card">
+          <span class="next-tag">Health</span>
+          BAC Calculator
+        </a>
+        <a href="/health/" class="next-card">
+          <span class="next-tag">Health</span>
+          All Health Tools
+        </a>
+        <a href="/calculators/percentage-calculator" class="next-card">
+          <span class="next-tag">Math</span>
+          Percentage Calculator
+        </a>
+        <a href="/converters/kg-to-lbs" class="next-card">
+          <span class="next-tag">Converter</span>
+          kg to lbs
+        </a>
+        <a href="/converters/cm-to-inches" class="next-card">
+          <span class="next-tag">Converter</span>
+          cm to Inches
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <script is:inline>
+    var bmiUnit = 'imperial';
+
+    function setUnit(u) {
+      bmiUnit = u;
+      document.querySelectorAll('#btn-imperial, #btn-metric').forEach(function(b) { b.classList.remove('active'); });
+      document.getElementById('btn-' + u).classList.add('active');
+      document.getElementById('imperial-panel').style.display = u === 'imperial' ? '' : 'none';
+      document.getElementById('metric-panel').style.display  = u === 'metric'   ? '' : 'none';
+      calcBMI();
+    }
+
+    function getCategory(bmi) {
+      if (bmi < 16)   return { label: 'Severe Underweight', color: '#7c3aed' };
+      if (bmi < 18.5) return { label: 'Underweight',        color: '#3b82f6' };
+      if (bmi < 25)   return { label: 'Normal Weight',      color: '#22c55e' };
+      if (bmi < 30)   return { label: 'Overweight',         color: '#eab308' };
+      if (bmi < 35)   return { label: 'Obese — Class I',    color: '#f97316' };
+      if (bmi < 40)   return { label: 'Obese — Class II',   color: '#ef4444' };
+      return             { label: 'Obese — Class III',   color: '#991b1b' };
+    }
+
+    function calcBMI() {
+      var heightM, weightKg;
+
+      if (bmiUnit === 'imperial') {
+        var ft  = parseFloat(document.getElementById('i-ft').value);
+        var ins = parseFloat(document.getElementById('i-in').value);
+        var lbs = parseFloat(document.getElementById('i-wt').value);
+        if (isNaN(ft) || isNaN(ins) || isNaN(lbs) || lbs <= 0) return;
+        var totalIn = ft * 12 + ins;
+        if (totalIn <= 0) return;
+        weightKg = lbs * 0.453592;
+        heightM  = totalIn * 0.0254;
+      } else {
+        var cm = parseFloat(document.getElementById('m-cm').value);
+        var kg = parseFloat(document.getElementById('m-kg').value);
+        if (isNaN(cm) || isNaN(kg) || cm <= 0 || kg <= 0) return;
+        heightM  = cm / 100;
+        weightKg = kg;
+      }
+
+      var bmi = weightKg / (heightM * heightM);
+      if (!isFinite(bmi) || bmi <= 0) return;
+
+      var cat  = getCategory(bmi);
+      var prime = bmi / 25;
+
+      // Healthy weight range for this height
+      var minKg = 18.5 * heightM * heightM;
+      var maxKg = 24.9 * heightM * heightM;
+
+      var diffKg = 0;
+      var diffLabel = '—';
+      if (bmi > 24.9) {
+        diffKg = weightKg - maxKg;
+        diffLabel = bmiUnit === 'imperial'
+          ? (diffKg / 0.453592).toFixed(1) + ' lbs to lose'
+          : diffKg.toFixed(1) + ' kg to lose';
+      } else if (bmi < 18.5) {
+        diffKg = minKg - weightKg;
+        diffLabel = bmiUnit === 'imperial'
+          ? (diffKg / 0.453592).toFixed(1) + ' lbs to gain'
+          : diffKg.toFixed(1) + ' kg to gain';
+      } else {
+        diffLabel = 'In healthy range ✓';
+      }
+
+      var rangeStr;
+      if (bmiUnit === 'imperial') {
+        rangeStr = (minKg / 0.453592).toFixed(0) + '–' + (maxKg / 0.453592).toFixed(0) + ' lbs';
+      } else {
+        rangeStr = minKg.toFixed(1) + '–' + maxKg.toFixed(1) + ' kg';
+      }
+
+      document.getElementById('res-val').textContent  = bmi.toFixed(1);
+      document.getElementById('res-label').textContent = 'Your BMI';
+      document.getElementById('res-cat').textContent   = cat.label;
+      document.getElementById('res-val').style.color   = '#fff';
+
+      document.getElementById('stat-cat').textContent   = cat.label;
+      document.getElementById('stat-cat').style.color   = cat.color;
+      document.getElementById('stat-range').textContent = rangeStr;
+      document.getElementById('stat-diff').textContent  = diffLabel;
+      document.getElementById('stat-diff-lbl').textContent = bmi < 18.5 ? 'To Gain' : 'To Lose';
+      document.getElementById('stat-prime').textContent = prime.toFixed(2);
+
+      document.getElementById('answer').classList.add('show');
+      document.getElementById('stats').classList.add('show');
+    }
+
+    calcBMI();
+  </script>
+
+</Layout>
