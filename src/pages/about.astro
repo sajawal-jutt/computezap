@@ -22,6 +22,17 @@ const schema = JSON.stringify([
     "@type": "Organization",
     "name": "ComputeZap",
     "url": "https://computezap.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://computezap.com/favicon.svg",
+      "width": 512,
+      "height": 512
+    },
+    "foundingDate": "2026-06-23",
+    "email": "support@computezap.com",
+    "sameAs": [
+      "https://github.com/Sajawaljutt14/computezap"
+    ],
     "founder": {
       "@type": "Person",
       "name": "Hafiz Muhammad Sajawal"
@@ -63,6 +74,13 @@ const schema = JSON.stringify([
     </div>
 
     <div class="content-card">
+      <h2>Why I Built ComputeZap</h2>
+      <p>I got tired of searching for a simple calculator and landing on a page stuffed with banner ads, popup notifications, and newsletter prompts — only to find the actual tool buried somewhere in the middle.</p>
+      <p>My goal is straightforward: build one of the internet's most complete collections of free online calculators and converters — tools that load instantly, show their formulas, and give you a clear answer without any noise in the way.</p>
+      <p>Every tool on ComputeZap is hand-built with a focus on accuracy, speed, and mobile usability. No templates. No auto-generated filler. Each calculator is tested against verified reference values before it goes live.</p>
+    </div>
+
+    <div class="content-card">
       <h2>Our Mission</h2>
       <p>Make accurate calculation tools freely accessible to everyone — students, professionals, homeowners, business owners, or anyone who needs a quick answer to an everyday math or finance question.</p>
       <p>No paywalls. No accounts. No fluff. Just tools that work.</p>
@@ -71,11 +89,11 @@ const schema = JSON.stringify([
     <div class="content-card">
       <h2>What We Cover</h2>
       <ul>
-        <li><strong>Finance Calculators</strong> — mortgage payoff, loan payments, APR, compound interest, savings, Roth IRA, 401(k), car payoff, amortization, and more</li>
-        <li><strong>Unit Converters</strong> — length, weight, temperature, volume, pressure, and specialized converters for cooking, science, and industry</li>
-        <li><strong>Math Calculators</strong> — percentages, fractions, geometry (Pythagorean theorem, square footage), and general math tools</li>
-        <li><strong>Date & Time Tools</strong> — days from today, time-to-decimal, military time, calendar calculators</li>
-        <li><strong>Health Calculators</strong> — BAC estimator, with BMI, body fat, and calorie calculators coming soon</li>
+        <li><a href="/finance/" style="color:var(--blue);font-weight:600"><strong>Finance Calculators</strong></a> — mortgage payoff, loan payments, APR, compound interest, savings, Roth IRA, 401(k), car payoff, amortization, and more</li>
+        <li><a href="/converters/" style="color:var(--blue);font-weight:600"><strong>Unit Converters</strong></a> — length, weight, temperature, volume, pressure, and specialized converters for cooking, science, and industry</li>
+        <li><a href="/calculators/" style="color:var(--blue);font-weight:600"><strong>Math Calculators</strong></a> — percentages, fractions, geometry (Pythagorean theorem, square footage), tire size, and general math tools</li>
+        <li><a href="/date-time/" style="color:var(--blue);font-weight:600"><strong>Date & Time Tools</strong></a> — days from today, time-to-decimal, military time, calendar calculators</li>
+        <li><a href="/health/" style="color:var(--blue);font-weight:600"><strong>Health Calculators</strong></a> — BAC estimator, with BMI, body fat, and calorie calculators coming soon</li>
       </ul>
       <p>New tools are added regularly. If you have a suggestion, <a href="/contact">let us know</a>.</p>
     </div>
