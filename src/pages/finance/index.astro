@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 
 const tools = [
+  { href: '/finance/mortgage-calculator', icon: '🏡', name: 'Mortgage Calculator', desc: 'Monthly payment, total interest, PMI estimate, and full year-by-year amortization schedule', badge: 'new' },
   { href: '/finance/debt-snowball-calculator', icon: '❄️', name: 'Debt Snowball Calculator', desc: 'Pay off debt faster — payoff order, total interest saved, debt-free date', badge: 'hot' },
   { href: '/finance/cd-calculator', icon: '🏦', name: 'CD Calculator', desc: 'Certificate of Deposit earnings with compound interest and APY' },
   { href: '/finance/mortgage-payoff-calculator', icon: '🏠', name: 'Mortgage Payoff Calculator', desc: 'See how extra payments cut your mortgage term and total interest' },
@@ -75,6 +76,7 @@ const schema = JSON.stringify([
           <h3>{t.name}</h3>
           <p>{t.desc}</p>
           {t.badge === 'hot' && <span class="badge hot">⭐ Most popular</span>}
+          {t.badge === 'new' && <span class="badge new">New</span>}
         </a>
       ))}
     </div>
