@@ -1,0 +1,471 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const schema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Body Fat Calculator",
+    "url": "https://computezap.com/health/body-fat-calculator",
+    "description": "Free body fat percentage calculator using the U.S. Navy Method or BMI Method. Enter your measurements to find your body fat %, category, and lean mass.",
+    "applicationCategory": "HealthApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Health", "item": "https://computezap.com/health/" },
+      { "@type": "ListItem", "position": 3, "name": "Body Fat Calculator", "item": "https://computezap.com/health/body-fat-calculator" }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "What is a healthy body fat percentage?", "acceptedAnswer": { "@type": "Answer", "text": "For men, a healthy (fitness) range is 14–17% and acceptable is 18–24%. For women, fitness range is 21–24% and acceptable is 25–31%. Athletes typically carry 6–13% (men) or 14–20% (women). Below essential fat levels (2–5% men, 10–13% women) is dangerous." } },
+      { "@type": "Question", "name": "Which method is more accurate — Navy or BMI?", "acceptedAnswer": { "@type": "Answer", "text": "The U.S. Navy Method is more accurate than the BMI method because it uses actual body measurements (waist, neck, hips) that better reflect fat distribution. BMI method is a quick estimate based on weight and height. For the most accurate results, use DEXA scan or hydrostatic weighing." } },
+      { "@type": "Question", "name": "How do I measure my waist for the Navy method?", "acceptedAnswer": { "@type": "Answer", "text": "Men: measure at the narrowest point of the abdomen, typically at the navel level. Women: measure at the narrowest point between the ribs and hips (typically at the navel). Measure while exhaling normally — don't suck in." } },
+      { "@type": "Question", "name": "How do I measure my neck for the Navy method?", "acceptedAnswer": { "@type": "Answer", "text": "Measure just below the larynx (Adam's apple), with the tape sloping slightly downward at the front. Keep your head level and measure in a relaxed position." } },
+      { "@type": "Question", "name": "What's the difference between body fat percentage and BMI?", "acceptedAnswer": { "@type": "Answer", "text": "BMI (Body Mass Index) only uses weight and height — it cannot distinguish between fat and muscle. A muscular athlete may have a high BMI but very low body fat. Body fat percentage directly measures the proportion of fat in your body, making it a more meaningful health metric." } },
+      { "@type": "Question", "name": "Can body fat be too low?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Essential fat is necessary for normal organ function. For men, dropping below 2–5% and for women below 10–13% is medically dangerous and can cause hormonal disruption, organ damage, and bone loss. Professional athletes at competition may briefly dip into this range, but it's not sustainable." } },
+      { "@type": "Question", "name": "How does age affect body fat percentage?", "acceptedAnswer": { "@type": "Answer", "text": "Body fat naturally increases with age as muscle mass decreases and metabolism slows. This is why BMI-based body fat formulas include age as a variable. A 40-year-old at 22% body fat is in a similar health category to a 25-year-old at 19%." } },
+      { "@type": "Question", "name": "How often should I measure body fat?", "acceptedAnswer": { "@type": "Answer", "text": "For tracking progress during a fitness program, once every 4–6 weeks is enough. Daily fluctuations in hydration, food intake, and hormones can cause body composition to appear to change by 1–2% even without real change." } },
+      { "@type": "Question", "name": "What is the most accurate way to measure body fat?", "acceptedAnswer": { "@type": "Answer", "text": "In order of accuracy: 1) DEXA scan (X-ray based, gold standard, ~1–2% error), 2) Hydrostatic weighing (underwater), 3) Bod Pod (air displacement), 4) U.S. Navy tape method (~3–4% error), 5) Skinfold calipers, 6) BMI method (rough estimate only)." } },
+      { "@type": "Question", "name": "How long does it take to reduce body fat by 1%?", "acceptedAnswer": { "@type": "Answer", "text": "Losing 1% body fat requires losing roughly 1–2 lbs of pure fat, depending on your current weight. At a 500 calorie/day deficit (about 1 lb/week fat loss), losing 1% body fat for a 180 lb person takes approximately 2–4 weeks. Slow, consistent progress preserves muscle mass better than aggressive cutting." } }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to Measure Body Fat with the Navy Method",
+    "step": [
+      { "@type": "HowToStep", "name": "Choose gender", "text": "Select Male or Female — the formula and required measurements differ." },
+      { "@type": "HowToStep", "name": "Measure your neck", "text": "Measure just below the larynx (Adam's apple), tape slightly downward at the front. Relax and keep your head level." },
+      { "@type": "HowToStep", "name": "Measure your waist", "text": "Men: at the navel. Women: at the narrowest point between ribs and hips. Exhale normally — do not suck in." },
+      { "@type": "HowToStep", "name": "Measure your hips (women only)", "text": "Measure at the widest point of the hips/buttocks. Keep the tape parallel to the floor." },
+      { "@type": "HowToStep", "name": "Enter height and calculate", "text": "Enter your height and hit calculate. Results show body fat %, category, lean mass, and fat mass." }
+    ]
+  }
+]);
+
+const categories = {
+  male: [
+    { label: 'Essential Fat', min: 2, max: 5, color: '#3b82f6' },
+    { label: 'Athletes', min: 6, max: 13, color: '#22c55e' },
+    { label: 'Fitness', min: 14, max: 17, color: '#84cc16' },
+    { label: 'Acceptable', min: 18, max: 24, color: '#eab308' },
+    { label: 'Obese', min: 25, max: 99, color: '#ef4444' },
+  ],
+  female: [
+    { label: 'Essential Fat', min: 10, max: 13, color: '#3b82f6' },
+    { label: 'Athletes', min: 14, max: 20, color: '#22c55e' },
+    { label: 'Fitness', min: 21, max: 24, color: '#84cc16' },
+    { label: 'Acceptable', min: 25, max: 31, color: '#eab308' },
+    { label: 'Obese', min: 32, max: 99, color: '#ef4444' },
+  ]
+};
+---
+<Layout
+  title="Body Fat Calculator — Navy Method & BMI Method | ComputeZap"
+  description="Free body fat percentage calculator. Use the U.S. Navy Method (waist, neck, hips) or BMI Method to find your body fat %, category, lean mass, and fat mass."
+  canonical="/health/body-fat-calculator"
+  schema={schema}
+>
+  <div class="page-hero">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a> › <a href="/health/">Health</a> › <span>Body Fat Calculator</span>
+    </nav>
+    <h1>Body Fat Calculator</h1>
+    <p class="hero-sub">Find your body fat percentage using the U.S. Navy Method or BMI Method — with category, lean mass, and fat mass.</p>
+  </div>
+
+  <div class="calc-center">
+    <div class="calc-card">
+
+      <!-- Method toggle -->
+      <div class="mode-wrap" style="grid-template-columns:1fr 1fr">
+        <button class="mode-btn active" id="btn-navy" onclick="setMethod('navy')">📏 Navy Method</button>
+        <button class="mode-btn" id="btn-bmi" onclick="setMethod('bmi')">⚖️ BMI Method</button>
+      </div>
+
+      <!-- Gender + Unit row -->
+      <div class="two-col" style="margin-bottom:.25rem">
+        <div class="input-group">
+          <label>Gender</label>
+          <div class="mode-wrap" style="grid-template-columns:1fr 1fr;margin-top:.35rem">
+            <button class="mode-btn active" id="btn-male" onclick="setGender('male')">♂ Male</button>
+            <button class="mode-btn" id="btn-female" onclick="setGender('female')">♀ Female</button>
+          </div>
+        </div>
+        <div class="input-group">
+          <label>Units</label>
+          <div class="mode-wrap" style="grid-template-columns:1fr 1fr;margin-top:.35rem">
+            <button class="mode-btn active" id="btn-imperial" onclick="setUnit('imperial')">Imperial</button>
+            <button class="mode-btn" id="btn-metric" onclick="setUnit('metric')">Metric</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navy Method inputs -->
+      <div id="navy-panel">
+        <div class="two-col">
+          <div class="input-group">
+            <label for="n-height">Height <span class="unit-lbl">(in)</span></label>
+            <div class="input-wrap">
+              <input type="number" id="n-height" value="70" min="48" max="96" step="0.1" aria-label="Height" oninput="calcBF()" />
+            </div>
+          </div>
+          <div class="input-group">
+            <label for="n-neck">Neck <span class="unit-lbl">(in)</span></label>
+            <div class="input-wrap">
+              <input type="number" id="n-neck" value="15" min="8" max="24" step="0.1" aria-label="Neck circumference" oninput="calcBF()" />
+            </div>
+          </div>
+        </div>
+        <div class="two-col">
+          <div class="input-group">
+            <label for="n-waist">Waist <span class="unit-lbl">(in)</span></label>
+            <div class="input-wrap">
+              <input type="number" id="n-waist" value="34" min="20" max="70" step="0.1" aria-label="Waist circumference" oninput="calcBF()" />
+            </div>
+          </div>
+          <div class="input-group" id="hip-group" style="display:none">
+            <label for="n-hip">Hips <span class="unit-lbl">(in)</span></label>
+            <div class="input-wrap">
+              <input type="number" id="n-hip" value="38" min="20" max="70" step="0.1" aria-label="Hip circumference" oninput="calcBF()" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BMI Method inputs -->
+      <div id="bmi-panel" style="display:none">
+        <div class="two-col">
+          <div class="input-group">
+            <label for="b-height">Height <span class="unit-lbl">(in)</span></label>
+            <div class="input-wrap">
+              <input type="number" id="b-height" value="70" min="48" max="96" step="0.1" aria-label="Height" oninput="calcBF()" />
+            </div>
+          </div>
+          <div class="input-group">
+            <label for="b-weight">Weight <span class="unit-lbl">(lbs)</span></label>
+            <div class="input-wrap">
+              <input type="number" id="b-weight" value="170" min="50" max="500" step="0.1" aria-label="Weight" oninput="calcBF()" />
+            </div>
+          </div>
+        </div>
+        <div class="input-group" style="max-width:50%">
+          <label for="b-age">Age (years)</label>
+          <div class="input-wrap">
+            <input type="number" id="b-age" value="30" min="15" max="100" aria-label="Age" oninput="calcBF()" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Result -->
+      <div class="answer-hero" id="answer">
+        <div class="a-label" id="res-label">Body Fat Percentage</div>
+        <div><span class="a-value" id="res-val">—</span><span class="a-unit">%</span></div>
+        <div class="a-sub" id="res-sub">Enter your measurements above</div>
+      </div>
+
+      <div class="stats-row" id="stats">
+        <div class="stat-box">
+          <div class="stat-lbl">Category</div>
+          <div class="stat-val" id="stat-cat">—</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-lbl">Lean Mass</div>
+          <div class="stat-val" id="stat-lean">—</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-lbl">Fat Mass</div>
+          <div class="stat-val" id="stat-fat">—</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-lbl">Fat to Lose<br><span style="font-size:.7rem;font-weight:400;color:#94a3b8">to reach fitness</span></div>
+          <div class="stat-val" id="stat-lose">—</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="content-wrap">
+
+    <div class="tip-box">
+      <strong>Health disclaimer:</strong> This calculator provides estimates for informational purposes only. Body fat calculations using the tape measure method have a margin of error of ±3–4%. For medical decisions, consult a healthcare professional.
+    </div>
+
+    <div class="formula-box">
+      <div class="formula-text">Navy Method (Men): %BF = 86.010 × log₁₀(waist − neck) − 70.041 × log₁₀(height) + 36.76</div>
+      <div class="formula-sub">Women adds hip measurement: 163.205 × log₁₀(waist + hip − neck) − 97.684 × log₁₀(height) − 78.387</div>
+      <div class="formula-text" style="margin-top:.75rem">BMI Method: %BF = (1.20 × BMI) + (0.23 × age) − gender constant</div>
+      <div class="formula-sub">Gender constant: 16.2 (men) | 5.4 (women) — Source: Deurenberg et al.</div>
+    </div>
+
+    <div class="content-card">
+      <h2>Body Fat Percentage Categories</h2>
+      <div class="payoff-table">
+        <table>
+          <thead>
+            <tr><th>Category</th><th>Men</th><th>Women</th><th>Description</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Essential Fat</strong></td><td>2–5%</td><td>10–13%</td><td>Minimum for organ function. Not sustainable long-term.</td></tr>
+            <tr><td><strong>Athletes</strong></td><td>6–13%</td><td>14–20%</td><td>Competitive athletes during season. Requires dedication.</td></tr>
+            <tr><td><strong>Fitness</strong></td><td>14–17%</td><td>21–24%</td><td>Lean, active individuals. Visible muscle definition.</td></tr>
+            <tr><td><strong>Acceptable</strong></td><td>18–24%</td><td>25–31%</td><td>Average healthy range. Some fat storage but not excessive.</td></tr>
+            <tr><td><strong>Obese</strong></td><td>25%+</td><td>32%+</td><td>Elevated health risk. Weight management recommended.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:.82rem;color:#64748b;margin-top:.75rem">Source: American Council on Exercise (ACE) body fat classification guidelines.</p>
+    </div>
+
+    <div class="content-card">
+      <h2>How to Measure for the Navy Method</h2>
+      <p>Accurate measurements are critical — a 1-inch error can shift results by 2–3%. Use a flexible measuring tape and measure to the nearest 0.5 inch (or 1 cm).</p>
+      <div class="payoff-table" style="margin-top:.75rem">
+        <table>
+          <thead><tr><th>Measurement</th><th>Where to Measure</th><th>Tip</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Neck</strong></td><td>Just below the larynx (Adam's apple), tape angled slightly downward at the front</td><td>Keep head level, relax shoulders</td></tr>
+            <tr><td><strong>Waist (men)</strong></td><td>At the navel</td><td>Exhale normally — don't suck in</td></tr>
+            <tr><td><strong>Waist (women)</strong></td><td>Narrowest point between ribs and hips</td><td>Usually at or near navel</td></tr>
+            <tr><td><strong>Hips (women)</strong></td><td>Widest point of hips/buttocks</td><td>Keep tape parallel to floor</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>Navy Method vs BMI Method — Which Should You Use?</h2>
+      <p>The <strong>Navy Method</strong> uses actual body measurements that reflect fat distribution, making it significantly more accurate than BMI-based estimates. It's the measurement approach used by the U.S. Armed Forces to assess fitness eligibility.</p>
+      <p>The <strong>BMI Method</strong> is a quick estimate when you don't have a tape measure. It uses weight, height, age, and gender but cannot distinguish between muscle and fat. A muscular person will show a falsely high body fat % with this method.</p>
+      <p>Use the Navy Method for meaningful results. Use the BMI Method only as a rough benchmark.</p>
+    </div>
+
+    <div class="content-card">
+      <h2>Frequently Asked Questions</h2>
+
+      <div class="faq-item">
+        <h3>What is a healthy body fat percentage?</h3>
+        <p>For men, the fitness range is <strong>14–17%</strong> and acceptable is 18–24%. For women, fitness is <strong>21–24%</strong> and acceptable is 25–31%. Athletes typically carry less. Below essential fat levels (2–5% men, 10–13% women) is medically dangerous.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Which method is more accurate — Navy or BMI?</h3>
+        <p>The U.S. Navy Method is more accurate (±3–4% error) than the BMI Method because it uses actual circumference measurements that reflect fat distribution. BMI is a rough estimate that cannot distinguish muscle from fat. For gold-standard accuracy, use a DEXA scan.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>What's the difference between body fat % and BMI?</h3>
+        <p>BMI uses only weight and height — a 200 lb bodybuilder and a 200 lb sedentary person have the same BMI but completely different body compositions. Body fat percentage directly measures the proportion of fat in your body, making it a much more meaningful health metric.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Can body fat percentage be too low?</h3>
+        <p>Yes. Essential fat is required for normal organ function. Men below 2–5% and women below 10–13% face serious health risks: hormonal disruption, bone density loss, organ stress, and immune compromise. Competitive athletes may briefly dip near these levels but it's not sustainable.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>How does age affect body fat?</h3>
+        <p>Body fat naturally increases with age as muscle mass decreases (sarcopenia) and metabolism slows. This is why age is factored into the BMI Method formula. A 45-year-old at 22% body fat is in a similar relative health position as a 25-year-old at 19%.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>How often should I measure body fat?</h3>
+        <p>Every 4–6 weeks is ideal for tracking fitness progress. Daily measurements are misleading because hydration, food intake, hormones, and time of day can shift results by 1–3% with no real change in body composition.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>What is the most accurate body fat measurement method?</h3>
+        <p>By accuracy: (1) DEXA scan (~1% error), (2) Hydrostatic weighing, (3) Bod Pod, (4) Navy tape method (~3–4%), (5) Skinfold calipers, (6) BMI estimate. Most people use the Navy tape method as a free and reasonably accurate option.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>How long does it take to lose 1% body fat?</h3>
+        <p>Losing 1% body fat requires losing roughly 1–2 lbs of pure fat, depending on your current weight. At a 500 calorie/day deficit (~1 lb/week fat loss), a 180 lb person can lose 1% body fat in approximately 2–4 weeks. Slower progress better preserves muscle mass.</p>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>Related Health Calculators</h2>
+      <div class="next-grid">
+        <a href="/health/bac-calculator" class="next-card">
+          <span class="next-tag">Health</span>
+          BAC Calculator
+        </a>
+        <a href="/health/" class="next-card">
+          <span class="next-tag">Health</span>
+          All Health Calculators
+        </a>
+        <a href="/finance/amortization-calculator" class="next-card">
+          <span class="next-tag">Finance</span>
+          Amortization Calculator
+        </a>
+        <a href="/calculators/percentage-calculator" class="next-card">
+          <span class="next-tag">Math</span>
+          Percentage Calculator
+        </a>
+        <a href="/converters/kg-to-lbs" class="next-card">
+          <span class="next-tag">Converter</span>
+          kg to lbs
+        </a>
+        <a href="/calculators/" class="next-card">
+          <span class="next-tag">All</span>
+          All Calculators
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <script is:inline>
+    var bfMethod = 'navy';
+    var bfGender = 'male';
+    var bfUnit = 'imperial';
+
+    function setMethod(m) {
+      bfMethod = m;
+      document.querySelectorAll('#btn-navy, #btn-bmi').forEach(function(b) { b.classList.remove('active'); });
+      document.getElementById('btn-' + m).classList.add('active');
+      document.getElementById('navy-panel').style.display = m === 'navy' ? '' : 'none';
+      document.getElementById('bmi-panel').style.display = m === 'bmi' ? '' : 'none';
+      calcBF();
+    }
+
+    function setGender(g) {
+      bfGender = g;
+      document.querySelectorAll('#btn-male, #btn-female').forEach(function(b) { b.classList.remove('active'); });
+      document.getElementById('btn-' + g).classList.add('active');
+      document.getElementById('hip-group').style.display = g === 'female' ? '' : 'none';
+      calcBF();
+    }
+
+    function setUnit(u) {
+      bfUnit = u;
+      document.querySelectorAll('#btn-imperial, #btn-metric').forEach(function(b) { b.classList.remove('active'); });
+      document.getElementById('btn-' + u).classList.add('active');
+      var lbl = u === 'imperial' ? 'in' : 'cm';
+      var wlbl = u === 'imperial' ? 'lbs' : 'kg';
+      document.querySelectorAll('.unit-lbl').forEach(function(el) {
+        var txt = el.textContent.trim();
+        if (txt === 'in' || txt === 'cm') el.textContent = '(' + lbl + ')';
+        if (txt === 'lbs' || txt === 'kg') el.textContent = '(' + wlbl + ')';
+      });
+      // Update defaults
+      if (u === 'metric') {
+        document.getElementById('n-height').value = '178';
+        document.getElementById('n-neck').value = '38';
+        document.getElementById('n-waist').value = '86';
+        document.getElementById('n-hip').value = '97';
+        document.getElementById('b-height').value = '178';
+        document.getElementById('b-weight').value = '77';
+      } else {
+        document.getElementById('n-height').value = '70';
+        document.getElementById('n-neck').value = '15';
+        document.getElementById('n-waist').value = '34';
+        document.getElementById('n-hip').value = '38';
+        document.getElementById('b-height').value = '70';
+        document.getElementById('b-weight').value = '170';
+      }
+      calcBF();
+    }
+
+    function toIn(val) {
+      return bfUnit === 'metric' ? val / 2.54 : val;
+    }
+
+    function getCat(bf, gender) {
+      var cats = gender === 'male'
+        ? [{l:'Essential Fat',max:5,c:'#3b82f6'},{l:'Athletes',max:13,c:'#22c55e'},{l:'Fitness',max:17,c:'#84cc16'},{l:'Acceptable',max:24,c:'#eab308'},{l:'Obese',max:999,c:'#ef4444'}]
+        : [{l:'Essential Fat',max:13,c:'#3b82f6'},{l:'Athletes',max:20,c:'#22c55e'},{l:'Fitness',max:24,c:'#84cc16'},{l:'Acceptable',max:31,c:'#eab308'},{l:'Obese',max:999,c:'#ef4444'}];
+      for (var i = 0; i < cats.length; i++) {
+        if (bf <= cats[i].max) return cats[i];
+      }
+      return cats[cats.length - 1];
+    }
+
+    function getFitnessTarget(gender) {
+      return gender === 'male' ? 17 : 24;
+    }
+
+    function calcBF() {
+      var bf = null;
+      var weightLbs = null;
+
+      if (bfMethod === 'navy') {
+        var h = parseFloat(document.getElementById('n-height').value);
+        var neck = parseFloat(document.getElementById('n-neck').value);
+        var waist = parseFloat(document.getElementById('n-waist').value);
+        if (!h || !neck || !waist || h <= 0 || neck <= 0 || waist <= 0) return;
+        h = toIn(h); neck = toIn(neck); waist = toIn(waist);
+        if (waist <= neck) return;
+        if (bfGender === 'male') {
+          bf = 86.010 * Math.log10(waist - neck) - 70.041 * Math.log10(h) + 36.76;
+        } else {
+          var hip = parseFloat(document.getElementById('n-hip').value);
+          if (!hip || hip <= 0) return;
+          hip = toIn(hip);
+          if (waist + hip <= neck) return;
+          bf = 163.205 * Math.log10(waist + hip - neck) - 97.684 * Math.log10(h) - 78.387;
+        }
+      } else {
+        var bh = parseFloat(document.getElementById('b-height').value);
+        var bw = parseFloat(document.getElementById('b-weight').value);
+        var age = parseFloat(document.getElementById('b-age').value);
+        if (!bh || !bw || !age || bh <= 0 || bw <= 0 || age <= 0) return;
+        var hIn = bfUnit === 'metric' ? bh / 2.54 : bh;
+        weightLbs = bfUnit === 'metric' ? bw * 2.20462 : bw;
+        var bmi = (weightLbs / (hIn * hIn)) * 703;
+        var k = bfGender === 'male' ? 16.2 : 5.4;
+        bf = 1.20 * bmi + 0.23 * age - k;
+      }
+
+      if (bf === null || isNaN(bf) || !isFinite(bf)) return;
+      bf = Math.max(1, Math.min(bf, 65));
+
+      var cat = getCat(bf, bfGender);
+      var fitnessTarget = getFitnessTarget(bfGender);
+
+      document.getElementById('res-label').textContent = (bfMethod === 'navy' ? 'Navy Method' : 'BMI Method') + ' — Body Fat';
+      document.getElementById('res-val').textContent = bf.toFixed(1);
+      document.getElementById('res-sub').textContent = 'Category: ' + cat.l;
+      document.getElementById('stat-cat').textContent = cat.l;
+      document.getElementById('stat-cat').style.color = cat.c;
+
+      // lean/fat mass — need weight
+      if (bfMethod === 'bmi' && weightLbs !== null) {
+        var fatLbs = weightLbs * (bf / 100);
+        var leanLbs = weightLbs - fatLbs;
+        var unit = bfUnit === 'metric' ? ' kg' : ' lbs';
+        var fatDisp = bfUnit === 'metric' ? (fatLbs / 2.20462).toFixed(1) : fatLbs.toFixed(1);
+        var leanDisp = bfUnit === 'metric' ? (leanLbs / 2.20462).toFixed(1) : leanLbs.toFixed(1);
+        document.getElementById('stat-lean').textContent = leanDisp + unit;
+        document.getElementById('stat-fat').textContent = fatDisp + unit;
+        if (bf > fitnessTarget) {
+          var fatToLose = weightLbs * ((bf - fitnessTarget) / 100);
+          var ftlDisp = bfUnit === 'metric' ? (fatToLose / 2.20462).toFixed(1) : fatToLose.toFixed(1);
+          document.getElementById('stat-lose').textContent = ftlDisp + unit;
+        } else {
+          document.getElementById('stat-lose').textContent = 'Already there!';
+        }
+      } else {
+        document.getElementById('stat-lean').textContent = '—';
+        document.getElementById('stat-fat').textContent = '—';
+        document.getElementById('stat-lose').textContent = '—';
+      }
+
+      document.getElementById('answer').classList.add('show');
+      document.getElementById('stats').classList.add('show');
+    }
+
+    calcBF();
+  </script>
+
+</Layout>
