@@ -1,0 +1,109 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const schema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Disclaimer — ComputeZap",
+    "url": "https://computezap.com/disclaimer",
+    "description": "ComputeZap Disclaimer — accuracy limitations, financial and health disclaimers, and the educational purpose of our free online calculators."
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Disclaimer", "item": "https://computezap.com/disclaimer" }
+    ]
+  }
+]);
+---
+<Layout
+  title="Disclaimer — ComputeZap Calculator & Converter Results"
+  description="ComputeZap Disclaimer — all calculator results are estimates for educational purposes only. Not financial, medical, or legal advice."
+  canonical="/disclaimer"
+  schema={schema}
+>
+  <div class="page-hero">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a> › <span>Disclaimer</span>
+    </nav>
+    <h1>Disclaimer</h1>
+    <p class="hero-sub">Last updated: July 1, 2026</p>
+  </div>
+
+  <div class="content-wrap">
+
+    <div class="content-card">
+      <h2>General Disclaimer</h2>
+      <p>The information and results provided by ComputeZap (<a href="https://computezap.com">computezap.com</a>) are for <strong>general informational and educational purposes only</strong>. While we strive for accuracy in all our tools and content, we make no representations or warranties of any kind — express or implied — about the completeness, accuracy, reliability, or suitability of the results produced by our calculators and converters.</p>
+      <p>Your use of any information or tool on ComputeZap is entirely at your own risk.</p>
+    </div>
+
+    <div class="content-card">
+      <h2>Accuracy Disclaimer</h2>
+      <p>Calculator results are based on the formulas and inputs provided. Results may differ from real-world outcomes due to:</p>
+      <ul>
+        <li>Rounding differences in intermediate calculations</li>
+        <li>Assumptions built into the formula (e.g., fixed interest rate, standard calendar months)</li>
+        <li>Variables specific to your situation that the calculator cannot account for</li>
+        <li>Local laws, fees, or regulations that may affect real-world results</li>
+      </ul>
+      <p>Always verify important results using official sources or qualified professionals before making any decision.</p>
+    </div>
+
+    <div class="content-card">
+      <h2>Financial Disclaimer</h2>
+      <p>ComputeZap's finance calculators — including but not limited to mortgage calculators, loan calculators, compound interest calculators, car payoff calculators, APR calculators, savings calculators, Roth IRA calculators, and 401(k) calculators — provide <strong>estimates only</strong>.</p>
+      <ul>
+        <li>Results do <strong>not constitute financial advice</strong> of any kind</li>
+        <li>Results are <strong>not a substitute for advice from a licensed financial advisor, banker, or tax professional</strong></li>
+        <li>Actual loan terms, interest rates, fees, and tax implications vary by lender, jurisdiction, and individual financial profile</li>
+        <li>ComputeZap is not responsible for any financial decisions made based on calculator results</li>
+      </ul>
+      <p>For significant financial decisions, always consult a qualified financial professional.</p>
+    </div>
+
+    <div class="content-card">
+      <h2>Health Disclaimer</h2>
+      <p>ComputeZap's health-related calculators — including the BAC (Blood Alcohol Content) calculator and any future tools such as BMI, body fat, or calorie calculators — are provided for educational and informational purposes only.</p>
+      <ul>
+        <li>Results are <strong>estimates based on general formulas</strong> and do not reflect your exact physiological response</li>
+        <li>Results are <strong>not medical advice</strong> and should not be used to make health or safety decisions</li>
+        <li>BAC estimates in particular can vary significantly based on individual metabolism, food intake, medications, and other factors</li>
+        <li><strong>Never drive or operate machinery based on a BAC calculator result</strong> — if you've consumed alcohol, the safest choice is not to drive</li>
+      </ul>
+      <p>For any health concern, consult a qualified healthcare professional.</p>
+    </div>
+
+    <div class="content-card">
+      <h2>Educational Purpose</h2>
+      <p>ComputeZap is designed as an educational resource. Our tools help users:</p>
+      <ul>
+        <li>Understand how financial formulas work</li>
+        <li>Explore "what if" scenarios before consulting a professional</li>
+        <li>Learn about unit conversions, math concepts, and real-world calculations</li>
+        <li>Quickly estimate results for everyday decisions</li>
+      </ul>
+      <p>No result from ComputeZap should be taken as a final, authoritative answer for any major decision.</p>
+    </div>
+
+    <div class="content-card">
+      <h2>No Professional Relationship</h2>
+      <p>Using ComputeZap does not create any professional relationship — financial, legal, medical, or otherwise — between you and ComputeZap or its owner. We are a free web tool, not a licensed service provider.</p>
+    </div>
+
+    <div class="content-card">
+      <h2>External Links</h2>
+      <p>ComputeZap may link to external websites for reference purposes. We are not responsible for the content, accuracy, or practices of any third-party website. The inclusion of any link does not imply endorsement.</p>
+    </div>
+
+    <div class="content-card">
+      <h2>Questions</h2>
+      <p>If you have questions about this disclaimer or the accuracy of any specific tool, contact us:</p>
+      <p><strong>Email:</strong> <a href="mailto:support@computezap.com">support@computezap.com</a></p>
+    </div>
+
+  </div>
+</Layout>

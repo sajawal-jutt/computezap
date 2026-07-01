@@ -1,0 +1,97 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const schema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "About ComputeZap",
+    "url": "https://computezap.com/about",
+    "description": "ComputeZap is a free online calculator and converter toolkit built by Hafiz Muhammad Sajawal to help people solve everyday math, finance, and conversion problems instantly."
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com/" },
+      { "@type": "ListItem", "position": 2, "name": "About", "item": "https://computezap.com/about" }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "ComputeZap",
+    "url": "https://computezap.com",
+    "founder": {
+      "@type": "Person",
+      "name": "Hafiz Muhammad Sajawal"
+    },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "email": "support@computezap.com",
+      "contactType": "customer support"
+    }
+  }
+]);
+---
+<Layout
+  title="About ComputeZap — Free Calculators & Converters Built for Everyone"
+  description="ComputeZap is a free online calculator and converter toolkit. Learn about the mission, the tools we build, and the person behind the project."
+  canonical="/about"
+  schema={schema}
+>
+  <div class="page-hero">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a> › <span>About</span>
+    </nav>
+    <h1>About ComputeZap</h1>
+    <p class="hero-sub">Free, fast, and accurate calculators — built for real people solving real problems.</p>
+  </div>
+
+  <div class="content-wrap">
+
+    <div class="content-card">
+      <h2>What is ComputeZap?</h2>
+      <p>ComputeZap is a free online toolkit of calculators, unit converters, and reference tools designed to help you get answers fast — without ads blocking your results, without signup walls, and without slow-loading pages.</p>
+      <p>Whether you need to calculate a monthly loan payment, convert kilograms to pounds, figure out a percentage discount, or estimate your retirement savings — ComputeZap has a dedicated tool built exactly for that task.</p>
+    </div>
+
+    <div class="content-card">
+      <h2>Who Built ComputeZap?</h2>
+      <p>ComputeZap was founded and is maintained by <strong>Hafiz Muhammad Sajawal</strong>, a software developer focused on building fast, reliable, and easy-to-use online calculators and conversion tools. The idea was simple: most online calculators are either buried in ads, inaccurate, or overcomplicated. There had to be a better option.</p>
+      <p>ComputeZap started as a personal project to fill that gap — clean tools that work instantly on any device, explain their formulas, and actually help people understand their results rather than just spit out a number.</p>
+    </div>
+
+    <div class="content-card">
+      <h2>Our Mission</h2>
+      <p>Make accurate calculation tools freely accessible to everyone — students, professionals, homeowners, business owners, or anyone who needs a quick answer to an everyday math or finance question.</p>
+      <p>No paywalls. No accounts. No fluff. Just tools that work.</p>
+    </div>
+
+    <div class="content-card">
+      <h2>What We Cover</h2>
+      <ul>
+        <li><strong>Finance Calculators</strong> — mortgage payoff, loan payments, APR, compound interest, savings, Roth IRA, 401(k), car payoff, amortization, and more</li>
+        <li><strong>Unit Converters</strong> — length, weight, temperature, volume, pressure, and specialized converters for cooking, science, and industry</li>
+        <li><strong>Math Calculators</strong> — percentages, fractions, geometry (Pythagorean theorem, square footage), and general math tools</li>
+        <li><strong>Date & Time Tools</strong> — days from today, time-to-decimal, military time, calendar calculators</li>
+        <li><strong>Health Calculators</strong> — BAC estimator, with BMI, body fat, and calorie calculators coming soon</li>
+      </ul>
+      <p>New tools are added regularly. If you have a suggestion, <a href="/contact">let us know</a>.</p>
+    </div>
+
+    <div class="content-card">
+      <h2>Accuracy & Transparency</h2>
+      <p>Every calculator on ComputeZap uses verified formulas sourced from established mathematical, financial, and scientific standards. We show you the formula being used so you can verify results independently.</p>
+      <p>All tools are provided for informational and educational purposes. For major financial, legal, tax, or medical decisions, always consult a qualified professional.</p>
+    </div>
+
+    <div class="content-card">
+      <h2>Get in Touch</h2>
+      <p>Found a bug? Have a suggestion for a new tool? Noticed a calculation error? We want to hear from you.</p>
+      <p>Email: <a href="mailto:support@computezap.com">support@computezap.com</a></p>
+      <p>We read every message and respond within 1–2 business days.</p>
+    </div>
+
+  </div>
+</Layout>

@@ -1,0 +1,79 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const schema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    "name": "Contact ComputeZap",
+    "url": "https://computezap.com/contact",
+    "description": "Get in touch with ComputeZap for bug reports, calculator suggestions, or general questions."
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Contact", "item": "https://computezap.com/contact" }
+    ]
+  }
+]);
+---
+<Layout
+  title="Contact ComputeZap — Bug Reports, Suggestions & Support"
+  description="Have a question, found a bug, or want to suggest a new calculator? Contact the ComputeZap team at support@computezap.com."
+  canonical="/contact"
+  schema={schema}
+>
+  <div class="page-hero">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a> › <span>Contact</span>
+    </nav>
+    <h1>Contact Us</h1>
+    <p class="hero-sub">We read every message. Reach out anytime.</p>
+  </div>
+
+  <div class="content-wrap">
+
+    <div class="content-card">
+      <h2>Get in Touch</h2>
+      <p>The best way to reach us is by email:</p>
+      <p style="font-size:1.2rem; font-weight:600; margin:1rem 0;">
+        <a href="mailto:support@computezap.com">support@computezap.com</a>
+      </p>
+      <p>We aim to respond within <strong>1–2 business days</strong>. ComputeZap is run by a small team, so we appreciate your patience.</p>
+    </div>
+
+    <div class="content-card">
+      <h2>What to Contact Us About</h2>
+      <ul>
+        <li><strong>Bug reports</strong> — Did a calculator give a wrong answer? Tell us the inputs and what result you expected.</li>
+        <li><strong>New tool suggestions</strong> — Have a calculator or converter you'd like to see? We take all suggestions seriously.</li>
+        <li><strong>Content corrections</strong> — Spotted an error in a formula, FAQ, or explanation? Let us know and we'll fix it fast.</li>
+        <li><strong>General questions</strong> — Anything else, we're happy to help.</li>
+      </ul>
+    </div>
+
+    <div class="content-card">
+      <h2>Before You Write</h2>
+      <p>Check if your question is already answered:</p>
+      <ul>
+        <li>Each calculator page has a <strong>FAQ section</strong> covering common questions about that tool.</li>
+        <li>Our <a href="/about">About page</a> explains how ComputeZap works and what it covers.</li>
+        <li>Our <a href="/disclaimer">Disclaimer</a> explains the limitations of calculator results.</li>
+      </ul>
+    </div>
+
+    <div class="content-card">
+      <h2>Explore Our Tools</h2>
+      <p>Looking for a specific calculator? Browse our categories:</p>
+      <ul>
+        <li><a href="/#finance">Finance Calculators</a> — loans, mortgage, savings, retirement</li>
+        <li><a href="/#converters">Unit Converters</a> — length, weight, temperature, volume</li>
+        <li><a href="/#calculators">Math Calculators</a> — percentage, fractions, geometry</li>
+        <li><a href="/#health">Health Calculators</a> — BAC, BMI (coming soon)</li>
+      </ul>
+    </div>
+
+  </div>
+</Layout>

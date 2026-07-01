@@ -1,0 +1,116 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const schema = JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Privacy Policy — ComputeZap",
+    "url": "https://computezap.com/privacy-policy",
+    "description": "ComputeZap Privacy Policy — how we collect, use, and protect your information when you use our free online calculators and converters."
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://computezap.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Privacy Policy", "item": "https://computezap.com/privacy-policy" }
+    ]
+  }
+]);
+---
+<Layout
+  title="Privacy Policy — ComputeZap"
+  description="ComputeZap Privacy Policy — learn how we handle your data, what we collect via Google Analytics, and how cookies are used on our site."
+  canonical="/privacy-policy"
+  schema={schema}
+>
+  <div class="page-hero">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a> › <span>Privacy Policy</span>
+    </nav>
+    <h1>Privacy Policy</h1>
+    <p class="hero-sub">Last updated: July 1, 2026</p>
+  </div>
+
+  <div class="content-wrap">
+
+    <div class="content-card">
+      <h2>Overview</h2>
+      <p>ComputeZap ("we," "us," or "our") operates the website <a href="https://computezap.com">computezap.com</a>. This Privacy Policy explains what information we collect, how we use it, and your rights regarding that information. By using ComputeZap, you agree to the practices described in this policy.</p>
+      <p>If you have any questions, contact us at <a href="mailto:support@computezap.com">support@computezap.com</a>.</p>
+    </div>
+
+    <div class="content-card">
+      <h2>Information We Collect</h2>
+      <h3>1. Usage Data (Google Analytics)</h3>
+      <p>We use <strong>Google Analytics 4 (GA4)</strong> to understand how visitors use ComputeZap. This includes:</p>
+      <ul>
+        <li>Pages visited and time spent on each page</li>
+        <li>General geographic location (country/region — not precise location)</li>
+        <li>Device type, browser, and operating system</li>
+        <li>Referring website (how you found us)</li>
+        <li>Interactions such as button clicks and calculator usage</li>
+      </ul>
+      <p>This data is collected anonymously and aggregated. We cannot identify individual users through Google Analytics. Google's privacy policy applies to data collected through GA4: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">policies.google.com/privacy</a>.</p>
+
+      <h3>2. Calculator Inputs</h3>
+      <p>Numbers and values you enter into our calculators are processed entirely in your browser (client-side JavaScript). This data is <strong>never sent to our servers</strong>, never stored, and never shared with any third party.</p>
+
+      <h3>3. Contact Information</h3>
+      <p>If you email us at <a href="mailto:support@computezap.com">support@computezap.com</a>, we receive your email address and the contents of your message. We use this only to respond to your inquiry and do not add you to any mailing list. Emails are retained only as long as necessary to respond to your inquiry, after which they are deleted.</p>
+    </div>
+
+    <div class="content-card">
+      <h2>Cookies</h2>
+      <p>ComputeZap uses cookies for the following purposes:</p>
+      <ul>
+        <li><strong>Analytics cookies</strong> — placed by Google Analytics to track usage patterns (as described above)</li>
+        <li><strong>Preference cookies</strong> — used to remember calculator settings or mode selections within a session</li>
+      </ul>
+      <p>You can disable cookies in your browser settings. Note that disabling analytics cookies will not affect your ability to use any calculator on ComputeZap.</p>
+      <p>You can also opt out of Google Analytics tracking entirely by installing the <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener">Google Analytics Opt-out Browser Add-on</a>.</p>
+    </div>
+
+    <div class="content-card">
+      <h2>Advertising (Google AdSense)</h2>
+      <p>ComputeZap may display advertisements served by <strong>Google AdSense</strong> in the future. When active, Google AdSense may use cookies and other tracking technologies to show personalized ads based on your browsing history.</p>
+      <p>You can opt out of personalized advertising by visiting <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">Google's Ad Settings</a> or <a href="http://www.aboutads.info/choices/" target="_blank" rel="noopener">aboutads.info</a>.</p>
+    </div>
+
+    <div class="content-card">
+      <h2>Third-Party Links</h2>
+      <p>Some pages on ComputeZap may include links to external websites. We are not responsible for the privacy practices or content of those websites. We recommend reviewing the privacy policy of any external site you visit.</p>
+    </div>
+
+    <div class="content-card">
+      <h2>Children's Privacy</h2>
+      <p>ComputeZap does not knowingly collect personal information from children under the age of 13. Our tools are general-purpose educational resources. If you believe a child has submitted personal information to us, contact us at <a href="mailto:support@computezap.com">support@computezap.com</a> and we will promptly delete it.</p>
+    </div>
+
+    <div class="content-card">
+      <h2>Your Rights</h2>
+      <p>Depending on your location, you may have rights regarding your personal data, including:</p>
+      <ul>
+        <li>The right to know what data we hold about you</li>
+        <li>The right to request deletion of your data</li>
+        <li>The right to opt out of analytics tracking (via browser settings or Google's opt-out tools)</li>
+      </ul>
+      <p>If you are located in the European Economic Area (EEA), United Kingdom, or California, you may have additional rights regarding your personal information under applicable privacy laws (GDPR / CCPA).</p>
+      <p>To exercise any of these rights, email us at <a href="mailto:support@computezap.com">support@computezap.com</a>.</p>
+    </div>
+
+    <div class="content-card">
+      <h2>Changes to This Policy</h2>
+      <p>We may update this Privacy Policy from time to time. When we do, we will update the "Last updated" date at the top of this page. Continued use of ComputeZap after any changes constitutes acceptance of the updated policy.</p>
+    </div>
+
+    <div class="content-card">
+      <h2>Contact</h2>
+      <p>Questions about this Privacy Policy? Contact us:</p>
+      <p><strong>Email:</strong> <a href="mailto:support@computezap.com">support@computezap.com</a></p>
+      <p><strong>Website:</strong> <a href="https://computezap.com">computezap.com</a></p>
+    </div>
+
+  </div>
+</Layout>
