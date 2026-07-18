@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://computezap.com/sitemap-index.xml
+Sitemap: https://www.computezap.com/sitemap-index.xml

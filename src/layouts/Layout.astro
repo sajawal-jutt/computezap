@@ -8,8 +8,8 @@ interface Props {
 }
 const { title, description, canonical, schema, ogImage } = Astro.props;
 const url = canonical || Astro.url.pathname;
-const fullUrl = `https://computezap.com${url}`;
-const image = ogImage || 'https://computezap.com/og-default.png';
+const fullUrl = `https://www.computezap.com${url}`;
+const image = ogImage || 'https://www.computezap.com/og-default.png';
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -44,24 +44,24 @@ const image = ogImage || 'https://computezap.com/og-default.png';
     "@graph": [
       {
         "@type": "WebSite",
-        "@id": "https://computezap.com/#website",
+        "@id": "https://www.computezap.com/#website",
         "name": "ComputeZap",
-        "url": "https://computezap.com",
+        "url": "https://www.computezap.com",
         "description": "Free online calculators and unit converters — fast, accurate, no signup required.",
         "potentialAction": {
           "@type": "SearchAction",
-          "target": "https://computezap.com/?s={search_term_string}",
+          "target": "https://www.computezap.com/?s={search_term_string}",
           "query-input": "required name=search_term_string"
         }
       },
       {
         "@type": "Organization",
-        "@id": "https://computezap.com/#organization",
+        "@id": "https://www.computezap.com/#organization",
         "name": "ComputeZap",
-        "url": "https://computezap.com",
+        "url": "https://www.computezap.com",
         "logo": {
           "@type": "ImageObject",
-          "url": "https://computezap.com/og-default.png"
+          "url": "https://www.computezap.com/og-default.png"
         },
         "description": "Free online calculators and unit converters for finance, math, cooking, and everyday use.",
         "foundingDate": "2026",

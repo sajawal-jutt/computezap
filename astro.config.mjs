@@ -3,7 +3,7 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://computezap.com',
+  site: 'https://www.computezap.com',
   integrations: [sitemap()],
   // Keep legacy programmatic URLs working in local dev/preview as well as
   // production. Vercel mirrors these redirects with permanent 301 rules.
