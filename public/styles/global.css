@@ -66,6 +66,7 @@ nav {
 nav ul { display: flex; gap: 1.5rem; list-style: none; }
 nav ul a { color: var(--gray-700); font-size: .9rem; font-weight: 500; }
 nav ul a:hover { color: var(--blue); text-decoration: none; }
+.nav-toggle { display: none; background: none; border: none; font-size: 1.3rem; color: var(--gray-700); cursor: pointer; padding: .2rem .45rem; line-height: 1; }
 
 /* MAIN */
 main {
@@ -626,7 +627,12 @@ img, pre, iframe { max-width: 100%; }
   .hero h1 { font-size: 1.6rem !important; }
   .form-row { grid-template-columns: 1fr; }
   .calc-card { padding: 1rem; }
-  nav ul { display: none; }
+  .nav-toggle { display: block; }
+  nav ul { display: none; position: absolute; top: 56px; left: 0; right: 0; background: var(--white); border-bottom: 1px solid var(--gray-200); flex-direction: column; gap: 0; padding: .4rem 1.5rem 1rem; box-shadow: 0 10px 24px rgba(0,0,0,.08); }
+  nav ul.open { display: flex; }
+  nav ul li { padding: .6rem 0; border-bottom: 1px solid var(--gray-100); }
+  nav ul li:last-child { border-bottom: none; }
+  nav ul a { font-size: .95rem; display: block; }
   table { font-size: .78rem; }
   table td, table th { padding: .45rem .5rem; }
   /* Ensure reference/conversion tables are wide enough to trigger scroll on mobile */

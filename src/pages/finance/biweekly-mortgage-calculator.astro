@@ -339,8 +339,8 @@ const schema = JSON.stringify([
     return { months: months, totalInterest: totalInterest, monthlyPayment: pmt, yearlyBalances: yearlyBalances };
   }
 
-  function simulateBiweekly(principal, annualRate) {
-    var monthlyPmt = calcMonthlyPayment(principal, annualRate, 30 * 12);
+  function simulateBiweekly(principal, annualRate, termMonths) {
+    var monthlyPmt = calcMonthlyPayment(principal, annualRate, termMonths);
     var bwPmt = monthlyPmt / 2;
     var r = annualRate / 100 / 26;
     var balance = principal;
@@ -371,7 +371,7 @@ const schema = JSON.stringify([
 
     var termMonths = term * 12;
     var monthly = simulateMonthly(principal, rate, termMonths);
-    var bw = simulateBiweekly(principal, rate);
+    var bw = simulateBiweekly(principal, rate, termMonths);
 
     var monthsSaved = monthly.months - Math.round(bw.periods / 26 * 12);
     var yearsSaved = monthsSaved / 12;

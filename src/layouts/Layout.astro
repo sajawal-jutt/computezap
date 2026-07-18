@@ -95,12 +95,14 @@ const image = ogImage || 'https://www.computezap.com/og-default.png';
         </svg>
         <span class="logo-text">compute<strong>zap</strong></span>
       </a>
-      <ul>
+      <ul id="navMenu">
         <li><a href="/converters/">Converters</a></li>
         <li><a href="/calculators/">Calculators</a></li>
         <li><a href="/finance/">Finance</a></li>
         <li><a href="/health/">Health</a></li>
+        <li><a href="/date-time/">Date &amp; Time</a></li>
       </ul>
+      <button id="navToggle" class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="navMenu">☰</button>
     </div>
   </nav>
 
@@ -152,6 +154,27 @@ const image = ogImage || 'https://www.computezap.com/og-default.png';
       <p style="font-size:.82rem;color:#94a3b8;text-align:center;margin-top:.5rem">© 2026 ComputeZap — Free Online Calculators &amp; Converters</p>
     </div>
   </footer>
+
+  <!-- Mobile nav toggle -->
+  <script is:inline>
+    (function() {
+      var btn = document.getElementById('navToggle');
+      var menu = document.getElementById('navMenu');
+      if (!btn || !menu) return;
+      btn.addEventListener('click', function() {
+        var open = menu.classList.toggle('open');
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        btn.textContent = open ? '✕' : '☰';
+      });
+      menu.addEventListener('click', function(e) {
+        if (e.target.tagName === 'A') {
+          menu.classList.remove('open');
+          btn.setAttribute('aria-expanded', 'false');
+          btn.textContent = '☰';
+        }
+      });
+    })();
+  </script>
 
   <!-- Google Analytics — fully deferred to avoid TBT -->
   <script is:inline>
