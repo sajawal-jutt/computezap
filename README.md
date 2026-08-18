@@ -1,112 +1,224 @@
-# ComputeZap — Free Online Calculators
+<div align="center">
 
-**Live:** https://www.computezap.com
-**GitHub:** https://github.com/Sajawaljutt14/computezap
-**Goal:** $10,000/month via Google AdSense
+<img src="https://img.shields.io/badge/Astro-5C2D91?style=for-the-badge&logo=astro&logoColor=white" />
+<img src="https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" />
+<img src="https://img.shields.io/badge/Vercel-Deployed-black?style=for-the-badge&logo=vercel" />
+<img src="https://img.shields.io/badge/SEO-Optimized-success?style=for-the-badge" />
 
----
+</div>
+# 🚀 ComputeZap
 
-## Project Overview
+<div align="center">
 
-ComputeZap is an Astro-based static site with 646+ pages of free calculators and unit converters. Built for organic Google traffic with a focus on low-KD keywords and programmatic SEO.
+### Free Online Calculators & Unit Converters
 
-**Stack:** Astro · Vercel (free) · Vanilla JS · Custom CSS design system
-**Domain:** computezap.com — Namecheap, expires June 23 2027
-**Analytics:** GA4 — G-HKNEP4FGVH
+A modern, high-performance calculator platform built with **Astro**, delivering hundreds of fast, accurate, and SEO-optimized calculators and unit converters.
 
----
+🌐 **Live Demo:** <https://computezap.com>
 
-## Commands
+<br><br>
 
-| Command | Action |
-|---------|--------|
-| `npm install` | Install dependencies |
-| `npm run dev` | Start local dev server at `localhost:4321` |
-| `npm run build` | Build production site to `./dist/` |
-| `npm run preview` | Preview build locally |
+<img src="https://github.com/user-attachments/assets/2f4d7050-f7a4-468b-9b52-7550543f7307" alt="ComputeZap Homepage" width="100%" />
+
+</div>
 
 ---
 
-## Project Structure
+# 📖 About
 
-```
+ComputeZap is a modern, production-ready web platform that provides fast, accurate, and user-friendly online calculators and unit converters.
+
+Built with **Astro** and powered by Static Site Generation (SSG), the platform is designed for exceptional performance, scalability, and search engine visibility while delivering an excellent user experience across desktop and mobile devices.
+
+The project currently includes **646+ SEO-optimized pages**, featuring finance calculators, unit converters, mathematical tools, date & time utilities, health calculators, and large-scale programmatically generated content.
+
+This project demonstrates modern frontend architecture, reusable component design, large-scale content generation, technical SEO implementation, and performance-focused web development.
+
+---
+
+# ✨ Key Features
+
+- ⚡ Lightning-fast Static Site Generation (SSG)
+- 📈 SEO-first architecture
+- 🔍 Schema.org structured data
+- 📱 Fully responsive design
+- 🚀 Optimized Core Web Vitals
+- 🧮 646+ calculator & converter pages
+- 🗂 Clean category-based URL structure
+- 📊 Google Analytics integration
+- 🗺 Automatic XML Sitemap
+- 🤖 Search-engine friendly metadata
+- ♻ Reusable component architecture
+- 🌍 Production deployment on Vercel
+
+---
+
+# 🛠 Tech Stack
+
+| Category | Technologies |
+|-----------|--------------|
+| 🚀 Framework | Astro |
+| 💻 Languages | JavaScript, HTML5, CSS3 |
+| 🎨 Styling | Custom CSS Design System |
+| ☁️ Deployment | Vercel |
+| 📊 Analytics | Google Analytics 4 |
+| 🔍 SEO | Schema.org, Open Graph, Canonical URLs, Sitemap |
+
+---
+
+# 📊 Project Metrics
+
+| Metric | Value |
+|---------|------:|
+| Total Pages | **646+** |
+| Programmatic Pages | **580+** |
+| Unit Converters | **20+** |
+| Finance Calculators | **16+** |
+| Math Calculators | **10+** |
+| Date & Time Tools | **8+** |
+| Health Tools | Growing |
+
+---
+
+# 🏗 Architecture
+
+```text
 computezap/
+│
 ├── src/
 │   ├── layouts/
-│   │   └── Layout.astro          ← Nav + Footer + SEO head
-│   └── pages/
-│       ├── index.astro            ← Homepage
-│       ├── converters/            ← 20 unit converter tool pages
-│       ├── finance/                ← 16 finance calculator tool pages
-│       ├── calculators/           ← 10 math/utility calculator tool pages
-│       ├── date-time/             ← 8 date & time tool pages
-│       ├── health/                ← 1 health tool page (BAC)
-│       ├── [kg]-kg-to-lbs.astro   ← ~113 programmatic pages
-│       ├── [x]-percent-off-[y].astro ← ~285 programmatic pages
-│       ├── [n]-days-from-today.astro ← ~31 programmatic pages
-│       ├── [mb]-mb-to-gb.astro    ← ~52 programmatic pages
-│       ├── [yards]-yards-to-meters.astro ← ~109 programmatic pages
-│       └── [feet]-feet-[inches]-inches-in-cm.astro ← ~48 height pages
+│   ├── pages/
+│   ├── components/
+│   └── assets/
+│
 ├── public/
-│   ├── styles/
-│   │   └── global.css             ← Design system (all shared CSS)
-│   ├── favicon.svg
-│   └── favicon.ico
-├── progress.md                    ← Full roadmap + status tracker
-├── ranking-track.md               ← GA4 snapshots + ranking data
-├── tomorrow-plan.md               ← Session-by-session task log
-├── keyword-research.md            ← 15,000+ keyword analysis
-└── DESIGN_STANDARD.md             ← UI/CSS design rules (v2)
+│
+├── package.json
+└── astro.config.mjs
 ```
 
 ---
 
-## Design Standard v2 — Layout Pattern
+# 🚀 Performance
 
-All pages follow this 3-section layout:
+- ⚡ Static Site Generation (SSG)
+- 📱 Mobile-First Design
+- 🚀 Fast Page Loading
+- 🎯 Optimized Core Web Vitals
+- 🪶 Lightweight Architecture
+- ♻ Reusable Components
+- 🧹 Clean Semantic HTML
 
+---
+
+# 🔍 SEO Highlights
+
+- Programmatic SEO
+- Schema.org JSON-LD
+- Canonical URLs
+- Open Graph Metadata
+- Twitter Cards
+- XML Sitemap
+- Robots.txt
+- Breadcrumb Navigation
+- Internal Linking Strategy
+- SEO-Friendly URL Structure
+
+---
+
+# 💡 Why I Built ComputeZap
+
+ComputeZap was created to demonstrate how a modern web platform can scale to hundreds of pages while maintaining outstanding performance, clean architecture, and strong search engine optimization.
+
+Through this project, I demonstrate expertise in:
+
+- Building production-ready web applications
+- Static Site Generation with Astro
+- SEO-focused development
+- Responsive UI implementation
+- Programmatic page generation
+- Reusable architecture
+- Performance optimization
+- Large-scale website organization
+
+---
+
+# 💻 Local Development
+
+## 📦 Install Dependencies
+
+```bash
+npm install
 ```
-.page-hero     → breadcrumb + H1 + subtitle (centered)
-.calc-center   → max-width 620px — calculator card
-.content-wrap  → max-width 900px — reference tables, FAQ, related tools
+
+## 🚀 Start Development Server
+
+```bash
+npm run dev
 ```
 
-**Key CSS rule:** All shared classes live in `public/styles/global.css` (loaded once via Layout.astro `<link>`). Newer pages add zero local CSS — they use only existing global classes (`.mode-wrap`, `.input-group`, `.answer-hero`, `.stats-row`, `.formula-box`, `.tip-box`, `.faq-item`, `.next-grid`, `.payoff-table`, `.two-col`, etc). Only add a local `<style is:global>` block for something genuinely new to that one page.
+## 🏗 Build for Production
 
-**Key JS rule:** Always use `<script is:inline>` — regular `<script>` is module-scoped in Astro and can't access global onclick handlers.
+```bash
+npm run build
+```
 
----
+## 👀 Preview Production Build
 
-## Pages Live (646 total)
+```bash
+npm run preview
+```
 
-URLs include their category in the path (e.g. `/finance/car-payoff-calculator`, `/converters/atm-to-bar`) — old flat URLs 301-redirect to the new ones.
 
-| Category | Pages |
-|----------|-------|
-| Unit Converters (`/converters/`) | 20 tools |
-| Finance Calculators (`/finance/`) | 16 tools |
-| Math Calculators (`/calculators/`) | 10 tools |
-| Time & Date Tools (`/date-time/`) | 8 tools |
-| Health Tools (`/health/`) | 1 tool |
-| Homepage + Directory pages | 6 pages |
-| Programmatic (kg/mb/yards/height/percent/days) | 580+ pages |
+# 🔮 Future Improvements
 
----
-
-## Roadmap
-
-See `progress.md` for full phase-by-phase plan.
-
-| Phase | Status |
-|-------|--------|
-| Phase 1 — Design Standard v2 (35 pages) | ✅ Done |
-| Phase 2 — Batch 7 (7 simple converters) | ✅ Done |
-| Phase 3 — Batch 8 (binary + military time) | ✅ Done |
-| Phase 4 — Programmatic expansion | ✅ Done |
-| Phase 5 — High-CPC finance tools | ✅ Done |
-| Phase 5.5 — Category URL restructure | ✅ Done |
-| Phase 6 — Hard KD tools (fraction ✅, tire size, BMI, GPA, body fat) | 🔄 In progress |
+- Additional finance calculators
+- More unit converters
+- Accessibility improvements
+- Advanced calculator categories
+- AI-powered calculator suggestions
+- Expanded educational content
 
 ---
 
-*Last updated: July 1, 2026*
+# 👨‍💻 Developer
+
+## Sajawal Jutt
+
+Full Stack Web Developer specializing in modern web applications, scalable frontend architectures, and SEO-focused development.
+
+### Specializing In
+
+| Frontend | Backend | Database | Deployment |
+|----------|----------|----------|------------|
+| Next.js | NestJS | PostgreSQL | Vercel |
+| React | REST APIs | Prisma | GitHub |
+| Astro | TypeScript | | |
+
+### 🔗 Links
+
+- 💻 GitHub: https://github.com/Sajawaljutt14
+
+---
+
+# ⭐ Support
+
+If you found this project useful, please consider giving it a **⭐ Star** on GitHub.
+
+---
+
+# 📄 License
+
+This repository is available for portfolio and demonstration purposes.
+
+© 2026 Sajawal Jutt
+
+---
+
+<div align="center">
+
+Made with ❤️ using Astro
+
+⭐ If you found this project useful, please give it a Star.
+
+</div>
