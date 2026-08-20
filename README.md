@@ -14,7 +14,7 @@
 
 A modern, high-performance calculator platform built with **Astro**, delivering hundreds of fast, accurate, and SEO-optimized calculators and unit converters.
 
-🌐 **Live Demo:** <https://computezap.com>
+🌐 **Live Demo:** <https://www.computezap.com>
 
 <br><br>
 
@@ -197,7 +197,7 @@ Full Stack Web Developer specializing in modern web applications, scalable front
 
 ### 🔗 Links
 
-- 💻 GitHub: https://github.com/Sajawaljutt14
+- 💻 GitHub: https://github.com/sajawal-jutt/computezap
 
 ---
 
