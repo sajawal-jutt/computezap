@@ -1,0 +1,179 @@
+---
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mortgage Calculator Widget — ComputeZap</title>
+  <meta name="robots" content="noindex, follow" />
+  <link rel="stylesheet" href="/styles/global.css" />
+  <style>
+    html, body { background: transparent; }
+    body { padding: .75rem; }
+    .embed-wrap { max-width: 420px; margin: 0 auto; }
+    .embed-credit { text-align: center; margin-top: .6rem; font-size: .75rem; color: #94a3b8; }
+    .embed-credit a { color: #2563eb; font-weight: 700; text-decoration: none; }
+    .embed-credit a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+<div class="embed-wrap">
+  <div class="card">
+
+    <div class="preset-row">
+      <button class="preset-btn active" onclick="setPreset(300000,10,30,6.5)">$300k / 30yr</button>
+      <button class="preset-btn" onclick="setPreset(400000,20,30,6.5)">$400k / 30yr</button>
+      <button class="preset-btn" onclick="setPreset(300000,20,15,6.0)">$300k / 15yr</button>
+    </div>
+
+    <div class="two-col">
+      <div class="input-group">
+        <label for="homePrice">Home Price</label>
+        <div class="input-wrap">
+          <span class="input-pfx">$</span>
+          <input type="number" id="homePrice" value="300000" min="10000" step="1000" oninput="calcMortgage()" style="padding-left:1.9rem;padding-right:.9rem" />
+        </div>
+      </div>
+      <div class="input-group">
+        <label for="downPmt">Down Payment</label>
+        <div class="input-wrap" style="display:flex;gap:.4rem">
+          <span class="input-pfx" id="dpPfx" style="position:relative;left:auto;top:auto;transform:none;display:flex;align-items:center;padding:0 .5rem;background:#f1f5f9;border:1.5px solid #e2e8f0;border-radius:8px 0 0 8px;font-size:.9rem;color:#475569;border-right:none">$</span>
+          <input type="number" id="downPmt" value="30000" min="0" oninput="calcMortgage()" style="border-radius:0;flex:1;min-width:0" />
+          <button id="dpToggle" onclick="toggleDP()" style="padding:.6rem .75rem;background:#f1f5f9;border:1.5px solid #e2e8f0;border-radius:0 8px 8px 0;font-size:.85rem;font-weight:700;color:#475569;cursor:pointer;border-left:none;white-space:nowrap">% ⇄ $</button>
+        </div>
+        <span id="dpPct" style="font-size:.78rem;color:#64748b;margin-top:.2rem;display:block">= 10.0% of home price</span>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="input-group">
+        <label for="loanTerm">Loan Term</label>
+        <select id="loanTerm" onchange="calcMortgage()" style="width:100%;padding:.75rem 1rem;border:1.5px solid #e2e8f0;border-radius:8px;font-size:1rem;background:#fff;color:#111;font-family:inherit">
+          <option value="30">30 years</option>
+          <option value="20">20 years</option>
+          <option value="15">15 years</option>
+          <option value="10">10 years</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label for="intRate">Annual Interest Rate</label>
+        <div class="input-wrap">
+          <input type="number" id="intRate" value="6.5" min="0.1" max="30" step="0.1" oninput="calcMortgage()" />
+          <span class="input-sfx">%</span>
+        </div>
+      </div>
+    </div>
+
+    <button class="calc-btn" onclick="calcMortgage()">Calculate Mortgage</button>
+
+    <div class="answer-hero" id="answerHero">
+      <div class="answer-label">Monthly Payment (P&amp;I)</div>
+      <div class="answer-value" id="monthlyPI">—</div>
+    </div>
+
+    <div class="stats-row" id="statsRow">
+      <div class="stat-box">
+        <div class="stat-label">Loan Amount</div>
+        <div class="stat-val" id="loanAmt">—</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">Total Interest</div>
+        <div class="stat-val" id="totalInt">—</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="embed-credit">
+    Calculator by <a href="https://www.computezap.com/finance/mortgage-calculator" target="_blank" rel="noopener">ComputeZap</a> — free calculators &amp; converters
+  </div>
+</div>
+
+<script is:inline>
+var dpMode = '$';
+
+function fmt(n) {
+  return '$' + Math.round(n).toLocaleString('en-US');
+}
+
+function toggleDP() {
+  var hp = parseFloat(document.getElementById('homePrice').value) || 300000;
+  var dp = parseFloat(document.getElementById('downPmt').value) || 0;
+  var pfx = document.getElementById('dpPfx');
+
+  if (dpMode === '$') {
+    dpMode = '%';
+    var pct = hp > 0 ? (dp / hp * 100) : 10;
+    document.getElementById('downPmt').value = Math.round(pct * 10) / 10;
+    pfx.textContent = '%';
+  } else {
+    dpMode = '$';
+    var amt = hp * (dp / 100);
+    document.getElementById('downPmt').value = Math.round(amt);
+    pfx.textContent = '$';
+  }
+  calcMortgage();
+}
+
+function setPreset(price, downPct, term, rate) {
+  dpMode = '$';
+  document.getElementById('dpPfx').textContent = '$';
+  document.getElementById('homePrice').value = price;
+  document.getElementById('downPmt').value = Math.round(price * downPct / 100);
+  document.getElementById('loanTerm').value = term;
+  document.getElementById('intRate').value = rate;
+
+  document.querySelectorAll('.preset-btn').forEach(function(b) { b.classList.remove('active'); });
+  event.target.classList.add('active');
+  calcMortgage();
+}
+
+function calcMortgage() {
+  var hp  = parseFloat(document.getElementById('homePrice').value);
+  var dpRaw = parseFloat(document.getElementById('downPmt').value);
+  var term = parseInt(document.getElementById('loanTerm').value);
+  var rate = parseFloat(document.getElementById('intRate').value);
+
+  if (!hp || hp <= 0 || !rate || rate <= 0 || isNaN(dpRaw)) return;
+
+  var dpAmt = dpMode === '$' ? dpRaw : hp * (dpRaw / 100);
+  dpAmt = Math.max(0, Math.min(dpAmt, hp - 1000));
+  var dpPct = hp > 0 ? dpAmt / hp * 100 : 0;
+
+  if (dpMode === '$') {
+    document.getElementById('dpPct').textContent = '= ' + dpPct.toFixed(1) + '% of home price';
+  } else {
+    document.getElementById('dpPct').textContent = '= ' + fmt(dpAmt) + ' down payment';
+  }
+
+  var loan = hp - dpAmt;
+  var r = rate / 100 / 12;
+  var n = term * 12;
+
+  var monthly;
+  if (r === 0) {
+    monthly = loan / n;
+  } else {
+    monthly = loan * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+  }
+
+  var totalPaid = monthly * n;
+  var totalInt  = totalPaid - loan;
+
+  var ah = document.getElementById('answerHero');
+  ah.classList.add('show');
+  document.getElementById('monthlyPI').textContent = fmt(monthly);
+
+  var sr = document.getElementById('statsRow');
+  sr.classList.add('show');
+  document.getElementById('loanAmt').textContent  = fmt(loan);
+  document.getElementById('totalInt').textContent = fmt(totalInt);
+}
+
+calcMortgage();
+</script>
+
+</body>
+</html>

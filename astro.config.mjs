@@ -4,7 +4,11 @@ import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   site: 'https://www.computezap.com',
-  integrations: [sitemap()],
+  integrations: [
+    sitemap({
+      filter: (page) => !page.includes('/embed/'),
+    }),
+  ],
   // Keep legacy programmatic URLs working in local dev/preview as well as
   // production. Vercel mirrors these redirects with permanent 301 rules.
   redirects: {
